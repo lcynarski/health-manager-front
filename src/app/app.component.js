@@ -1,3 +1,12 @@
+// import { Component } from '@angular/core';
+//
+// @Component({
+//     selector: 'app',
+//     templateUrl: './app.component.html'
+//     // styleUrls: ['./app.component.css']
+// })
+//
+// export class AppComponent { }
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -17,7 +26,6 @@ AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
         templateUrl: './app.component.html',
-        styleUrls: ['./app.component.css']
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;

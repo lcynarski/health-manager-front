@@ -1,3 +1,23 @@
+<!-- main app container -->
+<!--<div class="jumbotron">-->
+    <!--<div class="container">-->
+        <!--<div class="col-sm-8 col-sm-offset-2">-->
+            <!--<router-outlet></router-outlet>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
 <main>
-    <h1>Health Manager</h1>
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">Health Manager</a>
+        <button class="btn btn-sm align-middle btn-outline-secondary navbar-toggler-right" type="button">Login</button>
+    </nav>
+    <div class="container">
+        <div class="col-sm-8 col-sm-offset-2">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
 </main>
