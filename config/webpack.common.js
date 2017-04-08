@@ -3,18 +3,28 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var helpers = require('./helpers');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 
 module.exports = {
     entry: {
         'polyfills': './src/polyfills.ts',
         'vendor': './src/vendor.ts',
         'app': './src/main.ts',
-        'twbs':      'bootstrap-loader'
+        'twbs': 'bootstrap-loader'
     },
 
     resolve: {
         extensions: ['.ts', '.js']
     },
+
+    output: {
+        path: helpers.root('dist'),
+        publicPath: '/',
+        filename: '[name].[hash].js',
+        chunkFilename: '[id].[hash].chunk.js'
+    },
+
 
     module: {
         rules: [

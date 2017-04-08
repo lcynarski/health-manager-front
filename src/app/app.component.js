@@ -16,7 +16,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-require("../assets/css/styles.css");
+// import '../assets/css/styles.css';
 var AppComponent = (function () {
     function AppComponent() {
     }

@@ -20,6 +20,7 @@ var index_2 = require("./_guards/index");
 var index_3 = require("./_services/index");
 var index_4 = require("./login/index");
 var index_5 = require("./home/index");
+var index_6 = require("./welcome/index");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -36,7 +37,8 @@ AppModule = __decorate([
         declarations: [
             app_component_1.AppComponent,
             index_4.LoginComponent,
-            index_5.HomeComponent
+            index_5.HomeComponent,
+            index_6.WelcomeComponent
         ],
         providers: [
             index_2.AuthGuard,
