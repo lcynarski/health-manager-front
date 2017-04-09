@@ -3,16 +3,17 @@ import { Router } from '@angular/router';
 
 @Component({
 
-    templateUrl: 'welcome.component.html'
+    templateUrl: 'welcome.component.html',
+    styleUrls: ['./welcome.component.scss']
 })
 
 export class WelcomeComponent {
-    //
-    // constructor(
-    //     private router: Router,
-    // ) { }
-    //
-    // ngOnInit() {
-    // }
+
+    constructor(
+        private router: Router,
+    ) { }
+
+    ngOnInit() {
+    }
 
 }
