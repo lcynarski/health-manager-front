@@ -16,4 +16,8 @@ export class WelcomeComponent {
     ngOnInit() {
     }
 
+    redirect(pagename: string) {
+        this.router.navigate(['/'+pagename]);
+    }
+
 }
