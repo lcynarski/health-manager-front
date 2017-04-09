@@ -2,4 +2,14 @@
 
 .navbar {
   background: $navbar-color;
+
+  .navbar-toggler-right {
+    display: flex;
+    flex-direction: row;
+
+    button {
+      position: relative;
+      margin-left: 2rem;
+    }
+  }
 }

@@ -10,12 +10,14 @@ import { BaseRequestOptions } from '@angular/http';
 
 import { AppComponent }  from './app.component';
 import { routing }        from './app.routing';
+import { AppConfig } from './app.config';
 
 import { AuthGuard } from './_guards/index';
-import { AuthenticationService, UserService } from './_services/index';
+import { AlertService, AuthenticationService, UserService } from './_services/index';
 import { LoginComponent } from './login/index';
 import { HomeComponent } from './home/index';
 import { WelcomeComponent } from './welcome/index';
+import { RegisterComponent } from './register/index';
 
 @NgModule({
     imports: [
@@ -28,12 +30,15 @@ import { WelcomeComponent } from './welcome/index';
         AppComponent,
         LoginComponent,
         HomeComponent,
-        WelcomeComponent
+        WelcomeComponent,
+        RegisterComponent
     ],
     providers: [
+        AppConfig,
         AuthGuard,
         AuthenticationService,
         UserService,
+        AlertService,
 
         // providers used to create fake backend
         fakeBackendProvider,
