@@ -3,17 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-// used to create fake backend
-import { fakeBackendProvider } from './_helpers/index';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { BaseRequestOptions } from '@angular/http';
-
 import { AppComponent }  from './app.component';
 import { routing }        from './app.routing';
 import { AppConfig } from './app.config';
 
+import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
-import { AlertService, AuthenticationService, UserService } from './_services/index';
+import { AlertService, AuthenticationService, UserService, } from './_services/index';
 import { LoginComponent } from './login/index';
 import { HomeComponent } from './home/index';
 import { WelcomeComponent } from './welcome/index';
@@ -31,19 +27,15 @@ import { RegisterComponent } from './register/index';
         LoginComponent,
         HomeComponent,
         WelcomeComponent,
-        RegisterComponent
+        RegisterComponent,
+        AlertComponent
     ],
     providers: [
         AppConfig,
         AuthGuard,
         AuthenticationService,
         UserService,
-        AlertService,
-
-        // providers used to create fake backend
-        fakeBackendProvider,
-        MockBackend,
-        BaseRequestOptions
+        AlertService
     ],
     bootstrap: [AppComponent]
 })

@@ -1,27 +1,37 @@
 @import '../../assets/styles/colors';
 
-.form-wrapper {
-  width: 20rem;
-  margin: 10rem auto;
-  padding: 2rem;
-  border: 2px solid $oc-gray-2;
-  border-radius: 4px;
+.form {
+  &-group {
+    .help-block {
+      font-size: 9px;
+      color: #e78787;
+    }
+  }
 
+  &-wrapper {
+    width: 20rem;
+    margin: 10rem auto;
+    padding: 2rem;
+    border: 2px solid $oc-gray-2;
+    border-radius: 4px;
+  }
 
-  .form-title {
+  &-title {
     align-content: center;
     font-size: large;
-    font-weight: bold;
-    color: inherit;
-    padding-bottom: 2rem;
   }
 
   input {
-
     &.has-error {
       border: 2px solid $oc-red-6;
     }
   }
+}
+
+.bottom-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   button {
     width: 100%;
@@ -36,5 +46,4 @@
     display: inline;
     padding: 12px 0;
   }
-
 }

@@ -2,10 +2,15 @@
 
 .navbar {
   background: $navbar-color;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 2rem;
 
-  .navbar-toggler-right {
+  &__buttons {
     display: flex;
     flex-direction: row;
+    position: relative;
 
     button {
       position: relative;

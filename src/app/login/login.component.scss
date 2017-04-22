@@ -1,40 +1,49 @@
 @import '../../assets/styles/colors';
 
-.form-wrapper {
-  width: 20rem;
-  margin: 10rem auto;
-  padding: 2rem;
-  border: 2px solid $oc-gray-2;
-  border-radius: 4px;
+.form {
+  &-group {
+    .help-block {
+      font-size: 9px;
+      color: #e78787;
+    }
+  }
 
+  &-wrapper {
+    width: 20rem;
+    margin: 10rem auto;
+    padding: 2rem;
+    border: 2px solid $oc-gray-2;
+    border-radius: 4px;
 
-  .form-title {
+    input {
+
+      &.has-error {
+        border: 2px solid $oc-red-6;
+      }
+    }
+
+    button {
+      width: 100%;
+      background: $oc-indigo-5;
+
+      &:hover {
+        background: darken($oc-indigo-5, 5%);
+      }
+    }
+
+    a {
+      display: inline;
+      padding: 12px 0;
+    }
+
+  }
+
+  &-title {
     align-content: center;
     font-size: large;
     font-weight: bold;
     color: inherit;
     padding-bottom: 2rem;
-  }
-
-  input {
-
-    &.has-error {
-      border: 2px solid $oc-red-6;
-    }
-  }
-
-  button {
-    width: 100%;
-    background: $oc-indigo-5;
-
-    &:hover {
-      background: darken($oc-indigo-5, 5%);
-    }
-  }
-
-  a {
-    display: inline;
-    padding: 12px 0;
   }
 
 }
