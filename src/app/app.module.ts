@@ -14,6 +14,7 @@ import { LoginComponent } from './login/index';
 import { HomeComponent } from './home/index';
 import { WelcomeComponent } from './welcome/index';
 import { RegisterComponent } from './register/index';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 @NgModule({
     imports: [
@@ -35,7 +36,8 @@ import { RegisterComponent } from './register/index';
         AuthGuard,
         AuthenticationService,
         UserService,
-        AlertService
+        AlertService,
+        { provide: LocationStrategy, useClass: HashLocationStrategy }
     ],
     bootstrap: [AppComponent]
 })
