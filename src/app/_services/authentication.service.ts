@@ -47,7 +47,7 @@ export class AuthenticationService {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
         if (currentUser && currentUser.token) {
-            headers.append('Authorization', 'Bearer ' + currentUser.token);
+            headers.append('Authorization', currentUser.token);
             return true;
         }
         return false;
