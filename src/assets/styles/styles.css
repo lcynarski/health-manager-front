@@ -1,22 +1,104 @@
-@import url('https://fonts.googleapis.com/css?family=Noto');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans');
 
 body {
-  background: white;
-  color: #fff;
-  font-family: 'Noto', sans-serif;
+    background: white;
+    color: #fff;
+    font-family: 'Noto', sans-serif;
 }
 
-.loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
-  margin: 20rem auto;
+/*.loader {*/
+/*border: 16px solid #f3f3f3; !* Light grey *!*/
+/*border-top: 16px solid #3498db; !* Blue *!*/
+/*border-radius: 50%;*/
+/*width: 120px;*/
+/*height: 120px;*/
+/*animation: spin 2s linear infinite;*/
+/*margin: 20rem auto;*/
+/*}*/
+
+/*@keyframes spin {*/
+/*0% { transform: rotate(0deg); }*/
+/*100% { transform: rotate(360deg); }*/
+/*}*/
+
+.sk-cube-grid {
+    width: 8rem;
+    height: 8rem;
+    margin: 20rem auto;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.sk-cube-grid .sk-cube {
+    width: 33%;
+    height: 33%;
+    background-color: #4c6ef5; /* indygo-6 */
+    float: left;
+    -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+    animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+}
+
+.sk-cube-grid .sk-cube1 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+
+.sk-cube-grid .sk-cube2 {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+
+.sk-cube-grid .sk-cube3 {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+
+.sk-cube-grid .sk-cube4 {
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s;
+}
+
+.sk-cube-grid .sk-cube5 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+
+.sk-cube-grid .sk-cube6 {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+
+.sk-cube-grid .sk-cube7 {
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+}
+
+.sk-cube-grid .sk-cube8 {
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s;
+}
+
+.sk-cube-grid .sk-cube9 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+    0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+    }
+    35% {
+        -webkit-transform: scale3D(0, 0, 1);
+        transform: scale3D(0, 0, 1);
+    }
+}
+
+@keyframes sk-cubeGridScaleDelay {
+    0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+    }
+    35% {
+        -webkit-transform: scale3D(0, 0, 1);
+        transform: scale3D(0, 0, 1);
+    }
 }
