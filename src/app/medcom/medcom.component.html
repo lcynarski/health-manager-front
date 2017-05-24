@@ -1,0 +1,21 @@
+<div class="viewContainer">
+    <div class="pane">
+        <h2>test communication with medcom-core and JWT authorization</h2>
+
+        <div>
+            <label>your name:
+                <input [(ngModel)]="inputName"/>
+            </label>
+            <button (click)="sendHello(inputName)">hello</button>
+        </div>
+        <div>
+            Response:
+            <img *ngIf="loading" src="{{spinnerUrl}}" />
+
+        </div>
+        <div [class.errResponse]="!!helloError">
+            <span *ngIf="!helloError && helloMessage">message #{{messageId}}: {{helloMessage}}</span>
+            <span *ngIf="helloError">error has occurred: {{helloError}}</span>
+        </div>
+    </div>
+</div>

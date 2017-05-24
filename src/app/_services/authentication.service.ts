@@ -41,4 +41,15 @@ export class AuthenticationService {
         this.token = null;
         localStorage.removeItem('currentUser');
     }
+
+    //TODO implement some kind of interceptor adding the auth header
+    addAuthHeader(headers: Headers): boolean {
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        if (currentUser && currentUser.token) {
+            headers.append('Authorization', currentUser.token);
+            return true;
+        }
+        return false;
+    }
 }

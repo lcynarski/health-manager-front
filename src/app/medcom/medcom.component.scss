@@ -1,0 +1,21 @@
+
+.viewContainer {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.pane {
+  background-color: rgb(39, 39, 39);
+  color: white;
+  margin: 30px 15px;
+  padding: 20px;
+  box-shadow: 3px 3px 5px #888888;
+
+  div, h2 {
+    padding-bottom: 10px;
+  }
+}
+
+.errResponse {
+  color: red;
+}
