@@ -15,7 +15,8 @@ import { HomeComponent } from './home/index';
 import { WelcomeComponent } from './welcome/index';
 import { RegisterComponent } from './register/index';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { MedcomComponent } from "./medcom/index";
+import { MedcomComponent } from './medcom/index';
+import {PatientsListComponent} from './patientsList/index';
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { MedcomComponent } from "./medcom/index";
         WelcomeComponent,
         RegisterComponent,
         AlertComponent,
-        MedcomComponent
+        MedcomComponent,
+        PatientsListComponent
     ],
     providers: [
         AppConfig,
