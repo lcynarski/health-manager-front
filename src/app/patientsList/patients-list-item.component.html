@@ -1,4 +1,11 @@
 <div>
-    <h2>User Id: {{ id }}</h2>
-    <button (click)="goToList()">Go Back</button>
+    <div class="patient-list__item">
+        <!--<h2>Patient Id: {{ id }}</h2>-->
+        <span class="patient">{{ firstName }} {{ lastName }}</span>
+        <!--<span class="lastName"> {{ lastName }}</span><br>-->
+        <button class="btn btn-outline-primary " type="button" (click)="viewDetails()">
+            Go to details
+        </button>
+    </div>
 </div>
+

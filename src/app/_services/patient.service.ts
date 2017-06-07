@@ -15,7 +15,7 @@ export class PatientService {
     }
 
     getAll() {
-        return this.http.get(this.config.apiUrl + '/users').map((response: Response) => response.json());
+        return this.http.get(this.config.apiUrl + '/patients').map((response: Response) => response.json());
     }
 
     getById(_id: string) {
@@ -27,7 +27,7 @@ export class PatientService {
         // let headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
         // let options = new RequestOptions({ headers: headers });
         // get users from api
-        return this.http.get('/api/patients')
+        return this.http.get(this.config.apiUrl + '/patients')
             .map((response: Response) => response.json());
     }
 }

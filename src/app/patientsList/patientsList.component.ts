@@ -8,7 +8,8 @@ import { PatientsListItemComponent } from './patients-list-item.component';
 @Component({
 
     providers: [PatientService],
-    templateUrl: 'patientsList.component.html'
+    templateUrl: 'patientsList.component.html',
+    styleUrls: ['./patientsList.component.scss']
 })
 
 export class PatientsListComponent implements OnInit {
@@ -23,6 +24,6 @@ export class PatientsListComponent implements OnInit {
     }
 
     private loadAllPatients() {
-        this.patientService.getAll().subscribe(patients => { this.patients = patients; });
+        this.patientService.getPatients().subscribe(patients => { this.patients = patients; });
     }
 }

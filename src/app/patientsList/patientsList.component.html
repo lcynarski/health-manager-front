@@ -3,8 +3,12 @@
     <div>
         Patients:
         <ul>
-            <li *ngFor="let patient of patients">{{patient.firstName}} {{patient.lastName}}</li>
-            <!--<user-list-item *ngFor="let patient of patients" [id]="patient.id" [firstName]="patient.firstName" [lastName]="patient.lastName"></user-list-item>-->
+            <!--<li *ngFor="let patient of patients">-->
+                <!--<div class="patient-item">-->
+                    <!--{{patient.firstName}} {{patient.lastName}}-->
+                <!--</div>-->
+            <!--</li>-->
+            <patients-list-item *ngFor="let patient of patients" [firstName]="patient.firstName" [lastName]="patient.lastName"></patients-list-item>
         </ul>
     </div>
     <p><a [routerLink]="['/home']">Back</a></p>

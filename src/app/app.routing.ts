@@ -7,6 +7,7 @@ import { WelcomeComponent } from './welcome/index';
 import { AuthGuard } from './_guards/index';
 import { MedcomComponent } from './medcom/index';
 import {PatientsListComponent} from './patientsList/index';
+import { PatientDetailsComponent } from './patientDetails/index';
 
 const appRoutes: Routes = [
     { path: '', component: WelcomeComponent },
@@ -15,6 +16,7 @@ const appRoutes: Routes = [
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'medcom', component: MedcomComponent },
     { path: 'patientsList', component: PatientsListComponent },
+    { path: 'patientDetails', component: PatientDetailsComponent },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
