@@ -42,7 +42,7 @@ export const PAGES_MENU = [
                         path: ['/login'],
                         data: {
                             menu: {
-                                title: 'general.menu.login'
+                                title: 'login'
                             }
                         }
                     },
@@ -50,11 +50,23 @@ export const PAGES_MENU = [
                         path: ['/register'],
                         data: {
                             menu: {
-                                title: 'general.menu.register'
+                                title: 'register'
                             }
                         }
                     }
                 ]
+            },
+            {
+                path: 'medcom',
+                data: {
+                    menu: {
+                        title: 'Medcom',
+                        icon: 'dvr',
+                        selected: false,
+                        expanded: false,
+                        order: 100,
+                    }
+                }
             }
         ]
     }

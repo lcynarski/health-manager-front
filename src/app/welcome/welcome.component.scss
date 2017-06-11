@@ -1,12 +1,12 @@
 @import '../../assets/styles/colors';
 
 .navbar {
-  background: $oc-gray-5;
+  background: $oc-gray-9;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 40rem;
+  height: 100vh;
   padding: 2rem;
 
   &__logo {

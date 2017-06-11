@@ -1,0 +1,98 @@
+@import "colors";
+
+$font-family: 'Roboto', sans-serif;
+
+$resXXL: 1280px;
+$resXL: 1170px;
+$resL: 991px;
+$resM: 768px;
+$resS: 660px;
+$resXS: 500px;
+$resXXS: 435px;
+$resMin: 320px;
+
+$font-thin: 100;
+$font-light: 300;
+$font-normal: 400;
+$font-bold: 700;
+$font-bolder: 500;
+$font-ultraBold: 900;
+
+$top-height: 66px;
+$sidebar-width: 180px;
+
+$sidebar-scroll-width: 4px;
+
+@mixin bg-nr($relativeUrl) {
+  //background: url($images-root + $relativeUrl) no-repeat 0 0;
+}
+@mixin bg($relativeUrl) {
+  //background: url($images-root + $relativeUrl);
+}
+
+@mixin bg-image($relativeUrl) {
+  //background-image: url($assets-root + $images-root + $relativeUrl);
+}
+
+@mixin bg-translucent-dark($opacity) {
+  background: rgba(0, 0, 0, $opacity);
+}
+
+@mixin placeholderStyle($color, $opacity) {
+  &::-webkit-input-placeholder {
+    color: $color;
+    opacity: $opacity;
+  }
+  &:-moz-placeholder {
+    /* Firefox 18- */
+    color: $color;
+    opacity: $opacity;
+  }
+  &::-moz-placeholder {
+    /* Firefox 19+ */
+    color: $color;
+    opacity: $opacity;
+  }
+  &:-ms-input-placeholder {
+    color: $color;
+    opacity: $opacity;
+  }
+}
+
+@mixin default-sublist() {
+  padding: 0;
+  list-style: none;
+  position: relative;
+  display: none;
+  &.expanded {
+    display: block;
+  }
+  > ba-menu-item > li {
+    display: block;
+    float: none;
+    padding: 0;
+    border-bottom: none;
+    position: relative;
+    a {
+      display: block;
+      text-shadow: none;
+      font-size: 13px;
+      text-decoration: none;
+      color: $sidebar-text;
+      padding-left: 52px;
+      height: auto;
+      line-height: 29px;
+      &:hover {
+        color: $primary;
+      }
+    }
+    &.selected:not(.with-sub-menu) > a {
+      border: none;
+      background-color: $primary;
+      &:hover {
+        color: $sidebar-text;
+      }
+    }
+
+  }
+}

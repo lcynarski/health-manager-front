@@ -21,7 +21,7 @@ import { RegisterComponent } from './register/index';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { MedcomComponent } from './medcom/index';
 import { PatientsListComponent, PatientsListItemComponent } from './pages/patientsList/index';
-import { PatientDetailsComponent } from './pages/patientsList/patientDetails/index';
+import { PatientDetailsComponent } from './pages/patientDetails/index';
 
 
 import { PagesModule } from './pages/pages.module';

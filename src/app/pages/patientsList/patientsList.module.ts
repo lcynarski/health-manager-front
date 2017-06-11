@@ -6,7 +6,7 @@ import { NgaModule } from '../../navigation/nga.module';
 import { routing } from './patientsList.routing';
 import { PatientsListComponent } from './patientsList.component';
 import { PatientsListItemComponent } from './patients-list-item.component';
-import { PatientDetailsComponent } from './patientDetails/patientDetails.component';
+import { PatientDetailsComponent } from '../patientDetails/patientDetails.component';
 
 
 @NgModule({
@@ -18,8 +18,8 @@ import { PatientDetailsComponent } from './patientDetails/patientDetails.compone
     ],
     declarations: [
         PatientsListComponent,
-        PatientsListItemComponent,
-        PatientDetailsComponent
+        PatientsListItemComponent
+        // PatientDetailsComponent
     ]
 })
 export class PatientsListModule {

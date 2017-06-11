@@ -1,0 +1,29 @@
+<!--<script src="patientDetails.component.ts"></script>-->
+<div class="user-details">
+    <div class="user-details__title">
+        <div class="user-details__name">
+            Patient: {{ patient?.firstName }} {{ patient?.lastName}}
+        </div>
+        <div class="user-details__photo">
+            <i class="material-icons">face</i>
+        </div>
+    </div>
+    <div class="user-details__info">
+        <div>
+            <div class="user-details__info-label">Date of birth: </div>
+            <div class="user-details__info-value">{{ patient?.birthdate }}</div>
+        </div>
+        <div>
+            <div class="user-details__info-label">Gender: </div>
+            <div class="user-details__info-value">{{ patient?.gender }}</div>
+        </div>
+        <div>
+            <div class="user-details__info-label"> Phone:</div>
+            <div class="user-details__info-value">{{ patient?.phoneNumber }}</div>
+        </div>
+        <div>
+            <div class="user-details__info-label">Address:</div>
+            <div class="user-details__info-value">{{ patient?.city }}, {{ patient?.country }}</div>
+        </div>
+    </div>
+</div>

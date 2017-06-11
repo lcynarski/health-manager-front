@@ -8,7 +8,7 @@ import { WelcomeComponent } from './welcome/index';
 import { AuthGuard } from './_guards/index';
 import { MedcomComponent } from './medcom/index';
 import {PatientsListComponent} from './pages/patientsList/index';
-import { PatientDetailsComponent } from './pages/patientsList/patientDetails/index';
+import { PatientDetailsComponent } from './pages/patientDetails/index';
 
 const routes: Routes = [
     // { path: '', component: WelcomeComponent },
@@ -20,7 +20,8 @@ const routes: Routes = [
     // { path: 'patientDetails', component: PatientDetailsComponent },
 
     // otherwise redirect to home
-    { path: '', redirectTo: 'pages', pathMatch: 'full' },
+    // { path: '', redirectTo: 'pages', pathMatch: 'full' },
+    { path: '', component: WelcomeComponent },
     { path: '**', redirectTo: 'pages/dashboard' }
 ];
 

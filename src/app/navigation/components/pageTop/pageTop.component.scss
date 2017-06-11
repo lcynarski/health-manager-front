@@ -1,4 +1,5 @@
-@import '../../../../assets/styles/colors';
+@import '../../../../assets/styles/variables';
+
 
 .page-top {
   background-color: $oc-gray-9;
@@ -7,7 +8,7 @@
   box-shadow: 2px 0 3px rgba(0, 0, 0, 0.5);
   height: 66px;
   width: 100%;
-  //min-width: $resMin;
+  min-width: $resMin;
   padding: 0 32px 0 40px;
 
   .dropdown-toggle::after {
@@ -15,41 +16,33 @@
   }
 
   .dropdown-menu {
-    left: -90px;
-  }
-}
-
-.blur {
-  .page-top.scrolled {
-    background-color: rgba(black, 0.85)
+    left: -80px;
   }
 }
 
 a.al-logo {
-  //color: $sidebar-text;
+  color: $sidebar-text;
   display: block;
   font-size: 24px;
-  //font-family: $font-family;
+  font-family: $font-family;
   white-space: nowrap;
   float: left;
   outline: none !important;
   line-height: 60px;
-  color: $oc-white;
 
+  span {
+    color: $primary;
+  }
 }
 
 a.al-logo:hover {
-  color: $oc-white;
+  color: $primary;
 }
 
 .user-profile {
   float: right;
   min-width: 230px;
   margin-top: 10px;
-}
-
-.material-icons {
-  color: $oc-white;
 }
 
 .al-user-profile {
@@ -62,11 +55,6 @@ a.al-logo:hover {
   border: 0;
   opacity: 1;
   position: relative;
-
-  .material-icons {
-    color: $oc-gray-7;
-  }
-
   ul.profile-dropdown:after {
     bottom: 100%;
     right: 0;
@@ -89,19 +77,21 @@ a.al-logo:hover {
     height: 45px;
     border-radius: 50%;
   }
+
+
 }
 
 a.refresh-data {
-  //color: $sidebar-text;
+  color: $sidebar-text;
   font-size: 13px;
   text-decoration: none;
-  //font-weight: $font-normal;
+  font-weight: $font-normal;
   float: right;
   margin-top: 13px;
   margin-right: 26px;
 
   &:hover {
-    //color: $warning !important;
+    color: $warning !important;
   }
 }
 
@@ -111,14 +101,14 @@ a.collapse-menu-link {
   display: block;
   text-decoration: none;
   line-height: 42px;
-  //color: $sidebar-text;
+  color: $sidebar-text;
   padding: 0;
   float: left;
   margin: 11px 0 0 25px;
 
   &:hover {
     text-decoration: none;
-    //color: $warning;
+    color: $warning;
   }
 }
 
@@ -134,14 +124,6 @@ a.collapse-menu-link {
   }
 }
 
-.icon-palette {
-  display: inline-block;
-  width: 14px;
-  height: 13px;
-  //@include bg('theme/palette.png');
-  background-size: cover;
-}
-
 .search {
   text-shadow: none;
   font-size: 13px;
@@ -153,11 +135,15 @@ a.collapse-menu-link {
   float: left;
   margin: 20px 0 0 30px;
 
+  .material-icons {
+    color: $oc-white;
+  };
+
   label {
     cursor: pointer;
   }
   i {
-    width: 16px;
+    width: 1.4rem;
     display: inline-block;
     cursor: pointer;
     padding-left: 1px;
@@ -165,45 +151,44 @@ a.collapse-menu-link {
     margin-right: 13px;
   }
   input {
-    //color: $sidebar-text;
-    background: none;
+    color: $oc-white;
     border: none;
     outline: none;
     width: 120px;
     padding: 0;
     margin: 0 0 0 -3px;
-    height: 27px;
+    height: 2rem;
+    border-radius: 3px;
   }
 }
 
-//@media screen and (max-width: $resS) {
-//  .search {
-//    display: none;
-//    display: none;
-//  }
-//}
-//
-//@media screen and (max-width: $resXS) {
-//  .page-top {
-//    padding: 0 20px;
-//  }
-//}
-//
-//@media (max-width: $resXXS) {
-//  .user-profile {
-//    min-width: 136px;
-//  }
-//  a.refresh-data {
-//    margin-right: 10px;
-//  }
-//  a.collapse-menu-link {
-//    margin-left: 10px;
-//  }
-//
-//  .al-skin-dropdown {
-//    display: none;
-//  }
-//}
+@media screen and (max-width: $resS) {
+  .search {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $resXS) {
+  .page-top {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: $resXXS) {
+  .user-profile {
+    min-width: 136px;
+  }
+  a.refresh-data {
+    margin-right: 10px;
+  }
+  a.collapse-menu-link {
+    margin-left: 10px;
+  }
+
+  .al-skin-dropdown {
+    display: none;
+  }
+}
 
 .profile-toggle-link {
   cursor: pointer;

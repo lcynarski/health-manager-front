@@ -14,6 +14,7 @@ import { PatientsListItemComponent } from './patients-list-item.component';
 
 export class PatientsListComponent implements OnInit {
     patients: Patient[] = [];
+    private router: Router;
 
     constructor(private patientService: PatientService) {
         this.patients = JSON.parse(localStorage.getItem('patients'));
@@ -25,5 +26,9 @@ export class PatientsListComponent implements OnInit {
 
     private loadAllPatients() {
         this.patientService.getPatients().subscribe(patients => { this.patients = patients; });
+    }
+
+    public viewDetails(id): void {
+        this.router.navigate(['/patientDetails', {userId: id}]);
     }
 }

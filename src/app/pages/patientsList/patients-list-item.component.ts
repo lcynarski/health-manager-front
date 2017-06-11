@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class PatientsListItemComponent {
     @Input('firstName') firstName: string;
     @Input('lastName') lastName: string;
+    @Input('birthdate') birthdate: number;
 
     private router: Router;
     private route: ActivatedRoute;
@@ -22,7 +23,7 @@ export class PatientsListItemComponent {
     }
 
     public viewDetails(): void {
-        this.router.navigate(['/patientDetails', {userId: this.id}]);
+        this.router.navigate(['/patientDetails', {patientId: this.id}]);
     }
 
     public goToList(): void {

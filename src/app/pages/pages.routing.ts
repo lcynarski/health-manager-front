@@ -3,6 +3,8 @@ import { Pages } from './pages.component';
 import { ModuleWithProviders } from '@angular/core';
 import {LoginComponent} from '../login/login.component';
 import {RegisterComponent} from '../register/register.component';
+import {PatientDetailsComponent} from './patientDetails/patientDetails.component';
+import {MedcomComponent} from "../medcom/medcom.component";
 
 export const routes: Routes = [
     {
@@ -19,7 +21,9 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-            { path: 'patientsList', loadChildren: './patientsList/patientsList.module#PatientsListModule' }
+            { path: 'patientsList', loadChildren: './patientsList/patientsList.module#PatientsListModule' },
+            { path: 'patientDetails/:patientId', component: PatientDetailsComponent },
+            { path: 'medcom', component: MedcomComponent }
             // { path: 'components', loadChildren: './components/components.module#ComponentsModule' },
             // { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             // { path: 'ui', loadChildren: './ui/ui.module#UiModule' },
