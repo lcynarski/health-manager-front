@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import {Patient} from "../_models/patient";
-import {PatientService} from "../_services/patient.service";
+import {Patient} from '../../../_models/patient';
+import {PatientService} from '../../../_services/patient.service';
 
 @Component({
 
-    templateUrl: 'patientDetails.component.html'
+    templateUrl: './patientDetails.component.html'
 })
 
 export class PatientDetailsComponent implements OnInit {
@@ -19,8 +19,8 @@ export class PatientDetailsComponent implements OnInit {
     ngOnInit() {
         this.loadAllPatients();
     }
-
+W
     private loadAllPatients() {
-        this.patientService.getAll().subscribe(patients => { this.patients = patients; });
+        this.patientService.getAll().subscribe((patients) => { this.patients = patients; });
     }
 }

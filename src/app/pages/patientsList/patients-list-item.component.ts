@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'patients-list-item',
-    templateUrl: 'patients-list-item.component.html',
+    templateUrl: './patients-list-item.component.html',
     styleUrls: ['./patientsList.component.scss']
 })
 
