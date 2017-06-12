@@ -5,32 +5,37 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
-import {AppConfig} from "../app.config";
-import {AuthenticationService} from "./index";
+import {AppConfig} from '../app.config';
+import {AuthenticationService} from './index';
 import {DicomArchive} from '../_models/index';
 
 
 @Injectable()
 export class MedcomService {
 
-    readonly medcomPath = this.config.apiUrl + '/medcom';
-    readonly archiveTreePath = '/archive/tree';
+    private readonly medcomPath = this.config.apiUrl + '/medcom';
+    private readonly archiveTreePath = '/archive/tree';
 
     constructor(private http: Http,
                 private config: AppConfig,
                 private authService: AuthenticationService) {
     }
 
-    getArchiveTree(): Observable<DicomArchive> {
+    public getArchiveTree(): Observable<DicomArchive> {
         const headers: Headers = new Headers();
         this.authService.addAuthHeader(headers);
 
-        return this.http.get(this.medcomPath + this.archiveTreePath, {headers: headers})
-            .map(resp => resp.json())
-            .catch(err => {
+        return this.http.get(this.medcomPath + this.archiveTreePath, {headers})
+            .map((resp) => resp.json())
+            .catch((err) => {
                 console.error(err);
                 throw err;
             });
+    }
+
+    public getRefreshingActiveTree(interval = 10000): Observable<DicomArchive> {
+        return Observable.timer(0, interval)
+            .exhaustMap(() => this.getArchiveTree());
     }
 
 }

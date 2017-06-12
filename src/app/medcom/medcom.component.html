@@ -15,7 +15,7 @@
                     {{errorMsg}}
                 </div>
                 <div *ngIf="!fetching && !errorMsg">
-                    <pre>{{archive | json}}</pre>
+                    <archive-tree [archive]="archive"></archive-tree>
                 </div>
             </div>
 

@@ -96,3 +96,7 @@ $sidebar-scroll-width: 4px;
 
   }
 }
+
+@mixin shadow($size) {
+  box-shadow: $size $size 10px 0 #888888, -1*$size -1*$size 10px 0 #888888, -1*$size $size 10px 0 #888888, $size -1*$size 10px 0 #888888;
+}

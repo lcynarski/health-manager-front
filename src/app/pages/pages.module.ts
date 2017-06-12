@@ -7,11 +7,11 @@ import { NgaModule } from '../navigation/nga.module';
 
 import { Pages } from './pages.component';
 import { PatientDetailsComponent } from './patientDetails/patientDetails.component';
-import {MedcomComponent} from '../medcom/medcom.component';
+import {MedcomComponent, ArchiveTreeComponent} from '../medcom/index';
 
 @NgModule({
     imports: [CommonModule, NgaModule, FormsModule, routing],
-    declarations: [Pages, PatientDetailsComponent, MedcomComponent]
+    declarations: [Pages, PatientDetailsComponent, MedcomComponent, ArchiveTreeComponent]
 })
 export class PagesModule {
 }

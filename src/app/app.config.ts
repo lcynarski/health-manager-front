@@ -1,4 +1,4 @@
 export class AppConfig {
-    public readonly apiUrl = 'https://hmanager.herokuapp.com';
-    // public readonly apiUrl = 'http://localhost:8081';
+    // public readonly apiUrl = 'https://hmanager.herokuapp.com';
+    public readonly apiUrl = 'http://localhost:8081';
 }
