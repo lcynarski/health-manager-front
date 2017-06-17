@@ -28,7 +28,6 @@ export class PatientDetailsComponent implements OnInit {
         private patientService: PatientService) {
             this.router = router;
             // this.id = route.params[0];
-            // this.patient = JSON.parse(localStorage.getItem('patient'));
     }
 
     public ngOnInit() {
