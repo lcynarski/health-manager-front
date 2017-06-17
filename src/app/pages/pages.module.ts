@@ -9,7 +9,7 @@ import { Pages } from './pages.component';
 import { PatientDetailsComponent } from './patientDetails/patientDetails.component';
 import {MedcomComponent} from '../medcom/medcom.component';
 import { AgmCoreModule } from '@agm/core';
-
+import {Paper} from '../components/paper/paper.component';
 
 @NgModule({
     imports: [
@@ -19,7 +19,7 @@ import { AgmCoreModule } from '@agm/core';
         routing,
         AgmCoreModule
     ],
-    declarations: [Pages, PatientDetailsComponent, MedcomComponent]
+    declarations: [Pages, PatientDetailsComponent, MedcomComponent, Paper]
 })
 export class PagesModule {
 }

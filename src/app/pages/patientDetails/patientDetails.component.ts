@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import {Patient} from '../../_models/patient';
 import {PatientService} from '../../_services/patient.service';
+import {Paper} from '../../components/paper/paper.component';
 
 @Component({
     providers: [PatientService],
@@ -27,7 +28,7 @@ export class PatientDetailsComponent implements OnInit {
         private patientService: PatientService) {
             this.router = router;
             // this.id = route.params[0];
-            this.patient = JSON.parse(localStorage.getItem('patient'));
+            // this.patient = JSON.parse(localStorage.getItem('patient'));
     }
 
     public ngOnInit() {
@@ -59,7 +60,6 @@ export class PatientDetailsComponent implements OnInit {
         this.patientService.getMedicalInfo(this.id)
             .subscribe((medicalInfo) => {
                 this.patient.medicalInfo = medicalInfo;
-                console.log(medicalInfo);
             });
     }
 }
