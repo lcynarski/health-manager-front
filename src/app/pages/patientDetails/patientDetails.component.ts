@@ -17,9 +17,12 @@ export class PatientDetailsComponent implements OnInit {
     private router: Router;
     public id: string;
     private sub: any;
+    public lat: number = 51.678418;
+    public lng: number = 7.809007;
 
     constructor (
         router: Router,
+        private http: Http,
         private route: ActivatedRoute,
         private patientService: PatientService) {
             this.router = router;
@@ -28,7 +31,7 @@ export class PatientDetailsComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.sub = this.route.params.subscribe(params => {
+        this.sub = this.route.params.subscribe((params) => {
             this.id = params['patientId']; // (+) converts string 'id' to a number
             this.loadPatientData();
         });
@@ -37,7 +40,17 @@ export class PatientDetailsComponent implements OnInit {
 
     public loadPatientData() {
         console.log(this.id);
-        this.patientService.getById(this.id).subscribe((patient) => { this.patient = patient; });
+        this.patientService.getById(this.id)
+            .subscribe((patient) => {
+                this.patient = patient;
+                this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + patient.city)
+                    .map( (res) => res.json())
+                    .subscribe( (response) => {
+                        this.lat = response['results'][0]['geometry']['location']['lat'];
+                        this.lng = response['results'][0]['geometry']['location']['lng'];
+                    });
+        });
         console.log(this.patient);
+        return this.patient;
     }
 }

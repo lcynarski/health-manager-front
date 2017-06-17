@@ -19,10 +19,8 @@ export class PatientService {
     }
 
     getById(_id: string) {
-        console.log('szukam');
-        console.log(_id);
         return this.http.get(this.config.apiUrl + '/patients/' + _id)
-            .map((response: Response) => response.json());
+            .map( (res) => res.json())
     }
 
     getPatients(): Observable<Patient[]> {

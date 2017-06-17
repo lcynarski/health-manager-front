@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Angular2SocialLoginModule } from 'angular2-social-login';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppComponent }  from './app.component';
 import { AppState, InternalStateType } from './app.service';
@@ -45,7 +46,10 @@ const APP_PROVIDERS = [
         routing,
         Angular2SocialLoginModule,
         PagesModule,
-        NgaModule.forRoot()
+        NgaModule.forRoot(),
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyAVY4MA8FBzN8gFd1v0cF-RAOcdwukvJKQ'
+        })
     ],
     declarations: [
         AppComponent,

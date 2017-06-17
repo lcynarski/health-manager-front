@@ -11,4 +11,6 @@ export class Patient {
     street: string;
     buildingNumber: number;
     flatNumber: number;
+    lat: number;
+    lng: number;
 }
