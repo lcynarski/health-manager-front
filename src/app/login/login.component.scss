@@ -29,6 +29,15 @@
       &:hover {
         background: darken($oc-indigo-5, 5%);
       }
+
+      &.btn-google {
+        background: $oc-red-7;
+        color: $oc-white;
+
+        &:hover {
+          background: darken($oc-red-7, 5%);
+        }
+      }
     }
 
     a {

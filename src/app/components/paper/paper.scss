@@ -1,0 +1,10 @@
+@import '../../../assets/styles/variables';
+
+.hm-paper {
+  display: flex;
+  flex-direction: column;
+  background: $oc-white;
+  box-shadow: 2px 2px 2px $oc-gray-4;
+  padding: 2rem;
+  margin: 1rem;
+}

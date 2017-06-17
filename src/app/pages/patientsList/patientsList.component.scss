@@ -1,0 +1,13 @@
+@import '../../../assets/styles/colors';
+
+.patient-list {
+  &__item {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.table-bordered {
+  background: $oc-white;
+  width: 60rem;
+}

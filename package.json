@@ -7,6 +7,7 @@
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
   "dependencies": {
+    "@agm/core": "^1.0.0-beta.0",
     "@angular/common": "~4.0.0",
     "@angular/compiler": "~4.0.0",
     "@angular/core": "~4.0.0",
@@ -15,6 +16,8 @@
     "@angular/platform-browser": "~4.0.0",
     "@angular/platform-browser-dynamic": "~4.0.0",
     "@angular/router": "~4.0.0",
+    "angular-router-loader": "^0.6.0",
+    "angular2-social-login": "^3.0.1",
     "bootstrap": "^4.0.0-alpha.6",
     "bootstrap-loader": "^2.0.0",
     "core-js": "^2.4.1",

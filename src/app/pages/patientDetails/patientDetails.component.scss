@@ -1,0 +1,62 @@
+@import '../../../assets/styles/colors';
+
+.patient-details {
+  display: flex;
+  flex-flow: row wrap;
+
+  &__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 2rem;
+  }
+
+  &__photo {
+    margin-left: 5rem;
+
+    i {
+      font-size: 10rem;
+    }
+  }
+
+  &__info {
+
+    & > div {
+      display: flex;
+      flex-direction: row;
+    }
+
+    &-label {
+      font-size: 1.6rem;
+      padding-right: 1rem;
+      min-width: 16rem;
+      font-weight: 700;
+    }
+
+    &-value {
+      font-size: 1.6rem;
+    }
+  }
+
+  &__item {
+    font-size: 1.6rem;
+
+    & > div {
+      font-weight: 700;
+    }
+  }
+
+  & > div {
+    box-shadow: 2px 2px 2px $oc-gray-3;
+    background: $oc-white;
+    margin: 1rem;
+    padding: 2rem;
+    width: calc(50% - 2rem);
+  }
+}
+
+agm-map {
+  height: 30rem;
+  width: 40rem;
+  margin: 1rem;
+}

@@ -2,9 +2,6 @@
   "extends": [
     "tslint:recommended"
   ],
-  "rulesDirectory": [
-    "node_modules/codelyzer"
-  ],
   "rules": {
     // Custom
     "trailing-comma": [false, {"multiline": "always", "singleline": "never"}],
@@ -35,8 +32,7 @@
       "trace"
     ],
     "max-line-length": [
-      true,
-      100
+      true
     ],
     "no-string-literal": false,
     "no-use-before-declare": true,
