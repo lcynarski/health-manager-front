@@ -33,6 +33,10 @@
             <div class="user-details__info-label">PESEL:</div>
             <div class="user-details__info-value">{{ patient?.pesel }}</div>
         </div>
+        {{ patient?.medicalInfo?.height }}
+        {{ patient?.medicalInfo?.weight }}
+        {{ patient?.medicalInfo?.allergies }}
+        {{ patient?.medicalInfo?.otherNotes }}
     </div>
     <agm-map [latitude]="lat" [longitude]="lng">
         <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>

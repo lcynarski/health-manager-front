@@ -21,6 +21,21 @@ export class PatientService {
     getById(_id: string) {
         return this.http.get(this.config.apiUrl + '/patients/' + _id)
             .map( (res) => res.json())
+        //
+        // let patient = this.http.get(this.config.apiUrl + '/patients/' + _id)
+        //     .map( (res) => res.json())
+        // let medicalInformation = this.http.get(this.config.apiUrl + '/patients/' + _id + '/medicalInformation')
+        //     .map( (res) => res.json())
+        //
+        // Observable.forkJoin([patient, medicalInformation]).subscribe(results => {
+        //     results[0].medicalInformation = results[1];
+        //     return results[0];
+        // });
+    }
+
+    getMedicalInfo(_id: string) {
+        return this.http.get(this.config.apiUrl + '/patients/' + _id + '/medicalInformation')
+            .map( (res) => res.json());
     }
 
     getPatients(): Observable<Patient[]> {

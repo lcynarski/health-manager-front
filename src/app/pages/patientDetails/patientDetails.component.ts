@@ -34,6 +34,7 @@ export class PatientDetailsComponent implements OnInit {
         this.sub = this.route.params.subscribe((params) => {
             this.id = params['patientId']; // (+) converts string 'id' to a number
             this.loadPatientData();
+            this.loadPatientMedicalData();
         });
 
     }
@@ -52,5 +53,13 @@ export class PatientDetailsComponent implements OnInit {
         });
         console.log(this.patient);
         return this.patient;
+    }
+
+    public loadPatientMedicalData() {
+        this.patientService.getMedicalInfo(this.id)
+            .subscribe((medicalInfo) => {
+                this.patient.medicalInfo = medicalInfo;
+                console.log(medicalInfo);
+            });
     }
 }

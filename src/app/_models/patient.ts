@@ -1,3 +1,5 @@
+import {MedicalData} from './medicalData';
+
 export class Patient {
     _id: string;
     firstName: string;
@@ -11,6 +13,5 @@ export class Patient {
     street: string;
     buildingNumber: number;
     flatNumber: number;
-    lat: number;
-    lng: number;
+    medicalInfo: MedicalData;
 }
