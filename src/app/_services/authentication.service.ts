@@ -16,9 +16,11 @@ export class AuthenticationService {
     }
 
     public login(email: string, password: string): Observable<boolean> {
-        return this.http.post(this.config.apiUrl + '/login', {email, password})
+        console.log('DBG: trying to login.' + email + ' ' + password);
+        return this.http.post(this.config.apiUrl + '/sample/login', {email, password})
             .map((response: Response) => {
                 const token = response.json() && response.json().token;
+                console.log('DBG: token ' + token);
                 if (token) {
                     this.token = token;
                     localStorage.setItem('currentUser', JSON.stringify({email, token}));

@@ -16,28 +16,28 @@ export class UserService {
     }
 
     public getAll() {
-        return this.http.get(this.config.apiUrl + '/users', this.jwt()).map((response: Response) => response.json());
+        return this.http.get(this.config.apiUrl + '/users', this.addJwtOptions()).map((response: Response) => response.json());
     }
 
     public getById(_id: string) {
-        return this.http.get(this.config.apiUrl + '/users/' + _id, this.jwt()).map((response: Response) => response.json());
+        return this.http.get(this.config.apiUrl + '/users/' + _id, this.addJwtOptions()).map((response: Response) => response.json());
     }
 
     public create(user: User) {
+        console.log(user);
         return this.http.post(this.config.apiUrl + '/register', user);
     }
-
     public update(user: User) {
-        return this.http.put(this.config.apiUrl + '/users/' + user._id, user, this.jwt());
+        return this.http.put(this.config.apiUrl + '/users/' + user._id, user, this.addJwtOptions());
     }
 
     public delete(_id: string) {
-        return this.http.delete(this.config.apiUrl + '/users/' + _id, this.jwt());
+        return this.http.delete(this.config.apiUrl + '/users/' + _id, this.addJwtOptions());
     }
 
     public changePassword(email: string, currentPassword: string, newPassword: string, newRepeatedPassword: string): Observable<boolean> {
         const data = {email, currentPassword, newPassword, newRepeatedPassword};
-        return this.http.post(this.config.apiUrl + '/changePassword', data, this.addOptions())
+        return this.http.post(this.config.apiUrl + '/changePassword', data, this.addJwtOptions())
             .map((response: Response) => {
                 return response.json() && response.json().isSuccess;
             });
@@ -45,32 +45,23 @@ export class UserService {
 
     public resetPassword(email: string): Observable<boolean> {
         const data = {email};
-        return this.http.post(this.config.apiUrl + '/resetPassword', data, this.addOptions())
+        return this.http.post(this.config.apiUrl + '/resetPassword', data, this.addJwtOptions())
             .map((response: Response) => {
                 return response.json();
             });
     }
 
-    private jwt() {
-        // create authorization header with jwt token
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            const headers = new Headers({ Authorization : 'Bearer ' + currentUser.token });
-            return new RequestOptions({ headers });
-        }
-    }
-
     private getUsers(): Observable<User[]> {
-        // add authorization header with jwt token
-        let headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
-        let options = new RequestOptions({ headers: headers });
-
         // get users from api
-        return this.http.get('/api/users', options)
+        return this.http.get('/api/users', this.addJwtOptions())
             .map((response: Response) => response.json());
     }
-    private addOptions() {
-        const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
-        return new RequestOptions({ headers });
+
+    private addJwtOptions() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.token) {
+            const headers = new Headers({Authorization: 'Bearer ' + this.authenticationService.token});
+            return new RequestOptions({headers});
+        }
     }
 }
