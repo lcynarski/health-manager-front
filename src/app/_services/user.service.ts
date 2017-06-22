@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map'
 
 import { AuthenticationService } from '../_services/index';
 import { AppConfig } from '../app.config';
-import { User } from '../_models/index';
+import { User, ChangePassword } from '../_models/index';
 
 @Injectable()
 export class UserService {
@@ -35,8 +35,7 @@ export class UserService {
         return this.http.delete(this.config.apiUrl + '/users/' + _id, this.addJwtOptions());
     }
 
-    public changePassword(email: string, currentPassword: string, newPassword: string, newRepeatedPassword: string): Observable<boolean> {
-        const data = {email, currentPassword, newPassword, newRepeatedPassword};
+    public changePassword(data: ChangePassword): Observable<boolean> {
         return this.http.post(this.config.apiUrl + '/changePassword', data, this.addJwtOptions())
             .map((response: Response) => {
                 return response.json() && response.json().isSuccess;
@@ -45,10 +44,12 @@ export class UserService {
 
     public resetPassword(email: string): Observable<boolean> {
         const data = {email};
-        return this.http.post(this.config.apiUrl + '/resetPassword', data, this.addJwtOptions())
-            .map((response: Response) => {
-                return response.json();
-            });
+        console.log(email);
+        return null;
+        // return this.http.post(this.config.apiUrl + '/resetPassword', data, this.addJwtOptions())
+        //     .map((response: Response) => {
+        //         return response.json();
+        //     });
     }
 
     private getUsers(): Observable<User[]> {

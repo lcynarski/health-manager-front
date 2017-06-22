@@ -1,4 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import {UserService} from '../_services/user.service';
+import {ChangePassword} from '../_models/changePassword';
 
 @Component({
     selector: 'change-password',
@@ -6,10 +9,22 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ChangePasswordComponent {
 
-    constructor() {
-    }
+    private updatePasswordData: ChangePassword;
+    private output: any;
 
-    private onSubmit() {
+    constructor(private userService: UserService) { }
 
+    // Submit Data to Backend
+    public onSubmit() {
+
+        this.output = null;
+
+        this.userService.changePassword(this.updatePasswordData).subscribe(
+            (res) => {
+                console.log(res);
+            }, (error) => {
+                console.log(error);
+            }
+        );
     }
 }

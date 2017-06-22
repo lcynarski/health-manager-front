@@ -24,6 +24,8 @@ import { NgaModule } from '../../navigation/nga.module';
 // import { TrafficChartService } from './trafficChart/trafficChart.service';
 // import { UsersMapService } from './usersMap/usersMap.service';
 
+import { ChangePasswordComponent } from '../../change-password/index';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -41,7 +43,8 @@ import { NgaModule } from '../../navigation/nga.module';
         // Feed,
         // Todo,
         // Calendar,
-        Dashboard
+        Dashboard,
+        ChangePasswordComponent
     ],
     providers: [
         // CalendarService,
