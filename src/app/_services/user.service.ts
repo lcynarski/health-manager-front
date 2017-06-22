@@ -43,13 +43,16 @@ export class UserService {
     }
 
     public resetPassword(email: string): Observable<boolean> {
-        const data = {email};
+        const data = { email };
         console.log(email);
-        return null;
-        // return this.http.post(this.config.apiUrl + '/resetPassword', data, this.addJwtOptions())
-        //     .map((response: Response) => {
-        //         return response.json();
-        //     });
+        return this.http.post(this.config.apiUrl + '/resetPassword', data)
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
+
+    public testMethod(cos: string) {
+        console.log(cos);
     }
 
     private getUsers(): Observable<User[]> {

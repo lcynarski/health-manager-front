@@ -9,6 +9,8 @@ import { AlertService, UserService } from '../_services/index';
 
 export class ForgotPasswordComponent {
     public model: any = {};
+    private loading = false;
+    private returnUrl: string;
 
     constructor(
         private router: Router,
@@ -16,8 +18,8 @@ export class ForgotPasswordComponent {
         private alertService: AlertService,
         private userService: UserService) { }
 
-    public myFunc() {
-        console.log('inside submit');
+    public onSubmit() {
+        console.log('inside submit ' + this.model.email);
         this.userService.resetPassword(this.model.email)
             .subscribe(
                 (data) => {
@@ -26,7 +28,7 @@ export class ForgotPasswordComponent {
                 },
                 (error) => {
                     console.log('Forgot password component error: ' + error);
-                    this.alertService.error(error._body);
+                    // this.alertService.error(error._body);
                 });
     }
 }
