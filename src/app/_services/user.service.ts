@@ -36,7 +36,7 @@ export class UserService {
     }
 
     public changePassword(data: ChangePassword): Observable<boolean> {
-        return this.http.post(this.config.apiUrl + '/changePassword', data, this.addJwtOptions())
+        return this.http.post(this.config.apiUrl + '/users/updatePassword', data, this.addJwtOptions())
             .map((response: Response) => {
                 return response.json() && response.json().isSuccess;
             });
@@ -45,7 +45,7 @@ export class UserService {
     public resetPassword(email: string): Observable<boolean> {
         const data = { email };
         console.log(email);
-        return this.http.post(this.config.apiUrl + '/resetPassword', data)
+        return this.http.post(this.config.apiUrl + '/users/resetPassword', data)
             .map((response: Response) => {
                 return response.json();
             });

@@ -9,16 +9,12 @@ import {ChangePassword} from '../_models/changePassword';
 })
 export class ChangePasswordComponent {
 
-    private updatePasswordData: ChangePassword;
-    private output: any;
+    private updatePasswordData = new ChangePassword();
 
     constructor(private userService: UserService) { }
 
-    // Submit Data to Backend
     public onSubmit() {
-
-        this.output = null;
-
+        console.log('Change password component' + this.updatePasswordData);
         this.userService.changePassword(this.updatePasswordData).subscribe(
             (res) => {
                 console.log(res);
