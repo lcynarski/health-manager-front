@@ -16,6 +16,7 @@ import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { AlertService, AuthenticationService, UserService, MedcomService} from './_services/index';
 import { LoginComponent } from './login/index';
+import { ForgotPasswordComponent } from './forgot-password/index';
 import { HomeComponent } from './home/index';
 import { WelcomeComponent } from './welcome/index';
 import { RegisterComponent } from './register/index';
@@ -58,6 +59,7 @@ const APP_PROVIDERS = [
         WelcomeComponent,
         RegisterComponent,
         AlertComponent,
+        ForgotPasswordComponent,
         // MedcomComponent,
         // PatientsListComponent,
         // PatientsListItemComponent,
