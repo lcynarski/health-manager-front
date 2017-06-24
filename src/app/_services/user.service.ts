@@ -45,7 +45,7 @@ export class UserService {
     public resetPassword(email: string): Observable<boolean> {
         const data = { email };
         console.log(email);
-        return this.http.post(this.config.apiUrl + '/users/resetPassword', data)
+        return this.http.post(this.config.apiUrl + '/users/resetPassword', email)
             .map((response: Response) => {
                 return response.json();
             });
