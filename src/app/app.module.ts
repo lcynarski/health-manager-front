@@ -24,8 +24,8 @@ import { MedcomComponent } from './medcom/index';
 import { PatientsListComponent, PatientsListItemComponent } from './pages/patientsList/index';
 import { PatientDetailsComponent } from './pages/patientDetails/index';
 
-
 import { PagesModule } from './pages/pages.module';
+import {MdlModule} from '@angular-mdl/core';
 
 // const socialProviders = {
 //     google: {
@@ -49,7 +49,8 @@ const APP_PROVIDERS = [
         NgaModule.forRoot(),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyAVY4MA8FBzN8gFd1v0cF-RAOcdwukvJKQ'
-        })
+        }),
+        MdlModule
     ],
     declarations: [
         AppComponent,
