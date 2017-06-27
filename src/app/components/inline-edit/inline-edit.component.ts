@@ -17,7 +17,7 @@ const INLINE_EDIT_CONTROL_VALUE_ACCESSOR = {
     selector: 'app-inline-edit',
     templateUrl: './inline-edit.component.html',
     providers: [INLINE_EDIT_CONTROL_VALUE_ACCESSOR],
-    styleUrls: ['./inline-edit.component.css']
+    styleUrls: ['./inline-edit.component.scss']
 })
 
 export class InlineEditComponent implements ControlValueAccessor, OnInit {
@@ -27,11 +27,12 @@ export class InlineEditComponent implements ControlValueAccessor, OnInit {
     @Input() type: string = 'text'; // The type of input element
     @Input() required: boolean = false; // Is input requried?
     @Input() disabled: boolean = false; // Is input disabled?
+    public onChange: any = Function.prototype; // Trascend the onChange event
+    public onTouched: any = Function.prototype; // Trascend the onTouch event
     private _value: string = ''; // Private variable for input value
     private preValue: string = ''; // The value before clicking to edit
     private editing: boolean = false; // Is Component in edit mode?
-    public onChange: any = Function.prototype; // Trascend the onChange event
-    public onTouched: any = Function.prototype; // Trascend the onTouch event
+
 
     // Control Value Accessors for ngModel
     get value(): any {
@@ -49,7 +50,7 @@ export class InlineEditComponent implements ControlValueAccessor, OnInit {
     }
 
     // Required for ControlValueAccessor interface
-    writeValue(value: any) {
+    public writeValue(value: any) {
         this._value = value;
     }
 
@@ -64,12 +65,12 @@ export class InlineEditComponent implements ControlValueAccessor, OnInit {
     }
 
     // Do stuff when the input element loses focus
-    onBlur($event: Event) {
+    public onBlur($event: Event) {
         this.editing = false;
     }
 
     // Start the editting process for the input element
-    edit(value) {
+    public edit(value) {
         if (this.disabled) {
             return;
         }

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
 
 import { AuthenticationService } from '../_services/index';
 import { AppConfig } from '../app.config';
 import { User, ChangePassword } from '../_models/index';
+import {PersonalDetails} from '../_models/personal-details';
 
 @Injectable()
 export class UserService {
@@ -51,14 +52,15 @@ export class UserService {
             });
     }
 
-    public testMethod(cos: string) {
-        console.log(cos);
+    public updatePersonalDetails(data: PersonalDetails) {
+        console.log(data);
+        return this.http.post(this.config.apiUrl + '/users/updatePersonalDetails/', data, this.addJwtOptions());
     }
 
-    private getUsers(): Observable<User[]> {
-        // get users from api
-        return this.http.get('/api/users', this.addJwtOptions())
-            .map((response: Response) => response.json());
+    public getPersonalDetails(): Observable<PersonalDetails> {
+        console.log('inside get personal details');
+        return this.http.get(this.config.apiUrl + '/users/getPersonalDetails', this.addJwtOptions()).
+            map((response: Response) => response.json());
     }
 
     private addJwtOptions() {
@@ -68,4 +70,5 @@ export class UserService {
             return new RequestOptions({headers});
         }
     }
+
 }

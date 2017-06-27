@@ -25,7 +25,8 @@ import { MedcomComponent } from './medcom/index';
 import { PatientsListComponent, PatientsListItemComponent } from './pages/patientsList/index';
 import { PatientDetailsComponent } from './pages/patientDetails/index';
 
-
+import { PersonalDetailsFormComponent } from './personal-details-form/index';
+import { InlineEditComponent } from './components/inline-edit/index';
 import { PagesModule } from './pages/pages.module';
 
 // const socialProviders = {
@@ -60,10 +61,8 @@ const APP_PROVIDERS = [
         RegisterComponent,
         AlertComponent,
         ForgotPasswordComponent,
-        // MedcomComponent,
-        // PatientsListComponent,
-        // PatientsListItemComponent,
-        // PatientDetailsComponent
+        PersonalDetailsFormComponent,
+        InlineEditComponent
     ],
     providers: [
         AppConfig,
