@@ -21,6 +21,7 @@ export class MedcomComponent implements OnInit, OnDestroy {
     private fetching: boolean = false;
     private errorMsg: string = null;
     private archive: DicomArchive = null;
+    private dicomUrl: string = 'http://localhost:8081/medcom/patients/24759123/studies/study1/series/series1/instances/instance1'; // TODO
 
     constructor(private medcomService: MedcomService) {
     }

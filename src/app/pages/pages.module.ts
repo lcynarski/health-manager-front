@@ -7,11 +7,15 @@ import { NgaModule } from '../navigation/nga.module';
 
 import { Pages } from './pages.component';
 import { PatientDetailsComponent } from './patientDetails/patientDetails.component';
-import {MedcomComponent, ArchiveTreeComponent} from '../medcom/index';
+
+// TODO create MedcomModule
+import { MedcomComponent, ArchiveTreeComponent } from '../medcom/index';
+import { DicomDirective } from '../_directives/medcom/dicom.directive';
+
 
 @NgModule({
     imports: [CommonModule, NgaModule, FormsModule, routing],
-    declarations: [Pages, PatientDetailsComponent, MedcomComponent, ArchiveTreeComponent]
+    declarations: [Pages, PatientDetailsComponent, MedcomComponent, ArchiveTreeComponent, DicomDirective],
 })
 export class PagesModule {
 }
