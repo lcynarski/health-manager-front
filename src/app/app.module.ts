@@ -4,6 +4,7 @@ import { FormsModule }    from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Angular2SocialLoginModule } from 'angular2-social-login';
 import { AgmCoreModule } from '@agm/core';
+import { MdlModule } from '@angular-mdl/core';
 
 import { AppComponent }  from './app.component';
 import { AppState, InternalStateType } from './app.service';
@@ -25,7 +26,6 @@ import { PatientsListComponent, PatientsListItemComponent } from './pages/patien
 import { PatientDetailsComponent } from './pages/patientDetails/index';
 
 import { PagesModule } from './pages/pages.module';
-import {MdlModule} from '@angular-mdl/core';
 
 // const socialProviders = {
 //     google: {

@@ -10,6 +10,8 @@ import { PatientDetailsComponent } from './patientDetails/patientDetails.compone
 import {MedcomComponent} from '../medcom/medcom.component';
 import { AgmCoreModule } from '@agm/core';
 import {Paper} from '../components/paper/paper.component';
+import {CreatePatientComponent} from './createPatient/createPatient.component';
+import {DynamicFormModule} from "../components/dynamic-form/dynamic-form.module";
 
 @NgModule({
     imports: [
@@ -17,9 +19,10 @@ import {Paper} from '../components/paper/paper.component';
         NgaModule,
         FormsModule,
         routing,
-        AgmCoreModule
+        AgmCoreModule,
+        DynamicFormModule
     ],
-    declarations: [Pages, PatientDetailsComponent, MedcomComponent, Paper]
+    declarations: [Pages, PatientDetailsComponent, MedcomComponent, Paper, CreatePatientComponent]
 })
 export class PagesModule {
 }

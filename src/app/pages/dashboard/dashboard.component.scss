@@ -1,9 +1,10 @@
 
-.al-main {
-  padding: 66px 0 34px 0;
-  margin-left: 180px;
+.patient-creator-widget {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  .al-content {
-    padding: 8px 32px 8px 40px;
+  &__title {
+    font-weight: 700;
   }
 }

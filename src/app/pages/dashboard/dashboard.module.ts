@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { Dashboard } from './dashboard.component';
 import { routing } from './dashboard.routing';
 import { NgaModule } from '../../navigation/nga.module';
+import { MdlModule } from '@angular-mdl/core';
 //
 // import { PopularApp } from './popularApp';
 // import { PieChart } from './pieChart';
@@ -30,7 +31,8 @@ import { NgaModule } from '../../navigation/nga.module';
         FormsModule,
         // AppTranslationModule,
         NgaModule,
-        routing
+        routing,
+        MdlModule
     ],
     declarations: [
         // PopularApp,

@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'dashboard',
@@ -6,7 +7,12 @@ import {Component} from '@angular/core';
     templateUrl: './dashboard.component.html'
 })
 export class Dashboard {
+    private router: Router;
 
     constructor() {
+    }
+
+    public goToCreatePatient = () => {
+        this.router.navigate(['/createPatient']);
     }
 }
