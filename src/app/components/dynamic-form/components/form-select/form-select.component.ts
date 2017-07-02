@@ -6,9 +6,7 @@ import { FieldConfig } from '../../models/field-config.interface';
 
 @Component({
   selector: 'form-select',
-  styleUrls: ['form-select.component.scss',
-    '../../../../../../node_modules/@angular2-mdl-ext/popover/popover.scss',
-    '../../../../../../node_modules/@angular-mdl/select/select.scss'],
+  styleUrls: ['form-select.component.scss'],
   template: `
     <form class='select'
       [formGroup]="group">
