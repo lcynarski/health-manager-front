@@ -1,10 +1,11 @@
 import { Routes, RouterModule } from '@angular/router';
 import { Pages } from './pages.component';
 import { ModuleWithProviders } from '@angular/core';
-import {LoginComponent} from '../login/login.component';
-import {RegisterComponent} from '../register/register.component';
-import {PatientDetailsComponent} from './patientDetails/patientDetails.component';
-import {MedcomComponent} from "../medcom/medcom.component";
+import { LoginComponent } from '../login/login.component';
+import { RegisterComponent } from '../register/register.component';
+import {PatientDetailsComponent } from './patientDetails/patientDetails.component';
+import { MedcomComponent } from '../medcom/medcom.component';
+import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
 
 export const routes: Routes = [
     {
@@ -14,6 +15,10 @@ export const routes: Routes = [
     {
         path: 'register',
         component: RegisterComponent
+    },
+    {
+        path: 'forgotPassword',
+        component: ForgotPasswordComponent
     },
     {
         path: 'pages',
