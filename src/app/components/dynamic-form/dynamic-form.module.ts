@@ -8,14 +8,16 @@ import { FormButtonComponent } from './components/form-button/form-button.compon
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
 import {MdlModule} from '@angular-mdl/core';
-import { MdlSelectModule } from '@angular-mdl/select';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
+import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MdlModule,
-    MdlSelectModule
+    MdlSelectModule,
+    MdlPopoverModule
   ],
   declarations: [
     DynamicFieldDirective,

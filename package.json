@@ -19,6 +19,8 @@
     "@angular/platform-browser": "~4.0.0",
     "@angular/platform-browser-dynamic": "~4.0.0",
     "@angular/router": "~4.0.0",
+    "@angular2-mdl-ext/popover": "^0.6.0",
+    "@angular2-mdl-ext/select": "^0.10.3",
     "angular-router-loader": "^0.6.0",
     "angular2-mdl": "^2.13.2",
     "angular2-social-login": "^3.0.1",

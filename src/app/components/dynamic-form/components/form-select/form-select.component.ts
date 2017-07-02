@@ -6,16 +6,18 @@ import { FieldConfig } from '../../models/field-config.interface';
 
 @Component({
   selector: 'form-select',
-  styleUrls: ['form-select.component.scss'],
+  styleUrls: ['form-select.component.scss',
+    '../../../../../../node_modules/@angular2-mdl-ext/popover/popover.scss',
+    '../../../../../../node_modules/@angular-mdl/select/select.scss'],
   template: `
-    <div class='select'
+    <form class='select'
       [formGroup]="group">
-      <mdl-select [formControlName]="config.name" label="{{config.label}}">
+      <mdl-select [formControlName]="config.name" label="{{config.label}}" floating-label>
         <mdl-option *ngFor="let option of config.options" [value]="option">
           {{ option }}
         </mdl-option>
       </mdl-select>
-    </div>
+    </form>
   `
 })
 export class FormSelectComponent implements Field {
