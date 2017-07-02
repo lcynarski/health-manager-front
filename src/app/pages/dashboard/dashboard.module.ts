@@ -25,6 +25,8 @@ import { MdlModule } from '@angular-mdl/core';
 // import { TrafficChartService } from './trafficChart/trafficChart.service';
 // import { UsersMapService } from './usersMap/usersMap.service';
 
+import { ChangePasswordComponent } from '../../change-password/index';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -43,7 +45,8 @@ import { MdlModule } from '@angular-mdl/core';
         // Feed,
         // Todo,
         // Calendar,
-        Dashboard
+        Dashboard,
+        ChangePasswordComponent
     ],
     providers: [
         // CalendarService,

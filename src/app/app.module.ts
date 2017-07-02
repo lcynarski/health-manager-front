@@ -17,6 +17,7 @@ import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { AlertService, AuthenticationService, UserService, MedcomService} from './_services/index';
 import { LoginComponent } from './login/index';
+import { ForgotPasswordComponent } from './forgot-password/index';
 import { HomeComponent } from './home/index';
 import { WelcomeComponent } from './welcome/index';
 import { RegisterComponent } from './register/index';
@@ -25,6 +26,8 @@ import { MedcomComponent } from './medcom/index';
 import { PatientsListComponent, PatientsListItemComponent } from './pages/patientsList/index';
 import { PatientDetailsComponent } from './pages/patientDetails/index';
 
+import { PersonalDetailsFormComponent } from './personal-details-form/index';
+import { InlineEditComponent } from './components/inline-edit/index';
 import { PagesModule } from './pages/pages.module';
 
 // const socialProviders = {
@@ -59,10 +62,9 @@ const APP_PROVIDERS = [
         WelcomeComponent,
         RegisterComponent,
         AlertComponent,
-        // MedcomComponent,
-        // PatientsListComponent,
-        // PatientsListItemComponent,
-        // PatientDetailsComponent
+        ForgotPasswordComponent,
+        PersonalDetailsFormComponent,
+        InlineEditComponent
     ],
     providers: [
         AppConfig,
