@@ -27,6 +27,18 @@ export const PAGES_MENU = [
                 }
             },
             {
+                path: 'visitsCalendar',
+                data: {
+                    menu: {
+                        title: 'Calendar of visits',
+                        icon: 'view_list',
+                        selected: false,
+                        expanded: false,
+                        order: 100,
+                    }
+                }
+            },
+            {
                 path: '',
                 data: {
                     menu: {

@@ -1,0 +1,33 @@
+<div class="col-md-6 col-md-offset-3">
+    <h1>Kalendarz!</h1>
+    <div>
+
+
+        <div [ngSwitch]="view">
+            <mwl-calendar-month-view
+                    *ngSwitchCase="'month'"
+                    [viewDate]="viewDate"
+                    [events]="events"
+                    [locale]="locale"
+                    >
+            </mwl-calendar-month-view>
+            <mwl-calendar-week-view
+                    *ngSwitchCase="'week'"
+                    [viewDate]="viewDate"
+                    [events]="events"
+                    [locale]="locale"
+            >
+            </mwl-calendar-week-view>
+            <mwl-calendar-day-view
+                    *ngSwitchCase="'day'"
+                    [viewDate]="viewDate"
+                    [events]="events"
+                    [locale]="locale">
+            </mwl-calendar-day-view>
+        </div>
+
+
+    </div>
+
+    <!--<p><a [routerLink]="['/home']">Back</a></p>-->
+</div>

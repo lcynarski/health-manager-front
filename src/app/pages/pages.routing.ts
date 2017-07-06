@@ -22,6 +22,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'patientsList', loadChildren: './patientsList/patientsList.module#PatientsListModule' },
+            { path: 'visitsCalendar', loadChildren: './visitsCalendar/visitsCalendar.module#VisitsCalendarModule' },
             { path: 'patientDetails/:patientId', component: PatientDetailsComponent },
             { path: 'medcom', component: MedcomComponent }
             // { path: 'components', loadChildren: './components/components.module#ComponentsModule' },
