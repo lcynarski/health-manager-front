@@ -1,0 +1,11 @@
+<form [formGroup]="form">
+        <div>
+            Enter patient's PESEL number:
+        </div>
+        <p>
+            <mdl-textfield label="PESEL" type="text" formControlName="pesel" floating-label></mdl-textfield>
+        </p>
+        <p>
+            <button mdl-button (click)="onSubmit()"  [disabled]="!form.valid" mdl-button-type="raised" mdl-ripple mdl-colored="primary">Submit</button>
+        </p>
+</form>

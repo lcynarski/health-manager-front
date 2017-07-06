@@ -26,7 +26,7 @@ export class UserService {
 
     public create(user: User) {
         console.log(user);
-        return this.http.post(this.config.apiUrl + '/users/register', user);
+        return this.http.post(this.config.apiUrl + 'user/register', user);
     }
     public update(user: User) {
         return this.http.put(this.config.apiUrl + '/users/' + user._id, user, this.addJwtOptions());
@@ -59,7 +59,7 @@ export class UserService {
 
     public getPersonalDetails(): Observable<PersonalDetails> {
         console.log('inside get personal details');
-        return this.http.get(this.config.apiUrl + '/users/getPersonalDetails', this.addJwtOptions()).
+        return this.http.get(this.config.apiUrl + '/users/personaldetails', this.addJwtOptions()).
             map((response: Response) => response.json());
     }
 

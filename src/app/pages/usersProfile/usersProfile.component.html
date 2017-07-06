@@ -1,0 +1,58 @@
+<div class="users-profile">
+    <div class="users-profile__header">
+        <div class="users-profile__photo">
+            <photo-uploader></photo-uploader>
+        </div>
+        <div class="users-profile__name">
+            {{ personalDetails?.firstName }} {{ personalDetails?.lastName }}
+        </div>
+    </div>
+    <div class="users-profile__info">
+        <div>
+            <div class="users-profile__info-label">Date of birth: </div>
+            <div class="users-profile__info-value">{{ personalDetails?.birthdate}}</div>
+        </div>
+        <div>
+            <div class="users-profile__info-label">Gender: </div>
+            <div class="users-profile__info-value">{{ personalDetails?.gender }}</div>
+        </div>
+        <div>
+            <div class="users-profile__info-label"> Phone:</div>
+            <div class="users-profile__info-value">{{ personalDetails?.phoneNumber }}</div>
+        </div>
+        <div>
+            <div class="users-profile__info-label">Country:</div>
+            <div class="users-profile__info-value">{{ personalDetails?.country }}</div>
+        </div>
+        <div>
+            <div class="users-profile__info-label">Address:</div>
+            <div class="users-profile__info-value">{{ personalDetails?.city }}</div>
+        </div>
+        <div>
+            <div class="users-profile__info-label">PESEL:</div>
+            <div class="users-profile__info-value">{{ personalDetails?.pesel }}</div>
+        </div>
+    </div>
+    <button #editUserButton mdl-button mdl-button-type="raised" mdl-colored="primary"
+            mdl-ripple (click)="editUserDialog.show()">Edit User Dialog</button>
+
+    <mdl-dialog #editUserDialog
+                [mdl-dialog-config]="{
+              clickOutsideToClose: true,
+              styles:{'width': '50rem'},
+              isModal:true,
+              openFrom: editUserButton,
+              enterTransitionDuration: 400,
+              leaveTransitionDuration: 400}"
+               >
+        <h3 class="mdl-dialog__title">Edit User</h3>
+        <div class="mdl-dialog__content">
+            <mdl-textfield type="text" label="Username" [(ngModel)]="username" floating-label autofocus></mdl-textfield>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button mdl-button (click)="saveUser()" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>
+            <button mdl-button (click)="editUserDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+    <dialog-outlet></dialog-outlet>
+</div>

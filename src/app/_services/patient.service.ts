@@ -25,7 +25,7 @@ export class PatientService {
     }
 
     public getMedicalInfo(_id: string) {
-        return this.http.get(this.config.apiUrl + '/patients/' + _id + '/medicalInformation')
+        return this.http.get(this.config.apiUrl + '/patients/' + _id)
             .map((res) => res.json());
     }
 

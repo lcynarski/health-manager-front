@@ -7,6 +7,8 @@ import {PatientDetailsComponent } from './patientDetails/patientDetails.componen
 import { MedcomComponent } from '../medcom/medcom.component';
 import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
 import {CreatePatientComponent} from './createPatient/createPatient.component';
+import {UsersProfileComponent} from './usersProfile/usersProfile.component';
+import {PatientSearchComponent} from "./patientSearch/patientSearch.component";
 
 export const routes: Routes = [
     {
@@ -30,6 +32,8 @@ export const routes: Routes = [
             { path: 'patientsList', loadChildren: './patientsList/patientsList.module#PatientsListModule' },
             { path: 'patientDetails/:patientId', component: PatientDetailsComponent },
             { path: 'createPatient', component: CreatePatientComponent },
+            { path: 'usersProfile', component: UsersProfileComponent },
+            { path: 'patientSearch', component: PatientSearchComponent },
             { path: 'medcom', component: MedcomComponent }
             // { path: 'components', loadChildren: './components/components.module#ComponentsModule' },
             // { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },

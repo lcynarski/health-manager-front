@@ -43,8 +43,8 @@ export class PatientDetailsComponent implements OnInit {
         console.log(this.id);
         this.patientService.getById(this.id)
             .subscribe((patient) => {
-                this.patient = patient;
-                this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + patient.city)
+                this.patient = patient.personalDetails;
+                this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + patient.personalDetails.city)
                     .map( (res) => res.json())
                     .subscribe( (response) => {
                         this.lat = response['results'][0]['geometry']['location']['lat'];

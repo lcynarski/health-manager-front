@@ -17,9 +17,9 @@
                         <i class="material-icons">pageview</i>
                     </a>
                 </th>
-                <td>{{ patient.firstName }}</td>
-                <td>{{ patient.lastName }}</td>
-                <td> {{ patient.birthdate | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ patient.personalDetails.firstName }}</td>
+                <td>{{ patient.personalDetails.lastName }}</td>
+                <td> {{ patient.personalDetails.birthdate }}</td>
             </tr>
         </tbody>
     </table>
