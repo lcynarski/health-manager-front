@@ -3,28 +3,25 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../navigation/nga.module';
 import { CalendarModule } from 'angular-calendar';
-import { CalendarHeaderComponent } from './calendar-header.component';
-import { routing } from './visitsCalendar.routing';
-import { VisitsCalendarComponent } from './visitsCalendar.component';
-import {ModalModule} from 'ng2-bs4-modal/ng2-bs4-modal';
+import { routing } from './doctorsList.routing';
+
+import {DoctorsListComponent} from "./doctorsList.component";
 
 @NgModule({
     imports: [
         CommonModule,
-        CalendarModule.forRoot(),
+
         FormsModule,
         NgaModule,
-        routing,
-        ModalModule
+        routing
+
 
     ],
     declarations: [
-        CalendarHeaderComponent,
-        VisitsCalendarComponent,
-
+        DoctorsListComponent
         // visitsCalendarItemComponent
         // PatientDetailsComponent
     ]
 })
-export class VisitsCalendarModule {
+export class DoctorsListModule {
 }

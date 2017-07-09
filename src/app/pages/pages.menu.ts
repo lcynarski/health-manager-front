@@ -27,10 +27,10 @@ export const PAGES_MENU = [
                 }
             },
             {
-                path: 'visitsCalendar',
+                path: 'doctorsList',
                 data: {
                     menu: {
-                        title: 'Calendar of visits',
+                        title: 'List of doctors',
                         icon: 'view_list',
                         selected: false,
                         expanded: false,

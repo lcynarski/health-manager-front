@@ -1,6 +1,6 @@
 <div class="col-md-6 col-md-offset-3">
     <span defaultOverlayTarget></span>
-    <h1>Kalendarz!</h1>
+    <h1>{{this.doctor.specialization}} {{this.doctor.firstName}} {{this.doctor.lastName}} - dostępne terminy wizyt</h1>
     <div>
 
         <mwl-demo-utils-calendar-header
@@ -47,17 +47,20 @@
 
     </modal-header>
     <modal-body>
-        <h2>Lekarz Aleksander Lejkowski</h2>
+        <h2>Lekarz {{this.doctor.firstName}} {{this.doctor.lastName}}</h2>
         <h2>{{modalDate}} godzina {{modalTime}}</h2>
         <h3>Dane pacjenta</h3>
         <div class="form-group">
             <label for="usr">Imię</label>
-            <input type="text" class="form-control" id="usr">
+            <input type="text" [(ngModel)]="patientFirstName" class="form-control" id="usr">
         </div>
         <div class="form-group">
             <label for="pwd">Nazwisko</label>
-            <input type="text"  class="form-control" id="pwd">
+            <input type="text" [(ngModel)]="patientLastName" class="form-control" id="pwd">
         </div>
     </modal-body>
-    <modal-footer [show-default-buttons]="true"></modal-footer>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="modalClosed()">Ok</button>
+    </modal-footer>
 </modal>
