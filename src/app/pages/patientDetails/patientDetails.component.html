@@ -1,29 +1,58 @@
 <!--<script src="patientDetails.component.ts"></script>-->
-<div class="user-details">
-    <div class="user-details__title">
-        <div class="user-details__name">
-            Patient: {{ patient?.firstName }} {{ patient?.lastName}}
+<div class="patient-details">
+    <div class="patient-details__title">
+        <div class="patient-details__name">
+            {{ patient?.firstName }} {{ patient?.lastName}}
         </div>
-        <div class="user-details__photo">
+        <div class="patient-details__photo">
             <i class="material-icons">face</i>
         </div>
     </div>
-    <div class="user-details__info">
-        <div>
-            <div class="user-details__info-label">Date of birth: </div>
-            <div class="user-details__info-value">{{ patient?.birthdate }}</div>
+    <div class="patient-medical-info">
+        <div class="patient-details__item">
+            <div>Height: </div>
+            {{ patient?.medicalInfo?.height }}
         </div>
-        <div>
-            <div class="user-details__info-label">Gender: </div>
-            <div class="user-details__info-value">{{ patient?.gender }}</div>
+        <div class="patient-details__item">
+            <div>Weight: </div>
+            {{ patient?.medicalInfo?.weight }}
         </div>
-        <div>
-            <div class="user-details__info-label"> Phone:</div>
-            <div class="user-details__info-value">{{ patient?.phoneNumber }}</div>
+        <div class="patient-details__item">
+            <div>Allergies: </div>
+            {{ patient?.medicalInfo?.allergies }}
         </div>
-        <div>
-            <div class="user-details__info-label">Address:</div>
-            <div class="user-details__info-value">{{ patient?.city }}, {{ patient?.country }}</div>
+        <div class="patient-details__item">
+            <div>Other notes: </div>
+            {{ patient?.medicalInfo?.otherNotes }}
         </div>
     </div>
+    <div class="patient-details__info">
+        <div>
+            <div class="patient-details__info-label">Date of birth: </div>
+            <div class="patient-details__info-value">{{ patient?.birthdate | date: 'dd/MM/yyyy' }}</div>
+        </div>
+        <div>
+            <div class="patient-details__info-label">Gender: </div>
+            <div class="patient-details__info-value">{{ patient?.gender }}</div>
+        </div>
+        <div>
+            <div class="patient-details__info-label"> Phone:</div>
+            <div class="patient-details__info-value">{{ patient?.phoneNumber }}</div>
+        </div>
+        <div>
+            <div class="patient-details__info-label">Country:</div>
+            <div class="patient-details__info-value">{{ patient?.country }}</div>
+        </div>
+        <div>
+            <div class="patient-details__info-label">Address:</div>
+            <div class="patient-details__info-value">{{ patient?.city }}</div>
+        </div>
+        <div>
+            <div class="patient-details__info-label">PESEL:</div>
+            <div class="patient-details__info-value">{{ patient?.pesel }}</div>
+        </div>
+    </div>
+    <agm-map [latitude]="lat" [longitude]="lng">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+    </agm-map>
 </div>

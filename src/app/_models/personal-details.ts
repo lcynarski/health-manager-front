@@ -1,7 +1,4 @@
-import {MedicalData} from './medicalData';
-
-export class Patient {
-    _id: string;
+export class PersonalDetails {
     firstName: string;
     lastName: string;
     gender: string;
@@ -13,5 +10,4 @@ export class Patient {
     street: string;
     buildingNumber: number;
     flatNumber: number;
-    medicalInfo: MedicalData;
 }

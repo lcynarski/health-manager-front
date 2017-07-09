@@ -92,7 +92,7 @@ module.exports = {
             "window.Tether": "tether",
             Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
             Alert: "exports-loader?Alert!bootstrap/js/dist/alert",
-            Button: "exports-loader?Button!bootstrap/js/dist/button",
+            Button: "exports-loader?button!bootstrap/js/dist/button",
             Carousel: "exports-loader?Carousel!bootstrap/js/dist/carousel",
             Collapse: "exports-loader?Collapse!bootstrap/js/dist/collapse",
             Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",

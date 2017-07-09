@@ -6,7 +6,7 @@ import {RegisterComponent} from '../register/register.component';
 import {PatientDetailsComponent} from './patientDetails/patientDetails.component';
 import {MedcomComponent} from "../medcom/medcom.component";
 import {VisitsCalendarComponent} from "./visitsCalendar/visitsCalendar.component";
-
+import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
 
 export const routes: Routes = [
     {
@@ -16,6 +16,10 @@ export const routes: Routes = [
     {
         path: 'register',
         component: RegisterComponent
+    },
+    {
+        path: 'forgotPassword',
+        component: ForgotPasswordComponent
     },
     {
         path: 'pages',

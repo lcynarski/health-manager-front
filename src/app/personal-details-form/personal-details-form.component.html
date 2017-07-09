@@ -1,0 +1,48 @@
+<div>
+    <app-inline-edit [(ngModel)]="personalDetails.firstName" label="First name" [required]="true" type="text">
+    </app-inline-edit>
+    <div>
+        <app-inline-edit [(ngModel)]="personalDetails.lastName" label="Last name" [required]="true" type="text">
+        </app-inline-edit>
+    </div>
+    <div>
+        <app-inline-edit [(ngModel)]="personalDetails.gender" label="Gender" [required]="true" type="text">
+        </app-inline-edit>
+    </div>
+    <div>
+        <app-inline-edit [(ngModel)]="personalDetails.pesel" label="Pesel" [required]="true" type="text">
+        </app-inline-edit>
+    </div>
+    <div>
+        <app-inline-edit [(ngModel)]="personalDetails.birthdate" label="Birth date" [required]="true" type="date">
+        </app-inline-edit>
+    </div>
+    <div>
+        <app-inline-edit [(ngModel)]="personalDetails.phoneNumber" label="Phone number" [required]="true" type="text">
+        </app-inline-edit>
+    </div>
+    <div>
+        <app-inline-edit [(ngModel)]="personalDetails.country" label="Country" [required]="true" type="text">
+        </app-inline-edit>
+    </div>
+    <div>
+        <app-inline-edit [(ngModel)]="personalDetails.city" label="City" [required]="true" type="text">
+        </app-inline-edit>
+    </div>
+    <div>
+        <app-inline-edit [(ngModel)]="personalDetails.street" label="Street" [required]="true" type="text">
+        </app-inline-edit>
+    </div>
+    <div>
+        <app-inline-edit [(ngModel)]="personalDetails.buildingNumber" label="Building number" [required]="true" type="text">
+        </app-inline-edit>
+    </div>
+    <div>
+        <app-inline-edit [(ngModel)]="personalDetails.flatNumber" label="Flat number" [required]="true" type="text">
+        </app-inline-edit>
+    </div>
+    <button class="btn btn-primary" (click)="onSubmit()">
+        Save personal details
+    </button>
+
+</div>

@@ -1,16 +1,5 @@
 <div class="col-md-6 col-md-offset-3">
     <h1>Patient's list</h1>
-    <div>
-        Patients:
-        <ul>
-            <!--<li *ngFor="let patient of patients">-->
-                <!--<div class="patient-item">-->
-                    <!--{{patient.firstName}} {{patient.lastName}}-->
-                <!--</div>-->
-            <!--</li>-->
-            <patients-list-item *ngFor="let patient of patients" [firstName]="patient.firstName" [lastName]="patient.lastName"></patients-list-item>
-        </ul>
-    </div>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -22,12 +11,6 @@
         </thead>
         <tbody >
             <tr *ngFor="let patient of patients">
-            <!--<patients-list-item-->
-                    <!--*ngFor="let patient of patients"-->
-                    <!--[firstName]="patient.firstName"-->
-                    <!--[lastName]="patient.lastName"-->
-                    <!--[birthdate]="patient.birthdate"-->
-            <!--&gt;</patients-list-item>-->
                 <th scope="row">
                     <!--<div (click)="viewDetails(patient._id)">-->
                     <a [routerLink]="['/pages/patientDetails', patient.id]" [href]="'/patientDetails'">
@@ -36,7 +19,7 @@
                 </th>
                 <td>{{ patient.firstName }}</td>
                 <td>{{ patient.lastName }}</td>
-                <td> {{ patient.birthdate }}</td>
+                <td> {{ patient.birthdate | date: 'dd/MM/yyyy' }}</td>
             </tr>
         </tbody>
     </table>

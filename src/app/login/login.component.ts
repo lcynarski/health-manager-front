@@ -23,27 +23,27 @@ export class LoginComponent implements OnInit {
         private alertService: AlertService,
         public _auth: AuthService) { }
 
-    signIn(provider = ""){
+    public signIn(provider = ""){
         this.sub = this._auth.login(provider).subscribe(
             (data) => {
                 console.log(data);this.user=data;}
         );
     }
 
-    logout(){
+    public logout(){
         this._auth.logout().subscribe(
             (data)=>{console.log(data);this.user=null;}
         );
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         // reset login status
         this.authenticationService.logout();
 
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
-    login() {
+    public login() {
         this.loading = true;
         this.authenticationService.login(this.model.email, this.model.password)
             .subscribe(
