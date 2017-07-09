@@ -1,28 +1,37 @@
 <div class="col-md-6 col-md-offset-3">
+    <span defaultOverlayTarget></span>
     <h1>Kalendarz!</h1>
     <div>
 
-
+        <mwl-demo-utils-calendar-header
+                [(view)]="view"
+                [(viewDate)]="viewDate">
+        </mwl-demo-utils-calendar-header>
         <div [ngSwitch]="view">
             <mwl-calendar-month-view
                     *ngSwitchCase="'month'"
                     [viewDate]="viewDate"
                     [events]="events"
                     [locale]="locale"
-                    >
+                    (eventClicked)="eventClicked($event)"
+                    (dayClicked)="viewDate = $event.day.date; view = 'day'">
+
             </mwl-calendar-month-view>
             <mwl-calendar-week-view
                     *ngSwitchCase="'week'"
                     [viewDate]="viewDate"
                     [events]="events"
                     [locale]="locale"
+                    (eventClicked)="eventClicked($event)"
+                    (dayHeaderClicked)="viewDate = $event.day.date; view = 'day'"
             >
             </mwl-calendar-week-view>
             <mwl-calendar-day-view
                     *ngSwitchCase="'day'"
                     [viewDate]="viewDate"
                     [events]="events"
-                    [locale]="locale">
+                    [locale]="locale"
+                    (eventClicked)="eventClicked($event)">
             </mwl-calendar-day-view>
         </div>
 
@@ -31,3 +40,24 @@
 
     <!--<p><a [routerLink]="['/home']">Back</a></p>-->
 </div>
+
+<modal #visitModal>
+    <modal-header [show-close]="true">
+        <h1 class="modal-title" >Wizyta</h1>
+
+    </modal-header>
+    <modal-body>
+        <h2>Lekarz Aleksander Lejkowski</h2>
+        <h2>{{modalDate}} godzina {{modalTime}}</h2>
+        <h3>Dane pacjenta</h3>
+        <div class="form-group">
+            <label for="usr">Imię</label>
+            <input type="text" class="form-control" id="usr">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Nazwisko</label>
+            <input type="text"  class="form-control" id="pwd">
+        </div>
+    </modal-body>
+    <modal-footer [show-default-buttons]="true"></modal-footer>
+</modal>
