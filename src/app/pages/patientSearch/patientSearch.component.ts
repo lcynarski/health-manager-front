@@ -1,7 +1,7 @@
-import {Component, ViewChild, AfterViewInit, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {PatientService} from "../../_services/patient.service";
-import {Patient} from "../../_models/patient";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PatientService } from '../../_services/patient.service';
+import { Patient } from '../../_models/patient';
 
 @Component({
     providers: [PatientService],
@@ -10,7 +10,7 @@ import {Patient} from "../../_models/patient";
     templateUrl: `./patientSearch.component.html`
 })
 
-export class PatientSearchComponent {
+export class PatientSearchComponent implements OnInit{
 
     public disableForm = false;
     public form: FormGroup;
@@ -19,11 +19,7 @@ export class PatientSearchComponent {
     public patient: Patient;
     patients: Patient[] = [];
 
-    constructor(private fb: FormBuilder, private patientService: PatientService) {
-        this.form = fb.group({
-            pesel: this.pesel
-        });
-    }
+    constructor(private fb: FormBuilder, private patientService: PatientService) {}
 
     public ngOnInit() {
         this.form = this.fb.group({

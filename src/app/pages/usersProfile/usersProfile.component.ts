@@ -1,8 +1,6 @@
 import {Component, ViewChild, AfterViewInit, OnInit} from '@angular/core';
 import { Validators } from '@angular/forms';
 
-import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
-import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { UserService } from '../../_services/index';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { PersonalDetails } from '../../_models/personalDetails';

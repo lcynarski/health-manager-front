@@ -9,7 +9,7 @@
 // export class AppComponent { }
 
 import { Component } from '@angular/core';
-import {GlobalState} from './global.state';
+import { GlobalState } from './global.state';
 
 @Component({
     selector: 'my-app',
