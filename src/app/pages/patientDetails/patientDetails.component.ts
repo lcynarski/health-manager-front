@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import {Patient} from '../../_models/patient';
-import {PatientService} from '../../_services/patient.service';
-import {Paper} from '../../components/paper/paper.component';
+import { Patient } from '../../_models/patient';
+import { PatientService } from '../../_services/patient.service';
 
 @Component({
     providers: [PatientService],
@@ -12,16 +11,14 @@ import {Paper} from '../../components/paper/paper.component';
 })
 
 export class PatientDetailsComponent implements OnInit {
-    // public id: string;
     public patient: Patient;
-    // public id: string;
-    private router: Router;
     public id: string;
-    private sub: any;
     public lat: number = 51.678418;
-    public lng: number = 7.809007;
+    public lng: number = 7.809007;;
+    private router: Router;
+    private sub: any;
 
-    constructor (
+    constructor(
         router: Router,
         private http: Http,
         private route: ActivatedRoute,
@@ -40,18 +37,16 @@ export class PatientDetailsComponent implements OnInit {
     }
 
     public loadPatientData() {
-        console.log(this.id);
         this.patientService.getById(this.id)
             .subscribe((patient) => {
-                this.patient = patient;
-                this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + patient.city)
+                this.patient = patient.account.personalDetails;
+                this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${patient.account.personalDetails.city}`)
                     .map( (res) => res.json())
                     .subscribe( (response) => {
                         this.lat = response['results'][0]['geometry']['location']['lat'];
                         this.lng = response['results'][0]['geometry']['location']['lng'];
                     });
         });
-        console.log(this.patient);
         return this.patient;
     }
 

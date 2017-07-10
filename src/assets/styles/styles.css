@@ -102,3 +102,7 @@ body {
         transform: scale3D(0, 0, 1);
     }
 }
+
+.mdl-textfield__label {
+    margin: 0 !important;
+}
