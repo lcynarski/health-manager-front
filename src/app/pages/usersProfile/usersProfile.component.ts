@@ -5,7 +5,7 @@ import { FieldConfig } from '../../components/dynamic-form/models/field-config.i
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { UserService } from '../../_services/index';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { PersonalDetails } from '../../_models/personal-details';
+import { PersonalDetails } from '../../_models/personalDetails';
 import {Router} from '@angular/router';
 
 @Component({

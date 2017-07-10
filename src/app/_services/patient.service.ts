@@ -35,6 +35,17 @@ export class PatientService {
             .map((response: Response) => response.json());
     }
 
+    public savePatient(data) {
+        console.log(data);
+        return this.http.post(this.config.apiUrl + '/patients', data, this.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
+
+    public getPatientByPesel(pesel) {
+        return this.http.get(`${this.config.apiUrl}/patients/pesel/${pesel}`, this.addJwtOptions())
+            .map((response) => response.json());
+    }
+
     private addJwtOptions() {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.token) {

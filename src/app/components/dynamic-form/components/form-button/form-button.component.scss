@@ -1,7 +1,9 @@
+@import '../../../../../assets/styles/colors';
+
 button {
   letter-spacing: -0.5px;
   cursor: pointer;
-  background-color: #9d62c8;
+  background-color: $oc-blue-8;
   outline: 0;
   line-height: 1;
   text-align: center;
@@ -15,7 +17,7 @@ button {
   transition: background-color .3s, box-shadow .3s;
 
   &:hover {
-    background-color: #a46dcc;
+    background-color: $oc-blue-6;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   }
 

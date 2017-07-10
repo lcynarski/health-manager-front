@@ -1,10 +1,14 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Validators } from '@angular/forms';
+import {PatientService} from '../../_services/patient.service';
 
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Http} from '@angular/http';
 
 @Component({
+    providers: [PatientService],
     selector: 'create-patient',
     styleUrls: ['createPatient.component.scss'],
     template: `
@@ -21,85 +25,83 @@ import { DynamicFormComponent } from '../../components/dynamic-form/containers/d
 })
 export class CreatePatientComponent implements AfterViewInit {
     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+    private router: Router;
+
+    constructor(
+        router: Router,
+        private http: Http,
+        private route: ActivatedRoute,
+        private patientService: PatientService) {
+        this.router = router;
+    }
 
     config: FieldConfig[] = [
         {
             type: 'input',
             label: 'First Name',
-            name: 'name',
-            placeholder: 'First Name',
-            validation: [Validators.required, Validators.minLength(4)]
+            name: 'firstName',
+            placeholder: 'First Name'
         },
         {
             type: 'input',
             label: 'Last Name',
-            name: 'name',
-            placeholder: 'Last Name',
-            validation: [Validators.required, Validators.minLength(4)]
+            name: 'lastName',
+            placeholder: 'Last Name'
         },
         {
             type: 'input',
             label: 'Date of birth',
-            name: 'date',
-            placeholder: 'Date',
-            validation: [Validators.required, Validators.minLength(4)]
+            name: 'birthdate',
+            placeholder: 'Date'
         },
         {
             type: 'input',
             label: 'PESEL',
             name: 'pesel',
-            placeholder: 'PESEL',
-            validation: [Validators.required, Validators.minLength(4)]
+            placeholder: 'PESEL'
         },
         {
             type: 'select',
             label: 'Gender',
-            name: 'food',
+            name: 'gender',
             options: ['Male', 'Female', 'Other'],
-            placeholder: 'Select an option',
-            validation: [Validators.required]
+            placeholder: 'Select an option'
         },
         {
             type: 'input',
             label: 'Phone Number',
-            name: 'phone',
-            placeholder: 'Phone Number',
-            validation: [Validators.required, Validators.minLength(4)]
+            name: 'phoneNumber',
+            placeholder: 'Phone Number'
         },
         {
             type: 'input',
             label: 'Country',
             name: 'country',
-            placeholder: 'Country',
-            validation: [Validators.required, Validators.minLength(4)]
+            placeholder: 'Country'
         },
         {
             type: 'input',
             label: 'City',
             name: 'city',
-            placeholder: 'City',
-            validation: [Validators.required, Validators.minLength(4)]
+            placeholder: 'City'
         },
         {
             type: 'input',
             label: 'Street',
             name: 'street',
-            placeholder: 'Street',
-            validation: [Validators.required, Validators.minLength(4)]
+            placeholder: 'Street'
         },
         {
             type: 'input',
             label: 'Building',
-            name: 'building',
-            placeholder: 'Building number',
-            validation: [Validators.required, Validators.minLength(4)]
+            name: 'buildingNumber',
+            placeholder: 'Building number'
         },
         {
             type: 'input',
             label: 'Flat',
-            name: 'flat',
-            placeholder: 'Flat number',
-            validation: [Validators.required, Validators.minLength(4)]
+            name: 'flatNumber',
+            placeholder: 'Flat number'
         },
         {
             label: 'Submit',
@@ -117,10 +119,12 @@ export class CreatePatientComponent implements AfterViewInit {
             }
         });
 
-        this.form.setDisabled('submit', true);
+        // this.form.setDisabled('submit', true);
     }
 
-    submit(value: {[name: string]: any}) {
-        console.log(value);
+    submit(value) {
+        const personalDetails = { account : { personalDetails : { ...value }}};
+        this.patientService.savePatient(personalDetails)
+            .subscribe((data) => console.log(data));
     }
 }

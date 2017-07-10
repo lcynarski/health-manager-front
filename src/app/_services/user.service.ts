@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import { AuthenticationService } from '../_services/index';
 import { AppConfig } from '../app.config';
 import { User, ChangePassword } from '../_models/index';
-import {PersonalDetails} from '../_models/personal-details';
+import {PersonalDetails} from '../_models/personalDetails';
 
 @Injectable()
 export class UserService {
@@ -59,7 +59,7 @@ export class UserService {
 
     public getPersonalDetails(): Observable<PersonalDetails> {
         console.log('inside get personal details');
-        return this.http.get(this.config.apiUrl + '/users/personaldetails', this.addJwtOptions()).
+        return this.http.get(`${this.config.apiUrl}/accounts/personaldetails`, this.addJwtOptions()).
             map((response: Response) => response.json());
     }
 
