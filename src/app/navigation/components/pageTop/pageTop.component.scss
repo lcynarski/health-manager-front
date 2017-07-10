@@ -17,6 +17,17 @@
 
   .dropdown-menu {
     left: -80px;
+
+    li.dropdown-item {
+      a {
+        color: $oc-gray-9;
+      }
+
+      i {
+        vertical-align: top;
+        color: $oc-gray-9;
+      }
+    }
   }
 }
 
@@ -55,6 +66,11 @@ a.al-logo:hover {
   border: 0;
   opacity: 1;
   position: relative;
+
+  i {
+    color: $oc-white;
+  }
+
   ul.profile-dropdown:after {
     bottom: 100%;
     right: 0;
@@ -108,7 +124,7 @@ a.collapse-menu-link {
 
   &:hover {
     text-decoration: none;
-    color: $warning;
+    color: $oc-indigo-6;
   }
 }
 
@@ -192,5 +208,6 @@ a.collapse-menu-link {
 
 .profile-toggle-link {
   cursor: pointer;
+  margin-top: 10px;
 }
 

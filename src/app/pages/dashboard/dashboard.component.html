@@ -1,7 +1,32 @@
 <div class="row">
-
-    <button (click)="test()">MY TEST CLICK BUTTON</button>
-    DASHBOARD HERE
-    <change-password></change-password>
-
+    <mdl-card mdl-shadow="2" class="patient-creator-widget">
+        <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
+            <span>Patient's creator</span>
+        </mdl-card-title>
+        <mdl-card-actions mdl-card-border>
+            <button mdl-button mdl-colored mdl-ripple [routerLink]="['/pages/createPatient']" >
+                Create patient
+            </button>
+        </mdl-card-actions>
+    </mdl-card>
+    <mdl-card mdl-shadow="2" class="patient-creator-widget">
+        <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
+            <span>Proceed with an appointment</span>
+        </mdl-card-title>
+        <mdl-card-actions mdl-card-border>
+            <button mdl-button mdl-colored mdl-ripple [routerLink]="['/pages/createPatient']" >
+                Proceed
+            </button>
+        </mdl-card-actions>
+    </mdl-card>
+    <mdl-card mdl-shadow="2" class="patient-creator-widget">
+        <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
+            <span>Search for a patient</span>
+        </mdl-card-title>
+        <mdl-card-actions mdl-card-border>
+            <button mdl-button mdl-colored mdl-ripple [routerLink]="['/pages/patientSearch']" >
+                Search
+            </button>
+        </mdl-card-actions>
+    </mdl-card>
 </div>

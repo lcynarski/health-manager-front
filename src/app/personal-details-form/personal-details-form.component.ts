@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 import { AlertService, UserService } from '../_services/index';
-import { PersonalDetails } from '../_models/personal-details';
+import { PersonalDetails } from '../_models/personalDetails';
 import {error} from 'util';
 
 @Component({
