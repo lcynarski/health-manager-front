@@ -62,7 +62,9 @@ export class VisitsCalendarComponent implements OnInit {
 
     reloadEvents(){
 
-        //TODO tu powinno być this.events = <wizyty z endpointa>
+        this.http.get(`${this.config.apiUrl}/doctors${this.id}/slots`)
+            .map((response: Response) => response.json())
+            .subscribe(slots => {this.events = slots});
 
         this.events =  [{
             title: 'Click me',
@@ -96,6 +98,9 @@ export class VisitsCalendarComponent implements OnInit {
     setPatient(p:Patient){
         this.patient = p;
         // alert("id to " + this.patient);
+        // /doctors/{doctorId}/slots/{slotId}/taken_by
+        var slotId = "5";
+        this.http.post(this.config.apiUrl + '/doctors/'+this.id+'/slots/'+slotId+'/taken_by', p._id);
         this.modalClosed();
     }
 
@@ -124,7 +129,7 @@ export class VisitsCalendarComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.id = params['doctorId']; // (+) converts string 'id' to a number
             // alert("mam id "+this.id);
-            this.doctor = this.doctorService.getById(this.id);
+            this.doctorService.getById(this.id).subscribe(doc => {this.doctor = doc});
             this.reloadEvents();
             this.loadAllPatients();
             console.log("są pacjenci");

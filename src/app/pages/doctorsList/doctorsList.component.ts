@@ -26,7 +26,7 @@ export class DoctorsListComponent implements OnInit {
 
     reloadDoctors(){
 
-        this.doctors =  this.doctorService.getAll();
+         this.doctorService.getAll().subscribe(docs => {this.doctors = docs});
     }
 
     goToDetails(doctorId: string) {

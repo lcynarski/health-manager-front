@@ -29,22 +29,14 @@ export class DoctorService {
         specialization:"Pediatra"
     }];
 
-    getAll():Doctor[] {
-        return this.allDoctors;
+    getAll(): Observable<Doctor[]> {
+        return this.http.get(`${this.config.apiUrl}/doctors`)
+            .map((response: Response) => response.json());
     }
 
-    getById(_id: string): Doctor {
-        for(var i = 0; i < this.allDoctors.length; i++){
-            if(this.allDoctors[i]._id === _id) {
-                return this.allDoctors[i];
-            }
-        }
-        return {
-          _id: _id,
-            firstName:"Nieznany",
-            lastName: "Lekarz"+_id,
-            specialization:"Niewiadomolog"
-        };
+    getById(_id: string): Observable<Doctor> {
+        return this.http.get(`${this.config.apiUrl}/doctors/${_id}`)
+            .map((response: Response) => response.json());
     }
 
 
