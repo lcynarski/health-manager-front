@@ -50,14 +50,16 @@
         <h2>Lekarz {{this.doctor.firstName}} {{this.doctor.lastName}}</h2>
         <h2>{{modalDate}} godzina {{modalTime}}</h2>
         <h3>Dane pacjenta</h3>
-        <div class="form-group">
-            <label for="usr">Imię</label>
-            <input type="text" [(ngModel)]="patientFirstName" class="form-control" id="usr">
-        </div>
-        <div class="form-group">
-            <label for="pwd">Nazwisko</label>
-            <input type="text" [(ngModel)]="patientLastName" class="form-control" id="pwd">
-        </div>
+        <!--<div class="dropdown">-->
+            <!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{patientName}}-->
+                <!--<span class="caret"></span></button>-->
+            <ul >
+                <li *ngFor="let patient of patients"><a (click)="setPatient(patient)">
+                    {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}
+                </a></li>
+
+            </ul>
+        <!--</div>-->
     </modal-body>
     <modal-footer>
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>

@@ -6,10 +6,12 @@ import { CalendarEvent, CalendarDateFormatter } from 'angular-calendar';
 import { ModalComponent } from 'ng2-bs4-modal/ng2-bs4-modal';
 import {DoctorService} from "../../_services/doctor.service";
 import {Doctor} from "../../_models/doctor";
+import {Patient} from "../../_models/patient";
+import {PatientService} from "../../_services/patient.service";
 
 
 @Component({
-    providers: [DoctorService],
+    providers: [DoctorService, PatientService],
     templateUrl: './visitsCalendar.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['./visitsCalendar.component.scss']
@@ -19,15 +21,18 @@ export class VisitsCalendarComponent implements OnInit {
 
     public id: string;
 
-    constructor( private route: ActivatedRoute, private doctorService: DoctorService) {
+    constructor( private route: ActivatedRoute,
+                 private doctorService: DoctorService, private patientService: PatientService) {
 
     }
 
-    doctor:Doctor;
+    doctor: Doctor;
 
-    patientFirstName:string;
+    patient: Patient;
 
-    patientLastName:string;
+    patientName: string;
+
+    patients: Patient[];
 
 
     view: string = 'month';
@@ -50,6 +55,10 @@ export class VisitsCalendarComponent implements OnInit {
     };
 
     events: CalendarEvent[];
+
+    private loadAllPatients() {
+        this.patientService.getPatients().subscribe( (patients) => { this.patients = patients; });
+    }
 
     reloadEvents(){
 
@@ -74,6 +83,7 @@ export class VisitsCalendarComponent implements OnInit {
 
     eventClicked({event}: {event: CalendarEvent}): void {
         console.log('Przed');
+        console.log(this.patients);
         this.modalDate = event.start.toLocaleDateString();
         this.modalTime = event.start.toLocaleTimeString().substring(0,5);
         console.log(event);
@@ -83,8 +93,14 @@ export class VisitsCalendarComponent implements OnInit {
         console.log("Po");
     }
 
+    setPatient(p:Patient){
+        this.patient = p;
+        // alert("id to " + this.patient);
+        this.modalClosed();
+    }
+
     modalClosed(){
-        alert("Pacjent to "+this.patientFirstName+" "+this.patientLastName);
+        // alert("Pacjent to "+this.patient);
 
         //TODO tutaj powinno wywołanie endpointa do zapisania wizyty
 
@@ -110,6 +126,9 @@ export class VisitsCalendarComponent implements OnInit {
             // alert("mam id "+this.id);
             this.doctor = this.doctorService.getById(this.id);
             this.reloadEvents();
+            this.loadAllPatients();
+            console.log("są pacjenci");
+            this.patientName = "Wybierz pacjenta";
         });
 
 
