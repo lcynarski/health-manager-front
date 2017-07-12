@@ -10,6 +10,11 @@ import {Patient} from "../../_models/patient";
 import {PatientService} from "../../_services/patient.service";
 import {AppConfig} from "../../app.config";
 
+
+interface VisitEvent extends CalendarEvent{
+    slotId:string;
+}
+
 @Component({
     providers: [DoctorService, PatientService],
     templateUrl: './visitsCalendar.component.html',
@@ -36,6 +41,8 @@ export class VisitsCalendarComponent implements OnInit {
 
     patients: Patient[];
 
+    currentSlotId:string;
+
 
     view: string = 'month';
 
@@ -56,7 +63,7 @@ export class VisitsCalendarComponent implements OnInit {
         }
     };
 
-    events: CalendarEvent[];
+    events: VisitEvent[];
 
     private loadAllPatients() {
         this.patientService.getPatients().subscribe( (patients) => { this.patients = patients; });
@@ -69,11 +76,13 @@ export class VisitsCalendarComponent implements OnInit {
             .subscribe(slots => {this.events = slots});
 
         this.events =  [{
-            title: 'Click me',
+            slotId:"3",
+            title: 'Wizyta',
             color: this.colors.yellow,
             start: new Date()
         }, {
-            title: 'Or click me',
+            slotId:"4",
+            title: 'Wizyta',
             color: this.colors.blue,
             start: new Date()
         }];
@@ -92,6 +101,8 @@ export class VisitsCalendarComponent implements OnInit {
         this.modalTime = event.start.toLocaleTimeString().substring(0,5);
         console.log(event);
 
+        this.currentSlotId = (event as VisitEvent).slotId;
+
         this.modal.open();
 
         console.log("Po");
@@ -102,7 +113,7 @@ export class VisitsCalendarComponent implements OnInit {
         // alert("id to " + this.patient);
         // /doctors/{doctorId}/slots/{slotId}/taken_by
         var slotId = "5";
-        this.http.post(this.config.apiUrl + '/doctors/'+this.id+'/slots/'+slotId+'/taken_by', p._id);
+        this.http.post(this.config.apiUrl + '/doctors/'+this.id+'/slots/'+this.currentSlotId+'/taken_by', p._id);
         this.modalClosed();
     }
 

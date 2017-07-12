@@ -29,14 +29,23 @@ export class DoctorService {
         specialization:"Pediatra"
     }];
 
+    doctorFromJson(obj:any):Doctor{
+        return {
+            _id:obj.id,
+            firstName:obj.account.personalDetails.firstName,
+            lastName:obj.account.personalDetails.lastName,
+            specialization:"Pediatra"
+        }
+    }
+
     getAll(): Observable<Doctor[]> {
         return this.http.get(`${this.config.apiUrl}/doctors`)
-            .map((response: Response) => response.json());
+            .map((response: Response) => response.json().map(this.doctorFromJson));
     }
 
     getById(_id: string): Observable<Doctor> {
         return this.http.get(`${this.config.apiUrl}/doctors/${_id}`)
-            .map((response: Response) => response.json());
+            .map((response: Response) => this.doctorFromJson(response.json()));
     }
 
 
