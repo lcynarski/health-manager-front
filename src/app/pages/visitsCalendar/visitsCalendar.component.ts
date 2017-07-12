@@ -8,7 +8,7 @@ import {DoctorService} from "../../_services/doctor.service";
 import {Doctor} from "../../_models/doctor";
 import {Patient} from "../../_models/patient";
 import {PatientService} from "../../_services/patient.service";
-
+import {AppConfig} from "../../app.config";
 
 @Component({
     providers: [DoctorService, PatientService],
@@ -22,6 +22,8 @@ export class VisitsCalendarComponent implements OnInit {
     public id: string;
 
     constructor( private route: ActivatedRoute,
+                 private http: Http,
+                 private config: AppConfig,
                  private doctorService: DoctorService, private patientService: PatientService) {
 
     }
