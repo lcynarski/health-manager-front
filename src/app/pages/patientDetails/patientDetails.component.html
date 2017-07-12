@@ -2,57 +2,103 @@
 <div class="patient-details">
     <div class="patient-details__title">
         <div class="patient-details__name">
-            {{ patient?.firstName }} {{ patient?.lastName}}
+            {{ patient?.account.personalDetails.firstName }} {{ patient?.account.personalDetails.lastName}}
         </div>
         <div class="patient-details__photo">
             <i class="material-icons">face</i>
         </div>
+        <button #editUserButton mdl-button mdl-button-type="raised" mdl-colored="primary"
+                mdl-ripple (click)="editUserDialog.show()">Edit Patient</button>
     </div>
-    <div class="patient-medical-info">
-        <div class="patient-details__item">
-            <div>Height: </div>
-            {{ patient?.medicalInfo?.height }}
+    <div class="patient-details__info">
+        <div>
+            <div class="patient-details__info-label">Emergency contact </div>
         </div>
-        <div class="patient-details__item">
-            <div>Weight: </div>
-            {{ patient?.medicalInfo?.weight }}
+        <div>
+            <div class="patient-details__info-label">First Name: </div>
+            <div class="patient-details__info-value">{{ patient?.emergencyContact?.firstName }}</div>
         </div>
-        <div class="patient-details__item">
-            <div>Allergies: </div>
-            {{ patient?.medicalInfo?.allergies }}
+        <div>
+            <div class="patient-details__info-label">Last Name: </div>
+            <div class="patient-details__info-value">{{ patient?.emergencyContact?.lastName }}</div>
         </div>
-        <div class="patient-details__item">
-            <div>Other notes: </div>
-            {{ patient?.medicalInfo?.otherNotes }}
+        <div>
+            <div class="patient-details__info-label">Date of birth: </div>
+            <div class="patient-details__info-value">{{ patient?.emergencyContact?.birthdate }}</div>
+        </div>
+        <div>
+            <div class="patient-details__info-label">Gender: </div>
+            <div class="patient-details__info-value">{{ patient?.emergencyContact?.gender }}</div>
+        </div>
+        <div>
+            <div class="patient-details__info-label">Phone:</div>
+            <div class="patient-details__info-value">{{ patient?.emergencyContact?.phoneNumber }}</div>
+        </div>
+        <div>
+            <div class="patient-details__info-label">Country:</div>
+            <div class="patient-details__info-value">{{ patient?.emergencyContact?.country }}</div>
+        </div>
+        <div>
+            <div class="patient-details__info-label">Address:</div>
+            <div class="patient-details__info-value">{{ patient?.emergencyContact?.city }}</div>
+        </div>
+        <div>
+            <div class="patient-details__info-label">PESEL:</div>
+            <div class="patient-details__info-value">{{ patient?.emergencyContact?.pesel }}</div>
         </div>
     </div>
     <div class="patient-details__info">
         <div>
             <div class="patient-details__info-label">Date of birth: </div>
-            <div class="patient-details__info-value">{{ patient?.birthdate }}</div>
+            <div class="patient-details__info-value">{{ patient?.account.personalDetails.birthdate }}</div>
         </div>
         <div>
             <div class="patient-details__info-label">Gender: </div>
-            <div class="patient-details__info-value">{{ patient?.gender }}</div>
+            <div class="patient-details__info-value">{{ patient?.account.personalDetails.gender }}</div>
         </div>
         <div>
             <div class="patient-details__info-label"> Phone:</div>
-            <div class="patient-details__info-value">{{ patient?.phoneNumber }}</div>
+            <div class="patient-details__info-value">{{ patient?.account.personalDetails.phoneNumber }}</div>
         </div>
         <div>
             <div class="patient-details__info-label">Country:</div>
-            <div class="patient-details__info-value">{{ patient?.country }}</div>
+            <div class="patient-details__info-value">{{ patient?.account.personalDetails.country }}</div>
         </div>
         <div>
             <div class="patient-details__info-label">Address:</div>
-            <div class="patient-details__info-value">{{ patient?.city }}</div>
+            <div class="patient-details__info-value">{{ patient?.account.personalDetails.city }}</div>
         </div>
         <div>
             <div class="patient-details__info-label">PESEL:</div>
-            <div class="patient-details__info-value">{{ patient?.pesel }}</div>
+            <div class="patient-details__info-value">{{ patient?.account.personalDetails.pesel }}</div>
         </div>
     </div>
     <agm-map [latitude]="lat" [longitude]="lng">
         <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
     </agm-map>
+
+    <mdl-dialog #editUserDialog
+                [mdl-dialog-config]="{
+              clickOutsideToClose: true,
+              styles:{'width': '52rem'},
+              isModal:true,
+              openFrom: editUserButton,
+              enterTransitionDuration: 400,
+              leaveTransitionDuration: 400}"
+              (show)="onDialogShow(dialogRef)"
+    >
+        <h3 class="mdl-dialog__title">Edit Patient</h3>
+        <div class="mdl-dialog__content">
+            <dynamic-form
+                    [config]="config"
+                    #form="dynamicForm"
+                    (submit)="submit($event)">
+            </dynamic-form>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>
+            <button mdl-button (click)="editUserDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+    <dialog-outlet></dialog-outlet>
 </div>

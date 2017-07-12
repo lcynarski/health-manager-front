@@ -41,6 +41,11 @@ export class PatientService {
             .map((response: Response) => response.json());
     }
 
+    public editPatient(data) {
+        return this.http.put(`${this.config.apiUrl}/patients`, data, this.addJwtOptions())
+            .map((response) => response.json());
+    }
+
     public getPatientByPesel(pesel) {
         return this.http.get(`${this.config.apiUrl}/patients/pesel/${pesel}`, this.addJwtOptions())
             .map((response) => response.json());
