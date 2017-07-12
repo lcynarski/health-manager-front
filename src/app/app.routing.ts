@@ -9,6 +9,7 @@ import { AuthGuard } from './_guards/index';
 import { MedcomComponent } from './medcom/index';
 import {PatientsListComponent} from './pages/patientsList/index';
 import { PatientDetailsComponent } from './pages/patientDetails/index';
+import { PersonalDetailsFormComponent } from './personal-details-form/index';
 
 const routes: Routes = [
     // { path: '', component: WelcomeComponent },
@@ -22,7 +23,8 @@ const routes: Routes = [
     // otherwise redirect to home
     // { path: '', redirectTo: 'pages', pathMatch: 'full' },
     { path: '', component: WelcomeComponent },
+    { path: 'personalDetails', component: PersonalDetailsFormComponent },
     { path: '**', redirectTo: 'pages/dashboard' }
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: true });
+export const routing: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: true , enableTracing: true });

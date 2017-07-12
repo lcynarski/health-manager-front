@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
 
 import { AuthenticationService } from '../_services/index';
 import { AppConfig } from '../app.config';
-import { User } from '../_models/index';
+import { User, ChangePassword } from '../_models/index';
+import { PersonalDetails } from '../_models/personalDetails';
 
 @Injectable()
 export class UserService {
@@ -15,42 +16,56 @@ export class UserService {
         private config: AppConfig) {
     }
 
-    getAll() {
-        return this.http.get(this.config.apiUrl + '/users', this.jwt()).map((response: Response) => response.json());
+    public getAll() {
+        return this.http.get(`${this.config.apiUrl}/users`, this.addJwtOptions())
+            .map((response: Response) => response.json());
     }
 
-    getById(_id: string) {
-        return this.http.get(this.config.apiUrl + '/users/' + _id, this.jwt()).map((response: Response) => response.json());
+    public getById(_id: string) {
+        return this.http.get(`${this.config.apiUrl}/users/${_id}`, this.addJwtOptions())
+            .map((response: Response) => response.json());
     }
 
-    create(user: User) {
-        return this.http.post(this.config.apiUrl + '/register', user);
+    public create(user: User) {
+        return this.http.post(`${this.config.apiUrl}user/register`, user);
+    }
+    public update(user: User) {
+        return this.http.put(`${this.config.apiUrl}/users/${user._id}`, user, this.addJwtOptions());
     }
 
-    update(user: User) {
-        return this.http.put(this.config.apiUrl + '/users/' + user._id, user, this.jwt());
+    public delete(_id: string) {
+        return this.http.delete(`${this.config.apiUrl}/users/${_id}`, this.addJwtOptions());
     }
 
-    delete(_id: string) {
-        return this.http.delete(this.config.apiUrl + '/users/' + _id, this.jwt());
+    public changePassword(data: ChangePassword): Observable<boolean> {
+        return this.http.post(`${this.config.apiUrl}/users/updatePassword`, data, this.addJwtOptions())
+            .map((response: Response) => {
+                return response.json() && response.json().isSuccess;
+            });
     }
 
-    private jwt() {
-        // create authorization header with jwt token
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    public resetPassword(email: string): Observable<boolean> {
+        return this.http.post(`${this.config.apiUrl}/users/resetPassword`, email)
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
+
+    public updatePersonalDetails(data: PersonalDetails) {
+        return this.http.post(`${this.config.apiUrl}/users/updatePersonalDetails/`, data, this.addJwtOptions());
+    }
+
+    public getPersonalDetails(): Observable<PersonalDetails> {
+        return this.http.get(`${this.config.apiUrl}/accounts/personaldetails`, this.addJwtOptions()).
+            map((response: Response) => response.json());
+    }
+
+    private addJwtOptions() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.token) {
-            let headers = new Headers({ 'Authorization': 'Bearer ' + currentUser.token });
-            return new RequestOptions({ headers: headers });
+            const headers = new Headers({Authorization: 'Bearer ' + this.authenticationService.token});
+            return new RequestOptions({headers});
         }
     }
 
-    getUsers(): Observable<User[]> {
-        // add authorization header with jwt token
-        let headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
-        let options = new RequestOptions({ headers: headers });
-
-        // get users from api
-        return this.http.get('/api/users', options)
-            .map((response: Response) => response.json());
-    }
 }

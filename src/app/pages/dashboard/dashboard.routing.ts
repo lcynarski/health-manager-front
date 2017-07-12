@@ -1,5 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 
+import { ChangePasswordComponent } from '../../change-password';
 import { Dashboard } from './dashboard.component';
 import { ModuleWithProviders } from '@angular/core';
 
@@ -9,7 +10,7 @@ export const routes: Routes = [
         path: '',
         component: Dashboard,
         children: [
-            //{ path: 'treeview', component: TreeViewComponent }
+            // { path: 'treeview', component: TreeViewComponent }
         ]
     }
 ];

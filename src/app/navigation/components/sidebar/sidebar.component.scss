@@ -8,7 +8,7 @@
     z-index: 1001;
     display: block;
     min-height: 100%;
-    background-color: $sidebar;
+    background-color: $oc-gray-8;
     height: 100%;
     position: fixed;
 
@@ -22,6 +22,10 @@
     overflow: hidden;
     padding: 18px 0 0 0;
     list-style: none;
+
+    i.material-icons {
+      vertical-align: middle;
+    }
   }
 
   .al-sidebar-sublist .subitem-submenu-list {

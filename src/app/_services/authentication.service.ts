@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
-import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map'
+import {Injectable} from '@angular/core';
+import {Http, Headers, Response} from '@angular/http';
+import {Observable} from 'rxjs';
+import 'rxjs/add/operator/map';
 
-import { AppConfig } from '../app.config';
+import {AppConfig} from '../app.config';
 
 @Injectable()
 export class AuthenticationService {
@@ -15,36 +15,28 @@ export class AuthenticationService {
         this.token = currentUser && currentUser.token;
     }
 
-    login(email: string, password: string): Observable<boolean> {
-        return this.http.post(this.config.apiUrl + '/login', { email: email, password: password })
+    public login(email: string, password: string): Observable<boolean> {
+        console.log('DBG: trying to login.' + email + ' ' + password);
+        return this.http.post(this.config.apiUrl + '/users/login', {email, password})
             .map((response: Response) => {
-                // login successful if there's a jwt token in the response
-                let token = response.json() && response.json().token;
+                const token = response.json() && response.json().token;
+                console.log('DBG: token ' + token);
                 if (token) {
-                    // set token property
                     this.token = token;
-
-                    // store email and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ email: email, token: token }));
-
-                    // return true to indicate successful login
+                    localStorage.setItem('currentUser', JSON.stringify({email, token}));
                     return true;
-                } else {
-                    // return false to indicate failed login
-                    return false;
                 }
+                return false;
             });
     }
 
-    logout(): void {
-        // clear token remove user from local storage to log user out
+    public logout(): void {
         this.token = null;
         localStorage.removeItem('currentUser');
     }
-
-    //TODO implement some kind of interceptor adding the auth header
-    addAuthHeader(headers: Headers): boolean {
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    // TODO implement some kind of interceptor adding the auth header
+    public addAuthHeader(headers: Headers): boolean {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
         if (currentUser && currentUser.token) {
             headers.append('Authorization', currentUser.token);

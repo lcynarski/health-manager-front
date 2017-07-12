@@ -25,7 +25,7 @@ export class PatientsListComponent implements OnInit {
     }
 
     private loadAllPatients() {
-        this.patientService.getPatients().subscribe(patients => { this.patients = patients; });
+        this.patientService.getPatients().subscribe( (patients) => { this.patients = patients; });
     }
 
     public viewDetails(id): void {
