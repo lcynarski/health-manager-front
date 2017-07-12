@@ -71,9 +71,9 @@ export class VisitsCalendarComponent implements OnInit {
 
     reloadEvents(){
 
-        this.http.get(`${this.config.apiUrl}/doctors${this.id}/slots`)
-            .map((response: Response) => response.json())
-            .subscribe(slots => {this.events = slots});
+        // this.http.get(`${this.config.apiUrl}/doctors/${this.id}/slots`)
+        //     .map((response: Response) => response.json())
+        //     .subscribe(slots => {this.events = slots});
 
         this.events =  [{
             slotId:"3",
@@ -141,9 +141,24 @@ export class VisitsCalendarComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.id = params['doctorId']; // (+) converts string 'id' to a number
+
+            this.doctor = {
+              _id:"Marcin",
+                firstName:"Marcin",
+                lastName:"Matys",
+                specialization:"Placeholder"
+            };
+
+            // this.doctorFirstName = this.doctor.firstName;
             // alert("mam id "+this.id);
-            this.doctorService.getById(this.id).subscribe(doc => {this.doctor = doc});
-            this.reloadEvents();
+            this.doctorService.getById(this.id).subscribe(doc => {
+                console.log("przyszło coś z promisa");
+                console.log(doc);
+                this.doctor = doc;
+                console.log(this.doctor);
+                this.reloadEvents();
+            });
+
             this.loadAllPatients();
             console.log("są pacjenci");
             this.patientName = "Wybierz pacjenta";

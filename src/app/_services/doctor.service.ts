@@ -35,7 +35,7 @@ export class DoctorService {
             firstName:obj.account.personalDetails.firstName,
             lastName:obj.account.personalDetails.lastName,
             specialization:"Pediatra"
-        }
+        };
     }
 
     getAll(): Observable<Doctor[]> {
@@ -45,7 +45,11 @@ export class DoctorService {
 
     getById(_id: string): Observable<Doctor> {
         return this.http.get(`${this.config.apiUrl}/doctors/${_id}`)
-            .map((response: Response) => this.doctorFromJson(response.json()));
+            .map((response: Response) => {
+            console.log("responsee");
+            console.log(response.json());
+            return this.doctorFromJson(response.json());
+        });
     }
 
 
