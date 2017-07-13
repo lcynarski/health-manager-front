@@ -10,3 +10,21 @@
   //  color: rgba(0, 0, 0, 0.9);
   //}
 }
+
+:host /deep/ .dynamic-form {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+:host /deep/ form-input,
+:host /deep/ form-select {
+  margin-right: 1rem;
+}
+
+:host /deep/ form-button {
+  flex: 1 0 100%;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
