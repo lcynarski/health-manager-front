@@ -114,6 +114,9 @@ export class CreatePatientComponent implements AfterViewInit {
     submit(value) {
         const personalDetails = { account : { personalDetails : { ...value }}};
         this.patientService.savePatient(personalDetails)
-            .subscribe((data) => console.log(data));
+            .subscribe((data) => {
+                console.log(data);
+                this.router.navigate(['/dashboard']);
+        });
     }
 }

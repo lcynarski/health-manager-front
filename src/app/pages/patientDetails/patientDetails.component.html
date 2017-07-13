@@ -1,4 +1,6 @@
 <!--<script screatePatient.component.tst.ts"></script>-->
+<button #editUserButton mdl-button mdl-button-type="raised" mdl-colored="primary"
+        mdl-ripple (click)="editUserDialog.show()">Edit Patient</button>
 <div class="patient-details">
     <div class="patient-details__title">
         <div class="patient-details__name">
@@ -7,10 +9,8 @@
         <div class="patient-details__photo">
             <i class="material-icons">face</i>
         </div>
-        <button #editUserButton mdl-button mdl-button-type="raised" mdl-colored="primary"
-                mdl-ripple (click)="editUserDialog.show()">Edit Patient</button>
     </div>
-    <div class="patient-details__info">
+    <div class="patient-details__info" *ngIf="patient?.emergencyContact">
         <div>
             <div class="patient-details__info-label">Emergency contact </div>
         </div>

@@ -166,11 +166,8 @@ export class PatientDetailsComponent implements OnInit {
     }
 
     onDialogShow = (dialogRef) => {
-        console.log("changes")
-            // setTimeout(() => {
-            //     Object.keys(this.patient.account.personalDetails).forEach(key => {
-            //         this.form.setValue(key, this.patient.account.personalDetails[key]);
-            //     });
-            // }, 1000);
+        Object.keys(this.patient.account.personalDetails).forEach(key => {
+            (key !== 'id') && this.form.setValue(key, this.patient.account.personalDetails[key]);
+                });
     }
 }
