@@ -55,6 +55,26 @@
   }
 }
 
+
+.mdl-dialog__content {
+  height: 60vh;
+}
+
+:host /deep/ .dynamic-form {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+:host /deep/ form-input,
+:host /deep/ form-select {
+  margin-right: 1rem;
+}
+
+:host /deep/ form-button {
+  display: none !important;
+}
+
+
 agm-map {
   height: 30rem;
   width: 40rem;
