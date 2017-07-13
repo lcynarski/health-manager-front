@@ -25,6 +25,8 @@
     "angular-router-loader": "^0.6.0",
     "angular2-mdl": "^2.13.2",
     "angular2-social-login": "^3.0.1",
+    "angular-calendar": "0.9.1",
+    "ng2-bs4-modal": "0.2.0",
     "bootstrap": "^4.0.0-alpha.6",
     "bootstrap-loader": "^2.0.0",
     "codelyzer": "^3.1.2",

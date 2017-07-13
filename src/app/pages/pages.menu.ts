@@ -27,6 +27,18 @@ export const PAGES_MENU = [
                 }
             },
             {
+                path: 'doctorsList',
+                data: {
+                    menu: {
+                        title: 'List of doctors',
+                        icon: 'view_list',
+                        selected: false,
+                        expanded: false,
+                        order: 100,
+                    }
+                }
+            },
+            {
                 path: '',
                 data: {
                     menu: {

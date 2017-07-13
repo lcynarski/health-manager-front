@@ -27,4 +27,4 @@ const routes: Routes = [
     { path: '**', redirectTo: 'pages/dashboard' }
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: true });
+export const routing: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: true , enableTracing: true });

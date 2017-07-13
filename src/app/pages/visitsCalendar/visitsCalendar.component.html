@@ -1,0 +1,68 @@
+<div class="col-md-6 col-md-offset-3">
+    <span defaultOverlayTarget></span>
+    <h1>{{this.doctor.specialization}} {{this.doctor.firstName}} {{this.doctor.lastName}} - dostępne terminy wizyt</h1>
+    <div>
+
+        <mwl-demo-utils-calendar-header
+                [(view)]="view"
+                [(viewDate)]="viewDate">
+        </mwl-demo-utils-calendar-header>
+        <div [ngSwitch]="view">
+            <mwl-calendar-month-view
+                    *ngSwitchCase="'month'"
+                    [viewDate]="viewDate"
+                    [events]="events"
+                    [locale]="locale"
+                    (eventClicked)="eventClicked($event)"
+                    (dayClicked)="viewDate = $event.day.date; view = 'day'">
+
+            </mwl-calendar-month-view>
+            <mwl-calendar-week-view
+                    *ngSwitchCase="'week'"
+                    [viewDate]="viewDate"
+                    [events]="events"
+                    [locale]="locale"
+                    (eventClicked)="eventClicked($event)"
+                    (dayHeaderClicked)="viewDate = $event.day.date; view = 'day'"
+            >
+            </mwl-calendar-week-view>
+            <mwl-calendar-day-view
+                    *ngSwitchCase="'day'"
+                    [viewDate]="viewDate"
+                    [events]="events"
+                    [locale]="locale"
+                    (eventClicked)="eventClicked($event)">
+            </mwl-calendar-day-view>
+        </div>
+
+
+    </div>
+
+    <!--<p><a [routerLink]="['/home']">Back</a></p>-->
+</div>
+
+<modal #visitModal>
+    <modal-header [show-close]="true">
+        <h1 class="modal-title" >Wizyta</h1>
+
+    </modal-header>
+    <modal-body>
+        <h2>Lekarz {{this.doctor.firstName}} {{this.doctor.lastName}}</h2>
+        <h2>{{modalDate}} godzina {{modalTime}}</h2>
+        <h3>Dane pacjenta</h3>
+        <!--<div class="dropdown">-->
+            <!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{patientName}}-->
+                <!--<span class="caret"></span></button>-->
+            <ul >
+                <li *ngFor="let patient of patients"><a (click)="setPatient(patient)">
+                    {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}
+                </a></li>
+
+            </ul>
+        <!--</div>-->
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="modalClosed()">Ok</button>
+    </modal-footer>
+</modal>
