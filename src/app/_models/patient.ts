@@ -1,17 +1,10 @@
-import {MedicalData} from './medicalData';
+import { MedicalData } from './medicalData';
+import { PersonalDetails } from './personalDetails';
+import { Account } from './account';
 
 export class Patient {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    gender: string;
-    pesel: string;
-    birthdate: number;
-    phoneNumber: number;
-    country: string;
-    city: string;
-    street: string;
-    buildingNumber: number;
-    flatNumber: number;
+    id: number;
+    account: Account;
+    emergencyContact: PersonalDetails;
     medicalInfo: MedicalData;
 }

@@ -3,7 +3,7 @@
 button {
   letter-spacing: -0.5px;
   cursor: pointer;
-  background-color: $oc-blue-8;
+  background-color: $oc-indigo-7;
   outline: 0;
   line-height: 1;
   text-align: center;
@@ -17,7 +17,7 @@ button {
   transition: background-color .3s, box-shadow .3s;
 
   &:hover {
-    background-color: $oc-blue-6;
+    background-color: $oc-indigo-8;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   }
 

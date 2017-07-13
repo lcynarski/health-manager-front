@@ -1,21 +1,43 @@
+@import "../../assets/styles/colors";
+@import "../../assets/styles/variables";
 
-.viewContainer {
+#medcomComponent {
+  background-color: $primary-bg;
+}
+
+#viewContainer {
   max-width: 1000px;
   margin: 0 auto;
+  color: $oc-gray-9;
+}
+
+.header {
+  text-align: center;
+  color: $oc-indigo-6;
+  font-size: 48px;
+}
+
+.subHeader {
+  @extend .header;
+  font-size: 32px;
+}
+
+.error {
+  color: red;
 }
 
 .pane {
-  background-color: rgb(39, 39, 39);
-  color: white;
+  background-color: $oc-gray-2;
   margin: 30px 15px;
   padding: 20px;
-  box-shadow: 3px 3px 5px #888888;
+  @include shadow(3px);
 
-  div, h2 {
+  div, h2, h3 {
+    margin: 0;
     padding-bottom: 10px;
   }
 }
 
-.errResponse {
-  color: red;
+#contentContainer {
+
 }

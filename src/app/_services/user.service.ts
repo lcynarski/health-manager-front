@@ -27,7 +27,7 @@ export class UserService {
     }
 
     public create(user: User) {
-        return this.http.post(`${this.config.apiUrl}user/register`, user);
+        return this.http.post(`${this.config.apiUrl}/users/register`, user);
     }
     public update(user: User) {
         return this.http.put(`${this.config.apiUrl}/users/${user._id}`, user, this.addJwtOptions());

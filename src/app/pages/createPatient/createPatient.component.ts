@@ -11,17 +11,7 @@ import {Http} from '@angular/http';
     providers: [PatientService],
     selector: 'create-patient',
     styleUrls: ['createPatient.component.scss'],
-    template: `
-        <div class="app">
-            <dynamic-form
-                    [config]="config"
-                    #form="dynamicForm"
-                    (submit)="submit($event)">
-            </dynamic-form>
-            {{ form.valid }}
-            {{ form.value | json }}
-        </div>
-    `
+    templateUrl: './createPatient.component.html'
 })
 export class CreatePatientComponent implements AfterViewInit {
     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
@@ -118,13 +108,15 @@ export class CreatePatientComponent implements AfterViewInit {
                 this.form.setDisabled('submit', !previousValid);
             }
         });
-
         // this.form.setDisabled('submit', true);
     }
 
     submit(value) {
         const personalDetails = { account : { personalDetails : { ...value }}};
         this.patientService.savePatient(personalDetails)
-            .subscribe((data) => console.log(data));
+            .subscribe((data) => {
+                console.log(data);
+                this.router.navigate(['/dashboard']);
+        });
     }
 }
