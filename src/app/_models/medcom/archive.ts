@@ -11,6 +11,7 @@ export interface DicomPatient {
 
 export interface DicomStudy {
     studyInstanceUid: string;
+    patientId?: string;
     series: DicomSeries[];
 }
 

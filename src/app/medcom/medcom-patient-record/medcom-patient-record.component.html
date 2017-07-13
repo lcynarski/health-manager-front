@@ -1,0 +1,18 @@
+<div id="patientRecordComponent">
+    <div id="head" (click)="toggleExpanded()">
+        #{{patient.patientId}} [name] [surname] [studies] [lastStudyDate]
+    </div>
+
+    <!--TODO: separate medcom-studies-list.component that animates on :enter and fetches studies onInit -->
+    <div id="studiesList" [ngClass]="(expanded) ? 'expanded' : 'collapsed'">
+        <div class="study"
+             *ngFor="let study of patient.studies"
+             (click)="showStudy(study, $event)"
+        >
+            #{{study.studyInstanceUid}} [study date] [study description]
+        </div>
+    </div>
+</div>
+
+
+<dialog-outlet></dialog-outlet>

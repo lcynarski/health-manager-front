@@ -3,32 +3,16 @@
 
         <div class="header">Medcom</div>
 
-        <div class="pane">
-            <div class="subHeader">Archive tree</div>
-
-
-            <div id="contentContainer" [class.error]="!!errorMsg">
-                <div *ngIf="fetching">
-                    Loading...
-                </div>
-                <div *ngIf="!fetching && !!errorMsg">
-                    {{errorMsg}}
-                </div>
-                <div *ngIf="!fetching && !errorMsg">
-                    <archive-tree [archive]="archive"></archive-tree>
-                </div>
-            </div>
-
-            <div id="dicomContainer">
-                <div dicomInstance
-                     [url]="dicomUrl"
-                     oncontextmenu="return false"
-                     unselectable="on"
-                     onselectstart="return false;"
-                     onmousedown="return false;">
-                </div>
-            </div>
-
+        <div *ngIf="fetching">
+            Loading...
         </div>
+        <div *ngIf="!fetching && !!errorMsg">
+            {{errorMsg}}
+        </div>
+        <div id="listContainer" *ngIf="!fetching && !errorMsg">
+            <!--TODO: change to patients list component-->
+            <patient-record *ngFor="let patient of archive.patients" [patient]="patient"></patient-record>
+        </div>
+
     </div>
 </div>

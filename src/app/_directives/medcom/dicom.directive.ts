@@ -1,4 +1,4 @@
-import { Directive, Input, ElementRef, OnInit } from '@angular/core';
+import { Directive, Input, ElementRef, OnChanges } from '@angular/core';
 
 declare const cornerstone;
 declare const cornerstoneTools;
@@ -7,7 +7,7 @@ declare const cornerstoneWADOImageLoader;
 const WadoImageLoaderSchemeName = 'wadouri:';
 
 @Directive({ selector: '[dicomInstance]' })
-export class DicomDirective implements OnInit {
+export class DicomDirective implements OnChanges {
 
     @Input()
     public url: string;
@@ -35,7 +35,7 @@ export class DicomDirective implements OnInit {
         }
     }
 
-    public ngOnInit() {
+    public ngOnChanges() {
         if (!this.url) {
             console.warn('[dicom] no url provided!');
             return;
