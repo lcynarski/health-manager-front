@@ -113,7 +113,7 @@ export class VisitsCalendarComponent implements OnInit {
         // alert("id to " + this.patient);
         // /doctors/{doctorId}/slots/{slotId}/taken_by
         var slotId = "5";
-        this.http.post(this.config.apiUrl + '/doctors/'+this.id+'/slots/'+this.currentSlotId+'/taken_by', p._id);
+        this.http.post(this.config.apiUrl + '/doctors/'+this.id+'/slots/'+this.currentSlotId+'/taken_by', p.id);
         this.modalClosed();
     }
 
