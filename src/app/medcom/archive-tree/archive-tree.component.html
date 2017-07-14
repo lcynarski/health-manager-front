@@ -1,0 +1,41 @@
+<div class="patient"
+     *ngFor="let patient of archive.patients"
+     (mouseover)="onMouseOver(patient.patientId, 0)"
+     (mouseleave)="onMouseLeave(patient.patientId)"
+>
+    <div class="node-content" [class.hovered]="patient.patientId === hoveredNodeId">
+        <div class="node-id">{{patient.patientId}}</div>
+        <div class="node-label">patient</div>
+    </div>
+    <div class="study"
+         *ngFor="let study of patient.studies"
+         (mouseover)="onMouseOver(study.studyInstanceUid, 1)"
+         (mouseleave)="onMouseLeave(study.studyInstanceUid)"
+    >
+        <div class="node-content" [class.hovered]="study.studyInstanceUid === hoveredNodeId">
+            <div class="node-id">{{study.studyInstanceUid}}</div>
+            <div class="node-label">study</div>
+        </div>
+        <div class="series"
+             *ngFor="let series of study.series"
+             (mouseover)="onMouseOver(series.seriesInstanceUid, 2)"
+             (mouseleave)="onMouseLeave(series.seriesInstanceUid)"
+        >
+
+            <div class="node-content" [class.hovered]="series.seriesInstanceUid === hoveredNodeId">
+                <div class="node-id">{{series.seriesInstanceUid}}</div>
+                <div class="node-label">study series</div>
+            </div>
+            <div class="instance"
+                 *ngFor="let instance of series.dicoms"
+                 (mouseover)="onMouseOver(instance.sopInstanceUid, 3)"
+                 (mouseleave)="onMouseLeave(instance.sopInstanceUid)"
+            >
+                <div class="node-content" [class.hovered]="instance.sopInstanceUid === hoveredNodeId">
+                    <div class="node-id">{{instance.sopInstanceUid}}</div>
+                    <div class="node-label">dicom instance</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

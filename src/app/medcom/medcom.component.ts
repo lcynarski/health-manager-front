@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
-import {MedcomService} from "../_services/index";
+import {MedcomService} from '../_services/index';
+import {DicomArchive} from '../_models/medcom/archive';
+import {Subject} from 'rxjs/Subject';
 
 
 @Component({
+    selector: 'medcom',
     templateUrl: 'medcom.component.html',
     styleUrls: ['medcom.component.scss']
 })
@@ -11,34 +14,42 @@ import {MedcomService} from "../_services/index";
 /**
  *  component from MEDCOM project that will be used
  *  to display DICOM study data and images
+ *
  */
-export class MedcomComponent implements OnInit {
-    loading = false;
-    inputName: string;
-    helloMessage: string;
-    messageId: number;
-    helloError: string;
-    readonly spinnerUrl = "data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==";
+export class MedcomComponent implements OnInit, OnDestroy {
+    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private fetching: boolean = false;
+    private errorMsg: string = null;
+    private archive: DicomArchive = null;
 
     constructor(private medcomService: MedcomService) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
+        console.log('ngOnInit');
+        this.fetchArchive();
     }
 
-    sendHello(name: string): void {
-        this.loading = true;
-        this.medcomService.getGreeting(name)
+    public ngOnDestroy() {
+        console.log('ngOnDestroy');
+        this.ngUnsubscribe.next();
+        this.ngUnsubscribe.complete();
+    }
+
+    private fetchArchive(): void {
+        this.fetching = true;
+        this.medcomService.getArchiveTree()
+            .takeUntil(this.ngUnsubscribe)
             .subscribe(
-                greeting => {
-                    this.helloMessage = greeting.content;
-                    this.messageId = greeting.id;
-                    this.loading = false;
-                    this.helloError = null;
+                (archive: DicomArchive) => {
+                    this.fetching = false;
+                    this.errorMsg = null;
+                    this.archive = archive;
+                    console.log('dicomArchive fetched successfully');
                 },
-                error => {
-                    this.helloError = error;
-                    this.loading = false;
+                (error) => {
+                    this.fetching = false;
+                    this.errorMsg = `Network error has occurred! status: ${error.status} ${error.statusText}`;
                 }
             );
     }

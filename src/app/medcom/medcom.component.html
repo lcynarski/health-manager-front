@@ -1,21 +1,18 @@
-<div class="viewContainer">
-    <div class="pane">
-        <h2>test communication with medcom-core and JWT authorization</h2>
+<div id="medcomComponent">
+    <div id="viewContainer">
 
-        <div>
-            <label>your name:
-                <input [(ngModel)]="inputName"/>
-            </label>
-            <button (click)="sendHello(inputName)">hello</button>
-        </div>
-        <div>
-            Response:
-            <img *ngIf="loading" src="{{spinnerUrl}}" />
+        <div class="header">Medcom</div>
 
+        <div *ngIf="fetching">
+            Loading...
         </div>
-        <div [class.errResponse]="!!helloError">
-            <span *ngIf="!helloError && helloMessage">message #{{messageId}}: {{helloMessage}}</span>
-            <span *ngIf="helloError">error has occurred: {{helloError}}</span>
+        <div *ngIf="!fetching && !!errorMsg">
+            {{errorMsg}}
         </div>
+        <div id="listContainer" *ngIf="!fetching && !errorMsg">
+            <!--TODO: change to patients list component-->
+            <patient-record *ngFor="let patient of archive.patients" [patient]="patient"></patient-record>
+        </div>
+
     </div>
 </div>
