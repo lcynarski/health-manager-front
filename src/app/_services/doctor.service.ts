@@ -12,22 +12,20 @@ import {Doctor} from "../_models/doctor";
 export class DoctorService {
     constructor(
         private http: Http,
+        private authenticationService: AuthenticationService,
         private config: AppConfig) {
     }
 
     //TODO dodac wywołania endpointów
 
-    allDoctors:Doctor[] = [{
-        _id: "1",
-        firstName:"Marcin",
-        lastName: "Matys",
-        specialization:"Ortopeda"
-    },{
-        _id: "5",
-        firstName:"Aleksander",
-        lastName: "Lejkowski",
-        specialization:"Pediatra"
-    }];
+    public saveDoctor(data) {
+        console.log('ZAPISUJEM DOKTORA');
+        console.log(data);
+        return this.http.post(`${this.config.apiUrl}/doctors`, data, this.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
+
+
 
     doctorFromJson(obj:any):Doctor{
         return {
@@ -51,6 +49,25 @@ export class DoctorService {
             return this.doctorFromJson(response.json());
         });
     }
-
+    private addJwtOptions() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.token) {
+            const headers = new Headers({Authorization: 'Bearer ' + this.authenticationService.token});
+            return new RequestOptions({headers});
+        }
+    }
 
 }
+
+/*
+    allDoctors:Doctor[] = [{
+        _id: "1",
+        firstName:"Marcin",
+        lastName: "Matys",
+        specialization:"Ortopeda"
+    },{
+        _id: "5",
+        firstName:"Aleksander",
+        lastName: "Lejkowski",
+        specialization:"Pediatra"
+    }];*/
