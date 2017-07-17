@@ -13,6 +13,7 @@ import { VisitsCalendarComponent } from './visitsCalendar/visitsCalendar.compone
 import { CalendarModule } from 'angular-calendar';
 import { CalendarHeaderComponent } from './visitsCalendar/calendar-header.component';
 import { CreatePatientComponent } from './createPatient/createPatient.component';
+import { CreateDoctorComponent } from './createDoctor/createDoctor.component';
 import { DynamicFormModule } from '../components/dynamic-form/dynamic-form.module';
 import { UsersProfileComponent } from './usersProfile/usersProfile.component';
 import { PhotoUploader } from '../components/photoUploader/photoUploader.component';
@@ -43,6 +44,7 @@ import { MedcomModule } from '../medcom/medcom.module';
         VisitsCalendarComponent,
         CalendarHeaderComponent,
         CreatePatientComponent,
+        CreateDoctorComponent,
         UsersProfileComponent,
         PhotoUploader,
         PatientSearchComponent,
