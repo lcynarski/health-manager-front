@@ -56,18 +56,4 @@ export class DoctorService {
             return new RequestOptions({headers});
         }
     }
-
 }
-
-/*
-    allDoctors:Doctor[] = [{
-        _id: "1",
-        firstName:"Marcin",
-        lastName: "Matys",
-        specialization:"Ortopeda"
-    },{
-        _id: "5",
-        firstName:"Aleksander",
-        lastName: "Lejkowski",
-        specialization:"Pediatra"
-    }];*/

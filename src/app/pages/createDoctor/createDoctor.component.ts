@@ -1,11 +1,11 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import {DoctorService} from '../../_services/doctor.service';
+import { DoctorService } from '../../_services/doctor.service';
 
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Http} from '@angular/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Http } from '@angular/http';
 
 @Component({
     providers: [DoctorService],
@@ -118,11 +118,15 @@ export class CreateDoctorComponent implements AfterViewInit {
     }
 
     submit(value) {
-        const personalDetails = { account : { personalDetails : { ...value }}};
+        const personalDetails = {
+            account: { personalDetails: { ...value } },
+            specialisations: [{ description: value.specialisation }]
+        };
         this.doctorService.saveDoctor(personalDetails)
             .subscribe((data) => {
+                console.log(value)
                 console.log(data);
                 this.router.navigate(['/dashboard']);
-        });
+            });
     }
 }
