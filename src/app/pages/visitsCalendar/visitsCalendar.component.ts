@@ -18,7 +18,7 @@ interface VisitEvent extends CalendarEvent{
 @Component({
     providers: [DoctorService, PatientService],
     templateUrl: './visitsCalendar.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+   // changeDetection: ChangeDetectionStrategy.OnPush, //todo
     styleUrls: ['./visitsCalendar.component.scss']
 })
 export class VisitsCalendarComponent implements OnInit {
@@ -65,6 +65,7 @@ export class VisitsCalendarComponent implements OnInit {
 
     events: VisitEvent[];
 
+
     private loadAllPatients() {
         this.patientService.getPatients().subscribe( (patients) => { this.patients = patients; });
     }
@@ -77,18 +78,18 @@ export class VisitsCalendarComponent implements OnInit {
 
         this.events =  [{
             slotId:"3",
-            title: 'Wizyta',
+            title: 'Visit',
             color: this.colors.yellow,
             start: new Date()
         }, {
             slotId:"4",
-            title: 'Wizyta',
+            title: 'Visit',
             color: this.colors.blue,
             start: new Date()
         }];
     }
 
-    locale: string = 'pl';
+    locale: string = 'en';
 
     modalDate:string;
     modalTime:string;
@@ -142,12 +143,12 @@ export class VisitsCalendarComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.id = params['doctorId']; // (+) converts string 'id' to a number
 
-            this.doctor = {
-              _id:"Marcin",
-                firstName:"Marcin",
-                lastName:"Matys",
-                specialization:"Placeholder"
-            };
+            // this.doctor = {
+            //   _id:"Marcin",
+            //     firstName:"Marcin",
+            //     lastName:"Matys",
+            //     specialisation:"Placeholder"
+            // };
 
             // this.doctorFirstName = this.doctor.firstName;
             // alert("mam id "+this.id);
