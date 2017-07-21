@@ -19,7 +19,7 @@ export class DoctorService {
     //TODO dodac wywołania endpointów
 
     public saveDoctor(data) {
-        console.log('ZAPISUJEM DOKTORA');
+        console.log('Saving doctor');
         console.log(data);
         return this.http.post(`${this.config.apiUrl}/doctors`, data, this.addJwtOptions())
             .map((response: Response) => response.json());

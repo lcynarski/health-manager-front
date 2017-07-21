@@ -18,7 +18,6 @@ interface VisitEvent extends CalendarEvent{
 @Component({
     providers: [DoctorService, PatientService],
     templateUrl: './visitsCalendar.component.html',
-   // changeDetection: ChangeDetectionStrategy.OnPush, //todo
     styleUrls: ['./visitsCalendar.component.scss']
 })
 export class VisitsCalendarComponent implements OnInit {
@@ -143,15 +142,7 @@ export class VisitsCalendarComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.id = params['doctorId']; // (+) converts string 'id' to a number
 
-            // this.doctor = {
-            //   _id:"Marcin",
-            //     firstName:"Marcin",
-            //     lastName:"Matys",
-            //     specialisation:"Placeholder"
-            // };
 
-            // this.doctorFirstName = this.doctor.firstName;
-            // alert("mam id "+this.id);
             this.doctorService.getById(this.id).subscribe(doc => {
                 console.log("przyszło coś z promisa");
                 console.log(doc);
