@@ -120,7 +120,8 @@ export class CreateDoctorComponent implements AfterViewInit {
     submit(value) {
         const personalDetails = {
             account: { personalDetails: { ...value } },
-            specialisations: [{ description: value.specialisation }]
+            specialisation: value.specialisation
+            // specialisations: [{ description: value.specialisation }] //todo backend jak zrobić wiele specjalizacji
         };
         this.doctorService.saveDoctor(personalDetails)
             .subscribe((data) => {
