@@ -1,6 +1,8 @@
+import { Specialization } from './specialization';
+
 export class Doctor {
     _id: string;
     firstName: string;
     lastName: string;
-    specialisation: string;
+    specialization: Specialization;
 }

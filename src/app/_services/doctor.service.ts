@@ -7,6 +7,7 @@ import { AuthenticationService } from '../_services/index';
 import { AppConfig } from '../app.config';
 import { Patient } from '../_models/index';
 import {Doctor} from "../_models/doctor";
+import { Specialization } from "../_models/specialization";
 
 @Injectable()
 export class DoctorService {
@@ -32,7 +33,7 @@ export class DoctorService {
             _id:obj.id,
             firstName:obj.account.personalDetails.firstName,
             lastName:obj.account.personalDetails.lastName,
-            specialisation: obj.specialisation
+            specialization: obj.specialization
         };
     }
 
