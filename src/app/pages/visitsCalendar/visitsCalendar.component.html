@@ -1,6 +1,6 @@
 <div class="col-md-6 col-md-offset-3">
     <span defaultOverlayTarget></span>
-    <h1>{{this.doctor.specialization}} {{this.doctor.firstName}} {{this.doctor.lastName}} - dostępne terminy wizyt</h1>
+    <h1>{{doctor?.specialization.description}} {{doctor?.firstName}} {{doctor?.lastName}} - available time-slots</h1>
     <div>
 
         <mwl-demo-utils-calendar-header
@@ -43,13 +43,13 @@
 
 <modal #visitModal>
     <modal-header [show-close]="true">
-        <h1 class="modal-title" >Wizyta</h1>
+        <h1 class="modal-title" >Visit</h1>
 
     </modal-header>
     <modal-body>
-        <h2>Lekarz {{this.doctor.firstName}} {{this.doctor.lastName}}</h2>
-        <h2>{{modalDate}} godzina {{modalTime}}</h2>
-        <h3>Dane pacjenta</h3>
+        <h2>Doctor {{doctor?.firstName}} {{doctor?.lastName}}</h2>
+        <h2>{{modalDate}}, {{modalTime}}</h2>
+        <h3>Patient's data</h3>
         <!--<div class="dropdown">-->
             <!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{patientName}}-->
                 <!--<span class="caret"></span></button>-->

@@ -10,9 +10,7 @@ import {DoctorService} from "../../_services/doctor.service";
 
 @Component({
     providers: [DoctorService],
-    templateUrl: './doctorsList.component.html',
-    // changeDetection: ChangeDetectionStrategy.OnPush,
-    // styleUrls: ['./visitsCalendar.component.scss']
+    templateUrl: './doctorsList.component.html'
 })
 export class DoctorsListComponent implements OnInit {
 

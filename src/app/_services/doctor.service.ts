@@ -7,34 +7,33 @@ import { AuthenticationService } from '../_services/index';
 import { AppConfig } from '../app.config';
 import { Patient } from '../_models/index';
 import {Doctor} from "../_models/doctor";
+import { Specialization } from "../_models/specialization";
 
 @Injectable()
 export class DoctorService {
     constructor(
         private http: Http,
+        private authenticationService: AuthenticationService,
         private config: AppConfig) {
     }
 
     //TODO dodac wywołania endpointów
 
-    allDoctors:Doctor[] = [{
-        _id: "1",
-        firstName:"Marcin",
-        lastName: "Matys",
-        specialization:"Ortopeda"
-    },{
-        _id: "5",
-        firstName:"Aleksander",
-        lastName: "Lejkowski",
-        specialization:"Pediatra"
-    }];
+    public saveDoctor(data) {
+        console.log('Saving doctor');
+        console.log(data);
+        return this.http.post(`${this.config.apiUrl}/doctors`, data, this.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
+
+
 
     doctorFromJson(obj:any):Doctor{
         return {
             _id:obj.id,
             firstName:obj.account.personalDetails.firstName,
             lastName:obj.account.personalDetails.lastName,
-            specialization:"Pediatra"
+            specialization: obj.specialization
         };
     }
 
@@ -51,6 +50,11 @@ export class DoctorService {
             return this.doctorFromJson(response.json());
         });
     }
-
-
+    private addJwtOptions() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.token) {
+            const headers = new Headers({Authorization: 'Bearer ' + this.authenticationService.token});
+            return new RequestOptions({headers});
+        }
+    }
 }
