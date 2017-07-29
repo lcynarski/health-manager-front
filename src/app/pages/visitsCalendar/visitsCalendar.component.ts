@@ -1,15 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import {  ChangeDetectionStrategy } from '@angular/core';
-import { CalendarEvent, CalendarDateFormatter } from 'angular-calendar';
-import { ModalComponent } from 'ng2-bs4-modal/ng2-bs4-modal';
+import {CalendarEvent} from 'angular-calendar';
+import {ModalComponent} from 'ng2-bs4-modal/ng2-bs4-modal';
 import {DoctorService} from "../../_services/doctor.service";
 import {Doctor} from "../../_models/doctor";
 import {Patient} from "../../_models/patient";
 import {PatientService} from "../../_services/patient.service";
-import {AppConfig} from "../../app.config";
-import {AuthenticationService} from "../../_services/authentication.service";
+import {AppointmentService} from "../../_services/appointment.service";
 
 
 interface VisitEvent extends CalendarEvent{
@@ -17,7 +14,7 @@ interface VisitEvent extends CalendarEvent{
 }
 
 @Component({
-    providers: [DoctorService, PatientService],
+    providers: [DoctorService, PatientService, AppointmentService],
     templateUrl: './visitsCalendar.component.html',
     styleUrls: ['./visitsCalendar.component.scss']
 })
@@ -27,11 +24,9 @@ export class VisitsCalendarComponent implements OnInit {
     public id: string;
 
     constructor(private route: ActivatedRoute,
-                private http: Http,
-                private authenticationService: AuthenticationService,
-                private config: AppConfig,
                 private doctorService: DoctorService,
-                private patientService: PatientService) {
+                private patientService: PatientService,
+                private appointmentService: AppointmentService) {
 
     }
 
@@ -113,16 +108,13 @@ export class VisitsCalendarComponent implements OnInit {
 
     setPatient(p:Patient){
         this.patient = p;
-        var url = `${this.config.apiUrl}/patients/${this.patient.id}/appointments`
         var appointmentData = {
             timeSlotId: Number(this.currentSlotId),
             tookPlace: false,
             officeNumber: null, //TODO jak wypełnić
             data: "Jak będą formularze to tu coś będzie"
         };
-        this.http.put(url, appointmentData, this.addJwtOptions()).subscribe();
-
-        console.log('Wysyłam na: ' + url)
+        this.appointmentService.saveAppointment(this.patient.id, appointmentData)
         console.log(appointmentData)
 
         this.modalClosed();
@@ -165,14 +157,4 @@ export class VisitsCalendarComponent implements OnInit {
 
 
     }
-
-
-    private addJwtOptions() {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            const headers = new Headers({Authorization: 'Bearer ' + this.authenticationService.token});
-            return new RequestOptions({headers});
-        }
-    }
-
 }
