@@ -9,6 +9,7 @@ import {Doctor} from "../../_models/doctor";
 import {Patient} from "../../_models/patient";
 import {PatientService} from "../../_services/patient.service";
 import {AppConfig} from "../../app.config";
+import {AuthenticationService} from "../../_services/authentication.service";
 
 
 interface VisitEvent extends CalendarEvent{
@@ -25,10 +26,12 @@ export class VisitsCalendarComponent implements OnInit {
 
     public id: string;
 
-    constructor( private route: ActivatedRoute,
-                 private http: Http,
-                 private config: AppConfig,
-                 private doctorService: DoctorService, private patientService: PatientService) {
+    constructor(private route: ActivatedRoute,
+                private http: Http,
+                private authenticationService: AuthenticationService,
+                private config: AppConfig,
+                private doctorService: DoctorService,
+                private patientService: PatientService) {
 
     }
 
@@ -110,18 +113,22 @@ export class VisitsCalendarComponent implements OnInit {
 
     setPatient(p:Patient){
         this.patient = p;
-        // alert("id to " + this.patient);
-        // /doctors/{doctorId}/slots/{slotId}/taken_by
-        var slotId = "5";
-        this.http.post(this.config.apiUrl + '/doctors/'+this.id+'/slots/'+this.currentSlotId+'/taken_by', p.id);
+        var url = `${this.config.apiUrl}/patients/${this.patient.id}/appointments`
+        var appointmentData = {
+            timeSlotId: Number(this.currentSlotId),
+            tookPlace: false,
+            officeNumber: null, //TODO jak wypełnić
+            data: "Jak będą formularze to tu coś będzie"
+        };
+        this.http.put(url, appointmentData, this.addJwtOptions()).subscribe();
+
+        console.log('Wysyłam na: ' + url)
+        console.log(appointmentData)
+
         this.modalClosed();
     }
 
     modalClosed(){
-        // alert("Pacjent to "+this.patient);
-
-        //TODO tutaj powinno wywołanie endpointa do zapisania wizyty
-
         this.modal.close();
         this.reloadEvents();
     }
@@ -160,6 +167,12 @@ export class VisitsCalendarComponent implements OnInit {
     }
 
 
-
+    private addJwtOptions() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.token) {
+            const headers = new Headers({Authorization: 'Bearer ' + this.authenticationService.token});
+            return new RequestOptions({headers});
+        }
+    }
 
 }
