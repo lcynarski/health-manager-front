@@ -8,10 +8,11 @@ import {Patient} from "../../_models/patient";
 import {PatientService} from "../../_services/patient.service";
 import {AppointmentService} from "../../_services/appointment.service";
 import {TimeSlotService} from "../../_services/timeSlot.service";
+import {Appointment} from "../../_models/appointment";
 
 
-interface VisitEvent extends CalendarEvent{
-    slotId:string;
+interface VisitEvent extends CalendarEvent {
+    slotId: string;
 }
 
 @Component({
@@ -40,7 +41,7 @@ export class VisitsCalendarComponent implements OnInit {
 
     patients: Patient[];
 
-    currentSlotId:string;
+    currentSlotId: string;
 
 
     view: string = 'month';
@@ -66,43 +67,67 @@ export class VisitsCalendarComponent implements OnInit {
 
 
     private loadAllPatients() {
-        this.patientService.getPatients().subscribe( (patients) => { this.patients = patients; });
+        this.patientService.getPatients().subscribe((patients) => {
+            this.patients = patients;
+        });
     }
 
-    reloadEvents(){
-        this.timeSlotService.getTimeSlots(this.doctor, new Date(3), new Date())
-            .subscribe(slots => {
-                console.log("PRZYSZŁY DZIDADY!")
-                console.log(slots)
-            })
-        // this.http.get(`${this.config.apiUrl}/doctors/${this.id}/slots`)
-        //     .map((response: Response) => response.json())
-        //     .subscribe(slots => {this.events = slots});
+    reloadEvents() {
+        console.log(this.view)
+        //zawsze zaciągamy miesiąc - nawet jak patrzymy na tydzień/dzień
+        //todo: odświeżać je przy zmianie!
+        var viewStart = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1);
+        var viewEnd = new Date(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1) % 12, 0);
+        console.log(viewStart)
+        console.log(viewEnd)
 
-        this.events =  [{
-            slotId:"3",
-            title: 'Visit',
-            color: this.colors.yellow,
-            start: new Date()
-        }, {
-            slotId:"4",
-            title: 'Visit',
-            color: this.colors.blue,
-            start: new Date()
-        }];
+        this.timeSlotService.getTimeSlots(this.doctor, viewStart, viewEnd)
+            .subscribe(slots => {
+                console.log("Przyszły terminy!")
+                console.log(slots)
+                var events = slots.map(slot => {
+                    return {
+                        slotId: slot.id,
+                        start: new Date(slot.startDateTime),
+                        end: new Date(slot.endDateTime),
+                        color: this.colors.blue //todo
+                    }
+                })
+                console.log(events)
+                this.events = events
+
+                this.events[0].color = this.colors.red
+                console.log(this.events)
+                //mamy terminy, teraz sprawdzamy które są zajęte!
+                for (var i = 0; i < events.length; i++) {
+                    (function (event: VisitEvent, ths: VisitsCalendarComponent) {
+                        console.log('Jade dla')
+                        console.log(event)
+                        ths.appointmentService.getByTimeSlot(event.slotId)
+                            .subscribe((appointment: Appointment) => {
+                                if (appointment === undefined || appointment == null || appointment.id == null) {
+                                    console.log(i + 'Nie zarezerwowane: ' + event.slotId)
+                                } else {
+                                    console.log(i + 'ZAREZERWOWANE: ' + event.slotId)
+                                    event.color = ths.colors.red
+                                }
+                            })
+                    })(this.events[i], this);
+                }
+            })
     }
 
     locale: string = 'en';
 
-    modalDate:string;
-    modalTime:string;
+    modalDate: string;
+    modalTime: string;
 
 
-    eventClicked({event}: {event: CalendarEvent}): void {
+    eventClicked({event}: { event: CalendarEvent }): void {
         console.log('Przed');
         console.log(this.patients);
         this.modalDate = event.start.toLocaleDateString();
-        this.modalTime = event.start.toLocaleTimeString().substring(0,5);
+        this.modalTime = event.start.toLocaleTimeString().substring(0, 5);
         console.log(event);
 
         this.currentSlotId = (event as VisitEvent).slotId;
@@ -112,7 +137,7 @@ export class VisitsCalendarComponent implements OnInit {
         console.log("Po");
     }
 
-    setPatient(p:Patient){
+    setPatient(p: Patient) {
         this.patient = p;
         var appointmentData = {
             timeSlotId: Number(this.currentSlotId),
@@ -126,22 +151,12 @@ export class VisitsCalendarComponent implements OnInit {
         this.modalClosed();
     }
 
-    modalClosed(){
+    modalClosed() {
         this.modal.close();
         this.reloadEvents();
     }
 
-    // weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
-    //
-    // weekendDays: number[] = [
-    //     DAYS_OF_WEEK.FRIDAY,
-    //     DAYS_OF_WEEK.SATURDAY
-    // ];
-
-    // patients: Patient[] = [];
     private router: Router;
-
-
 
     ngOnInit() {
         this.route.params.subscribe(params => {
