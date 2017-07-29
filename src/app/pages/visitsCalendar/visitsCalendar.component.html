@@ -3,7 +3,7 @@
     <h1>{{doctor?.specialization.description}} {{doctor?.firstName}} {{doctor?.lastName}} - available time-slots</h1>
     <div>
 
-        <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate">
+        <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate" (click)="reloadEvents()">
         </mwl-demo-utils-calendar-header>
         <div [ngSwitch]="view">
             <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" [locale]="locale" (eventClicked)="eventClicked($event)"
