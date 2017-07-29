@@ -1,18 +1,19 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CalendarEvent} from 'angular-calendar';
-import {ModalComponent} from 'ng2-bs4-modal/ng2-bs4-modal';
-import {DoctorService} from "../../_services/doctor.service";
-import {Doctor} from "../../_models/doctor";
-import {Patient} from "../../_models/patient";
-import {PatientService} from "../../_services/patient.service";
-import {AppointmentService} from "../../_services/appointment.service";
-import {TimeSlotService} from "../../_services/timeSlot.service";
-import {Appointment} from "../../_models/appointment";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CalendarEvent } from 'angular-calendar';
+import { ModalComponent } from 'ng2-bs4-modal/ng2-bs4-modal';
+import { DoctorService } from "../../_services/doctor.service";
+import { Doctor } from "../../_models/doctor";
+import { Patient } from "../../_models/patient";
+import { PatientService } from "../../_services/patient.service";
+import { AppointmentService } from "../../_services/appointment.service";
+import { TimeSlotService } from "../../_services/timeSlot.service";
+import { Appointment } from "../../_models/appointment";
 
 
 interface VisitEvent extends CalendarEvent {
     slotId: string;
+    patient?: Patient; //jak jest zarezerwowany todo rozwiązać lepiej
 }
 
 @Component({
@@ -26,10 +27,11 @@ export class VisitsCalendarComponent implements OnInit {
     public id: string;
 
     constructor(private route: ActivatedRoute,
-                private doctorService: DoctorService,
-                private patientService: PatientService,
-                private appointmentService: AppointmentService,
-                private timeSlotService: TimeSlotService) {
+        private doctorService: DoctorService,
+        private patientService: PatientService,
+        private appointmentService: AppointmentService,
+        private timeSlotService: TimeSlotService,
+        private router: Router) {
 
     }
 
@@ -43,6 +45,7 @@ export class VisitsCalendarComponent implements OnInit {
 
     currentSlotId: string;
 
+    currentSlotZarezerwowany: boolean;
 
     view: string = 'month';
 
@@ -88,6 +91,7 @@ export class VisitsCalendarComponent implements OnInit {
                 var events = slots.map(slot => {
                     return {
                         slotId: slot.id,
+                        title: "WIZYTA",
                         start: new Date(slot.startDateTime),
                         end: new Date(slot.endDateTime),
                         color: this.colors.blue //todo
@@ -96,7 +100,6 @@ export class VisitsCalendarComponent implements OnInit {
                 console.log(events)
                 this.events = events
 
-                this.events[0].color = this.colors.red
                 console.log(this.events)
                 //mamy terminy, teraz sprawdzamy które są zajęte!
                 for (var i = 0; i < events.length; i++) {
@@ -110,6 +113,7 @@ export class VisitsCalendarComponent implements OnInit {
                                 } else {
                                     console.log(i + 'ZAREZERWOWANE: ' + event.slotId)
                                     event.color = ths.colors.red
+                                    event.patient = appointment.patient
                                 }
                             })
                     })(this.events[i], this);
@@ -123,7 +127,7 @@ export class VisitsCalendarComponent implements OnInit {
     modalTime: string;
 
 
-    eventClicked({event}: { event: CalendarEvent }): void {
+    eventClicked({ event }: { event: CalendarEvent }): void {
         console.log('Przed');
         console.log(this.patients);
         this.modalDate = event.start.toLocaleDateString();
@@ -131,10 +135,17 @@ export class VisitsCalendarComponent implements OnInit {
         console.log(event);
 
         this.currentSlotId = (event as VisitEvent).slotId;
-
+        this.currentSlotZarezerwowany = (event as VisitEvent).color == this.colors.red
+        this.patient = (event as VisitEvent).patient//todo patient służy do kilku rzeczy
         this.modal.open();
 
         console.log("Po");
+    }
+
+    detale() {
+        // this.modal.close();
+        console.log('A teraz chciałbym was zabrać w podróż do ' + this.patient.id)
+        this.router.navigate(['/pages/patientDetails/' + this.patient.id]);
     }
 
     setPatient(p: Patient) {
@@ -156,7 +167,6 @@ export class VisitsCalendarComponent implements OnInit {
         this.reloadEvents();
     }
 
-    private router: Router;
 
     ngOnInit() {
         this.route.params.subscribe(params => {
