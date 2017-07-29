@@ -7,6 +7,7 @@ import {Doctor} from "../../_models/doctor";
 import {Patient} from "../../_models/patient";
 import {PatientService} from "../../_services/patient.service";
 import {AppointmentService} from "../../_services/appointment.service";
+import {TimeSlotService} from "../../_services/timeSlot.service";
 
 
 interface VisitEvent extends CalendarEvent{
@@ -14,7 +15,7 @@ interface VisitEvent extends CalendarEvent{
 }
 
 @Component({
-    providers: [DoctorService, PatientService, AppointmentService],
+    providers: [DoctorService, PatientService, AppointmentService, TimeSlotService],
     templateUrl: './visitsCalendar.component.html',
     styleUrls: ['./visitsCalendar.component.scss']
 })
@@ -26,7 +27,8 @@ export class VisitsCalendarComponent implements OnInit {
     constructor(private route: ActivatedRoute,
                 private doctorService: DoctorService,
                 private patientService: PatientService,
-                private appointmentService: AppointmentService) {
+                private appointmentService: AppointmentService,
+                private timeSlotService: TimeSlotService) {
 
     }
 
@@ -68,7 +70,11 @@ export class VisitsCalendarComponent implements OnInit {
     }
 
     reloadEvents(){
-
+        this.timeSlotService.getTimeSlots(this.doctor, new Date(3), new Date())
+            .subscribe(slots => {
+                console.log("PRZYSZŁY DZIDADY!")
+                console.log(slots)
+            })
         // this.http.get(`${this.config.apiUrl}/doctors/${this.id}/slots`)
         //     .map((response: Response) => response.json())
         //     .subscribe(slots => {this.events = slots});
