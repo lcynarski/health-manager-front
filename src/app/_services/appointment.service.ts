@@ -26,7 +26,7 @@ export class AppointmentService {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json()
                 } else {
-                    return null //Wykonanie nie dochodzi do tego fragmentu komunikacja i wywala się na 404 co jest dziwne bo to poprawne z punktu widzenia HTTP ale nie szkodzi
+                    return null //Wykonanie wywala się na 404 i nie dochodzi do tego co jest dziwne bo to poprawne z punktu widzenia HTTP ale nie szkodzi
                 }
             });
     }
