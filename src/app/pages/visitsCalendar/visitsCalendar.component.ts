@@ -143,6 +143,10 @@ export class VisitsCalendarComponent implements OnInit {
             officeNumber: null, //TODO jak wypełnić
             data: "Jak będą formularze to tu coś będzie"
         };
+        var singletonArray = this.events.filter((ev) => { return ev.slotId == this.currentSlotId })
+        if (singletonArray.length > 0) {
+            singletonArray[0].color = this.colors.red
+        }
         this.appointmentService.saveAppointment(this.patient.id, appointmentData)
 
         this.modalClosed();
