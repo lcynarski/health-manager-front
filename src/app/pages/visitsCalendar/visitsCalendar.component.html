@@ -4,11 +4,11 @@
     <div>
 
         <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate" (click)="reloadEvents()">
+            <!-- TODO: nie potrzebujemy przeładowywać wydarzeń przy przełączaniu miesiąc-tydzień-dzień ale nie wiem jak to zrobić -->
         </mwl-demo-utils-calendar-header>
         <div [ngSwitch]="view">
             <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" [locale]="locale" (eventClicked)="eventClicked($event)"
                 (dayClicked)="viewDate = $event.day.date; view = 'day'">
-
             </mwl-calendar-month-view>
             <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events" [locale]="locale" (eventClicked)="eventClicked($event)"
                 (dayHeaderClicked)="viewDate = $event.day.date; view = 'day'">
@@ -35,13 +35,11 @@
         <!--<div class="dropdown">-->
         <!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{patientName}}-->
         <!--<span class="caret"></span></button>-->
-        <div *ngIf='currentSlotZarezerwowany'>
-            <a (click)="detale()">
-    Zarezerowane przez jakiegoś ziomka: {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}
-</a>
+        <div *ngIf='currentSlotTaken'>
+            <a (click)="showPatientDetails()">
+    Taken by: {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}</a>
         </div>
-
-        <div *ngIf='!currentSlotZarezerwowany'>
+        <div *ngIf='!currentSlotTaken'>
             <ul>
                 <li *ngFor="let patient of patients"><a (click)="setPatient(patient)">
                     {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}

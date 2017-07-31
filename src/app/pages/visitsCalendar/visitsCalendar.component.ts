@@ -5,6 +5,7 @@ import { ModalComponent } from 'ng2-bs4-modal/ng2-bs4-modal';
 import { DoctorService } from "../../_services/doctor.service";
 import { Doctor } from "../../_models/doctor";
 import { Patient } from "../../_models/patient";
+import { PersonalDetails } from "../../_models/personalDetails";
 import { PatientService } from "../../_services/patient.service";
 import { AppointmentService } from "../../_services/appointment.service";
 import { TimeSlotService } from "../../_services/timeSlot.service";
@@ -13,7 +14,7 @@ import { Appointment } from "../../_models/appointment";
 
 interface VisitEvent extends CalendarEvent {
     slotId: string;
-    patient?: Patient; //jak jest zarezerwowany todo rozwiązać lepiej
+    patient?: Patient; // null jak termin nie zarezerwowany
 }
 
 @Component({
@@ -37,7 +38,7 @@ export class VisitsCalendarComponent implements OnInit {
 
     doctor: Doctor;
 
-    patient: Patient;
+    patient: Patient; //used for communication with `onClick` functions
 
     patientName: string;
 
@@ -45,7 +46,7 @@ export class VisitsCalendarComponent implements OnInit {
 
     currentSlotId: string;
 
-    currentSlotZarezerwowany: boolean;
+    currentSlotTaken: boolean;
 
     view: string = 'month';
 
@@ -76,44 +77,33 @@ export class VisitsCalendarComponent implements OnInit {
     }
 
     reloadEvents() {
-        console.log(this.view)
-        //zawsze zaciągamy miesiąc - nawet jak patrzymy na tydzień/dzień
-        //todo: odświeżać je przy zmianie!
+        //zawsze zaciągamy miesiąc - nawet jak patrzymy na tydzień/dzień (tak prościej :P)
         var viewStart = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1);
         var viewEnd = new Date(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1) % 12, 0);
-        console.log(viewStart)
-        console.log(viewEnd)
 
         this.timeSlotService.getTimeSlots(this.doctor, viewStart, viewEnd)
             .subscribe(slots => {
-                console.log("Przyszły terminy!")
-                console.log(slots)
                 var events = slots.map(slot => {
                     return {
                         slotId: slot.id,
-                        title: "WIZYTA",
+                        title: "Visit",
                         start: new Date(slot.startDateTime),
                         end: new Date(slot.endDateTime),
-                        color: this.colors.blue //todo
+                        color: this.colors.blue
                     }
                 })
-                console.log(events)
                 this.events = events
 
-                console.log(this.events)
                 //mamy terminy, teraz sprawdzamy które są zajęte!
                 for (var i = 0; i < events.length; i++) {
-                    (function (event: VisitEvent, ths: VisitsCalendarComponent) {
-                        console.log('Jade dla')
-                        console.log(event)
-                        ths.appointmentService.getByTimeSlot(event.slotId)
+                    (function (event: VisitEvent, self: VisitsCalendarComponent) { // w tej funkcji nie mam dostępu do `this`
+                        self.appointmentService.getByTimeSlot(event.slotId)
                             .subscribe((appointment: Appointment) => {
-                                if (appointment === undefined || appointment == null || appointment.id == null) {
-                                    console.log(i + 'Nie zarezerwowane: ' + event.slotId)
-                                } else {
-                                    console.log(i + 'ZAREZERWOWANE: ' + event.slotId)
-                                    event.color = ths.colors.red
+                                if (appointment != undefined && appointment != null) {
+                                    event.color = self.colors.red
                                     event.patient = appointment.patient
+                                    var patientDetails: PersonalDetails = appointment.patient.account.personalDetails
+                                    event.title = patientDetails.firstName + ' ' + patientDetails.lastName
                                 }
                             })
                     })(this.events[i], this);
@@ -134,17 +124,14 @@ export class VisitsCalendarComponent implements OnInit {
         this.modalTime = event.start.toLocaleTimeString().substring(0, 5);
         console.log(event);
 
-        this.currentSlotId = (event as VisitEvent).slotId;
-        this.currentSlotZarezerwowany = (event as VisitEvent).color == this.colors.red
-        this.patient = (event as VisitEvent).patient//todo patient służy do kilku rzeczy
+        var visitEvent: VisitEvent = (event as VisitEvent)
+        this.currentSlotId = visitEvent.slotId;
+        this.currentSlotTaken = visitEvent.patient != null
+        this.patient = visitEvent.patient
         this.modal.open();
-
-        console.log("Po");
     }
 
-    detale() {
-        // this.modal.close();
-        console.log('A teraz chciałbym was zabrać w podróż do ' + this.patient.id)
+    showPatientDetails() {
         this.router.navigate(['/pages/patientDetails/' + this.patient.id]);
     }
 
@@ -157,7 +144,6 @@ export class VisitsCalendarComponent implements OnInit {
             data: "Jak będą formularze to tu coś będzie"
         };
         this.appointmentService.saveAppointment(this.patient.id, appointmentData)
-        console.log(appointmentData)
 
         this.modalClosed();
     }
