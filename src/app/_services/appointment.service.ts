@@ -14,13 +14,13 @@ export class AppointmentService {
                 private config: AppConfig) {
     }
 
-    public saveAppointment(patientId, appointmentData) {
+    public saveAppointment(patientId, appointmentData): void {
         this.http.put(`${this.config.apiUrl}/patients/${patientId}/appointments`,
-            appointmentData, this.addJwtOptions()).subscribe();
+            appointmentData, this.authenticationService.addJwtOptions()).subscribe();
     }
 
     public getByTimeSlot(timeSlotId): Observable<Appointment> {
-        return this.http.get(`${this.config.apiUrl}/appointments/byTimeSlot/${timeSlotId}`, this.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/appointments/byTimeSlot/${timeSlotId}`, this.authenticationService.addJwtOptions())
             .map((response: Response) => {
                 console.log('resonse ' + response.status)
                 if (response.status >= 200 && response.status < 300) {
@@ -31,11 +31,5 @@ export class AppointmentService {
             });
     }
 
-    private addJwtOptions() {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            const headers = new Headers({Authorization: 'Bearer ' + this.authenticationService.token});
-            return new RequestOptions({headers});
-        }
-    }
+
 }

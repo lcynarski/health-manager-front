@@ -15,7 +15,7 @@ export class PatientService {
     }
 
     public getAll() {
-        console.log('___', this.addJwtOptions().headers);
+        console.log('___', this.authenticationService.addJwtOptions().headers);
         return this.http.get(`${this.config.apiUrl}/patients`)
             .map((response: Response) => response.json());
     }
@@ -31,31 +31,23 @@ export class PatientService {
     }
 
     public getPatients(): Observable<Patient[]> {
-        return this.http.get(`${this.config.apiUrl}/patients`, this.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/patients`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 
     public savePatient(data) {
         console.log(data);
-        return this.http.post(`${this.config.apiUrl}/patients`, data, this.addJwtOptions())
+        return this.http.post(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 
     public editPatient(data) {
-        return this.http.put(`${this.config.apiUrl}/patients`, data, this.addJwtOptions())
+        return this.http.put(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
             .map((response) => response.json());
     }
 
     public getPatientByPesel(pesel) {
-        return this.http.get(`${this.config.apiUrl}/patients/pesel/${pesel}`, this.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/patients/pesel/${pesel}`, this.authenticationService.addJwtOptions())
             .map((response) => response.json());
-    }
-
-    private addJwtOptions() {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            const headers = new Headers({Authorization: 'Bearer ' + this.authenticationService.token});
-            return new RequestOptions({headers});
-        }
     }
 }
