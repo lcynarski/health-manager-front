@@ -57,7 +57,18 @@ export class FormsCreatorComponent implements AfterViewInit {
     }
 
     removeField(id: string): void {
-        this.fields = this.fields.filter(field => field.id !== id);
+
+        let fieldToDelete;
+
+        for (let i = this.fields.length - 1; i >= 0; i--) {
+            if (this.fields[i].id === id) {
+                fieldToDelete = this.fields[i].field.name;
+                break;
+            }
+        }
+
+        this.form.formFields = this.form.formFields.filter(field => field.name !== fieldToDelete);
+
     }
 
     private getRandomId(): string {

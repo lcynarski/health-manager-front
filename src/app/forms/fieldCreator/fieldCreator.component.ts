@@ -13,7 +13,7 @@ import {FormField} from "../../_models/form";
 export class FieldsCreatorComponent implements AfterViewInit {
 
     public id: string;
-    private field: FormField;
+    public field: FormField;
 
     constructor(id: string) {
         this.id = id;
