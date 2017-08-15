@@ -4,16 +4,21 @@ import {Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
 
 import {AppConfig} from '../app.config';
+import {JwtHelper} from "angular2-jwt";
 
 @Injectable()
 export class AuthenticationService {
     public token: string;
     public role: string;
+    public jwtHelper;
 
     constructor(private http: Http, private config: AppConfig) {
         // set token if saved in local storage
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
+        let jwtHelper: JwtHelper = new JwtHelper();
+        this.role = this.token && jwtHelper.decodeToken(this.token).scopes;
+
     }
 
     public login(email: string, password: string): Observable<boolean> {
@@ -26,7 +31,8 @@ export class AuthenticationService {
                 if (token) {
                     this.token = token;
                     localStorage.setItem('currentUser', JSON.stringify({email, token}));
-                    this.role = role;
+                    let jwtHelper: JwtHelper = new JwtHelper();
+                    this.role = jwtHelper.decodeToken(token).scopes;
                     return true;
                 }
                 return false;

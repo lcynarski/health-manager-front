@@ -9,7 +9,7 @@
             </button>
         </mdl-card-actions>
     </mdl-card>
-    <mdl-card mdl-shadow="2" class="patient-creator-widget" *ngIf="currentUsersRole === 'ROLE_PATIENT'">
+    <mdl-card mdl-shadow="2" class="patient-creator-widget" *ngIf="currentUsersRole === 'PATIENT'">
         <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
             <span>Doctors creator</span>
         </mdl-card-title>
@@ -19,7 +19,13 @@
             </button>
         </mdl-card-actions>
     </mdl-card>
-    <mdl-card mdl-shadow="2" class="patient-creator-widget" *ngIf="currentUsersRole === 'ROLE_DOCTOR'">
+    <!--<dashboard-widget *ngFor="widget in widgets"-->
+        <!--[title]="widget.title"-->
+        <!--[buttonLabel]="widget.buttonLabel"-->
+        <!--[link]='widget.link'-->
+        <!--[roles]="widget.roles"-->
+    <!--</dashboard-widget>-->
+    <mdl-card mdl-shadow="2" class="patient-creator-widget" *ngIf="currentUsersRole === 'DOCTOR'">
         <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
             <span>Proceed with an appointment</span>
         </mdl-card-title>
