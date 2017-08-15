@@ -1,8 +1,8 @@
-import {Component, ViewChild, AfterViewInit} from '@angular/core';
-import {FormsService} from '../../_services/forms.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Http} from '@angular/http';
-import {FieldsCreator} from "../fieldCreator/fieldCreator.component";
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { FormsService } from '../../_services/forms.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Http } from '@angular/http';
+import { FieldsCreatorComponent } from "../fieldCreator/fieldCreator.component";
 import {Form} from "../../_models/form";
 
 @Component({
@@ -12,11 +12,11 @@ import {Form} from "../../_models/form";
     templateUrl: './formCreator.component.html'
 })
 
-export class FormsCreator implements AfterViewInit {
+export class FormsCreatorComponent implements AfterViewInit {
 
     private router: Router;
     private form: Form;
-    private fields: FieldsCreator[];
+    private fields: FieldsCreatorComponent[];
 
     constructor(router: Router,
                 private http: Http,
@@ -52,7 +52,7 @@ export class FormsCreator implements AfterViewInit {
     }
 
     addField(): void {
-        this.fields.push(new FieldsCreator(this.getRandomId()));
+        this.fields.push(new FieldsCreatorComponent(this.getRandomId()));
     }
 
     removeField(id: string): void {

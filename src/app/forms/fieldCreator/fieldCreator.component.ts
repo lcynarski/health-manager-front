@@ -10,7 +10,7 @@ import {FormField} from "../../_models/form";
     templateUrl: './fieldCreator.component.html'
 })
 
-export class FieldsCreator implements AfterViewInit {
+export class FieldsCreatorComponent implements AfterViewInit {
 
     public id: string;
     private field: FormField;
