@@ -11,7 +11,6 @@ export class FormField {
     id: number;
     name: string;
     label: string;
-    value: string;
     isRequired: boolean;
     isEditable: boolean;
     placeholder: string;

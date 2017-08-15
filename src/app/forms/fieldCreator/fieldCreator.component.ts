@@ -2,6 +2,7 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { FormsService } from '../../_services/forms.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
+import {FormField} from "../../_models/form";
 
 @Component({
     selector: 'field-creator',
@@ -11,7 +12,14 @@ import { Http } from '@angular/http';
 
 export class FieldsCreator implements AfterViewInit {
 
-    constructor() {
+    public id: string;
+    private field: FormField;
+
+    constructor(id: string) {
+        this.id = id;
+        if (!this.field) {
+            this.field = new FormField();
+        }
     }
 
     ngAfterViewInit(): void {

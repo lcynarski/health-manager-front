@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 
 import { AuthenticationService } from '../_services/index';
 import { AppConfig } from '../app.config';
+import {Form} from "../_models/form";
 
 @Injectable()
 export class FormsService {
@@ -18,15 +19,15 @@ export class FormsService {
         return null;
     }
 
-    public getFormById() {
+    public getFormById(id: number) {
         return null;
     }
 
-    public getFormsByName() {
+    public getFormsByName(name: string) {
         return null;
     }
 
-   public saveForm() {
+   public saveForm(form: Form) {
         return null;
    }
 

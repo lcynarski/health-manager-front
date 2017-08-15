@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
 <div class="col-md-6">
     <div class="card card-block">
         <h4 class="card-title">Field Creator</h4>
@@ -16,6 +8,7 @@
                        class="form-control"
                        placeholder="Provide field name"
                        required
+                       [(ngModel)]="field.name"
                        name="field-name">
             </div>
 
@@ -24,6 +17,7 @@
                 <input type="checkbox"
                        class="form-control"
                        required
+                       [(ngModel)]="field.isRequired"
                        name="field-required">
             </div>
 
@@ -32,6 +26,7 @@
                 <input type="checkbox"
                        class="form-control"
                        required
+                       [(ngModel)]="field.isEditable"
                        name="field-editable">
             </div>
 
@@ -40,6 +35,7 @@
                 <input type="text"
                        class="form-control"
                        required
+                       [(ngModel)]="field.label"
                        name="field-label">
             </div>
 
@@ -48,6 +44,7 @@
                 <input type="text"
                        class="form-control"
                        required
+                       [(ngModel)]="field.placeholder"
                        name="field-placeholder">
             </div>
 
@@ -56,14 +53,7 @@
                 <input type="text"
                        class="form-control"
                        required
-                       name="field-contextual">
-            </div>
-
-            <div class="form-group">
-                <label>Contextual text</label>
-                <input type="text"
-                       class="form-control"
-                       required
+                       [(ngModel)]="field.contextualText"
                        name="field-contextual">
             </div>
 
@@ -72,6 +62,7 @@
                 <input type="text"
                        class="form-control"
                        required
+                       [(ngModel)]="field.warningText"
                        name="field-warning">
             </div>
 
@@ -80,33 +71,27 @@
                 <input type="text"
                        class="form-control"
                        required
+                       [(ngModel)]="field.errorText"
                        name="field-error">
             </div>
 
             <div class="form-group">
-                <label>Contextual text</label>
-                <input type="text"
-                       class="form-control"
-                       required
-                       name="field-contextual">
-            </div>
-
-            <div class="form-group">
                 <label>Available options</label>
-                <input type="text"
-                       class="form-control"
-                       required
-                       name="field-option-label">
-                <input type="text"
-                       class="form-control"
-                       required
-                       name="field-option-value">
+                <div *ngFor="let option of field.fieldAvailableValues">
+                    <input type="text"
+                           class="form-control"
+                           required
+                           [(ngModel)]="option.name"
+                           name="field-option-label">
+                    <input type="text"
+                           class="form-control"
+                           required
+                           [(ngModel)]="option.value"
+                           name="field-option-value">
+                </div>
             </div>
 
         </form>
 
     </div>
 </div>
-
-</body>
-</html>
