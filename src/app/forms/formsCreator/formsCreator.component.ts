@@ -2,6 +2,7 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { FormsService } from '../../_services/forms.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
+import {FieldsCreator} from "../fieldCreator/fieldCreator.component";
 
 @Component({
     providers: [FormsService],
@@ -13,6 +14,7 @@ import { Http } from '@angular/http';
 export class FormsCreator implements AfterViewInit {
 
     private router: Router;
+    private fields: FieldsCreator[];
 
     constructor(
         router: Router,
@@ -25,5 +27,24 @@ export class FormsCreator implements AfterViewInit {
     ngAfterViewInit(): void {
         throw new Error('Method not implemented.');
     }
+
+    saveForm(): void {
+        return null;
+    }
+
+    addField(): void {
+
+        this.fields.push(new FieldsCreator())
+
+    }
+
+    removeField(): void {
+
+    }
+
+
+
+
+
 
 }

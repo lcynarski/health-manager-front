@@ -11,11 +11,7 @@ import { Http } from '@angular/http';
 
 export class FieldsCreator implements AfterViewInit {
 
-    constructor(
-        router: Router,
-        private http: Http,
-        private route: ActivatedRoute,
-        private formsService: FormsService) {
+    constructor() {
     }
 
     ngAfterViewInit(): void {
