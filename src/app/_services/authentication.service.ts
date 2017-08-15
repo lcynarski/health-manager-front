@@ -8,6 +8,7 @@ import {AppConfig} from '../app.config';
 @Injectable()
 export class AuthenticationService {
     public token: string;
+    public role: string;
 
     constructor(private http: Http, private config: AppConfig) {
         // set token if saved in local storage
@@ -20,10 +21,12 @@ export class AuthenticationService {
         return this.http.post(this.config.apiUrl + '/users/login', {email, password})
             .map((response: Response) => {
                 const token = response.json() && response.json().token;
+                const role = response.json() && response.json().role;
                 console.log('DBG: token ' + token);
                 if (token) {
                     this.token = token;
                     localStorage.setItem('currentUser', JSON.stringify({email, token}));
+                    this.role = role;
                     return true;
                 }
                 return false;
@@ -34,6 +37,7 @@ export class AuthenticationService {
         this.token = null;
         localStorage.removeItem('currentUser');
     }
+
     // TODO implement some kind of interceptor adding the auth header
     public addAuthHeader(headers: Headers): boolean {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -43,5 +47,9 @@ export class AuthenticationService {
             return true;
         }
         return false;
+    }
+
+    public getRole() {
+        return this.role;
     }
 }

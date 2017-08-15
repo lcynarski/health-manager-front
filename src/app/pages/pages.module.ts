@@ -21,6 +21,7 @@ import { NgUploaderModule } from 'ngx-uploader';
 import { MdlModule } from '@angular-mdl/core';
 import { PatientSearchComponent } from './patientSearch/patientSearch.component';
 import { MedcomModule } from '../medcom/medcom.module';
+import {ProceedAppointmentComponent} from "./proceedApoinment/proceed-appointment.component";
 
 @NgModule({
     imports: [
@@ -48,6 +49,7 @@ import { MedcomModule } from '../medcom/medcom.module';
         UsersProfileComponent,
         PhotoUploader,
         PatientSearchComponent,
+        ProceedAppointmentComponent
     ]
 })
 export class PagesModule {

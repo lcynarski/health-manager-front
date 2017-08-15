@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../_services/authentication.service';
 
 @Component({
     selector: 'dashboard',
@@ -7,9 +8,12 @@ import { Router } from '@angular/router';
     templateUrl: './dashboard.component.html'
 })
 export class Dashboard {
+    public currentUsersRole;
     private router: Router;
 
-    constructor() {
+    constructor(private authService: AuthenticationService) {
+        this.currentUsersRole = authService.getRole();
+        console.log(authService.getRole());
     }
 
     public goToCreatePatient = () => {
