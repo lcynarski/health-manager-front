@@ -29,6 +29,7 @@ import { PatientDetailsComponent } from './pages/patientDetails/index';
 import { PersonalDetailsFormComponent } from './personal-details-form/index';
 import { InlineEditComponent } from './components/inline-edit/index';
 import { PagesModule } from './pages/pages.module';
+import {FieldsCreatorComponent} from "./forms/fieldCreator/fieldCreator.component";
 
 // const socialProviders = {
 //     google: {
@@ -65,7 +66,8 @@ const APP_PROVIDERS = [
         AlertComponent,
         ForgotPasswordComponent,
         PersonalDetailsFormComponent,
-        InlineEditComponent
+        InlineEditComponent,
+        FieldsCreatorComponent
     ],
     providers: [
         AppConfig,

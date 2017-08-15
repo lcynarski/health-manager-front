@@ -2,7 +2,7 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { FormsService } from '../../_services/forms.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
-import {FieldsCreator} from "../fieldCreator/fieldCreator.component";
+import { FieldsCreatorComponent } from "../fieldCreator/fieldCreator.component";
 
 @Component({
     providers: [FormsService],
@@ -11,10 +11,10 @@ import {FieldsCreator} from "../fieldCreator/fieldCreator.component";
     templateUrl: './formCreator.component.html'
 })
 
-export class FormsCreator implements AfterViewInit {
+export class FormsCreatorComponent implements AfterViewInit {
 
     private router: Router;
-    private fields: FieldsCreator[];
+    private fields: FieldsCreatorComponent[];
 
     constructor(
         router: Router,
@@ -34,7 +34,7 @@ export class FormsCreator implements AfterViewInit {
 
     addField(): void {
 
-        this.fields.push(new FieldsCreator())
+        this.fields.push(new FieldsCreatorComponent());
 
     }
 

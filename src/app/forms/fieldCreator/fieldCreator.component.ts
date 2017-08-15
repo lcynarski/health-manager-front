@@ -9,7 +9,7 @@ import { Http } from '@angular/http';
     templateUrl: './fieldCreator.component.html'
 })
 
-export class FieldsCreator implements AfterViewInit {
+export class FieldsCreatorComponent implements AfterViewInit {
 
     constructor() {
     }
