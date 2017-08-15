@@ -41,6 +41,7 @@ export class FormsCreatorComponent implements AfterViewInit {
         this.formsService.getFormById(id)
             .subscribe((form) => {
                 console.log(form);
+                this.form = form;
             });
     }
 
