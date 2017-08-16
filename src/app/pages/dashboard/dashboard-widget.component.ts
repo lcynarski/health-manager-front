@@ -20,7 +20,6 @@ export class DashboardWidgetComponent {
     constructor(router: Router, route: ActivatedRoute ) {
         this.router = router;
         this.route = route;
-        this.id = parseInt(this.route.params['patientId'], 10);
     }
 
     public viewDetails(): void {

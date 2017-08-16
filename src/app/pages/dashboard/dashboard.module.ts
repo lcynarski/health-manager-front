@@ -26,7 +26,7 @@ import { MdlModule } from '@angular-mdl/core';
 // import { UsersMapService } from './usersMap/usersMap.service';
 
 import { ChangePasswordComponent } from '../../change-password/index';
-import {DashboardWidgetComponent} from "./dashboard-widget.component";
+import { DashboardWidgetComponent } from './dashboard-widget.component';
 
 @NgModule({
     imports: [
@@ -48,7 +48,6 @@ import {DashboardWidgetComponent} from "./dashboard-widget.component";
         // Calendar,
         Dashboard,
         ChangePasswordComponent
-        // DashboardWidgetComponent
     ],
     providers: [
         // CalendarService,

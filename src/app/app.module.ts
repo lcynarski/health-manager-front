@@ -29,6 +29,7 @@ import { PatientDetailsComponent } from './pages/patientDetails/index';
 import { PersonalDetailsFormComponent } from './personal-details-form/index';
 import { InlineEditComponent } from './components/inline-edit/index';
 import { PagesModule } from './pages/pages.module';
+import {DashboardWidgetComponent} from "./pages/dashboard/dashboard-widget.component";
 
 // const socialProviders = {
 //     google: {
