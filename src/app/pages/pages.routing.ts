@@ -9,6 +9,7 @@ import {VisitsCalendarComponent} from "./visitsCalendar/visitsCalendar.component
 import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
 import {CreatePatientComponent} from './createPatient/createPatient.component';
 import {CreateDoctorComponent} from './createDoctor/createDoctor.component';
+import {CreateTimeslotComponent} from './createTimeslot/createTimeslot.component';
 import {UsersProfileComponent} from './usersProfile/usersProfile.component';
 import {PatientSearchComponent} from "./patientSearch/patientSearch.component";
 
@@ -37,6 +38,7 @@ export const routes: Routes = [
             { path: 'doctor/:doctorId', component: VisitsCalendarComponent },
             { path: 'createPatient', component: CreatePatientComponent },
             { path: 'createDoctor', component: CreateDoctorComponent },
+            { path: 'createTimeslot', component: CreateTimeslotComponent },
             { path: 'usersProfile', component: UsersProfileComponent },
             { path: 'patientSearch', component: PatientSearchComponent },
             { path: 'medcom', component: MedcomComponent }
