@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { DoctorService } from '../../_services/doctor.service';
 
@@ -13,7 +13,7 @@ import { Http } from '@angular/http';
     styleUrls: ['createTimeslot.component.scss'],
     templateUrl: './createTimeslot.component.html'
 })
-export class CreateTimeslotComponent implements AfterViewInit {
+export class CreateTimeslotComponent implements AfterViewInit, OnInit {
     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
     private router: Router;
 
@@ -27,10 +27,11 @@ export class CreateTimeslotComponent implements AfterViewInit {
 
     config: FieldConfig[] = [
         {
-            type: 'input',
-            label: 'Doctor ID',
-            name: 'doctorId',
-            placeholder: 'ID'
+            type: 'select',
+            label: 'Doctor',
+            name: 'doctor',
+            placeholder: 'Select a doctor',
+            options: []
         },
         {
             type: 'input',
@@ -51,6 +52,13 @@ export class CreateTimeslotComponent implements AfterViewInit {
         }
     ];
 
+    ngOnInit(): void {
+        this.doctorService.getAll()
+            .subscribe((doctors) => {
+                this.form.config[0].options = doctors.map((doctor) => `${doctor._id} ${doctor.firstName} ${doctor.lastName}`);
+            })
+    }
+
     ngAfterViewInit() {
         let previousValid = this.form.valid;
         this.form.changes.subscribe(() => {
@@ -68,7 +76,7 @@ export class CreateTimeslotComponent implements AfterViewInit {
             startDateTime: value.startDateTime,
             endDateTime: value.endDateTime
         };
-        this.doctorService.saveTimeSlot(timeSlot, value.doctorId)
+        this.doctorService.saveTimeSlot(timeSlot, (value.doctor as string).split(' ')[0])
             .subscribe((data) => {
                 console.log(value)
                 console.log(data);
