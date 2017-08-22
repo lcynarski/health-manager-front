@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 
-import {AppConfig} from '../app.config';
+import { AppConfig } from '../app.config';
 
 @Injectable()
 export class AuthenticationService {
@@ -17,13 +17,13 @@ export class AuthenticationService {
 
     public login(email: string, password: string): Observable<boolean> {
         console.log('DBG: trying to login.' + email + ' ' + password);
-        return this.http.post(this.config.apiUrl + '/users/login', {email, password})
+        return this.http.post(this.config.apiUrl + '/users/login', { email, password })
             .map((response: Response) => {
                 const token = response.json() && response.json().token;
                 console.log('DBG: token ' + token);
                 if (token) {
                     this.token = token;
-                    localStorage.setItem('currentUser', JSON.stringify({email, token}));
+                    localStorage.setItem('currentUser', JSON.stringify({ email, token }));
                     return true;
                 }
                 return false;
@@ -43,5 +43,13 @@ export class AuthenticationService {
             return true;
         }
         return false;
+    }
+
+    public addJwtOptions(): RequestOptions {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.token) {
+            const headers = new Headers({ Authorization: 'Bearer ' + this.token });
+            return new RequestOptions({ headers });
+        }
     }
 }

@@ -17,12 +17,12 @@ export class UserService {
     }
 
     public getAll() {
-        return this.http.get(`${this.config.apiUrl}/users`, this.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/users`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 
     public getById(_id: string) {
-        return this.http.get(`${this.config.apiUrl}/users/${_id}`, this.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/users/${_id}`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 
@@ -30,15 +30,15 @@ export class UserService {
         return this.http.post(`${this.config.apiUrl}/users/register`, user);
     }
     public update(user: User) {
-        return this.http.put(`${this.config.apiUrl}/users/${user._id}`, user, this.addJwtOptions());
+        return this.http.put(`${this.config.apiUrl}/users/${user._id}`, user, this.authenticationService.addJwtOptions());
     }
 
     public delete(_id: string) {
-        return this.http.delete(`${this.config.apiUrl}/users/${_id}`, this.addJwtOptions());
+        return this.http.delete(`${this.config.apiUrl}/users/${_id}`, this.authenticationService.addJwtOptions());
     }
 
     public changePassword(data: ChangePassword): Observable<boolean> {
-        return this.http.post(`${this.config.apiUrl}/users/updatePassword`, data, this.addJwtOptions())
+        return this.http.post(`${this.config.apiUrl}/users/updatePassword`, data, this.authenticationService.addJwtOptions())
             .map((response: Response) => {
                 return response.json() && response.json().isSuccess;
             });
@@ -52,20 +52,11 @@ export class UserService {
     }
 
     public updatePersonalDetails(data: PersonalDetails) {
-        return this.http.post(`${this.config.apiUrl}/users/updatePersonalDetails/`, data, this.addJwtOptions());
+        return this.http.post(`${this.config.apiUrl}/users/updatePersonalDetails/`, data, this.authenticationService.addJwtOptions());
     }
 
     public getPersonalDetails(): Observable<PersonalDetails> {
-        return this.http.get(`${this.config.apiUrl}/accounts/personaldetails`, this.addJwtOptions()).
+        return this.http.get(`${this.config.apiUrl}/accounts/personaldetails`, this.authenticationService.addJwtOptions()).
             map((response: Response) => response.json());
     }
-
-    private addJwtOptions() {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            const headers = new Headers({Authorization: 'Bearer ' + this.authenticationService.token});
-            return new RequestOptions({headers});
-        }
-    }
-
 }

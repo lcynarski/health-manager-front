@@ -1,22 +1,25 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import {  ChangeDetectionStrategy } from '@angular/core';
-import { CalendarEvent, CalendarDateFormatter } from 'angular-calendar';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CalendarEvent } from 'angular-calendar';
+import { EventColor } from 'calendar-utils';
 import { ModalComponent } from 'ng2-bs4-modal/ng2-bs4-modal';
-import {DoctorService} from "../../_services/doctor.service";
-import {Doctor} from "../../_models/doctor";
-import {Patient} from "../../_models/patient";
-import {PatientService} from "../../_services/patient.service";
-import {AppConfig} from "../../app.config";
+import { DoctorService } from "../../_services/doctor.service";
+import { Doctor } from "../../_models/doctor";
+import { Patient } from "../../_models/patient";
+import { PersonalDetails } from "../../_models/personalDetails";
+import { PatientService } from "../../_services/patient.service";
+import { AppointmentService } from "../../_services/appointment.service";
+import { TimeSlotService } from "../../_services/timeSlot.service";
+import { Appointment } from "../../_models/appointment";
 
 
-interface VisitEvent extends CalendarEvent{
-    slotId:string;
+interface VisitEvent extends CalendarEvent {
+    slotId: number;
+    patient?: Patient; // null jak termin nie zarezerwowany
 }
 
 @Component({
-    providers: [DoctorService, PatientService],
+    providers: [DoctorService, PatientService, AppointmentService, TimeSlotService],
     templateUrl: './visitsCalendar.component.html',
     styleUrls: ['./visitsCalendar.component.scss']
 })
@@ -25,29 +28,32 @@ export class VisitsCalendarComponent implements OnInit {
 
     public id: string;
 
-    constructor( private route: ActivatedRoute,
-                 private http: Http,
-                 private config: AppConfig,
-                 private doctorService: DoctorService, private patientService: PatientService) {
+    constructor(private route: ActivatedRoute,
+        private doctorService: DoctorService,
+        private patientService: PatientService,
+        private appointmentService: AppointmentService,
+        private timeSlotService: TimeSlotService,
+        private router: Router) {
 
     }
 
     doctor: Doctor;
 
-    patient: Patient;
+    patient: Patient; //used for communication with `onClick` functions
 
     patientName: string;
 
     patients: Patient[];
 
-    currentSlotId:string;
+    currentSlotId: number;
 
+    currentSlotTaken: boolean;
 
     view: string = 'month';
 
     viewDate: Date = new Date();
 
-    colors: any = {
+    colors: { [s: string]: EventColor; } = {
         red: {
             primary: '#ad2121',
             secondary: '#FAE3E3'
@@ -66,76 +72,93 @@ export class VisitsCalendarComponent implements OnInit {
 
 
     private loadAllPatients() {
-        this.patientService.getPatients().subscribe( (patients) => { this.patients = patients; });
+        this.patientService.getPatients().subscribe((patients) => {
+            this.patients = patients;
+        });
     }
 
-    reloadEvents(){
+    private updateTimeSlotAvailability(event: VisitEvent) {
+        this.appointmentService.getByTimeSlot(event.slotId)
+            .subscribe((appointment: Appointment) => {
+                if (appointment != undefined && appointment != null) {
+                    event.color = this.colors.red
+                    event.patient = appointment.patient
+                    var patientDetails: PersonalDetails = appointment.patient.account.personalDetails
+                    event.title = patientDetails.firstName + ' ' + patientDetails.lastName
+                }
+            })
+    }
 
-        // this.http.get(`${this.config.apiUrl}/doctors/${this.id}/slots`)
-        //     .map((response: Response) => response.json())
-        //     .subscribe(slots => {this.events = slots});
+    reloadEvents() {
+        //zawsze zaciągamy miesiąc - nawet jak patrzymy na tydzień/dzień (tak prościej :P)
+        var viewStart = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1);
+        var viewEnd = new Date(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1) % 12, 1);
 
-        this.events =  [{
-            slotId:"3",
-            title: 'Visit',
-            color: this.colors.yellow,
-            start: new Date()
-        }, {
-            slotId:"4",
-            title: 'Visit',
-            color: this.colors.blue,
-            start: new Date()
-        }];
+        this.timeSlotService.getTimeSlots(this.doctor, viewStart, viewEnd)
+            .subscribe(slots => {
+                this.events = slots.map(slot => {
+                    return {
+                        slotId: slot.id,
+                        title: "Visit",
+                        start: new Date(slot.startDateTime),
+                        end: new Date(slot.endDateTime),
+                        color: this.colors.blue
+                    }
+                })
+                //mamy terminy, teraz sprawdzamy które są zajęte!
+                for (var event of this.events) {
+                    this.updateTimeSlotAvailability(event)
+                }
+            })
     }
 
     locale: string = 'en';
 
-    modalDate:string;
-    modalTime:string;
+    modalDate: string;
+    modalTime: string;
 
 
-    eventClicked({event}: {event: CalendarEvent}): void {
+    eventClicked({ event }: { event: CalendarEvent }): void {
         console.log('Przed');
         console.log(this.patients);
         this.modalDate = event.start.toLocaleDateString();
-        this.modalTime = event.start.toLocaleTimeString().substring(0,5);
+        this.modalTime = event.start.toLocaleTimeString().substring(0, 5);
         console.log(event);
 
-        this.currentSlotId = (event as VisitEvent).slotId;
-
+        var visitEvent: VisitEvent = (event as VisitEvent)
+        this.currentSlotId = visitEvent.slotId;
+        this.currentSlotTaken = visitEvent.patient != null
+        this.patient = visitEvent.patient
         this.modal.open();
-
-        console.log("Po");
     }
 
-    setPatient(p:Patient){
+    showPatientDetails() {
+        this.router.navigate(['/pages/patientDetails/' + this.patient.id]);
+    }
+
+    setPatient(p: Patient) {
         this.patient = p;
-        // alert("id to " + this.patient);
-        // /doctors/{doctorId}/slots/{slotId}/taken_by
-        var slotId = "5";
-        this.http.post(this.config.apiUrl + '/doctors/'+this.id+'/slots/'+this.currentSlotId+'/taken_by', p.id);
+        var appointmentData = {
+            timeSlotId: this.currentSlotId,
+            tookPlace: false,
+            officeNumber: null, //TODO jak wypełnić
+            data: "Jak będą formularze to tu coś będzie"
+        };
+        for (var event of this.events) {
+            if (event.slotId == this.currentSlotId) {
+                event.color = this.colors.red;
+                break;
+            }
+        }
+        this.appointmentService.saveAppointment(this.patient.id, appointmentData);
+
         this.modalClosed();
     }
 
-    modalClosed(){
-        // alert("Pacjent to "+this.patient);
-
-        //TODO tutaj powinno wywołanie endpointa do zapisania wizyty
-
+    modalClosed() {
         this.modal.close();
         this.reloadEvents();
     }
-
-    // weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
-    //
-    // weekendDays: number[] = [
-    //     DAYS_OF_WEEK.FRIDAY,
-    //     DAYS_OF_WEEK.SATURDAY
-    // ];
-
-    // patients: Patient[] = [];
-    private router: Router;
-
 
 
     ngOnInit() {
@@ -158,8 +181,4 @@ export class VisitsCalendarComponent implements OnInit {
 
 
     }
-
-
-
-
 }
