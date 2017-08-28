@@ -16,6 +16,7 @@ import { Http } from '@angular/http';
 export class CreateTimeslotComponent implements AfterViewInit, OnInit {
     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
     private router: Router;
+    private docIdByName;
 
     constructor(
         router: Router,
@@ -53,9 +54,14 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
     ];
 
     ngOnInit(): void {
+        this.docIdByName = {};
+
         this.doctorService.getAll()
             .subscribe((doctors) => {
-                this.form.config[0].options = doctors.map((doctor) => `${doctor._id} ${doctor.firstName} ${doctor.lastName}`);
+                doctors.forEach((doctor) => {
+                    this.docIdByName[`${doctor.firstName} ${doctor.lastName}`] = doctor._id;
+                })
+                this.form.config[0].options = doctors.map((doctor) => `${doctor.firstName} ${doctor.lastName}`);
             })
     }
 
@@ -76,7 +82,7 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
             startDateTime: value.startDateTime,
             endDateTime: value.endDateTime
         };
-        this.doctorService.saveTimeSlot(timeSlot, (value.doctor as string).split(' ')[0])
+        this.doctorService.saveTimeSlot(timeSlot, this.docIdByName[value.doctor])
             .subscribe((data) => {
                 console.log(value)
                 console.log(data);
