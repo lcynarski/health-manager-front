@@ -30,25 +30,29 @@ export class CreatePatientComponent implements AfterViewInit {
             type: 'input',
             label: 'First Name',
             name: 'firstName',
-            placeholder: 'First Name'
+            placeholder: 'First Name',
+            validation: [Validators.required]
         },
         {
             type: 'input',
             label: 'Last Name',
             name: 'lastName',
-            placeholder: 'Last Name'
+            placeholder: 'Last Name',
+            validation: [Validators.required]
         },
         {
-            type: 'input',
+            type: 'date',
             label: 'Date of birth',
             name: 'birthdate',
-            placeholder: 'Date'
+            placeholder: 'Date',
+            validation: [Validators.required]
         },
         {
             type: 'input',
             label: 'PESEL',
             name: 'pesel',
-            placeholder: 'PESEL'
+            placeholder: 'PESEL',
+            validation: [Validators.required, Validators.pattern('[0-9][0-9][0-1][0-9][0-3][0-9][0-9][0-9][0-9][0-9][0-9]')]
         },
         {
             type: 'select',
@@ -61,31 +65,36 @@ export class CreatePatientComponent implements AfterViewInit {
             type: 'input',
             label: 'Phone Number',
             name: 'phoneNumber',
-            placeholder: 'Phone Number'
+            placeholder: 'Phone Number',
+            validation: [Validators.required, Validators.pattern('[0-9]+')]
         },
         {
             type: 'input',
             label: 'Country',
             name: 'country',
-            placeholder: 'Country'
+            placeholder: 'Country',
+            validation: [Validators.required]
         },
         {
             type: 'input',
             label: 'City',
             name: 'city',
-            placeholder: 'City'
+            placeholder: 'City',
+            validation: [Validators.required]
         },
         {
             type: 'input',
             label: 'Street',
             name: 'street',
-            placeholder: 'Street'
+            placeholder: 'Street',
+            validation: [Validators.required]
         },
         {
             type: 'input',
             label: 'Building',
             name: 'buildingNumber',
-            placeholder: 'Building number'
+            placeholder: 'Building number',
+            validation: [Validators.required]
         },
         {
             type: 'input',
@@ -108,10 +117,11 @@ export class CreatePatientComponent implements AfterViewInit {
                 this.form.setDisabled('submit', !previousValid);
             }
         });
-        // this.form.setDisabled('submit', true);
+        this.form.setDisabled('submit', true);
     }
 
     submit(value) {
+        console.log(value)
         const personalDetails = { account : { personalDetails : { ...value }}};
         this.patientService.savePatient(personalDetails)
             .subscribe((data) => {

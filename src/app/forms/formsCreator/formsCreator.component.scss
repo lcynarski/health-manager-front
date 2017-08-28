@@ -1,0 +1,22 @@
+
+.form-creator {
+
+  &__form {
+    background: #fff;
+    padding: 20px 30px;
+    width: 30rem;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    min-height: 40rem;
+    height: auto;
+  }
+
+  &__action-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  button {
+    margin: 2rem;
+  }
+}
