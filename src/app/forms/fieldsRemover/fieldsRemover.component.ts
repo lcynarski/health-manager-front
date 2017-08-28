@@ -8,13 +8,14 @@ import {DynamicFormComponent} from '../../components/dynamic-form/containers/dyn
 import { FormCreatorStore } from '../../stores/formCreatorStore';
 
 @Component({
-    selector: 'field-creator',
-    styleUrls: ['fieldCreator.component.scss'],
-    templateUrl: './fieldCreator.component.html'
+    selector: 'fields-remover',
+    styleUrls: ['fieldsRemover.component.scss'],
+    templateUrl: './fieldsRemover.component.html'
 })
 
-export class FieldsCreatorComponent {
-    @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+export class FieldsRemoverComponent {
+    @Input() fields: any;
+    @ViewChild(DynamicFormComponent)form: DynamicFormComponent;
 
     public id: string;
     field: FormField;
@@ -56,15 +57,11 @@ export class FieldsCreatorComponent {
         }
     ];
 
-    constructor(private formCreatorStore: FormCreatorStore) {
-        // if (!this.field) {
-        //     this.field = new FormField();
-        // }
-    }
+    constructor(private formCreatorStore: FormCreatorStore) {}
 
-    submit(value) {
-        console.log("FORM VALUE", value);
-        this.formCreatorStore.saveNewField(value);
+    removeField(name) {
+        console.log('FORM FIELD TO DELETE => ', name);
+        this.formCreatorStore.deleteField(name);
     }
 
 }

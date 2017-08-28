@@ -12,6 +12,7 @@ import { FieldConfig } from '../../models/field-config.interface';
       class="dynamic-field form-input"
       [formGroup]="group">
     <mdl-textfield label={{config.label}} [attr.placeholder]="config.placeholder" [formControlName]="config.name" floating-label></mdl-textfield>
+    </div>
   `
 })
 export class FormInputComponent implements Field {

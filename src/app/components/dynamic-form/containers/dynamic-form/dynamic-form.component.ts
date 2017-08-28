@@ -93,6 +93,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   }
 
   public setValue(name: string, value: any) {
-    this.form.controls[name].setValue(value, {emitEvent: true});
+      this.form.controls[name].setValue(value, {emitEvent: true});
   }
 }

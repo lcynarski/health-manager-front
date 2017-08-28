@@ -1,3 +1,62 @@
-<div *ngFor="let creator of field">
-    creator
+<script src="../../stores/formCreatorStore.ts"></script>
+<div class="form-creator">
+    <div>Create new form as you wish :)</div>
+    <div class="form-creator--form" style="display: flex; flex-direction: column">
+        <div class="no-fields">You have not added any fields yet :(</div>
+        <dynamic-form
+                *ngIf="fields"
+                [config]="fields"
+                #form="dynamicForm"
+        ></dynamic-form>
+        <button #addNewFieldButton mdl-button mdl-button-type="fab" mdl-colored="accent" mdl-tooltip-large="Add new field"
+                (click)="addFieldDialog.show()"
+        >
+            <mdl-icon>add</mdl-icon>
+        </button>
+        <button #removeFieldButton mdl-button mdl-button-type="fab" mdl-colored="accent" mdl-tooltip-large="Add new field"
+                (click)="removeFieldDialog.show()"
+        >
+            <mdl-icon>remove</mdl-icon>
+        </button>
+        <button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>
+    </div>
+    <mdl-dialog #addFieldDialog
+                [mdl-dialog-config]="{
+              clickOutsideToClose: true,
+              styles:{'width': '52rem', 'height': '40rem', 'overflow': 'auto'},
+              isModal:true,
+              openFrom: addNewFieldButton,
+              enterTransitionDuration: 400,
+              leaveTransitionDuration: 400}"
+    >
+        <h3 class="mdl-dialog__title">Edit Patient</h3>
+        <div class="mdl-dialog__content">
+            <field-creator>
+            </field-creator>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>
+            <button mdl-button (click)="addFieldDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+    <mdl-dialog #removeFieldDialog
+                [mdl-dialog-config]="{
+              clickOutsideToClose: true,
+              styles:{'width': '52rem', 'height': '40rem', 'overflow': 'auto'},
+              isModal:true,
+              openFrom: removeFieldButton,
+              enterTransitionDuration: 400,
+              leaveTransitionDuration: 400}"
+    >
+        <h3 class="mdl-dialog__title">Edit Patient</h3>
+        <div class="mdl-dialog__content">
+            <fields-remover [fields]="fields">
+            </fields-remover>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>
+            <button mdl-button (click)="removeFieldDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+    <dialog-outlet></dialog-outlet>
 </div>
