@@ -1,8 +1,8 @@
 <div class="col-md-6">
     <mdl-list>
-        <mdl-list-item *ngFor="let field of fields">
-            <mdl-list-item-primary-content (click)="removeField(field.name)">
-                <mdl-icon mdl-list-item-avatar>person</mdl-icon>
+        <mdl-list-item *ngFor="let field of fields" (click)="removeField(field.name)">
+            <mdl-list-item-primary-content>
+                <mdl-icon mdl-list-item-avatar>close</mdl-icon>
                 {{ field?.name }}
             </mdl-list-item-primary-content>
         </mdl-list-item>

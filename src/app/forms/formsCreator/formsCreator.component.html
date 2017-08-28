@@ -1,23 +1,24 @@
-<script src="../../stores/formCreatorStore.ts"></script>
 <div class="form-creator">
     <div>Create new form as you wish :)</div>
-    <div class="form-creator--form" style="display: flex; flex-direction: column">
-        <div class="no-fields">You have not added any fields yet :(</div>
+    <div class="form-creator__form" style="display: flex; flex-direction: column">
+        <div class="no-fields" *ngIf="!fields">You have not added any fields yet :(</div>
         <dynamic-form
                 *ngIf="fields"
                 [config]="fields"
                 #form="dynamicForm"
         ></dynamic-form>
-        <button #addNewFieldButton mdl-button mdl-button-type="fab" mdl-colored="accent" mdl-tooltip-large="Add new field"
-                (click)="addFieldDialog.show()"
-        >
-            <mdl-icon>add</mdl-icon>
-        </button>
-        <button #removeFieldButton mdl-button mdl-button-type="fab" mdl-colored="accent" mdl-tooltip-large="Add new field"
-                (click)="removeFieldDialog.show()"
-        >
-            <mdl-icon>remove</mdl-icon>
-        </button>
+        <div class="form-creator__action-buttons">
+            <button #addNewFieldButton mdl-button mdl-button-type="fab" mdl-colored="accent" mdl-tooltip-large="Add new field"
+                    (click)="addFieldDialog.show()"
+            >
+                <mdl-icon>add</mdl-icon>
+            </button>
+            <button #removeFieldButton mdl-button mdl-button-type="fab" mdl-colored="accent" mdl-tooltip-large="Remove fields"
+                    (click)="removeFieldDialog.show()"
+            >
+                <mdl-icon>remove</mdl-icon>
+            </button>
+        </div>
         <button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>
     </div>
     <mdl-dialog #addFieldDialog
@@ -29,7 +30,7 @@
               enterTransitionDuration: 400,
               leaveTransitionDuration: 400}"
     >
-        <h3 class="mdl-dialog__title">Edit Patient</h3>
+        <h3 class="mdl-dialog__title">Add fields to your form</h3>
         <div class="mdl-dialog__content">
             <field-creator>
             </field-creator>
@@ -48,7 +49,7 @@
               enterTransitionDuration: 400,
               leaveTransitionDuration: 400}"
     >
-        <h3 class="mdl-dialog__title">Edit Patient</h3>
+        <h3 class="mdl-dialog__title">Remove fields from your form</h3>
         <div class="mdl-dialog__content">
             <fields-remover [fields]="fields">
             </fields-remover>
