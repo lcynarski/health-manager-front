@@ -21,6 +21,12 @@ import { NgUploaderModule } from 'ngx-uploader';
 import { MdlModule } from '@angular-mdl/core';
 import { PatientSearchComponent } from './patientSearch/patientSearch.component';
 import { MedcomModule } from '../medcom/medcom.module';
+import {FormCheckboxComponent} from "../components/dynamic-form/components/form-checkbox/form-checkbox.component";
+import {FieldsCreatorComponent} from "../forms/fieldCreator/fieldCreator.component";
+import {FieldsRemoverComponent} from "../forms/fieldsRemover/fieldsRemover.component";
+import {FormSelectComponent} from "../components/dynamic-form/components/form-select/form-select.component";
+import {FormCreatorStore} from "../stores/formCreatorStore";
+import {FormsCreatorComponent} from "../forms/formsCreator/formsCreator.component";
 
 @NgModule({
     imports: [
@@ -48,6 +54,9 @@ import { MedcomModule } from '../medcom/medcom.module';
         UsersProfileComponent,
         PhotoUploader,
         PatientSearchComponent,
+        FieldsCreatorComponent,
+        FieldsRemoverComponent,
+        FormsCreatorComponent
     ]
 })
 export class PagesModule {

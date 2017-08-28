@@ -33,6 +33,7 @@ import {FieldsCreatorComponent} from "./forms/fieldCreator/fieldCreator.componen
 import {FormsCreatorComponent} from "./forms/formsCreator/formsCreator.component";
 import {DynamicFormModule} from "./components/dynamic-form/dynamic-form.module";
 import {FieldsRemoverComponent} from "./forms/fieldsRemover/fieldsRemover.component";
+import {FormCheckboxComponent} from "./components/dynamic-form/components/form-checkbox/form-checkbox.component";
 
 // const socialProviders = {
 //     google: {
@@ -70,10 +71,7 @@ const APP_PROVIDERS = [
         AlertComponent,
         ForgotPasswordComponent,
         PersonalDetailsFormComponent,
-        InlineEditComponent,
-        FieldsCreatorComponent,
-        FormsCreatorComponent,
-        FieldsRemoverComponent
+        InlineEditComponent
     ],
     providers: [
         AppConfig,
