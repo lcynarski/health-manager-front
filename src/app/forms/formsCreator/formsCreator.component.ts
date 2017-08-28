@@ -31,6 +31,11 @@ export class FormsCreatorComponent implements OnInit {
         this.formCreatorStore.formFields.subscribe(data => this.fields = data);
     }
 
+    save(value) {
+        console.log('This.fields:  ', this.fields);
+        console.log('Value:: ', value);
+    }
+
     // public ngOnInit() {
     //     this.route.params.subscribe((params) => {
     //         if (params['formId']) {
