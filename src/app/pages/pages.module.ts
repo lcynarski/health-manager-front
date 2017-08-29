@@ -20,7 +20,6 @@ import { PhotoUploader } from '../components/photoUploader/photoUploader.compone
 import { NgUploaderModule } from 'ngx-uploader';
 import { MdlModule } from '@angular-mdl/core';
 import { PatientSearchComponent } from './patientSearch/patientSearch.component';
-import { MedcomModule } from '../medcom/medcom.module';
 
 @NgModule({
     imports: [
@@ -35,7 +34,6 @@ import { MedcomModule } from '../medcom/medcom.module';
         DynamicFormModule,
         NgUploaderModule,
         MdlModule,
-        MedcomModule,
     ],
     declarations: [
         Pages,

@@ -1,7 +1,7 @@
 import { Component, Input, HostListener, InjectionToken, Inject, ViewEncapsulation } from '@angular/core';
 import { MdlDialogReference } from '@angular-mdl/core';
-import { DicomStudy } from '../../_models/medcom/archive';
-import { MedcomService } from '../../_services/medcom.service';
+import { DicomStudy } from '../../../_models/medcom/archive';
+import { MedcomService } from '../../../_services/medcom.service';
 
 export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetails');
 

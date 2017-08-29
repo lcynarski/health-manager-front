@@ -1,0 +1,19 @@
+<div id="DicomArchiveComponent">
+    <div id="viewContainer">
+
+        <div class="header">Dicom Archive</div>
+
+        <div *ngIf="fetching">
+            Loading...
+        </div>
+        <div *ngIf="!fetching && !!errorMsg">
+            {{errorMsg}}
+        </div>
+
+        <div id="listContainer" *ngIf="!fetching && !errorMsg">
+            <!--TODO: change to patients list component-->
+            <patient-record *ngFor="let patient of archive.patients" [patient]="patient"></patient-record>
+        </div>
+
+    </div>
+</div>

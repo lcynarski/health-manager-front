@@ -4,13 +4,13 @@ import { ModuleWithProviders } from '@angular/core';
 import {LoginComponent} from '../login/login.component';
 import {RegisterComponent} from '../register/register.component';
 import {PatientDetailsComponent} from './patientDetails/patientDetails.component';
-import {MedcomComponent} from "../medcom/medcom.component";
 import {VisitsCalendarComponent} from "./visitsCalendar/visitsCalendar.component";
 import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
 import {CreatePatientComponent} from './createPatient/createPatient.component';
 import {CreateDoctorComponent} from './createDoctor/createDoctor.component';
 import {UsersProfileComponent} from './usersProfile/usersProfile.component';
 import {PatientSearchComponent} from "./patientSearch/patientSearch.component";
+import { MedcomModule } from '../medcom/medcom.module';
 
 export const routes: Routes = [
     {
@@ -39,7 +39,7 @@ export const routes: Routes = [
             { path: 'createDoctor', component: CreateDoctorComponent },
             { path: 'usersProfile', component: UsersProfileComponent },
             { path: 'patientSearch', component: PatientSearchComponent },
-            { path: 'medcom', component: MedcomComponent }
+            { path: 'medcom', loadChildren: () => MedcomModule },
             // { path: 'components', loadChildren: './components/components.module#ComponentsModule' },
             // { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             // { path: 'ui', loadChildren: './ui/ui.module#UiModule' },
