@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as Rx from 'rxjs';
+import {FormField} from "../_models/form";
 
 let initialState: any[] = [];
 
@@ -43,6 +44,15 @@ export class FormCreatorStore {
             placeholder: value['field-placeholder']
         };
         this.addNewField.next(field);
+    }
+
+    addExistingField(formField: FormField) {
+        this.addNewField.next({
+            type: 'input',
+            label: formField.label,
+            name: formField.name,
+            placeholder: formField.placeholder
+        });
     }
 
     deleteField(fieldName) {

@@ -57,9 +57,6 @@ export class FieldsCreatorComponent {
     ];
 
     constructor(private formCreatorStore: FormCreatorStore) {
-        // if (!this.field) {
-        //     this.field = new FormField();
-        // }
     }
 
     submit(value) {

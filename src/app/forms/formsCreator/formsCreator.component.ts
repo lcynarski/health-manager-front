@@ -15,6 +15,7 @@ import {FormCreatorStore} from "../../stores/formCreatorStore";
 
 export class FormsCreatorComponent implements OnInit {
 
+    private formId: number;
     private router: Router;
     private form: Form;
     private fields: FieldsCreatorComponent[];
@@ -29,6 +30,12 @@ export class FormsCreatorComponent implements OnInit {
 
     public ngOnInit() {
         this.formCreatorStore.formFields.subscribe(data => this.fields = data);
+        this.route.params.subscribe((params) => {
+            if (params['formId']) {
+                this.loadForm(params['formId']);
+            }
+        });
+
     }
 
     save(value) {
@@ -36,25 +43,14 @@ export class FormsCreatorComponent implements OnInit {
         console.log('Value:: ', value);
     }
 
-    // public ngOnInit() {
-    //     this.route.params.subscribe((params) => {
-    //         if (params['formId']) {
-    //             this.loadForm(params['formId']);
-    //         }
-    //     });
-    // }
-    //
-    // ngAfterViewInit(): void {
-    //     console.log('Method not implemented.');
-    // }
-    //
-    // loadForm(id: number) {
-    //     this.formsService.getFormById(id)
-    //         .subscribe((form) => {
-    //             console.log(form);
-    //             this.form = form;
-    //         });
-    // }
+    loadForm(id: number) {
+        this.formsService.getFormById(id)
+            .subscribe((form) => {
+                form.formFields.forEach((f) => {
+                    this.formCreatorStore.addExistingField(f)
+                });
+            });
+    }
     //
     // saveForm(): void {
     //     this.formsService.saveForm(this.form)
