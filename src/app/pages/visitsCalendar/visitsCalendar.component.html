@@ -3,35 +3,17 @@
     <h1>{{doctor?.specialization.description}} {{doctor?.firstName}} {{doctor?.lastName}} - available time-slots</h1>
     <div>
 
-        <mwl-demo-utils-calendar-header
-                [(view)]="view"
-                [(viewDate)]="viewDate">
+        <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate" (click)="reloadEvents()">
+            <!-- TODO: nie potrzebujemy przeładowywać wydarzeń przy przełączaniu miesiąc-tydzień-dzień ale nie wiem jak to zrobić -->
         </mwl-demo-utils-calendar-header>
         <div [ngSwitch]="view">
-            <mwl-calendar-month-view
-                    *ngSwitchCase="'month'"
-                    [viewDate]="viewDate"
-                    [events]="events"
-                    [locale]="locale"
-                    (eventClicked)="eventClicked($event)"
-                    (dayClicked)="viewDate = $event.day.date; view = 'day'">
-
+            <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" [locale]="locale" (eventClicked)="eventClicked($event)"
+                (dayClicked)="viewDate = $event.day.date; view = 'day'">
             </mwl-calendar-month-view>
-            <mwl-calendar-week-view
-                    *ngSwitchCase="'week'"
-                    [viewDate]="viewDate"
-                    [events]="events"
-                    [locale]="locale"
-                    (eventClicked)="eventClicked($event)"
-                    (dayHeaderClicked)="viewDate = $event.day.date; view = 'day'"
-            >
+            <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events" [locale]="locale" (eventClicked)="eventClicked($event)"
+                (dayHeaderClicked)="viewDate = $event.day.date; view = 'day'">
             </mwl-calendar-week-view>
-            <mwl-calendar-day-view
-                    *ngSwitchCase="'day'"
-                    [viewDate]="viewDate"
-                    [events]="events"
-                    [locale]="locale"
-                    (eventClicked)="eventClicked($event)">
+            <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events" [locale]="locale" (eventClicked)="eventClicked($event)">
             </mwl-calendar-day-view>
         </div>
 
@@ -43,7 +25,7 @@
 
 <modal #visitModal>
     <modal-header [show-close]="true">
-        <h1 class="modal-title" >Visit</h1>
+        <h1 class="modal-title">Visit</h1>
 
     </modal-header>
     <modal-body>
@@ -51,14 +33,20 @@
         <h2>{{modalDate}}, {{modalTime}}</h2>
         <h3>Patient's data</h3>
         <!--<div class="dropdown">-->
-            <!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{patientName}}-->
-                <!--<span class="caret"></span></button>-->
-            <ul >
+        <!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{patientName}}-->
+        <!--<span class="caret"></span></button>-->
+        <div *ngIf='currentSlotTaken'>
+            <a (click)="showPatientDetails()">
+    Taken by: {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}</a>
+        </div>
+        <div *ngIf='!currentSlotTaken'>
+            <ul>
                 <li *ngFor="let patient of patients"><a (click)="setPatient(patient)">
                     {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}
                 </a></li>
 
             </ul>
+        </div>
         <!--</div>-->
     </modal-body>
     <modal-footer>

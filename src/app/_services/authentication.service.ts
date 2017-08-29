@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 
 import {AppConfig} from '../app.config';
@@ -53,6 +53,14 @@ export class AuthenticationService {
             return true;
         }
         return false;
+    }
+
+    public addJwtOptions(): RequestOptions {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.token) {
+            const headers = new Headers({ Authorization: 'Bearer ' + this.token });
+            return new RequestOptions({ headers });
+        }
     }
 
     public getRole() {
