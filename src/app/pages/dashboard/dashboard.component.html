@@ -1,58 +1,9 @@
 <div class="row">
-    <mdl-card mdl-shadow="2" class="patient-creator-widget">
-        <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
-            <span>Patient's creator</span>
-        </mdl-card-title>
-        <mdl-card-actions mdl-card-border>
-            <button mdl-button mdl-colored mdl-ripple [routerLink]="['/pages/createPatient']" >
-                Create patient
-            </button>
-        </mdl-card-actions>
-    </mdl-card>
-    <mdl-card mdl-shadow="2" class="patient-creator-widget" *ngIf="currentUsersRole === 'PATIENT'">
-        <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
-            <span>Doctors creator</span>
-        </mdl-card-title>
-        <mdl-card-actions mdl-card-border>
-            <button mdl-button mdl-colored mdl-ripple [routerLink]="['/pages/createDoctor']" >
-                Create doctor
-            </button>
-        </mdl-card-actions>
-    </mdl-card>
-    <!--<dashboard-widget *ngFor="widget in widgets"-->
-        <!--[title]="widget.title"-->
-        <!--[buttonLabel]="widget.buttonLabel"-->
-        <!--[link]='widget.link'-->
-        <!--[roles]="widget.roles"-->
-    <!--&gt;</dashboard-widget>-->
-    <mdl-card mdl-shadow="2" class="patient-creator-widget" *ngIf="currentUsersRole === 'DOCTOR'">
-        <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
-            <span>Proceed with an appointment</span>
-        </mdl-card-title>
-        <mdl-card-actions mdl-card-border>
-            <button mdl-button mdl-colored mdl-ripple [routerLink]="['/pages/proceedAppointment']" >
-                Proceed
-            </button>
-        </mdl-card-actions>
-    </mdl-card>
-    <mdl-card mdl-shadow="2" class="patient-creator-widget">
-        <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
-            <span>Search for a patient</span>
-        </mdl-card-title>
-        <mdl-card-actions mdl-card-border>
-            <button mdl-button mdl-colored mdl-ripple [routerLink]="['/pages/patientSearch']" >
-                Search
-            </button>
-        </mdl-card-actions>
-    </mdl-card>
-    <mdl-card mdl-shadow="2" class="patient-creator-widget">
-        <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
-            <span>Forms createor</span>
-        </mdl-card-title>
-        <mdl-card-actions mdl-card-border>
-            <button mdl-button mdl-colored mdl-ripple [routerLink]="['/formsCreator']" >
-                Go to creator
-            </button>
-        </mdl-card-actions>
-    </mdl-card>
+    <dashboard-widget *ngFor="let widget of widgets"
+        [title]="widget.title"
+        [buttonLabel]="widget.buttonLabel"
+        [link]='widget.link'
+        [roles]="widget.roles"
+    >
+    </dashboard-widget>
 </div>

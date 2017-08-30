@@ -1,4 +1,4 @@
-<mdl-card mdl-shadow="2" class="patient-creator-widget" *ngIf="currentUsersRole === 'PATIENT'">
+<mdl-card mdl-shadow="2" class="patient-creator-widget" *ngIf="toDisplay">
     <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
         <span>{{ title }}</span>
     </mdl-card-title>
@@ -8,4 +8,3 @@
         </button>
     </mdl-card-actions>
 </mdl-card>
-

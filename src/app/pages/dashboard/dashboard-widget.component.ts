@@ -1,32 +1,31 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import {AuthenticationService} from '../../_services/authentication.service';
 
 @Component({
     selector: 'dashboard-widget',
+    styleUrls: ['./dashboard-widget.scss'],
     templateUrl: './dashboard-widget.component.html'
-    // styleUrls: ['./patientsList.component.scss']
 })
 
-export class DashboardWidgetComponent {
+export class DashboardWidgetComponent implements OnInit {
     @Input('title') title: string;
     @Input('buttonLabel') buttonLabel: string;
     @Input('link') link: string;
-    @Input('roles') roles: any
+    @Input('roles') roles: any;
 
+    public currentUserRole;
     private router: Router;
     private route: ActivatedRoute;
-    public id: number;
+    private toDisplay: boolean;
 
-    constructor(router: Router, route: ActivatedRoute ) {
+    constructor(router: Router, route: ActivatedRoute, private authService: AuthenticationService ) {
         this.router = router;
         this.route = route;
     }
 
-    public viewDetails(): void {
-        this.router.navigate(['/patientDetails', {patientId: this.id}]);
-    }
-
-    public goToList(): void {
-        this.router.navigate(['/patientsList']);
+    public ngOnInit() {
+        this.currentUserRole = this.authService.getRole();
+        this.toDisplay = this.roles.includes(this.currentUserRole);
     }
 }
