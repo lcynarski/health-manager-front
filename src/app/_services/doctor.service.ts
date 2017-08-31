@@ -26,7 +26,11 @@ export class DoctorService {
             .map((response: Response) => response.json());
     }
 
-
+    public saveTimeSlot(data, doctorId) {
+        console.log(data);
+        return this.http.post(`${this.config.apiUrl}/doctors/${doctorId}/slots`, data, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
 
     doctorFromJson(obj:any):Doctor{
         return {

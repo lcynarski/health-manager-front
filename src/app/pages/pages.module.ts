@@ -14,12 +14,16 @@ import { CalendarModule } from 'angular-calendar';
 import { CalendarHeaderComponent } from './visitsCalendar/calendar-header.component';
 import { CreatePatientComponent } from './createPatient/createPatient.component';
 import { CreateDoctorComponent } from './createDoctor/createDoctor.component';
+import { CreateTimeslotComponent } from './createTimeslot/createTimeslot.component';
 import { DynamicFormModule } from '../components/dynamic-form/dynamic-form.module';
 import { UsersProfileComponent } from './usersProfile/usersProfile.component';
 import { PhotoUploader } from '../components/photoUploader/photoUploader.component';
 import { NgUploaderModule } from 'ngx-uploader';
 import { MdlModule } from '@angular-mdl/core';
 import { PatientSearchComponent } from './patientSearch/patientSearch.component';
+import {ProceedAppointmentComponent} from "./proceedApoinment/proceed-appointment.component";
+import {ChangePasswordComponent} from "../change-password/change-password.component";
+import {DashboardWidgetComponent} from "./dashboard/dashboard-widget.component";
 
 @NgModule({
     imports: [
@@ -42,10 +46,13 @@ import { PatientSearchComponent } from './patientSearch/patientSearch.component'
         VisitsCalendarComponent,
         CalendarHeaderComponent,
         CreatePatientComponent,
+        CreateTimeslotComponent,
         CreateDoctorComponent,
         UsersProfileComponent,
         PhotoUploader,
         PatientSearchComponent,
+        ProceedAppointmentComponent,
+        ChangePasswordComponent
     ]
 })
 export class PagesModule {

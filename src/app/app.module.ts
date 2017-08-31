@@ -33,6 +33,7 @@ import {FieldsCreatorComponent} from "./forms/fieldCreator/fieldCreator.componen
 import {FormsCreatorComponent} from "./forms/formsCreator/formsCreator.component";
 import {DynamicFormModule} from "./components/dynamic-form/dynamic-form.module";
 import {FieldsRemoverComponent} from "./forms/fieldsRemover/fieldsRemover.component";
+import {DashboardWidgetComponent} from "./pages/dashboard/dashboard-widget.component";
 
 // const socialProviders = {
 //     google: {

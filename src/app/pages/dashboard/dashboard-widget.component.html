@@ -1,0 +1,10 @@
+<mdl-card mdl-shadow="2" class="patient-creator-widget" *ngIf="toDisplay">
+    <mdl-card-title mdl-card-expand class="patient-creator-widget__title">
+        <span>{{ title }}</span>
+    </mdl-card-title>
+    <mdl-card-actions mdl-card-border>
+        <button mdl-button mdl-colored mdl-ripple [routerLink]="link" >
+            {{buttonLabel}}
+        </button>
+    </mdl-card-actions>
+</mdl-card>
