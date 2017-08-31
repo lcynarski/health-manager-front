@@ -4,15 +4,17 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/of';
 
-import { AppConfig } from '../app.config';
-import { AuthenticationService } from './index';
-import { DicomArchive } from '../_models/index';
-import { DicomSeries, DicomStudy } from '../_models/medcom/archive';
+import { AppConfig } from '../../app.config';
+import { AuthenticationService } from '../index';
+import { DicomArchive } from '../../_models/index';
+import { DicomSeries, DicomStudy } from '../../_models/medcom/archive';
+import { mockArchive } from '../../_models/_mocks/medcom';
 
 
 @Injectable()
-export class MedcomService {
+export class ArchiveService {
 
     private readonly medcomPath = this.config.apiUrl + '/medcom';
     private readonly archiveTreePath = '/archive/tree';
@@ -37,6 +39,10 @@ export class MedcomService {
     public getRefreshingActiveTree(interval = 10000): Observable<DicomArchive> {
         return Observable.timer(0, interval)
             .exhaustMap(() => this.getArchiveTree());
+    }
+
+    public getMockArchiveTree(): Observable<DicomArchive> {
+        return Observable.of(mockArchive);
     }
 
     public getInstanceUrl(study: DicomStudy, series: DicomSeries): string {

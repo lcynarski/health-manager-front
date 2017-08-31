@@ -1,7 +1,7 @@
 import { Component, Input, HostListener, InjectionToken, Inject, ViewEncapsulation } from '@angular/core';
 import { MdlDialogReference } from '@angular-mdl/core';
 import { DicomStudy } from '../../../_models/medcom/archive';
-import { MedcomService } from '../../../_services/medcom.service';
+import { ArchiveService } from '../../../_services/medcom/archive.service';
 
 export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetails');
 
@@ -17,7 +17,7 @@ export class MedcomStudyDialogComponent {
 
     constructor(@Inject(STUDY_INJECTION_TOKEN) public study: DicomStudy,
                 private dialog: MdlDialogReference,
-                private medcomService: MedcomService) {
+                private medcomService: ArchiveService) {
         if (study.series.length) {
             this.onSeriesChange({index: 0});
         }

@@ -10,6 +10,7 @@ import { MedcomStudyDialogComponent } from './dicom-archive/medcom-study-dialog/
 import { DicomArchiveComponent } from './dicom-archive/dicom-archive.component';
 import { ModalitiesComponent } from './modalities/modalities.component';
 import { ProceduresScheduleComponent } from './procedures-schedule/procedures-schedule.component';
+import { ArchiveService, ScheduledProceduresService, ModalitiesService } from '../_services/medcom';
 
 
 @NgModule({
@@ -30,6 +31,11 @@ import { ProceduresScheduleComponent } from './procedures-schedule/procedures-sc
     entryComponents: [
         MedcomStudyDialogComponent,
     ],
+    providers: [
+        ArchiveService,
+        ScheduledProceduresService,
+        ModalitiesService,
+    ]
 })
 export class MedcomModule {
 }

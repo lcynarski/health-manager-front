@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { MedcomService } from '../../_services/index';
+import { ArchiveService } from '../../_services/index';
 import { DicomArchive } from '../../_models/medcom/archive';
 import { Subject } from 'rxjs/Subject';
 
@@ -16,7 +16,7 @@ export class DicomArchiveComponent implements OnInit, OnDestroy {
     private errorMsg: string = null;
     private archive: DicomArchive = null;
 
-    constructor(private medcomService: MedcomService) {
+    constructor(private archiveService: ArchiveService) {
     }
 
     public ngOnInit() {
@@ -32,7 +32,8 @@ export class DicomArchiveComponent implements OnInit, OnDestroy {
 
     private fetchArchive(): void {
         this.fetching = true;
-        this.medcomService.getArchiveTree()
+        // this.archiveService.getArchiveTree()
+        this.archiveService.getMockArchiveTree()
             .takeUntil(this.ngUnsubscribe)
             .subscribe(
                 (archive: DicomArchive) => {
