@@ -28,7 +28,7 @@ export class DoctorService {
 
     public saveTimeSlot(data, doctorId) {
         console.log(data);
-        return this.http.post(`${this.config.apiUrl}/doctors/${doctorId}/slots`, data, this.addJwtOptions())
+        return this.http.post(`${this.config.apiUrl}/doctors/${doctorId}/slots`, data, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 

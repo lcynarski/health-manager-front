@@ -35,16 +35,16 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
             options: []
         },
         {
-            type: 'input',
+            type: 'date',
             label: 'Start Date-time',
             name: 'startDateTime',
-            placeholder: 'Date-time'
+            //placeholder: 'Date-time'
         },
         {
-            type: 'input',
+            type: 'date',
             label: 'End Date-time',
             name: 'endDateTime',
-            placeholder: 'Date-time'
+            //placeholder: 'Date-time'
         },
         {
             label: 'Submit',

@@ -23,6 +23,12 @@ export class DashboardComponent {
             roles: ['ADMIN']
         },
         {
+            title: "Timeslot creator",
+            buttonLabel: 'Create',
+            link: '/pages/createTimeslot',
+            roles: ['DOCTOR','ADMIN']
+        },
+        {
             title: 'Proceed with an appointment',
             buttonLabel: 'Proceed',
             link: '/pages/proceedAppointment',
