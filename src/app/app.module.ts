@@ -29,6 +29,11 @@ import { PatientDetailsComponent } from './pages/patientDetails/index';
 import { PersonalDetailsFormComponent } from './personal-details-form/index';
 import { InlineEditComponent } from './components/inline-edit/index';
 import { PagesModule } from './pages/pages.module';
+import {FieldsCreatorComponent} from "./forms/fieldCreator/fieldCreator.component";
+import {FormsCreatorComponent} from "./forms/formsCreator/formsCreator.component";
+import {DynamicFormModule} from "./components/dynamic-form/dynamic-form.module";
+import {FieldsRemoverComponent} from "./forms/fieldsRemover/fieldsRemover.component";
+import {DashboardWidgetComponent} from "./pages/dashboard/dashboard-widget.component";
 
 // const socialProviders = {
 //     google: {
@@ -54,7 +59,8 @@ const APP_PROVIDERS = [
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyAVY4MA8FBzN8gFd1v0cF-RAOcdwukvJKQ'
         }),
-        MdlModule
+        MdlModule,
+        DynamicFormModule
     ],
     declarations: [
         AppComponent,
@@ -65,7 +71,10 @@ const APP_PROVIDERS = [
         AlertComponent,
         ForgotPasswordComponent,
         PersonalDetailsFormComponent,
-        InlineEditComponent
+        InlineEditComponent,
+        FieldsCreatorComponent,
+        FormsCreatorComponent,
+        FieldsRemoverComponent
     ],
     providers: [
         AppConfig,

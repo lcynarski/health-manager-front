@@ -22,7 +22,7 @@ export class DoctorService {
     public saveDoctor(data) {
         console.log('Saving doctor');
         console.log(data);
-        return this.http.post(`${this.config.apiUrl}/doctors`, data, this.addJwtOptions())
+        return this.http.post(`${this.config.apiUrl}/doctors`, data, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 
@@ -53,12 +53,5 @@ export class DoctorService {
             console.log(response.json());
             return this.doctorFromJson(response.json());
         });
-    }
-    private addJwtOptions() {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            const headers = new Headers({Authorization: 'Bearer ' + this.authenticationService.token});
-            return new RequestOptions({headers});
-        }
     }
 }

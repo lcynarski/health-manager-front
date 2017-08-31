@@ -7,11 +7,15 @@ import { FormSelectComponent } from '../form-select/form-select.component';
 
 import { Field } from '../../models/field.interface';
 import { FieldConfig } from '../../models/field-config.interface';
+import {FormCheckboxComponent} from '../form-checkbox/form-checkbox.component';
+import {FormDateComponent} from "../form-date/form-date.component";
 
 const components: {[type: string]: Type<Field>} = {
   button: FormButtonComponent,
   input: FormInputComponent,
-  select: FormSelectComponent
+  select: FormSelectComponent,
+  checkbox: FormCheckboxComponent,
+  date: FormDateComponent
 };
 
 @Directive({

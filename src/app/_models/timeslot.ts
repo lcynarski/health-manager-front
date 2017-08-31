@@ -1,5 +1,5 @@
 export class TimeSlot {
     id: number;
-    startDateTime: string;
-    endDateTime: string;
+    startDateTime: Date;
+    endDateTime: Date;
 }
