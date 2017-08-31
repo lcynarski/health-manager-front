@@ -1,0 +1,10 @@
+.patient-creator-widget {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2rem 2rem 0;
+
+  &__title {
+    font-weight: 700;
+  }
+}

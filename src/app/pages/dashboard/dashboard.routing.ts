@@ -1,14 +1,14 @@
 import { Routes, RouterModule } from '@angular/router';
 
 import { ChangePasswordComponent } from '../../change-password';
-import { Dashboard } from './dashboard.component';
+import { DashboardComponent } from './dashboard.component';
 import { ModuleWithProviders } from '@angular/core';
 
 // noinspection TypeScriptValidateTypes
 export const routes: Routes = [
     {
         path: '',
-        component: Dashboard,
+        component: DashboardComponent,
         children: [
             // { path: 'treeview', component: TreeViewComponent }
         ]
