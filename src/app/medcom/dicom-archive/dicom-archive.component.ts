@@ -32,8 +32,8 @@ export class DicomArchiveComponent implements OnInit, OnDestroy {
 
     private fetchArchive(): void {
         this.fetching = true;
-        // this.archiveService.getArchiveTree()
-        this.archiveService.getMockArchiveTree()
+        this.archiveService.getArchiveTree()
+        // this.archiveService.getMockArchiveTree()
             .takeUntil(this.ngUnsubscribe)
             .subscribe(
                 (archive: DicomArchive) => {

@@ -45,12 +45,11 @@ export class ArchiveService {
         return Observable.of(mockArchive);
     }
 
-    public getInstanceUrl(study: DicomStudy, series: DicomSeries): string {
-        if (!series.dicoms.length) {
-            return null;
-        }
-        return `${this.medcomPath}/patients/${study.patientId}/studies/${study.studyInstanceUid}/series/${series.seriesInstanceUid}/instances/${series.dicoms[0].sopInstanceUid}`;
-    }
+    public getSeriesDicoms(study: DicomStudy, series: DicomSeries): string[] {
+        const prefix = `${this.medcomPath}/patients/${study.patientId}/studies/${study.studyInstanceUid}/series/${series.seriesInstanceUid}/instances/`;
 
+        return series.dicoms
+            .map((dicom) => prefix + dicom.sopInstanceUid);
+    }
 
 }

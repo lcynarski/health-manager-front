@@ -13,25 +13,24 @@ export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetail
 })
 export class MedcomStudyDialogComponent {
 
-    instanceUrl: string;
+    images: string[];
 
     constructor(@Inject(STUDY_INJECTION_TOKEN) public study: DicomStudy,
                 private dialog: MdlDialogReference,
                 private medcomService: ArchiveService) {
         if (study.series.length) {
-            this.onSeriesChange({index: 0});
+            this.onSeriesChange({ index: 0 });
         }
     }
 
     onSeriesChange({ index }) {
         console.log('series changed to ' + index);
         const series = this.study.series[index];
-        this.instanceUrl = this.medcomService.getInstanceUrl(this.study, series);
+        this.images = this.medcomService.getSeriesDicoms(this.study, series);
     }
 
-    @HostListener('keydown.esc')
-    public onEsc(): void {  // TODO: fixme
-        console.log('on esc');
+    @HostListener('document:keydown.esc')
+    public onEsc(): void {
         this.dialog.hide();
     }
 }

@@ -11,13 +11,7 @@
     </mdl-tabs>
 
     <div id="dicomContainer">
-        <div dicomInstance
-             [url]="instanceUrl"
-             oncontextmenu="return false"
-             unselectable="on"
-             onselectstart="return false;"
-             onmousedown="return false;">
-        </div>
+        <div dicom [imageUrls]="images"></div>
     </div>
 
 </div>
