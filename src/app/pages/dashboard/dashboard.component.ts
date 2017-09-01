@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../_services/authentication.service';
-import {JwtHelper} from 'angular2-jwt';
 
 @Component({
     selector: 'dashboard',
@@ -14,43 +12,43 @@ export class DashboardComponent {
             title: "Patient's creator",
             buttonLabel: 'Create',
             link: '/pages/createPatient',
-            roles: ['DOCTOR', 'ADMIN']
+            roles: ['ROLE_PATIENT', 'ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
             title: "Doctor's creator",
             buttonLabel: 'Create',
             link: '/pages/createDoctor',
-            roles: ['ADMIN']
+            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
-            title: "Timeslot creator",
+            title: 'Timeslot creator',
             buttonLabel: 'Create',
             link: '/pages/createTimeslot',
-            roles: ['DOCTOR','ADMIN']
+            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
             title: 'Proceed with an appointment',
             buttonLabel: 'Proceed',
             link: '/pages/proceedAppointment',
-            roles: ['DOCTOR', 'ADMIN']
+            roles: ['ROLE_PATIENT', 'ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
             title: 'Search for a patient',
             buttonLabel: 'Search',
             link: '/pages/patientSearch',
-            roles: ['DOCTOR', 'ADMIN']
+            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
             title: 'Forms creator',
             buttonLabel: 'Go to creator',
-            link: '/pages/patientSearch',
-            roles: ['DOCTOR', 'ADMIN']
+            link: '/formsCreator',
+            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
             title: 'Look into your profile',
             buttonLabel: 'Check',
             link: '/dashboard',
-            roles: ['PATIENT', 'ADMIN']
+            roles: ['ROLE_PATIENT', 'ROLE_ADMIN']
         },
     ];
     private router: Router;
