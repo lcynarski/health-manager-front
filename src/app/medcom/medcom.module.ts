@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdlModule } from '@angular-mdl/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { routing } from './medcom.routing';
 import { DicomDirective } from '../_directives/medcom/dicom.directive';
@@ -16,6 +17,7 @@ import { ArchiveService, ScheduledProceduresService, ModalitiesService } from '.
 @NgModule({
     imports: [
         CommonModule,
+        FlexLayoutModule,
         MdlModule,
         routing,
     ],

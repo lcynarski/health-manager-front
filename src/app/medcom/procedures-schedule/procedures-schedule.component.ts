@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ScheduledProcedure } from '../../_models/medcom/scheduledProcedure';
+import { ScheduledProceduresService, ModalitiesService } from '../../_services/medcom';
 
 
 @Component({
@@ -8,9 +10,20 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 })
 export class ProceduresScheduleComponent implements OnInit, OnDestroy {
 
-    constructor() {}
+    procedures: ScheduledProcedure[];
 
-    public ngOnInit() {}
+    constructor(private scheduledProceduresService: ScheduledProceduresService,
+                public modalitiesService: ModalitiesService) {}
+
+    public ngOnInit() {
+        this.scheduledProceduresService.getMockSchedule()
+            .subscribe(
+                ((procedures: ScheduledProcedure[]) => {
+                    this.procedures = procedures
+                        .sort((p1, p2) => (p1.date < p2.date) ? 1 : -1);
+                })
+            );
+    }
 
     public ngOnDestroy() {}
 

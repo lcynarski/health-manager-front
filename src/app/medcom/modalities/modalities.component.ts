@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ModalitiesService } from '../../_services/medcom/modalities.service';
+import { Modality } from '../../_models/medcom/modality';
 
 
 @Component({
@@ -8,9 +10,18 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 })
 export class ModalitiesComponent implements OnInit, OnDestroy {
 
-    constructor() {}
+    modalities: Modality[];
 
-    public ngOnInit() {}
+    constructor(private modalitiesService: ModalitiesService) {}
+
+    public ngOnInit() {
+        this.modalitiesService.getMockModalities()
+            .subscribe(
+                (modalities) => {
+                    this.modalities = modalities;
+                }
+            );
+    }
 
     public ngOnDestroy() {}
 

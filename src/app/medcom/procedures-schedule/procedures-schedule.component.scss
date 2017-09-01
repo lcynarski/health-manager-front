@@ -6,14 +6,30 @@
 }
 
 #viewContainer {
+  padding-top: 20px;
   max-width: 1000px;
   margin: 0 auto;
   color: $oc-gray-9;
 }
 
-.header {
-  text-align: center;
-  color: $oc-indigo-6;
-  font-size: 48px;
+#listHeaders { // TODO: extract into shared record mixin
+  margin: 10px 20px;
+  color: rgba(black, 0.8);
+}
+
+#listContainer {
+  .record {
+    margin: 10px;
+    padding: 10px; // TODO: extract into shared record mixin
+    background: $oc-gray-8;
+    color: white;
+    cursor: pointer;
+    @include shadow(2px);
+    z-index: 10;
+    position: relative;
+    &:hover {
+      color: $oc-indigo-4;
+    }
+  }
 }
 

@@ -1,7 +1,21 @@
 <div id="modalitiesComponent">
     <div id="viewContainer">
 
-        <div class="header">Modalities</div>
+        <div id="listHeaders" fxLayout="row">
+            <div fxFlex="25">AE title</div>
+            <div fxFlex="15">type</div>
+            <div fxFlex="35">description</div>
+            <div fxFlex="25">location</div>
+        </div>
+
+        <div id="listContainer">
+            <div class="record" fxLayout="row" *ngFor="let modality of modalities">
+                <div fxFlex="25">{{modality.applicationEntity}}</div>
+                <div fxFlex="15">{{modality.name}}</div>
+                <div fxFlex="35">{{modality.description}}</div>
+                <div fxFlex="25">{{modality.location}}</div>
+            </div>
+        </div>
 
     </div>
 </div>
