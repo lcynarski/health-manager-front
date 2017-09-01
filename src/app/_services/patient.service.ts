@@ -42,6 +42,7 @@ export class PatientService {
     }
 
     public editPatient(data) {
+        console.log("editPatient", data)
         return this.http.put(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
             .map((response) => response.json());
     }

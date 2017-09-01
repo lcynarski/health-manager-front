@@ -148,6 +148,7 @@ export class PatientDetailsComponent implements OnInit {
 
     submit(value) {
         console.log(this.patient)
+        console.log('KURWA VALUE', value)
         const personalDetails = {
             id: this.patient.id,
             account : {
