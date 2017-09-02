@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { MdlDialogService, MdlDialogComponent } from '@angular-mdl/core';
-import { DicomPatient, DicomStudy } from '../../_models/medcom/archive';
+import { DicomPatient, DicomStudy } from '../../../_models/medcom/archive';
 import {
     MedcomStudyDialogComponent,
     STUDY_INJECTION_TOKEN

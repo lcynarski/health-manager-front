@@ -4,15 +4,17 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/of';
 
-import { AppConfig } from '../app.config';
-import { AuthenticationService } from './index';
-import { DicomArchive } from '../_models/index';
-import { DicomSeries, DicomStudy } from '../_models/medcom/archive';
+import { AppConfig } from '../../app.config';
+import { AuthenticationService } from '../index';
+import { DicomArchive } from '../../_models/index';
+import { DicomSeries, DicomStudy } from '../../_models/medcom/archive';
+import { mockArchive } from '../../_models/_mocks/medcom';
 
 
 @Injectable()
-export class MedcomService {
+export class ArchiveService {
 
     private readonly medcomPath = this.config.apiUrl + '/medcom';
     private readonly archiveTreePath = '/archive/tree';
@@ -39,12 +41,15 @@ export class MedcomService {
             .exhaustMap(() => this.getArchiveTree());
     }
 
-    public getInstanceUrl(study: DicomStudy, series: DicomSeries): string {
-        if (!series.dicoms.length) {
-            return null;
-        }
-        return `${this.medcomPath}/patients/${study.patientId}/studies/${study.studyInstanceUid}/series/${series.seriesInstanceUid}/instances/${series.dicoms[0].sopInstanceUid}`;
+    public getMockArchiveTree(): Observable<DicomArchive> {
+        return Observable.of(mockArchive);
     }
 
+    public getSeriesDicoms(study: DicomStudy, series: DicomSeries): string[] {
+        const prefix = `${this.medcomPath}/patients/${study.patientId}/studies/${study.studyInstanceUid}/series/${series.seriesInstanceUid}/instances/`;
+
+        return series.dicoms
+            .map((dicom) => prefix + dicom.sopInstanceUid);
+    }
 
 }

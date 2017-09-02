@@ -1,4 +1,4 @@
-import { Directive, Input, ElementRef, OnChanges } from '@angular/core';
+import { Directive, Input, ElementRef, OnChanges, HostListener } from '@angular/core';
 
 declare const cornerstone;
 declare const cornerstoneTools;
@@ -6,14 +6,13 @@ declare const cornerstoneWADOImageLoader;
 
 const WadoImageLoaderSchemeName = 'wadouri:';
 
-@Directive({ selector: '[dicomInstance]' })
+@Directive({
+    selector: '[dicom]',
+})
+
 export class DicomDirective implements OnChanges {
 
-    @Input()
-    public url: string;
-
-    constructor(private elementRef: ElementRef) {
-        // TODO move configuration out of directive
+    private static configureCornerstone() { // TODO move to service - should only be called once
         cornerstoneWADOImageLoader.configure({
             beforeSend: (xhr) => {
                 // Add custom headers here (e.g. auth tokens)
@@ -35,39 +34,85 @@ export class DicomDirective implements OnChanges {
         }
     }
 
+
+    @Input()
+    public imageUrls: string[];
+
+    private element: any;
+    private currentImageIndex: number;
+    private toolsInitialized: boolean;
+
+
+    constructor(private elementRef: ElementRef) {
+        this.element = elementRef.nativeElement;
+        DicomDirective.configureCornerstone();
+    }
+
+    @HostListener('contextmenu', ['$event'])
+    public onContextMenu(event) {
+        event.preventDefault();
+    }
+
     public ngOnChanges() {
-        if (!this.url) {
-            console.warn('[dicom] no url provided!');
+        if (!this.imageUrls || !this.imageUrls.length) {
+            console.warn('[dicom] no images provided!');
             return;
         }
         try {
-            const element = this.elementRef.nativeElement;
-            cornerstone.enable(element);
-            console.log(`loading dicom image: '${this.url}'`);
-            cornerstoneWADOImageLoader.wadouri.dataSetCacheManager.load(this.url);
+            cornerstone.enable(this.element);
+            this.toolsInitialized = false;
+            this.currentImageIndex = 0;
 
-            cornerstone.loadAndCacheImage(WadoImageLoaderSchemeName + this.url)
-                .then((image) => {
-                    console.log('successfully loaded dicom instance!', image);
-                    const viewport = cornerstone.getDefaultViewportForImage(element, image);
+            this.imageUrls.forEach((url) => {
+                console.log(`loading dicom image: '${url}'`);
+                cornerstoneWADOImageLoader.wadouri.dataSetCacheManager.load(url);
+            });
 
-                    cornerstone.displayImage(element, image, viewport);
-
-                    // cornerstoneTools.mouseInput.enable(element);
-                    cornerstoneTools.mouseWheelInput.enable(element);
-
-                    // Enable all tools we want to use with this element
-                    // cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
-                    // cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
-                    // cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
-                    cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
-
-                })
-                .catch((error) => {
-                    console.error(`failed to load dicom file: '${this.url}'!`, error);
-                });
+            this.displayImage(this.currentImageIndex);
         } catch (error) {
-            console.error(`failed to load dicom file: '${this.url}'!`, error);
+            console.error(`failed to display dicom files: '${this.imageUrls}'!`, error);
         }
     }
+
+    private displayImage(index: number) {
+        const url = WadoImageLoaderSchemeName + this.imageUrls[index];
+
+        cornerstone.loadAndCacheImage(url)
+            .then((image) => {
+                console.log('successfully loaded dicom instance!', image);
+                const viewport = cornerstone.getDefaultViewportForImage(this.element, image);
+
+                cornerstone.displayImage(this.element, image, viewport);
+                this.initializeTools();
+            })
+            .catch((error) => {
+                console.error(`failed to load dicom file: '${url}'!`, error);
+            });
+    }
+
+    private initializeTools() {
+        if (this.toolsInitialized) {
+            return;
+        }
+
+        cornerstoneTools.mouseInput.enable(this.element);
+        cornerstoneTools.mouseWheelInput.enable(this.element);
+
+        // Enable all tools we want to use with this element
+        cornerstoneTools.wwwc.activate(this.element, 1); // ww/wc is the default tool for left mouse button
+        cornerstoneTools.pan.activate(this.element, 2); // pan is the default tool for middle mouse button
+        cornerstoneTools.zoom.activate(this.element, 4); // zoom is the default tool for right mouse button
+        // cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
+
+        cornerstoneTools.addStackStateManager(this.element, ['stack', 'playClip']);
+        cornerstoneTools.addToolState(this.element, 'stack', {
+            currentImageIdIndex: this.currentImageIndex,
+            imageIds: this.imageUrls.map((url) => WadoImageLoaderSchemeName + url)
+        });
+        cornerstoneTools.stackScrollWheel.activate(this.element);
+        cornerstoneTools.scrollIndicator.enable(this.element);
+
+        this.toolsInitialized = true;
+    }
+
 }
