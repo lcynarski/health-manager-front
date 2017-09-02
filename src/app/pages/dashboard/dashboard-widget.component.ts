@@ -26,6 +26,7 @@ export class DashboardWidgetComponent implements OnInit {
 
     public ngOnInit() {
         this.currentUserRole = this.authService.getRole();
+        console.log(this.currentUserRole)
         this.toDisplay = this.roles.includes(this.currentUserRole);
     }
 }

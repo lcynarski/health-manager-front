@@ -147,7 +147,6 @@ export class PatientDetailsComponent implements OnInit {
     }
 
     submit(value) {
-        console.log(this.patient)
         const personalDetails = {
             id: this.patient.id,
             account : {
