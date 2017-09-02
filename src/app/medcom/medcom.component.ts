@@ -1,57 +1,66 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-
-import {MedcomService} from '../_services/index';
-import {DicomArchive} from '../_models/medcom/archive';
-import {Subject} from 'rxjs/Subject';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 
 
 @Component({
     selector: 'medcom',
     templateUrl: 'medcom.component.html',
-    styleUrls: ['medcom.component.scss']
+    styleUrls: ['medcom.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
-
-/**
- *  component from MEDCOM project that will be used
- *  to display DICOM study data and images
- *
- */
 export class MedcomComponent implements OnInit, OnDestroy {
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
-    private fetching: boolean = false;
-    private errorMsg: string = null;
-    private archive: DicomArchive = null;
 
-    constructor(private medcomService: MedcomService) {
+    readonly pages = [
+        {
+            name: 'Dicom Archive',
+            path: '/pages/medcom/dicom-archive',
+            index: 0,
+        },
+        {
+            name: 'Procedures Schedule',
+            path: '/pages/medcom/procedures-schedule',
+            index: 1,
+        },
+        {
+            name: 'Modalities',
+            path: '/pages/medcom/modalities',
+            index: 2,
+        }
+    ];
+    activePageIndex: number;
+
+    constructor(private router: Router) {
+        this.onTabChange({ index: 0 });
+        this.handleRouteChanges();
     }
 
     public ngOnInit() {
-        console.log('ngOnInit');
-        this.fetchArchive();
+
     }
 
     public ngOnDestroy() {
-        console.log('ngOnDestroy');
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+
     }
 
-    private fetchArchive(): void {
-        this.fetching = true;
-        this.medcomService.getArchiveTree()
-            .takeUntil(this.ngUnsubscribe)
-            .subscribe(
-                (archive: DicomArchive) => {
-                    this.fetching = false;
-                    this.errorMsg = null;
-                    this.archive = archive;
-                    console.log('dicomArchive fetched successfully');
-                },
-                (error) => {
-                    this.fetching = false;
-                    this.errorMsg = `Network error has occurred! status: ${error.status} ${error.statusText}`;
+    onTabChange({ index }) {
+        this.changePage(this.pages[index]);
+    }
+
+    private changePage(page) {
+        this.router.navigateByUrl(page.path);
+        this.activePageIndex = page.index;
+    }
+
+    private handleRouteChanges() {
+        this.router.events
+            .filter((event) => event instanceof NavigationEnd)
+            .map((event: NavigationEnd) => event.url)
+            .subscribe((url: string) => {
+                const newPage = this.pages.find((page) => page.path === url);
+                if (newPage) {
+                    this.changePage(newPage);
                 }
-            );
+            });
     }
 
 }

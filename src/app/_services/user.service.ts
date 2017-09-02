@@ -59,4 +59,14 @@ export class UserService {
         return this.http.get(`${this.config.apiUrl}/accounts/personaldetails`, this.authenticationService.addJwtOptions()).
             map((response: Response) => response.json());
     }
+
+    public saveProfilePicture(_id: string, photo: any): Observable<String> {
+        return this.http.post(`${this.config.apiUrl}/accounts/14/picture`, photo, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
+
+    public getAccount(): Observable<String> {
+        return this.http.get(`${this.config.apiUrl}/accounts`, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
 }

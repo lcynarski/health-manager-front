@@ -68,7 +68,7 @@ export class PhotoUploader {
 
   _onUploadCompleted(data): void {
     this.uploadInProgress = false;
-    this.onUploadCompleted.emit(data);
+    this.onUploadCompleted.emit(this.picture);
   }
 
   _canUploadOnServer(): boolean {

@@ -1,0 +1,37 @@
+@import "../../../../assets/styles/colors";
+@import "../../../../assets/styles/variables";
+
+$tabHeight: 48px;
+
+#studyDialog {
+  padding: 10px;
+  color: white;
+  height: 100%;
+
+  #dicomContainer {
+    margin: 0 auto;
+    height: 100%;
+    div {
+      margin: 0 auto;
+      width: 100%;
+      height: calc(100% - #{$tabHeight});
+    }
+  }
+
+  .mdl-tabs__tab-bar {
+    border-color: rgba(black, 0.5);
+  }
+
+  .mdl-tabs__tab {
+    color: white;
+    cursor: pointer;
+    &.is-active {
+      color: $oc-indigo-4 !important;
+      &:after {
+        background: $oc-indigo-4 !important;
+      }
+    }
+  }
+
+}
+
