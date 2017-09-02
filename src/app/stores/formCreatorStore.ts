@@ -46,6 +46,16 @@ export class FormCreatorStore {
         this.addNewField.next(field);
     }
 
+    saveNewOptionField(value) {
+        const field = {
+            type: 'input',
+            label: value['field-label'],
+            name: value['field-name'],
+            placeholder: value['field-placeholder']
+        };
+        this.addNewField.next(value);
+    }
+
     addExistingField(formField: FormField) {
         this.addNewField.next({
             type: 'input',

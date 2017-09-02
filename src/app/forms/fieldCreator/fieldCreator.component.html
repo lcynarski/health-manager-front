@@ -83,10 +83,46 @@
             <!--</div>-->
         <!---->
     <!--</div>-->
-    <dynamic-form
+    <form [formGroup]="formssss">
+        <mdl-select formControlName="fieldType" label="Field type" floating-label (change)="onChange($event)">
+            <mdl-option *ngFor="let option of ['Textfield', 'Date', 'Checkbox', 'Select']" [value]="option">
+                {{ option }}
+            </mdl-option>
+        </mdl-select>
+    </form>
+    <dynamic-form *ngIf="type === 'Textfield'"
             [config]="config"
             #form="dynamicForm"
             (submit)="submit($event)"
     >
     </dynamic-form>
+    <dynamic-form *ngIf="type === 'Checkbox'"
+                  [config]="checkboxConfig"
+                  #checkboxForm="dynamicForm"
+                  (submit)="saveCheckboxField($event)"
+    >
+    </dynamic-form>
+    <dynamic-form *ngIf="type === 'Date'"
+                  [config]="dateConfig"
+                  #dateForm="dynamicForm"
+                  (submit)="saveDateField($event)"
+    >
+    </dynamic-form>
+    <div *ngIf="type === 'Select'">
+        <dynamic-form
+                [config]="optionConfig"
+                id="selectForm"
+                #selectForm="dynamicForm"
+                (submit)="addOption($event)"
+        ></dynamic-form>
+        <mdl-list>
+            <mdl-list-item *ngFor="let option of options" (click)="removeOption(option)">
+                <mdl-list-item-primary-content>
+                    <mdl-icon mdl-list-item-avatar>close</mdl-icon>
+                    {{ option?.option }}
+                </mdl-list-item-primary-content>
+            </mdl-list-item>
+        </mdl-list>
+        <button mdl-button (click)="saveOptionField($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>
+    </div>
 </div>

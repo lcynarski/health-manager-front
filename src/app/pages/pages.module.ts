@@ -27,6 +27,7 @@ import {FieldsRemoverComponent} from "../forms/fieldsRemover/fieldsRemover.compo
 import {FormSelectComponent} from "../components/dynamic-form/components/form-select/form-select.component";
 import {FormCreatorStore} from "../stores/formCreatorStore";
 import {FormsCreatorComponent} from "../forms/formsCreator/formsCreator.component";
+import {MdlSelectModule} from "@angular2-mdl-ext/select";
 
 @NgModule({
     imports: [
@@ -42,6 +43,7 @@ import {FormsCreatorComponent} from "../forms/formsCreator/formsCreator.componen
         NgUploaderModule,
         MdlModule,
         MedcomModule,
+        MdlSelectModule
     ],
     declarations: [
         Pages,

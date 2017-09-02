@@ -5,9 +5,10 @@ import { Http } from '@angular/http';
 import { FieldsCreatorComponent } from '../fieldCreator/fieldCreator.component';
 import { Form } from '../../_models/form';
 import {FormCreatorStore} from "../../stores/formCreatorStore";
+import {FieldCreatorStore} from "../../stores/fieldCreatorStore";
 
 @Component({
-    providers: [FormsService, FormCreatorStore],
+    providers: [FormsService, FormCreatorStore, FieldCreatorStore],
     selector: 'form-creator',
     styleUrls: ['formsCreator.component.scss'],
     templateUrl: './formsCreator.component.html'
@@ -25,11 +26,15 @@ export class FormsCreatorComponent implements OnInit {
                 private route: ActivatedRoute,
                 private formsService: FormsService,
                 private formCreatorStore: FormCreatorStore) {
-        this.router = router;
+        // this.router = router;
     }
 
     public ngOnInit() {
-        this.formCreatorStore.formFields.subscribe(data => this.fields = data);
+        this.formCreatorStore.formFields.subscribe(data => {
+            this.fields = data;
+            console.log("THIS DUPA DFIELS", this.fields)
+        });
+        console.log(this.route.params)
         this.route.params.subscribe((params) => {
             if (params['formId']) {
                 this.loadForm(params['formId']);
