@@ -1,9 +1,9 @@
-import {Component, ViewChild, AfterViewInit, OnInit} from '@angular/core';
-import { Validators } from '@angular/forms';
+import {Component, ViewChild, AfterViewInit, OnInit, EventEmitter, Output} from '@angular/core';
+import {Validators} from '@angular/forms';
 
-import { UserService } from '../../_services/index';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { PersonalDetails } from '../../_models/personalDetails';
+import {UserService} from '../../_services/index';
+import {Http, Headers, RequestOptions, Response} from '@angular/http';
+import {PersonalDetails} from '../../_models/personalDetails';
 import {Router} from '@angular/router';
 import {DynamicFormComponent} from "../../components/dynamic-form/containers/dynamic-form/dynamic-form.component";
 import {FieldConfig} from "../../components/dynamic-form/models/field-config.interface";
@@ -14,13 +14,14 @@ import {FieldConfig} from "../../components/dynamic-form/models/field-config.int
     templateUrl: './usersProfile.component.html'
 })
 
-export class UsersProfileComponent  implements OnInit {
+export class UsersProfileComponent implements OnInit {
     public personalDetails: PersonalDetails;
+    public account: Account;
     public form: DynamicFormComponent;
 
     constructor(private http: Http,
                 private router: Router,
-                private userService: UserService) {
+                private userService: UserService,) {
     }
 
     config: FieldConfig[] = [
@@ -100,31 +101,40 @@ export class UsersProfileComponent  implements OnInit {
 
     public ngOnInit(): void {
         this.getPersonalDetails();
-        // this.personalDetails = {
-        //     firstName: "Jam",
-        //     lastName: "Lasica",
-        //     gender: "male",
-        //     pesel: "95010101011",
-        //     birthdate: 222222222,
-        //     city: "Nora",
-        //     buildingNumber: 0,
-        //     country: "pustynia",
-        //     street: "vvvv",
-        //     phoneNumber: 202020202,
-        //     flatNumber: 2
-        // };
+        // this.getAccount();
     }
 
     submit(value) {
-        const personalDetails = { account : { personalDetails : { ...value }}};
+        const personalDetails = {account: {personalDetails: {...value}}};
         // this.patientService.savePatient(personalDetails)
         //     .subscribe((data) => console.log(data));
         console.log(personalDetails)
     }
 
+    private getAccount() {
+        this.userService.getAccount().subscribe(
+            (data) => {
+                this.account = data;
+            }
+        );
+    }
+
     private getPersonalDetails() {
         this.userService.getPersonalDetails().subscribe(
-            (data) => { this.personalDetails = data ; console.log(data);}
+            (data) => {
+                this.personalDetails = data;
+                console.log(data);
+            }
         );
+    }
+
+    private saveProfilePicture(photo) {
+        debugger;
+        if (photo) {
+            this.userService.saveProfilePicture('14', photo).subscribe(
+                (data) => {
+                    console.log('Save profile picture response: ' + data);
+                });
+        }
     }
 }

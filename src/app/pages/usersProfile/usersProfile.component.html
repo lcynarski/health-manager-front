@@ -1,7 +1,8 @@
 <div class="users-profile">
     <div class="users-profile__header">
         <div class="users-profile__photo">
-            <photo-uploader></photo-uploader>
+            <photo-uploader (onUploadCompleted)="saveProfilePicture($event)">
+            </photo-uploader>
         </div>
         <div class="users-profile__name">
             {{ personalDetails?.firstName }} {{ personalDetails?.lastName }}
