@@ -1,18 +1,15 @@
 <div id="medcomComponent">
     <div id="viewContainer">
 
-        <div class="header">Medcom</div>
+        <!--<div class="header">Medcom</div>-->
 
-        <div *ngIf="fetching">
-            Loading...
-        </div>
-        <div *ngIf="!fetching && !!errorMsg">
-            {{errorMsg}}
-        </div>
-        <div id="listContainer" *ngIf="!fetching && !errorMsg">
-            <!--TODO: change to patients list component-->
-            <patient-record *ngFor="let patient of archive.patients" [patient]="patient"></patient-record>
-        </div>
+        <mdl-tabs mdl-ripple [mdl-tab-active-index]="activePageIndex" (mdl-tab-active-changed)="onTabChange($event)">
+            <mdl-tab-panel *ngFor="let page of pages">
+                <mdl-tab-panel-title>{{page.name}}</mdl-tab-panel-title>
+            </mdl-tab-panel>
+        </mdl-tabs>
+
+        <router-outlet></router-outlet>
 
     </div>
 </div>

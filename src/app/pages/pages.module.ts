@@ -21,7 +21,6 @@ import { PhotoUploader } from '../components/photoUploader/photoUploader.compone
 import { NgUploaderModule } from 'ngx-uploader';
 import { MdlModule } from '@angular-mdl/core';
 import { PatientSearchComponent } from './patientSearch/patientSearch.component';
-import { MedcomModule } from '../medcom/medcom.module';
 import {ProceedAppointmentComponent} from "./proceedApoinment/proceed-appointment.component";
 import {ChangePasswordComponent} from "../change-password/change-password.component";
 import {DashboardWidgetComponent} from "./dashboard/dashboard-widget.component";
@@ -39,7 +38,6 @@ import {DashboardWidgetComponent} from "./dashboard/dashboard-widget.component";
         DynamicFormModule,
         NgUploaderModule,
         MdlModule,
-        MedcomModule,
     ],
     declarations: [
         Pages,

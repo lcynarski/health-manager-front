@@ -16,7 +16,7 @@ import { NgUploaderModule, NgFileSelectDirective } from 'ngx-uploader';
 
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
-import { AlertService, AuthenticationService, UserService, MedcomService} from './_services/index';
+import { AlertService, AuthenticationService, UserService} from './_services';
 import { LoginComponent } from './login/index';
 import { ForgotPasswordComponent } from './forgot-password/index';
 import { HomeComponent } from './home/index';
@@ -82,7 +82,6 @@ const APP_PROVIDERS = [
         AuthenticationService,
         UserService,
         AlertService,
-        MedcomService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         APP_PROVIDERS
     ],
