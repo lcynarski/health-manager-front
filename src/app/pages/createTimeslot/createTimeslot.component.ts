@@ -47,6 +47,12 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
             //placeholder: 'Date-time'
         },
         {
+            type: 'checkbox',
+            label: 'Available for self-sign',
+            name: 'availableForSelfSign',
+            value: true
+        },
+        {
             label: 'Submit',
             name: 'submit',
             type: 'button'
@@ -80,7 +86,8 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
         const timeSlot = {
             id: 0,
             startDateTime: value.startDateTime,
-            endDateTime: value.endDateTime
+            endDateTime: value.endDateTime,
+            availableForSelfSign: value.availableForSelfSign
         };
         this.doctorService.saveTimeSlot(timeSlot, this.docIdByName[value.doctor])
             .subscribe((data) => {

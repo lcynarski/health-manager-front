@@ -96,7 +96,7 @@ export class VisitsCalendarComponent implements OnInit {
 
         this.timeSlotService.getTimeSlots(this.doctor, viewStart, viewEnd)
             .subscribe(slots => {
-                this.events = slots.map(slot => {
+                this.events = slots.filter((slot) => slot.availableForSelfSign).map((slot) => {
                     return {
                         slotId: slot.id,
                         title: "Visit",
