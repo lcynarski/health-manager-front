@@ -21,6 +21,7 @@ export class FormsCreatorComponent implements OnInit {
     private router: Router;
     private form: Form;
     private fields: FieldsCreatorComponent[];
+    formName: string;
 
     constructor(router: Router,
                 private http: Http,
@@ -51,6 +52,12 @@ export class FormsCreatorComponent implements OnInit {
             }
         })
         console.log('This.fields:  ', this.fields);
+        const form = {
+            name: this.formName,
+            formFields: {...this.fields}
+        }
+        console.log("MY FUCKIN FORM: ", form);
+        this.formsService.saveForm(form);
     }
 
     loadForm(id: number) {
