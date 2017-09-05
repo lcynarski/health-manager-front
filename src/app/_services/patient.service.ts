@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
+import {Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
 
-import { AuthenticationService } from '../_services/index';
-import { AppConfig } from '../app.config';
-import { Patient } from '../_models/index';
+import {AuthenticationService} from '../_services/index';
+import {AppConfig} from '../app.config';
+import {Patient} from '../_models/index';
 
 @Injectable()
 export class PatientService {
@@ -50,5 +50,10 @@ export class PatientService {
     public getPatientByPesel(pesel) {
         return this.http.get(`${this.config.apiUrl}/patients/pesel/${pesel}`, this.authenticationService.addJwtOptions())
             .map((response) => response.json());
+    }
+
+    public getPatientByEmail(email: string) {
+        return this.http.get(`${this.config.apiUrl}/patientByMail/${email}`, this.authenticationService.addJwtOptions())
+            .map((res) => res.json());
     }
 }

@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CalendarEvent } from 'angular-calendar';
-import { EventColor } from 'calendar-utils';
-import { ModalComponent } from 'ng2-bs4-modal/ng2-bs4-modal';
-import { DoctorService } from "../../_services/doctor.service";
-import { Doctor } from "../../_models/doctor";
-import { Patient } from "../../_models/patient";
-import { PersonalDetails } from "../../_models/personalDetails";
-import { PatientService } from "../../_services/patient.service";
-import { AppointmentService } from "../../_services/appointment.service";
-import { TimeSlotService } from "../../_services/timeSlot.service";
-import { Appointment } from "../../_models/appointment";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CalendarEvent} from 'angular-calendar';
+import {EventColor} from 'calendar-utils';
+import {ModalComponent} from 'ng2-bs4-modal/ng2-bs4-modal';
+import {DoctorService} from "../../_services/doctor.service";
+import {Doctor} from "../../_models/doctor";
+import {Patient} from "../../_models/patient";
+import {PersonalDetails} from "../../_models/personalDetails";
+import {PatientService} from "../../_services/patient.service";
+import {AppointmentService} from "../../_services/appointment.service";
+import {TimeSlotService} from "../../_services/timeSlot.service";
+import {Appointment} from "../../_models/appointment";
+import {AuthenticationService} from '../../_services/authentication.service';
 
 
 interface VisitEvent extends CalendarEvent {
@@ -29,11 +30,12 @@ export class VisitsCalendarComponent implements OnInit {
     public id: string;
 
     constructor(private route: ActivatedRoute,
-        private doctorService: DoctorService,
-        private patientService: PatientService,
-        private appointmentService: AppointmentService,
-        private timeSlotService: TimeSlotService,
-        private router: Router) {
+                private doctorService: DoctorService,
+                private patientService: PatientService,
+                private appointmentService: AppointmentService,
+                private timeSlotService: TimeSlotService,
+                private authService: AuthenticationService,
+                private router: Router) {
 
     }
 
@@ -52,6 +54,10 @@ export class VisitsCalendarComponent implements OnInit {
     view: string = 'month';
 
     viewDate: Date = new Date();
+
+    userRole: string
+
+    imAPatient: boolean
 
     colors: { [s: string]: EventColor; } = {
         red: {
@@ -118,7 +124,7 @@ export class VisitsCalendarComponent implements OnInit {
     modalTime: string;
 
 
-    eventClicked({ event }: { event: CalendarEvent }): void {
+    eventClicked({event}: { event: CalendarEvent }): void {
         console.log('Przed');
         console.log(this.patients);
         this.modalDate = event.start.toLocaleDateString();
@@ -160,25 +166,40 @@ export class VisitsCalendarComponent implements OnInit {
         this.reloadEvents();
     }
 
-
     ngOnInit() {
+        this.userRole = this.authService.getRole();
+        console.log('My role is ' + this.userRole)
+        this.imAPatient = this.userRole === AuthenticationService.ROLE_PATIENT;
+
         this.route.params.subscribe(params => {
             this.id = params['doctorId']; // (+) converts string 'id' to a number
 
 
             this.doctorService.getById(this.id).subscribe(doc => {
-                console.log("przyszło coś z promisa");
-                console.log(doc);
-                this.doctor = doc;
-                console.log(this.doctor);
-                this.reloadEvents();
-            });
+                    console.log("przyszło coś z promisa");
+                    console.log(doc);
+                    this.doctor = doc;
+                    console.log(this.doctor);
 
-            this.loadAllPatients();
-            console.log("są pacjenci");
-            this.patientName = "Wybierz pacjenta";
+                    if (this.imAPatient) {
+                        this.patientService.getPatientByEmail(this.authService.getEmail()).subscribe((patient) => {
+                            this.patient = patient;
+                            this.reloadEvents();
+                        });
+                    } else {
+                        this.reloadEvents();
+                    }
+                }
+            );
+
+            if (!this.imAPatient) {
+                this.loadAllPatients();
+                console.log("są pacjenci");
+                this.patientName = "Wybierz pacjenta";
+            }
         });
 
 
     }
 }
+
