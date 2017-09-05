@@ -8,6 +8,8 @@ import {DynamicFormComponent} from '../../components/dynamic-form/containers/dyn
 import { FormCreatorStore } from '../../stores/formCreatorStore';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {FieldCreatorStore} from '../../stores/fieldCreatorStore';
+import {nodeValue} from "@angular/core/src/view";
+import {getBindingElementVariableDeclaration} from "tslint";
 
 @Component({
     selector: 'field-creator',
@@ -24,6 +26,9 @@ export class FieldsCreatorComponent implements OnInit {
     formssss: FormGroup;
     type: string;
     private options: FieldsCreatorComponent[];
+    selectFieldName: string;
+    dateFieldName: string;
+    checkboxName: string;
 
     config: FieldConfig[] = [
         {
@@ -94,7 +99,7 @@ export class FieldsCreatorComponent implements OnInit {
         {
             type: 'input',
             label: 'Date label',
-            name: 'checkbox',
+            name: 'date',
             placeholder: 'Date label'
         },
         {
@@ -105,13 +110,13 @@ export class FieldsCreatorComponent implements OnInit {
     ];
 
     constructor(private formCreatorStore: FormCreatorStore, private fieldCreatorStore: FieldCreatorStore) {
-        this.formssss = new FormGroup({
-            fieldType: new FormControl()
-        });
         this.type = '';
     }
 
     ngOnInit() {
+        this.formssss = new FormGroup({
+            fieldType: new FormControl()
+        });
         this.fieldCreatorStore.selectOptions.subscribe((data) => this.options = data);
     }
 
@@ -129,12 +134,13 @@ export class FieldsCreatorComponent implements OnInit {
         console.log('FORM FIELD TO DELETE => ', name);
         this.fieldCreatorStore.deleteOption(name);
     }
-
     saveDateField(value) {
+        console.log('saveDate', value)
         const field = {
-            type: 'date',
-            label: 'value',
-            placeholder: 'date'
+            type: 'input',
+            label: value['date'],
+            name: value['date'],
+            placeholder: 'date',
         };
         this.formCreatorStore.saveNewOptionField(field);
     }
@@ -142,18 +148,23 @@ export class FieldsCreatorComponent implements OnInit {
     saveCheckboxField(value) {
         const field = {
             type: 'checkbox',
-            label: 'value',
-            placeholder: 'date'
+            label: value['checkbox'],
+            name: value['checkbox'],
+            placeholder: true,
         };
         this.formCreatorStore.saveNewOptionField(field);
     }
 
     saveOptionField(value) {
-        console.log(this.options);
+        const onlyOptions = [];
+        this.options.forEach(o => {
+            onlyOptions.push(o['option']);
+        })
         const field = {
             type: 'select',
             label: 'DUPA',
-            options: this.options,
+            name: this.selectFieldName,
+            options: onlyOptions,
             placeholder: 'option'
         };
         this.formCreatorStore.saveNewOptionField(field);

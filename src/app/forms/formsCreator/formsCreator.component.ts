@@ -7,6 +7,7 @@ import { Form } from '../../_models/form';
 import {FormCreatorStore} from "../../stores/formCreatorStore";
 import {FieldCreatorStore} from "../../stores/fieldCreatorStore";
 
+
 @Component({
     providers: [FormsService, FormCreatorStore, FieldCreatorStore],
     selector: 'form-creator',
@@ -44,8 +45,12 @@ export class FormsCreatorComponent implements OnInit {
     }
 
     save(value) {
+        this.fields.forEach((field) => {
+            if ( field['placeholder'] === 'date' ) {
+                field['type'] = 'date';
+            }
+        })
         console.log('This.fields:  ', this.fields);
-        console.log('Value:: ', value);
     }
 
     loadForm(id: number) {

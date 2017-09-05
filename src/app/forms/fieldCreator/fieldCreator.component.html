@@ -109,6 +109,7 @@
     >
     </dynamic-form>
     <div *ngIf="type === 'Select'">
+        <mdl-textfield type="text" label="Selectfield name" [(ngModel)]="selectFieldName" floating-label></mdl-textfield>
         <dynamic-form
                 [config]="optionConfig"
                 id="selectForm"

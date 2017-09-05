@@ -47,12 +47,12 @@ export class FormCreatorStore {
     }
 
     saveNewOptionField(value) {
-        const field = {
-            type: 'input',
-            label: value['field-label'],
-            name: value['field-name'],
-            placeholder: value['field-placeholder']
-        };
+        // const field = {
+        //     type: 'input',
+        //     label: value['field-label'],
+        //     name: value['field-name'],
+        //     placeholder: value['field-placeholder']
+        // };
         this.addNewField.next(value);
     }
 
