@@ -36,9 +36,10 @@ export class AuthenticationService {
                     this.token = token;
                     localStorage.setItem('currentUser', JSON.stringify({email, token}));
                     let jwtHelper: JwtHelper = new JwtHelper();
-                    console.log(this.role = jwtHelper.decodeToken(token))
+                    console.log('token to ')
+                    console.log(jwtHelper.decodeToken(token))
                     this.role = jwtHelper.decodeToken(token).scopes;
-                    this.email = jwtHelper.decodeToken(token).email
+                    this.email = jwtHelper.decodeToken(token).sub
                     console.log('mój email to ' + this.email);
                     return true;
                 }

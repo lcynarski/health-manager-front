@@ -35,11 +35,17 @@
         <!--<div class="dropdown">-->
         <!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{patientName}}-->
         <!--<span class="caret"></span></button>-->
-        <div *ngIf='currentSlotTaken'>
+        <div *ngIf='imAPatient && currentSlotTaken'>
+            You are already enrolled for this appointment!
+        </div>
+        <div *ngIf='imAPatient && !currentSlotTaken'>
+            <a (click)="enroll()">Enroll!</a>
+        </div>
+        <div *ngIf='!imAPatient && currentSlotTaken'>
             <a (click)="showPatientDetails()">
     Taken by: {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}</a>
         </div>
-        <div *ngIf='!currentSlotTaken'>
+        <div *ngIf='!imAPatient && !currentSlotTaken'>
             <ul>
                 <li *ngFor="let patient of patients"><a (click)="setPatient(patient)">
                     {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}

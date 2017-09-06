@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
+import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
 
@@ -20,15 +20,21 @@ export class AppointmentService {
     }
 
     public getByTimeSlot(timeSlotId): Observable<Appointment> {
+
+        console.log('prunujem coś zrobić(((')
         return this.http.get(`${this.config.apiUrl}/appointments/byTimeSlot/${timeSlotId}`, this.authenticationService.addJwtOptions())
             .map((response: Response) => {
                 console.log('resonse ' + response.status)
+                console.log('Dostałem!')
+                console.log(response)
+                console.log(response.json())
                 if (response.status >= 200 && response.status < 300) {
                     return response.json()
                 } else {
                     return null //Wykonanie wywala się na 404 i nie dochodzi do tego co jest dziwne bo to poprawne z punktu widzenia HTTP ale nie szkodzi
                 }
-            });
+            })
+
     }
 
 

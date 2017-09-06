@@ -12,11 +12,13 @@ import {AppointmentService} from "../../_services/appointment.service";
 import {TimeSlotService} from "../../_services/timeSlot.service";
 import {Appointment} from "../../_models/appointment";
 import {AuthenticationService} from '../../_services/authentication.service';
+import {Observable} from "rxjs/Observable";
 
 
 interface VisitEvent extends CalendarEvent {
     slotId: number;
     patient?: Patient; // null jak termin nie zarezerwowany
+    availableForSelfSign: boolean;
 }
 
 @Component({
@@ -102,19 +104,65 @@ export class VisitsCalendarComponent implements OnInit {
 
         this.timeSlotService.getTimeSlots(this.doctor, viewStart, viewEnd)
             .subscribe(slots => {
-                this.events = slots.filter((slot) => slot.availableForSelfSign).map((slot) => {
+                const eventsTmp: VisitEvent[] = slots./*filter((slot) => //todo co z zarejestrowanymi w recepcji na tego pacjenta?
+                    !this.imAPatient || slot.availableForSelfSign).*/map((slot) => {
                     return {
                         slotId: slot.id,
                         title: "Visit",
                         start: new Date(slot.startDateTime),
                         end: new Date(slot.endDateTime),
-                        color: this.colors.blue
+                        color: this.colors.blue,
+                        availableForSelfSign: slot.availableForSelfSign
                     }
                 })
-                //mamy terminy, teraz sprawdzamy które są zajęte!
-                for (var event of this.events) {
-                    this.updateTimeSlotAvailability(event)
-                }
+
+
+                const observables: Array<Observable<[VisitEvent, Appointment]>> =
+                    eventsTmp.map((event) => this.appointmentService.getByTimeSlot(event.slotId)
+                        .map((appintment: Appointment) => [event, appintment])
+                        .catch((err: any) => {
+                            console.log('ZŁAPAŁEM :DDD')
+                            console.log(err)
+                            return Observable.of([event, null as Appointment]);
+                        }))
+
+                console.log('yolo')
+                console.log(eventsTmp)
+
+                const self = this;
+                Observable.forkJoin(observables)
+                    .subscribe((dataArray: Array<[VisitEvent, Appointment]>) => {
+                        console.log('udało się?')
+                        console.log(dataArray)
+                        self.events = dataArray.map(([ev, app]: [VisitEvent, Appointment]) => {
+                            if (app === null) {
+                                console.log('appointment to null a event to');
+                                console.log(ev);
+                                if (ev.availableForSelfSign || !self.imAPatient) {
+                                    ev.color = self.colors.blue
+                                    return ev;
+                                } else {
+                                    return null;
+                                }
+                            } else {
+
+                                console.log('JEST OK!!!');
+                                console.log(app);
+                                console.log(ev);
+                                if (!self.imAPatient || app.patient.id === self.patient.id) {
+                                    ev.color = self.colors.red;
+                                    return ev;
+                                } else {
+                                    return null;
+                                }
+                            }
+                        }).filter((ev) => ev != null);
+                        // All observables in `observables` array have resolved and `dataArray` is an array of result of each observable
+                    });
+                // //mamy terminy, teraz sprawdzamy które są zajęte!
+                // for (var event of this.events) {
+                //     this.updateTimeSlotAvailability(event)
+                // }
             })
     }
 
@@ -122,7 +170,6 @@ export class VisitsCalendarComponent implements OnInit {
 
     modalDate: string;
     modalTime: string;
-
 
     eventClicked({event}: { event: CalendarEvent }): void {
         console.log('Przed');
@@ -134,12 +181,20 @@ export class VisitsCalendarComponent implements OnInit {
         var visitEvent: VisitEvent = (event as VisitEvent)
         this.currentSlotId = visitEvent.slotId;
         this.currentSlotTaken = visitEvent.patient != null
-        this.patient = visitEvent.patient
+        if (!this.imAPatient) {
+            this.patient = visitEvent.patient;
+        }
         this.modal.open();
     }
 
     showPatientDetails() {
         this.router.navigate(['/pages/patientDetails/' + this.patient.id]);
+    }
+
+    enroll() {
+        console.log('Zapisujem xDDDD')
+        console.log(this.patient)
+        this.setPatient(this.patient);
     }
 
     setPatient(p: Patient) {
@@ -182,7 +237,7 @@ export class VisitsCalendarComponent implements OnInit {
                     console.log(this.doctor);
 
                     if (this.imAPatient) {
-                        this.patientService.getPatientByEmail(this.authService.getEmail()).subscribe((patient) => {
+                        this.patientService.getById('1')/*getPatientByEmail(this.authService.getEmail())*/.subscribe((patient) => {
                             this.patient = patient;
                             this.reloadEvents();
                         });
