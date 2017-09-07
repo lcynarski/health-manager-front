@@ -39,7 +39,7 @@
             You are already enrolled for this appointment!
         </div>
         <div *ngIf='imAPatient && !currentSlotTaken'>
-            <a (click)="enroll()">Enroll!</a>
+            <a (click)="enrollMe()">Enroll!</a>
         </div>
         <div *ngIf='!imAPatient && currentSlotTaken'>
             <a (click)="showPatientDetails()">
