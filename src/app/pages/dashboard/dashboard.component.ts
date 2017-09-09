@@ -39,6 +39,12 @@ export class DashboardComponent {
             roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
+            title: 'Search for drugs',
+            buttonLabel: 'Search',
+            link: '/pages/drugsSearch',
+            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
+        },
+        {
             title: 'Forms creator',
             buttonLabel: 'Go to creator',
             link: '/formsCreator',

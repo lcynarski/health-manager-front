@@ -24,6 +24,7 @@ import { PatientSearchComponent } from './patientSearch/patientSearch.component'
 import {ProceedAppointmentComponent} from "./proceedApoinment/proceed-appointment.component";
 import {ChangePasswordComponent} from "../change-password/change-password.component";
 import {DashboardWidgetComponent} from "./dashboard/dashboard-widget.component";
+import {DrugsSearchComponent} from "./drugsSearch/drugsSearch.component";
 
 @NgModule({
     imports: [
@@ -52,7 +53,8 @@ import {DashboardWidgetComponent} from "./dashboard/dashboard-widget.component";
         PhotoUploader,
         PatientSearchComponent,
         ProceedAppointmentComponent,
-        ChangePasswordComponent
+        ChangePasswordComponent,
+        DrugsSearchComponent
     ]
 })
 export class PagesModule {

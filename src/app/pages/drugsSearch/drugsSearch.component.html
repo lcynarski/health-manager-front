@@ -1,0 +1,23 @@
+<div>
+    <form [formGroup]="form"
+          (submit)="onSubmit($event)">
+        <div>
+            Enter patient's PESEL number:
+        </div>
+        <p>
+            <mdl-textfield label="DRUG NAME" name="drugName" type="text" formControlName="drugName" floating-label></mdl-textfield>
+        </p>
+        <p>
+            <button mdl-button type="submit" [disabled]="!form.valid" mdl-button-type="raised" mdl-ripple mdl-colored="primary">Submit</button>
+        </p>
+    </form>
+
+    <mdl-list *ngIf="patient">
+        <mdl-list-item>
+            <mdl-list-item-primary-content [routerLink]="['/pages/patientDetails', patient?.id]" >
+                <mdl-icon mdl-list-item-icon>person</mdl-icon>
+                {{ drugs }}
+            </mdl-list-item-primary-content>
+        </mdl-list-item>
+    </mdl-list>
+</div>
