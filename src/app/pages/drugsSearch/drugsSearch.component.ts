@@ -11,9 +11,11 @@ import {DrugsService} from '../../_services/drugs.service';
     template: `
         <div>
             <form [formGroup]="form"
-                  (submit)="onSubmit($event)">
+                  (submit)="onSubmit($event)"
+                    class="search-form"
+            >
                 <div>
-                    Enter patient's PESEL number:
+                    Start typing drug's name:
                 </div>
                 <p>
                     <mdl-textfield
@@ -23,11 +25,13 @@ import {DrugsService} from '../../_services/drugs.service';
                             floating-label
                             (input)="onSubmit($event.target.value)"></mdl-textfield>
                 </p>
-                <p>
-                    <button mdl-button type="submit" [disabled]="!form.valid" mdl-button-type="raised" mdl-ripple mdl-colored="primary">Submit</button>
-                </p>
             </form>
-            <mdl-list *ngIf="drugs">
+            <mdl-list *ngIf="drugs"
+                      infiniteScroll
+                      [infiniteScrollDistance]="2"
+                      [infiniteScrollThrottle]="700"
+                      (scrolled)="onScroll()"
+            >
                 <mdl-list-item *ngFor="let drug of drugs">
                     <mdl-list-item-primary-content >
                         <mdl-icon mdl-list-item-icon>healing</mdl-icon>
@@ -41,13 +45,11 @@ import {DrugsService} from '../../_services/drugs.service';
 
 export class DrugsSearchComponent implements OnInit{
 
-    public disableForm = false;
-    public form: FormGroup;
-    public pesel = new FormControl('', Validators.required);
-    public drugName = new FormControl('', Validators.required);
-    // public lastName = new FormControl('');
-    public patient: Patient;
-    drugs;
+    private form: FormGroup;
+    private drugName = new FormControl('', Validators.required);
+    private drugs;
+    private page: number;
+    private searchedValue: string;
 
     constructor(private fb: FormBuilder, private drugsService: DrugsService) {}
 
@@ -55,20 +57,14 @@ export class DrugsSearchComponent implements OnInit{
         this.form = this.fb.group({
             drugName: this.drugName
         });
-        // this.form.valueChanges
-        //     .map((formValues) => {
-        //         formValues.pesel = formValues.pesel;
-        //         return formValues;
-        //     })
-        //     // .filter((formValues) => this.form.valid)
-        //     .subscribe((formValues) => {
-        //         console.log(`Model Driven Form valid: ${this.form.valid} value:`, JSON.stringify(formValues));
-        //     });
+        this.page = 0;
     }
 
     public onSubmit(value) {
-        console.log(this.form.value.drugName);
-        this.getDrugsByName(this.form.value.drugName);
+        this.page = 0;
+        this.searchedValue = value;
+        this.getDrugsByNamePageable(this.form.value.drugName, this.page, 20);
+        // this.getDrugsByName(this.form.value.drugName);
     }
 
     public onDisableForm(formDisabled: boolean) {
@@ -78,15 +74,20 @@ export class DrugsSearchComponent implements OnInit{
             this.form.enable();
         }
     }
-    //
-    // private getPatientByPesel(pesel) {
-    //     this.patientService.getPatientByPesel(pesel)
-    //         .subscribe( (patients) => { this.patient = patients; });
-    // }
-    //
+
     private getDrugsByName(name) {
         this.drugsService.getDrugsByName(name)
             .subscribe((drugs) => { this.drugs = drugs; });
     }
 
+    private getDrugsByNamePageable(name, page, size) {
+        this.drugsService.getDrugsByNamePageable(name, page, size)
+            .subscribe((drugs) => { this.drugs = drugs.content; });
+    }
+
+    private onScroll() {
+        this.page++;
+        this.drugsService.getDrugsByNamePageable(name, this.page, 30)
+            .subscribe((drugs) => { Array.prototype.push.apply(this.drugs, drugs.content); });
+    }
 }

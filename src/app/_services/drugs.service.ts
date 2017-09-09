@@ -23,7 +23,14 @@ export class DrugsService {
         const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
         return this.http.get(`${this.config.apiUrl}/drugs`, {params: {name}, headers })
             .map((response: Response) => {
-                console.log('GET FORM BY ID: ' + response.json());
+                return response.json();
+            });
+    }
+
+    public getDrugsByNamePageable(name: string, page: number, size: number) {
+        const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
+        return this.http.get(`${this.config.apiUrl}/drugs`, {params: {name, page, size}, headers })
+            .map((response: Response) => {
                 return response.json();
             });
     }

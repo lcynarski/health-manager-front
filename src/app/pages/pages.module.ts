@@ -25,6 +25,7 @@ import {ProceedAppointmentComponent} from "./proceedApoinment/proceed-appointmen
 import {ChangePasswordComponent} from "../change-password/change-password.component";
 import {DashboardWidgetComponent} from "./dashboard/dashboard-widget.component";
 import {DrugsSearchComponent} from "./drugsSearch/drugsSearch.component";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 @NgModule({
     imports: [
@@ -39,6 +40,7 @@ import {DrugsSearchComponent} from "./drugsSearch/drugsSearch.component";
         DynamicFormModule,
         NgUploaderModule,
         MdlModule,
+        InfiniteScrollModule
     ],
     declarations: [
         Pages,
