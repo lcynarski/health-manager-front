@@ -47,7 +47,7 @@ export class DashboardComponent {
         {
             title: 'Forms creator',
             buttonLabel: 'Go to creator',
-            link: '/formsCreator',
+            link: '/pages/formsCreator',
             roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {

@@ -48,7 +48,7 @@ import {MdlSelectModule} from "@angular2-mdl-ext/select";
         DynamicFormModule,
         NgUploaderModule,
         MdlModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
         MedcomModule,
         MdlSelectModule
     ],
@@ -66,7 +66,7 @@ import {MdlSelectModule} from "@angular2-mdl-ext/select";
         PatientSearchComponent,
         ProceedAppointmentComponent,
         ChangePasswordComponent,
-        DrugsSearchComponent
+        DrugsSearchComponent,
         FieldsCreatorComponent,
         FieldsRemoverComponent,
         FormsCreatorComponent

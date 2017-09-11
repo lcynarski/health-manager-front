@@ -72,10 +72,7 @@ const APP_PROVIDERS = [
         AlertComponent,
         ForgotPasswordComponent,
         PersonalDetailsFormComponent,
-        InlineEditComponent,
-        FieldsCreatorComponent,
-        FormsCreatorComponent,
-        FieldsRemoverComponent
+        InlineEditComponent
     ],
     providers: [
         AppConfig,
@@ -83,7 +80,6 @@ const APP_PROVIDERS = [
         AuthenticationService,
         UserService,
         AlertService,
-        MedcomService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         APP_PROVIDERS
     ],

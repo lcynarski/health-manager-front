@@ -13,10 +13,10 @@ import {UsersProfileComponent} from './usersProfile/usersProfile.component';
 import {PatientSearchComponent} from "./patientSearch/patientSearch.component";
 import {FormsCreatorComponent} from "../forms/formsCreator/formsCreator.component";
 import {FieldsCreatorComponent} from "../forms/fieldCreator/fieldCreator.component";
-import {PatientSearchComponent} from './patientSearch/patientSearch.component';
 import {ProceedAppointmentComponent} from './proceedApoinment/proceed-appointment.component';
 import { MedcomModule } from '../medcom/medcom.module';
 import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
+import {MedcomComponent} from "../medcom/medcom.component";
 
 export const routes: Routes = [
     {
@@ -48,7 +48,7 @@ export const routes: Routes = [
             { path: 'patientSearch', component: PatientSearchComponent },
             { path: 'medcom', loadChildren: () => MedcomModule },
             { path: 'proceedAppointment', component: ProceedAppointmentComponent },
-            { path: 'drugsSearch', component: DrugsSearchComponent }
+            { path: 'drugsSearch', component: DrugsSearchComponent },
             // { path: 'components', loadChildren: './components/components.module#ComponentsModule' },
             // { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             // { path: 'ui', loadChildren: './ui/ui.module#UiModule' },
