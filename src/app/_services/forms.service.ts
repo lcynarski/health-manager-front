@@ -43,11 +43,11 @@ export class FormsService {
             });
     }
 
-    public saveForm(form: Form) {
+    public saveForm(form) {
         return this.http.post(`${this.config.apiUrl}/forms`, form)
             .map((response: Response) => {
                 console.log('SAVE FORM: ' + response.json());
-            });
+            }).subscribe()
     }
 
     private addJwtOptions() {

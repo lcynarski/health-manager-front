@@ -26,6 +26,14 @@ import {ChangePasswordComponent} from "../change-password/change-password.compon
 import {DashboardWidgetComponent} from "./dashboard/dashboard-widget.component";
 import {DrugsSearchComponent} from "./drugsSearch/drugsSearch.component";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import { MedcomModule } from '../medcom/medcom.module';
+import {FormCheckboxComponent} from "../components/dynamic-form/components/form-checkbox/form-checkbox.component";
+import {FieldsCreatorComponent} from "../forms/fieldCreator/fieldCreator.component";
+import {FieldsRemoverComponent} from "../forms/fieldsRemover/fieldsRemover.component";
+import {FormSelectComponent} from "../components/dynamic-form/components/form-select/form-select.component";
+import {FormCreatorStore} from "../stores/formCreatorStore";
+import {FormsCreatorComponent} from "../forms/formsCreator/formsCreator.component";
+import {MdlSelectModule} from "@angular2-mdl-ext/select";
 
 @NgModule({
     imports: [
@@ -41,6 +49,8 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
         NgUploaderModule,
         MdlModule,
         InfiniteScrollModule
+        MedcomModule,
+        MdlSelectModule
     ],
     declarations: [
         Pages,
@@ -57,6 +67,9 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
         ProceedAppointmentComponent,
         ChangePasswordComponent,
         DrugsSearchComponent
+        FieldsCreatorComponent,
+        FieldsRemoverComponent,
+        FormsCreatorComponent
     ]
 })
 export class PagesModule {

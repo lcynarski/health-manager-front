@@ -25,8 +25,6 @@ const routes: Routes = [
     // { path: '', redirectTo: 'pages', pathMatch: 'full' },
     { path: '', component: WelcomeComponent },
     { path: 'personalDetails', component: PersonalDetailsFormComponent },
-    { path: 'fieldsCreator', component: FieldsCreatorComponent },
-    { path: 'formsCreator', component: FormsCreatorComponent },
     { path: '**', redirectTo: 'pages/dashboard' }
 ];
 

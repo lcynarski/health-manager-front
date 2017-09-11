@@ -1,6 +1,8 @@
 <div class="form-creator">
     <div>Create new form as you wish :)</div>
     <div class="form-creator__form" style="display: flex; flex-direction: column">
+        <mdl-textfield type="text" label="Form name" [(ngModel)]="formName" floating-label></mdl-textfield>
+
         <div class="no-fields" *ngIf="!fields">You have not added any fields yet :(</div>
         <dynamic-form
                 *ngIf="fields"
@@ -20,6 +22,7 @@
             </button>
         </div>
         <button mdl-button (click)="save($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>
+        <a [routerLink]="['/pages/formsCreator', 11]" [href]="'/formsCreator'">Mocked button</a>
     </div>
     <mdl-dialog #addFieldDialog
                 [mdl-dialog-config]="{

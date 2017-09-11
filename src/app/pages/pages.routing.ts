@@ -10,6 +10,9 @@ import {CreatePatientComponent} from './createPatient/createPatient.component';
 import {CreateDoctorComponent} from './createDoctor/createDoctor.component';
 import {CreateTimeslotComponent} from './createTimeslot/createTimeslot.component';
 import {UsersProfileComponent} from './usersProfile/usersProfile.component';
+import {PatientSearchComponent} from "./patientSearch/patientSearch.component";
+import {FormsCreatorComponent} from "../forms/formsCreator/formsCreator.component";
+import {FieldsCreatorComponent} from "../forms/fieldCreator/fieldCreator.component";
 import {PatientSearchComponent} from './patientSearch/patientSearch.component';
 import {ProceedAppointmentComponent} from './proceedApoinment/proceed-appointment.component';
 import { MedcomModule } from '../medcom/medcom.module';
@@ -52,6 +55,10 @@ export const routes: Routes = [
             // { path: 'forms', loadChildren: './forms/forms.module#FormsModule' },
             // { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
             // { path: 'maps', loadChildren: './maps/maps.module#MapsModule' }
+            { path: 'fieldsCreator', component: FieldsCreatorComponent },
+            { path: 'formsCreator', component: FormsCreatorComponent },
+            { path: 'formsCreator/:formId', component: FormsCreatorComponent },
+            { path: 'medcom', component: MedcomComponent }
         ]
     }
 ];
