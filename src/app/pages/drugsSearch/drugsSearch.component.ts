@@ -50,6 +50,7 @@ export class DrugsSearchComponent implements OnInit{
     private drugs;
     private page: number;
     private searchedValue: string;
+    private searchedName: string;
 
     constructor(private fb: FormBuilder, private drugsService: DrugsService) {}
 
@@ -87,7 +88,7 @@ export class DrugsSearchComponent implements OnInit{
 
     private onScroll() {
         this.page++;
-        this.drugsService.getDrugsByNamePageable(name, this.page, 30)
+        this.drugsService.getDrugsByNamePageable(this.searchedValue, this.page, 30)
             .subscribe((drugs) => { Array.prototype.push.apply(this.drugs, drugs.content); });
     }
 }
