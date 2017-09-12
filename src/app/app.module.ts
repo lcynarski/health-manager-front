@@ -36,11 +36,11 @@ import {FieldsRemoverComponent} from "./forms/fieldsRemover/fieldsRemover.compon
 import {FormCheckboxComponent} from "./components/dynamic-form/components/form-checkbox/form-checkbox.component";
 import {DashboardWidgetComponent} from "./pages/dashboard/dashboard-widget.component";
 
-// const socialProviders = {
-//     google: {
-//         clientId: '943362751958-kcdagrreknm3e3h26qrasdf3fpupildi.apps.googleusercontent.com'
-//     }
-// };
+const socialProviders = {
+    google: {
+        clientId: '105867542127-fhj8fusdb13mm0jp2t6dfif1j56pjvaj.apps.googleusercontent.com'
+    }
+};
 
 const APP_PROVIDERS = [
     AppState,
@@ -88,7 +88,7 @@ const APP_PROVIDERS = [
 
 export class AppModule { }
 
-// Angular2SocialLoginModule.loadProvidersScripts(socialProviders);
+Angular2SocialLoginModule.loadProvidersScripts(socialProviders);
 
 // @NgModule({
 //     imports: [

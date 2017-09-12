@@ -160,7 +160,8 @@ export class PatientDetailsComponent implements OnInit {
         this.patientService.editPatient(personalDetails)
             .subscribe((data) => {
                 console.log(data);
-                location.reload();
+                this.router.navigate(['/patientDetails'],
+                    {queryParams: {id: this.id}});
             });
     }
 

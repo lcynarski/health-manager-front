@@ -21,7 +21,7 @@ export class AuthenticationService {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
         let jwtHelper: JwtHelper = new JwtHelper();
-        this.role = this.token && jwtHelper.decodeToken(this.token).scopes;
+        // this.role = this.token && jwtHelper.decodeToken(this.token).scopes;
 
     }
 

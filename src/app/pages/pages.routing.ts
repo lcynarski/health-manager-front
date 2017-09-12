@@ -10,15 +10,19 @@ import {CreatePatientComponent} from './createPatient/createPatient.component';
 import {CreateDoctorComponent} from './createDoctor/createDoctor.component';
 import {CreateTimeslotComponent} from './createTimeslot/createTimeslot.component';
 import {UsersProfileComponent} from './usersProfile/usersProfile.component';
-import {PatientSearchComponent} from "./patientSearch/patientSearch.component";
-import {FormsCreatorComponent} from "../forms/formsCreator/formsCreator.component";
-import {FieldsCreatorComponent} from "../forms/fieldCreator/fieldCreator.component";
+import {PatientSearchComponent} from './patientSearch/patientSearch.component';
+import {FormsCreatorComponent} from '../forms/formsCreator/formsCreator.component';
+import {FieldsCreatorComponent} from '../forms/fieldCreator/fieldCreator.component';
 import {ProceedAppointmentComponent} from './proceedApoinment/proceed-appointment.component';
 import { MedcomModule } from '../medcom/medcom.module';
 import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
-import {MedcomComponent} from "../medcom/medcom.component";
+import {WelcomeComponent} from "../welcome/welcome.component";
+// import {MedcomComponent} from '../medcom/medcom.component';
 
 export const routes: Routes = [
+    { path: '',
+        component: WelcomeComponent
+    },
     {
         path: 'login',
         component: LoginComponent
@@ -58,7 +62,7 @@ export const routes: Routes = [
             { path: 'fieldsCreator', component: FieldsCreatorComponent },
             { path: 'formsCreator', component: FormsCreatorComponent },
             { path: 'formsCreator/:formId', component: FormsCreatorComponent },
-            { path: 'medcom', component: MedcomComponent }
+            // { path: 'medcom', component: MedcomComponent }
         ]
     }
 ];

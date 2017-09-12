@@ -21,7 +21,7 @@ import {DynamicFormComponent} from "../../containers/dynamic-form/dynamic-form.c
               mdl-ripple>
           <mdl-icon>event</mdl-icon>
       </button>
-          <mdl-textfield [formControlName]="config.name" [value]="selectedDate?.format('YYYY-MM-DD hh:mm')"></mdl-textfield>
+          <mdl-textfield [formControlName]="config.name" [value]="selectedDate?.format('YYYY-MM-DD')"></mdl-textfield>
       </div>
         <dialog-outlet></dialog-outlet>
   `
