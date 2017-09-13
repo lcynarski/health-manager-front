@@ -17,6 +17,12 @@
         validation: [Validators.required]
     },
     {
+        type: 'input',
+        label: 'Email',
+        name: 'email',
+        placeholder: 'Email'
+    },
+    {
         type: 'date',
         label: 'Date of birth',
         name: 'birthdate',
@@ -28,7 +34,7 @@
         label: 'PESEL',
         name: 'pesel',
         placeholder: 'PESEL',
-        validation: [Validators.required, Validators.pattern('[0-9][0-9][0-1][0-9][0-3][0-9][0-9][0-9][0-9][0-9][0-9]')]
+        validation: [Validators.required, Validators.pattern('[0-9]+')]
     },
     {
         type: 'select',

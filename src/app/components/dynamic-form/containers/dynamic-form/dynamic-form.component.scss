@@ -14,6 +14,7 @@
 :host /deep/ .dynamic-form {
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
 }
 
 :host /deep/ form-input,

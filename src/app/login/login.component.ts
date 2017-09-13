@@ -6,6 +6,7 @@ import {Http, RequestOptions, Headers } from "@angular/http";
 import {AppConfig} from "../app.config";
 
 @Component({
+    selector: 'login',
     templateUrl: 'login.component.html',
     styleUrls: ['./login.component.scss']
 })

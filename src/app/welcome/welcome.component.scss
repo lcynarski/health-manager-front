@@ -1,16 +1,28 @@
 @import '../../assets/styles/colors';
 
 .navbar {
-  background: $oc-gray-3;
+  background: url('src/assets/img/hm-b1.png') center;
+  background-size: cover;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
+  //align-items: center;
   height: 100vh;
-  padding: 2rem;
+  padding: 0;
+
+  &__login {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  &__register {
+    flex-direction: column;
+    justify-content: flex-start;
+    //padding: 2rem;
+  }
 
   &__logo {
-    margin: auto;
+    //margin-top: -12rem;
   };
 
   &__buttons {
@@ -35,5 +47,67 @@
         }
       }
     }
+  }
+
+  .small-logo {
+    margin-top: 0;
+    //height: 15%;
+    margin-bottom: 4rem;
+    cursor: pointer;
+  }
+}
+
+@keyframes expand {
+  from {width: 0;}
+  to {width: 60rem;}
+}
+
+@keyframes overlay-expand {
+  from {width: 50%; height: 100vh}
+  to {width: 100vw; height: 100%}
+}
+
+@keyframes overlay-shrink {
+  from {width: 100vw; height: 100%}
+  to {width: 50%; height: 100vh}
+}
+
+register {
+  overflow: hidden;
+}
+
+.welcome-container {
+  background: rgba(255,255,255,0.7);
+  text-align: center;
+
+  &__login {
+    animation-name: overlay-shrink;
+    animation-duration: 1s;
+    padding: 0;
+    margin: 0;
+    width: 50%;
+    height: 100vh;
+  }
+
+  &__register {
+    animation-name: overlay-expand;
+    animation-duration: 1s;
+    //width: 100vh;
+    //padding: 4rem;
+  }
+}
+
+.register-invitation {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  & > div {
+    font-size: 17px;
+    font-weight: 700;
+    margin-top: -20rem;
+    margin-bottom: 2rem;
   }
 }

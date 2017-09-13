@@ -1,15 +1,30 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse bg-faded">
-    <img class="navbar-brand nabart__logo" src="../../assets/img/health-manager-logotype.png">
-    <div class="collapse navbar-collapse navbar__buttons" id="navbarNavAltMarkup">
-        <div class="navbar__buttons__row">
-            <button class="btn btn-lg align-middle btn-outline-primary " type="button" routerLink="/login">Login</button>
-            <button class="btn btn-lg align-middle btn-outline-primary navbar-toggler-right" type="button" routerLink="/register">Register</button>
+<div [ngClass]="{'navbar__register': doRegister,
+                 'navbar__login': !doRegister,
+                 'navbar': true }"
+>
+    <div [ngClass]="{'welcome-container__register': doRegister,
+                     'welcome-container__login': !doRegister,
+                     'welcome-container': true }"
+    >
+        <img
+                [ngClass]="{'small-logo': doRegister, 'navbar-brand navbar__logo': true }"
+                src="../../assets/img/health-manager-logotype.png"
+                (click)="backHome()"
+        >
+        <div class="collapse navbar-collapse navbar__buttons" id="navbarNavAltMarkup" *ngIf="!doRegister">
+            <div class="navbar__buttons__row">
+                <!--<button class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-button&#45;&#45;colored" type="button" routerLink="/login">Login</button>-->
+            </div>
+            <!--<div class="navbar__buttons__row">-->
+            <!--<button class="btn btn-lg align-middle btn-primary" routerLink="/pages/visitsCalendar">Explore</button>-->
+            <!--</div>-->
         </div>
-        <div class="navbar__buttons__row">
-            <button class="btn btn-lg align-middle btn-outline-primary" routerLink="/pages/visitsCalendar">Explore</button>
-        </div>
+        <login *ngIf="!doRegister"></login>
+        <register *ngIf="doRegister"></register>
+        <a *ngIf="doRegister" (click)="backHome()">back to home</a>
     </div>
-</nav>
-<div class="bd-masthead">
-    <h1>Health Manager</h1>
+    <div class="register-invitation" *ngIf="!doRegister">
+        <div>To register just click button below</div>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="button" (click)="startRegister()">Register</button>
+    </div>
 </div>
