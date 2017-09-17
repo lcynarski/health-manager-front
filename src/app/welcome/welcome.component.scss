@@ -63,13 +63,13 @@
 }
 
 @keyframes overlay-expand {
-  from {width: 50%; height: 100vh}
-  to {width: 100vw; height: 100%}
+  from {width: 50%; }
+  to {width: 100vw; }
 }
 
 @keyframes overlay-shrink {
-  from {width: 100vw; height: 100%}
-  to {width: 50%; height: 100vh}
+  from {width: 100vw;}
+  to {width: 50%;}
 }
 
 register {
@@ -79,6 +79,7 @@ register {
 .welcome-container {
   background: rgba(255,255,255,0.7);
   text-align: center;
+  height: 100vh;
 
   &__login {
     animation-name: overlay-shrink;
