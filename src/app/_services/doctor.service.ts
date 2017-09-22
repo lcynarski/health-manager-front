@@ -33,7 +33,7 @@ export class DoctorService {
             .map((response: Response) => response.json());
     }
 
-    public removeTimeSlot(doctorId: string, timeslotId: string): Observable<TimeSlot> {
+    public removeTimeSlot(doctorId, timeslotId): Observable<TimeSlot> {
         return this.http.delete(`${this.config.apiUrl}/doctors/${doctorId}/slots/${timeslotId}`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }

@@ -199,23 +199,41 @@ export class VisitsCalendarComponent implements OnInit {
 
     moveSlot(value) {
         console.log('MoveSlot')
+        console.log(value)
+        //czy można przenosić już zajęte terminu? xD Nie uda się to teraz bo constraint violation więc jeśli nie to już jest git
+        // TODO podmiana terminów powinna być atomowa po stronie bazy!!
+        const timeSlot = {
+            id: 0,
+            startDateTime: value.startDateTime,
+            endDateTime: value.endDateTime,
+            availableForSelfSign: value.availableForSelfSign
+        };
+        var docId 
+        if(value.doctor == undefined || this.createTimeSlotComponent.docIdByName[value.doctor] == undefined){
+            docId = this.id
+        } else{
+            docId = this.createTimeSlotComponent.docIdByName[value.doctor]
+        }
+        this.doctorService.removeTimeSlot(this.id, this.currentSlotId)
+        .subscribe((data) => {
+            console.log('USUNOŁM')
+            console.log(data);
+           // this.router.navigate(['/dashboard']);
+        });
+        this.doctorService.saveTimeSlot(timeSlot, docId)
+            .subscribe((data) => {
+                console.log(value)
+                console.log(data);
+               // this.router.navigate(['/dashboard']);
+            });
+            //todo czy się powiodło + kalendarz odświeżyć/przemalować!
        this. modalClosed()
-        // const timeSlot = {
-        //     id: 0,
-        //     startDateTime: value.startDateTime,
-        //     endDateTime: value.endDateTime,
-        //     availableForSelfSign: value.availableForSelfSign
-        // };
-        // this.doctorService.saveTimeSlot(timeSlot, this.docIdByName[value.doctor])
-        //     .subscribe((data) => {
-        //         console.log(value)
-        //         console.log(data);
-        //         this.router.navigate(['/dashboard']);
-        //     });
+
+
     }
 
     ngOnInit() {
-         this.createTimeSlotComponent.ngOnInit
+         this.createTimeSlotComponent.ngOnInit()    
         this.userRole = this.authService.getRole();
         console.log('My role is ' + this.userRole)
         if (this.userRole == AuthenticationService.ROLE_ADMIN){
