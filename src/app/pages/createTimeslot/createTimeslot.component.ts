@@ -20,8 +20,6 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
 
     constructor(
         router: Router,
-        private http: Http,
-        private route: ActivatedRoute,
         private doctorService: DoctorService) {
         this.router = router;
     }
@@ -83,6 +81,7 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
     }
 
     submit(value) {
+        console.log('submit')
         const timeSlot = {
             id: 0,
             startDateTime: value.startDateTime,

@@ -5,6 +5,7 @@ import {EventColor} from 'calendar-utils';
 import {ModalComponent} from 'ng2-bs4-modal/ng2-bs4-modal';
 import {DoctorService} from "../../_services/doctor.service";
 import {Doctor} from "../../_models/doctor";
+import {CreateTimeslotComponent} from "../../pages/createTimeslot";
 import {Patient} from "../../_models/patient";
 import {PatientService} from "../../_services/patient.service";
 import {AppointmentService} from "../../_services/appointment.service";
@@ -13,6 +14,7 @@ import {Appointment} from "../../_models/appointment";
 import {AuthenticationService} from '../../_services/authentication.service';
 import {Observable} from "rxjs/Observable";
 
+import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 
 interface VisitEvent extends CalendarEvent {
     slotId: number;
@@ -37,8 +39,13 @@ export class VisitsCalendarComponent implements OnInit {
                 private timeSlotService: TimeSlotService,
                 private authService: AuthenticationService,
                 private router: Router) {
-
+                
+                   this.createTimeSlotComponent = new CreateTimeslotComponent(router,doctorService)
     }
+
+    createTimeSlotComponent:CreateTimeslotComponent
+
+    config: FieldConfig[];
 
     doctor: Doctor;
 
@@ -190,9 +197,35 @@ export class VisitsCalendarComponent implements OnInit {
         // i termin na chwilę zrobi się czerwony a potem spowrotem niebieski
     }
 
+    moveSlot(value) {
+        console.log('MoveSlot')
+       this. modalClosed()
+        // const timeSlot = {
+        //     id: 0,
+        //     startDateTime: value.startDateTime,
+        //     endDateTime: value.endDateTime,
+        //     availableForSelfSign: value.availableForSelfSign
+        // };
+        // this.doctorService.saveTimeSlot(timeSlot, this.docIdByName[value.doctor])
+        //     .subscribe((data) => {
+        //         console.log(value)
+        //         console.log(data);
+        //         this.router.navigate(['/dashboard']);
+        //     });
+    }
+
     ngOnInit() {
+         this.createTimeSlotComponent.ngOnInit
         this.userRole = this.authService.getRole();
         console.log('My role is ' + this.userRole)
+        if (this.userRole == AuthenticationService.ROLE_ADMIN){
+            this.config = this.createTimeSlotComponent.config
+        }else if(this.userRole == AuthenticationService.ROLE_DOCTOR){
+            this.config = this.createTimeSlotComponent.config.slice(1) //no doctor choice
+        }else{
+            const nullæ = null
+            this.config = nullæ
+        }
         this.imAPatient = this.userRole === AuthenticationService.ROLE_PATIENT;
 
         this.route.params.subscribe(params => {
