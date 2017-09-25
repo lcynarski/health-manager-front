@@ -68,7 +68,7 @@ export class VisitsCalendarComponent implements OnInit {
 
     imAPatient: boolean
 
-    changeSlotMenu:boolean = false
+    showSlotMoveMenu: boolean = false
 
     colors: { [s: string]: EventColor; } = {
         red: {
@@ -149,8 +149,8 @@ export class VisitsCalendarComponent implements OnInit {
     modalTime: string;
 
     eventClicked({ event }: { event: CalendarEvent }): void {
-        this.changeSlotMenu=false;
-        console.log('Przed ' + this.changeSlotMenu);
+        this.showSlotMoveMenu = false;
+        console.log('Przed ' + this.showSlotMoveMenu);
         console.log(this.patients);
         this.modalDate = event.start.toLocaleDateString();
         this.modalTime = event.start.toLocaleTimeString().substring(0, 5);
@@ -176,8 +176,8 @@ export class VisitsCalendarComponent implements OnInit {
     }
 
 
-    showSlotMoveMenu(event) {
-        this.changeSlotMenu = true;
+    displaySlotMoveMenu(event) {
+        this.showSlotMoveMenu = true;
     }
 
     setPatient(p: Patient) {
@@ -200,16 +200,14 @@ export class VisitsCalendarComponent implements OnInit {
     }
 
     modalClosed() {
-        this.changeSlotMenu = false;
+        this.showSlotMoveMenu = false;
         this.modal.close();
         this.reloadEvents();
     }
 
-    moveSlot(value) {
-        console.log('MoveSlot')
-        console.log(value)
-        //czy można przenosić już zajęte terminu? xD Nie uda się to teraz bo constraint violation więc jeśli nie to już jest git
-        // TODO podmiana terminów powinna być atomowa po stronie bazy!!
+    // moves also Appointment if necessary
+    // WARNING: This operation should be atomic but it's not :P
+    moveTimeSlot(value) {
         const timeSlot = {
             id: 0,
             startDateTime: value.startDateTime,
@@ -222,44 +220,34 @@ export class VisitsCalendarComponent implements OnInit {
         } else {
             docId = this.createTimeSlotComponent.docIdByName[value.doctor]
         }
-
         this.appointmentService.getByTimeSlot(this.currentSlotId)
             .catch((err) => this.swapTimeSlot(docId, timeSlot).map((sth) => null))
             .subscribe((appointment: Appointment) => {
                 if (appointment != null) {
-                    this.appointmentService.removeAppointment(appointment.id)
-                        .subscribe(any => {
-                            this.swapTimeSlot(docId, timeSlot).subscribe((newTimeSlot: TimeSlot) => {
-                                appointment.id = null;
-                                appointment.timeSlot = newTimeSlot
-                                appointment.timeSlotId = newTimeSlot.id
-                                this.appointmentService.saveAppointment(this.patient.id, appointment)
-                                    .subscribe(app => {
-                                        console.log("KONIEC!!!")
-                                        this.modalClosed()
-                                    })
-                            })
-                        })
+                    this.swapAppointment(appointment, timeSlot, docId)
                 } else {
                     this.modalClosed()
                 }
-                //1 rm app
-                //2. rm tm
-                //3 cr tm
-                //4 cr app
             })
 
     }
 
-    swapTimeSlot(newDocId: string, timSlotData): Observable<TimeSlot> {
+    swapAppointment(appointment: Appointment, timeSlot: TimeSlot, docId: number) {
+        this.appointmentService.removeAppointment(appointment.id)
+            .subscribe(anything => {
+                this.swapTimeSlot(docId, timeSlot).subscribe((newTimeSlot: TimeSlot) => {
+                    appointment.id = null;
+                    appointment.timeSlot = newTimeSlot
+                    appointment.timeSlotId = newTimeSlot.id
+                    this.appointmentService.saveAppointment(this.patient.id, appointment)
+                        .subscribe(anything => this.modalClosed())
+                })
+            })
+    }
+
+    swapTimeSlot(newDocId: number, timSlotData): Observable<TimeSlot> {
         return this.doctorService.removeTimeSlot(this.id, this.currentSlotId)
-            .flatMap((data) => {
-                console.log('USUNOŁM')
-                console.log(data);
-                // this.router.navigate(['/dashboard']);
-                return this.doctorService.saveTimeSlot(timSlotData, newDocId)
-                // this.router.navigate(['/dashboard']);
-            });
+            .flatMap((data) => this.doctorService.saveTimeSlot(timSlotData, newDocId));
     }
 
     ngOnInit() {
@@ -271,8 +259,7 @@ export class VisitsCalendarComponent implements OnInit {
         } else if (this.userRole == AuthenticationService.ROLE_DOCTOR) {
             this.config = this.createTimeSlotComponent.config.slice(1) //no doctor choice
         } else {
-            const nullæ = null
-            this.config = nullæ
+            this.config = null
         }
         this.imAPatient = this.userRole === AuthenticationService.ROLE_PATIENT;
 
