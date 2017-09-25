@@ -1,18 +1,19 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CalendarEvent} from 'angular-calendar';
-import {EventColor} from 'calendar-utils';
-import {ModalComponent} from 'ng2-bs4-modal/ng2-bs4-modal';
-import {DoctorService} from "../../_services/doctor.service";
-import {Doctor} from "../../_models/doctor";
-import {CreateTimeslotComponent} from "../../pages/createTimeslot";
-import {Patient} from "../../_models/patient";
-import {PatientService} from "../../_services/patient.service";
-import {AppointmentService} from "../../_services/appointment.service";
-import {TimeSlotService} from "../../_services/timeSlot.service";
-import {Appointment} from "../../_models/appointment";
-import {AuthenticationService} from '../../_services/authentication.service';
-import {Observable} from "rxjs/Observable";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CalendarEvent } from 'angular-calendar';
+import { EventColor } from 'calendar-utils';
+import { ModalComponent } from 'ng2-bs4-modal/ng2-bs4-modal';
+import { DoctorService } from "../../_services/doctor.service";
+import { Doctor } from "../../_models/doctor";
+import { Patient } from "../../_models/patient";
+import { TimeSlot } from "../../_models/timeslot";
+import { CreateTimeslotComponent } from "../../pages/createTimeslot";
+import { PatientService } from "../../_services/patient.service";
+import { AppointmentService } from "../../_services/appointment.service";
+import { TimeSlotService } from "../../_services/timeSlot.service";
+import { Appointment } from "../../_models/appointment";
+import { AuthenticationService } from '../../_services/authentication.service';
+import { Observable } from "rxjs/Observable";
 
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 
@@ -33,17 +34,17 @@ export class VisitsCalendarComponent implements OnInit {
     public id: string;
 
     constructor(private route: ActivatedRoute,
-                private doctorService: DoctorService,
-                private patientService: PatientService,
-                private appointmentService: AppointmentService,
-                private timeSlotService: TimeSlotService,
-                private authService: AuthenticationService,
-                private router: Router) {
-                
-                   this.createTimeSlotComponent = new CreateTimeslotComponent(router,doctorService)
+        private doctorService: DoctorService,
+        private patientService: PatientService,
+        private appointmentService: AppointmentService,
+        private timeSlotService: TimeSlotService,
+        private authService: AuthenticationService,
+        private router: Router) {
+
+        this.createTimeSlotComponent = new CreateTimeslotComponent(router, doctorService)
     }
 
-    createTimeSlotComponent:CreateTimeslotComponent
+    createTimeSlotComponent: CreateTimeslotComponent
 
     config: FieldConfig[];
 
@@ -145,7 +146,7 @@ export class VisitsCalendarComponent implements OnInit {
     modalDate: string;
     modalTime: string;
 
-    eventClicked({event}: { event: CalendarEvent }): void {
+    eventClicked({ event }: { event: CalendarEvent }): void {
         console.log('Przed');
         console.log(this.patients);
         this.modalDate = event.start.toLocaleDateString();
@@ -186,15 +187,13 @@ export class VisitsCalendarComponent implements OnInit {
                 break;
             }
         }
-        this.appointmentService.saveAppointment(this.patient.id, appointmentData);
-
-        this.modalClosed();
+        this.appointmentService.saveAppointment(this.patient.id, appointmentData)
+        .subscribe(anything => this.modalClosed())
     }
 
     modalClosed() {
         this.modal.close();
-        // this.reloadEvents();  // nie chcemy tego po opdpowiedź może przyjść zanim żądane zapisu dotrze
-        // i termin na chwilę zrobi się czerwony a potem spowrotem niebieski
+         this.reloadEvents(); 
     }
 
     moveSlot(value) {
@@ -208,39 +207,61 @@ export class VisitsCalendarComponent implements OnInit {
             endDateTime: value.endDateTime,
             availableForSelfSign: value.availableForSelfSign
         };
-        var docId 
-        if(value.doctor == undefined || this.createTimeSlotComponent.docIdByName[value.doctor] == undefined){
+        var docId
+        if (value.doctor == undefined || this.createTimeSlotComponent.docIdByName[value.doctor] == undefined) {
             docId = this.id
-        } else{
+        } else {
             docId = this.createTimeSlotComponent.docIdByName[value.doctor]
         }
-        this.doctorService.removeTimeSlot(this.id, this.currentSlotId)
-        .subscribe((data) => {
-            console.log('USUNOŁM')
-            console.log(data);
-           // this.router.navigate(['/dashboard']);
-        });
-        this.doctorService.saveTimeSlot(timeSlot, docId)
-            .subscribe((data) => {
-                console.log(value)
-                console.log(data);
-               // this.router.navigate(['/dashboard']);
-            });
-            //todo czy się powiodło + kalendarz odświeżyć/przemalować!
-       this. modalClosed()
 
+        this.appointmentService.getByTimeSlot(this.currentSlotId)
+            .catch((err) => this.swapTimeSlot(docId, timeSlot).map((sth) => null))
+            .subscribe((appointment: Appointment) => {
+                if (appointment != null) {
+                    this.appointmentService.removeAppointment(appointment.id)
+                    .subscribe(any => {
+                        this.swapTimeSlot(docId, timeSlot).subscribe((newTimeSlot: TimeSlot)=>{
+                            appointment.id=null;
+                            appointment.timeSlot = newTimeSlot
+                            appointment.timeSlotId = newTimeSlot.id
+                            this.appointmentService.saveAppointment(this.patient.id,appointment)
+                            .subscribe(app => {
+                                console.log("KONIEC!!!")
+                                this.modalClosed()
+                            })
+                        })
+                    })
+                } else {
+                    this.modalClosed()
+                }
+                //1 rm app
+                //2. rm tm
+                //3 cr tm
+                //4 cr app
+            })
 
     }
 
+    swapTimeSlot(newDocId: string, timSlotData): Observable<TimeSlot> {
+        return this.doctorService.removeTimeSlot(this.id, this.currentSlotId)
+            .flatMap((data) => {
+                console.log('USUNOŁM')
+                console.log(data);
+                // this.router.navigate(['/dashboard']);
+                return this.doctorService.saveTimeSlot(timSlotData, newDocId)
+                // this.router.navigate(['/dashboard']);
+            });
+    }
+
     ngOnInit() {
-         this.createTimeSlotComponent.ngOnInit()    
+        this.createTimeSlotComponent.ngOnInit()
         this.userRole = this.authService.getRole();
         console.log('My role is ' + this.userRole)
-        if (this.userRole == AuthenticationService.ROLE_ADMIN){
+        if (this.userRole == AuthenticationService.ROLE_ADMIN) {
             this.config = this.createTimeSlotComponent.config
-        }else if(this.userRole == AuthenticationService.ROLE_DOCTOR){
+        } else if (this.userRole == AuthenticationService.ROLE_DOCTOR) {
             this.config = this.createTimeSlotComponent.config.slice(1) //no doctor choice
-        }else{
+        } else {
             const nullæ = null
             this.config = nullæ
         }
@@ -251,21 +272,21 @@ export class VisitsCalendarComponent implements OnInit {
 
 
             this.doctorService.getById(this.id).subscribe(doc => {
-                    console.log("przyszło coś z promisa");
-                    console.log(doc);
-                    this.doctor = doc;
-                    console.log(this.doctor);
+                console.log("przyszło coś z promisa");
+                console.log(doc);
+                this.doctor = doc;
+                console.log(this.doctor);
 
-                    if (this.imAPatient) {
-                        this.patientService/*.getById('1')*/ // włączyć dla łatwiejszej prezentacji
-                            .getPatientByEmail(this.authService.getEmail()).subscribe((patient) => {
+                if (this.imAPatient) {
+                    this.patientService/*.getById('1')*/ // włączyć dla łatwiejszej prezentacji
+                        .getPatientByEmail(this.authService.getEmail()).subscribe((patient) => {
                             this.patient = patient;
                             this.reloadEvents();
                         });
-                    } else {
-                        this.reloadEvents();
-                    }
+                } else {
+                    this.reloadEvents();
                 }
+            }
             );
 
             if (!this.imAPatient) {
