@@ -68,6 +68,8 @@ export class VisitsCalendarComponent implements OnInit {
 
     imAPatient: boolean
 
+    changeSlotMenu:boolean = false
+
     colors: { [s: string]: EventColor; } = {
         red: {
             primary: '#ad2121',
@@ -147,7 +149,8 @@ export class VisitsCalendarComponent implements OnInit {
     modalTime: string;
 
     eventClicked({ event }: { event: CalendarEvent }): void {
-        console.log('Przed');
+        this.changeSlotMenu=false;
+        console.log('Przed ' + this.changeSlotMenu);
         console.log(this.patients);
         this.modalDate = event.start.toLocaleDateString();
         this.modalTime = event.start.toLocaleTimeString().substring(0, 5);
@@ -172,6 +175,11 @@ export class VisitsCalendarComponent implements OnInit {
         this.setPatient(this.patient);
     }
 
+
+    showSlotMoveMenu(event) {
+        this.changeSlotMenu = true;
+    }
+
     setPatient(p: Patient) {
         this.patient = p;
         var appointmentData = {
@@ -188,12 +196,13 @@ export class VisitsCalendarComponent implements OnInit {
             }
         }
         this.appointmentService.saveAppointment(this.patient.id, appointmentData)
-        .subscribe(anything => this.modalClosed())
+            .subscribe(anything => this.modalClosed())
     }
 
     modalClosed() {
+        this.changeSlotMenu = false;
         this.modal.close();
-         this.reloadEvents(); 
+        this.reloadEvents();
     }
 
     moveSlot(value) {
@@ -219,18 +228,18 @@ export class VisitsCalendarComponent implements OnInit {
             .subscribe((appointment: Appointment) => {
                 if (appointment != null) {
                     this.appointmentService.removeAppointment(appointment.id)
-                    .subscribe(any => {
-                        this.swapTimeSlot(docId, timeSlot).subscribe((newTimeSlot: TimeSlot)=>{
-                            appointment.id=null;
-                            appointment.timeSlot = newTimeSlot
-                            appointment.timeSlotId = newTimeSlot.id
-                            this.appointmentService.saveAppointment(this.patient.id,appointment)
-                            .subscribe(app => {
-                                console.log("KONIEC!!!")
-                                this.modalClosed()
+                        .subscribe(any => {
+                            this.swapTimeSlot(docId, timeSlot).subscribe((newTimeSlot: TimeSlot) => {
+                                appointment.id = null;
+                                appointment.timeSlot = newTimeSlot
+                                appointment.timeSlotId = newTimeSlot.id
+                                this.appointmentService.saveAppointment(this.patient.id, appointment)
+                                    .subscribe(app => {
+                                        console.log("KONIEC!!!")
+                                        this.modalClosed()
+                                    })
                             })
                         })
-                    })
                 } else {
                     this.modalClosed()
                 }
