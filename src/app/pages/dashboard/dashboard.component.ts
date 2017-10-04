@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
+import {AuthenticationService} from "../../_services/authentication.service";
 
 @Component({
     selector: 'dashboard',
     styleUrls: ['./dashboard.component.scss'],
     templateUrl: './dashboard.component.html'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
     public widgets: any[] = [
         {
             title: "Patient's creator",
@@ -58,4 +59,10 @@ export class DashboardComponent {
         },
     ];
     private router: Router;
+
+    constructor(private authService: AuthenticationService ) {}
+
+    public ngOnInit() {
+        console.log('KURWA JEGO MAC', this.authService.getRole());
+    }
 }

@@ -22,7 +22,6 @@ export class AuthenticationService {
         this.token = currentUser && currentUser.token;
         let jwtHelper: JwtHelper = new JwtHelper();
         // this.role = this.token && jwtHelper.decodeToken(this.token).scopes;
-
     }
 
     public login(email: string, password: string): Observable<boolean> {
