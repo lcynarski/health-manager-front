@@ -162,7 +162,7 @@ export class FieldsCreatorComponent implements OnInit {
         })
         const field = {
             type: 'select',
-            label: 'DUPA',
+            label: this.selectFieldName,
             name: this.selectFieldName,
             options: onlyOptions,
             placeholder: 'option'
