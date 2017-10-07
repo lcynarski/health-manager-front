@@ -14,9 +14,18 @@ export class AppointmentService {
                 private config: AppConfig) {
     }
 
-    public saveAppointment(patientId, appointmentData): void {
-        this.http.put(`${this.config.apiUrl}/patients/${patientId}/appointments`,
-            appointmentData, this.authenticationService.addJwtOptions()).subscribe();
+    /** returns saved Appointment */
+    public saveAppointment(patientId, appointmentData): Observable<Appointment> {
+       return this.http.put(`${this.config.apiUrl}/patients/${patientId}/appointments`,
+            appointmentData, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
+
+    /** returns removed appointment*/
+    public removeAppointment(appoinmentId: number): Observable<Appointment> {
+        return this.http.delete(`${this.config.apiUrl}/appointments/${appoinmentId}`,
+            this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
     }
 
     public getByTimeSlot(timeSlotId): Observable<Appointment> {
