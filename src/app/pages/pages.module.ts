@@ -4,6 +4,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { routing } from './pages.routing';
 import { NgaModule } from '../navigation/nga.module';
 // import { AppTranslationModule } from '../app.translation.module';
+import {
+    MatStepperModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatButtonToggleModule,
+    MatLineModule,
+    MatIconModule,
+    MatRippleModule
+} from '@angular/material';
 import { ModalModule } from 'ng2-bs4-modal/ng2-bs4-modal';
 import { Pages } from './pages.component';
 import { PatientDetailsComponent } from './patientDetails/patientDetails.component';
@@ -50,7 +60,15 @@ import {MdlSelectModule} from "@angular2-mdl-ext/select";
         MdlModule,
         InfiniteScrollModule,
         MedcomModule,
-        MdlSelectModule
+        MdlSelectModule,
+        MatStepperModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatInputModule,
+        MatLineModule,
+        MatButtonToggleModule,
+        MatIconModule,
+        MatRippleModule
     ],
     declarations: [
         Pages,

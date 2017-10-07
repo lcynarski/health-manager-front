@@ -35,6 +35,7 @@ import {DynamicFormModule} from "./components/dynamic-form/dynamic-form.module";
 import {FieldsRemoverComponent} from "./forms/fieldsRemover/fieldsRemover.component";
 import {FormCheckboxComponent} from "./components/dynamic-form/components/form-checkbox/form-checkbox.component";
 import {DashboardWidgetComponent} from "./pages/dashboard/dashboard-widget.component";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 const socialProviders = {
     google: {
@@ -61,7 +62,8 @@ const APP_PROVIDERS = [
             apiKey: 'AIzaSyAVY4MA8FBzN8gFd1v0cF-RAOcdwukvJKQ'
         }),
         MdlModule,
-        DynamicFormModule
+        DynamicFormModule,
+        BrowserAnimationsModule
     ],
     declarations: [
         AppComponent,

@@ -5,6 +5,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { AlertService, UserService } from '../../_services/index';
 import { PersonalDetails } from '../../_models/personalDetails';
 import {error} from 'util';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     templateUrl: 'proceed-appointment.component.html',
@@ -17,10 +18,15 @@ export class ProceedAppointmentComponent implements OnInit {
     public disableTargaryens = true;
     public myArray: string[] = null;
 
+    isLinear = false;
+    firstFormGroup: FormGroup;
+    secondFormGroup: FormGroup;
+
     constructor(private http: Http,
                 private router: Router,
                 private userService: UserService,
-                private alertService: AlertService) {
+                private alertService: AlertService,
+                private _formBuilder: FormBuilder) {
     }
 
     public tabChanged({index}) {
@@ -32,6 +38,12 @@ export class ProceedAppointmentComponent implements OnInit {
         setTimeout(() => {
             this.myArray = ['a', 'b', 'c'];
         }, 1000);
+        this.firstFormGroup = this._formBuilder.group({
+            firstCtrl: ['', Validators.required]
+        });
+        this.secondFormGroup = this._formBuilder.group({
+            secondCtrl: ['', Validators.required]
+        });
     }
 
     private onSubmit() {
