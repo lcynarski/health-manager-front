@@ -1,7 +1,7 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {Http, HttpModule} from '@angular/http';
 import { Angular2SocialLoginModule } from 'angular2-social-login';
 import { AgmCoreModule } from '@agm/core';
 import { MdlModule } from '@angular-mdl/core';
@@ -36,6 +36,8 @@ import {FieldsRemoverComponent} from "./forms/fieldsRemover/fieldsRemover.compon
 import {FormCheckboxComponent} from "./components/dynamic-form/components/form-checkbox/form-checkbox.component";
 import {DashboardWidgetComponent} from "./pages/dashboard/dashboard-widget.component";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {TranslateModule, TranslateLoader} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 
 const socialProviders = {
     google: {
@@ -47,6 +49,10 @@ const APP_PROVIDERS = [
     AppState,
     GlobalState
 ];
+
+export function createTranslateLoader(http: Http) {
+    return new TranslateHttpLoader(http, 'src/assets/i18n/', '.json');
+}
 
 @NgModule({
     imports: [
@@ -63,7 +69,14 @@ const APP_PROVIDERS = [
         }),
         MdlModule,
         DynamicFormModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [Http]
+            }
+        })
     ],
     declarations: [
         AppComponent,

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
 
@@ -12,7 +13,14 @@ export class WelcomeComponent implements OnInit {
 
     constructor(
         private router: Router,
-    ) { }
+        private translate: TranslateService
+    ) {
+        translate.addLangs(["en", "pl"]);
+        translate.setDefaultLang('en');
+
+        let browserLang = translate.getBrowserLang();
+        translate.use(browserLang.match(/en|pl/) ? browserLang : 'en');
+    }
 
     ngOnInit() {
         this.doRegister = false;
