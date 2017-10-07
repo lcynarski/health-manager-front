@@ -7,17 +7,27 @@ import { Router } from '@angular/router';
     styleUrls: ['./welcome.component.scss']
 })
 
-export class WelcomeComponent {
+export class WelcomeComponent implements OnInit {
+    private doRegister: boolean;
 
     constructor(
         private router: Router,
     ) { }
 
     ngOnInit() {
+        this.doRegister = false;
+    }
+
+    public startRegister() {
+        this.doRegister = true;
+    }
+
+    public backHome() {
+        this.doRegister = false;
     }
 
     redirect(pagename: string) {
-        this.router.navigate(['/'+pagename]);
+        this.router.navigate(['/' + pagename]);
     }
 
 }

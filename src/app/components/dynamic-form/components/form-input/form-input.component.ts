@@ -11,7 +11,8 @@ import { FieldConfig } from '../../models/field-config.interface';
     <div
       class="dynamic-field form-input"
       [formGroup]="group">
-    <mdl-textfield label={{config.label}} [attr.placeholder]="config.placeholder" [formControlName]="config.name" floating-label></mdl-textfield>
+        <mdl-icon *ngIf="config.placeholder === 'date'">event</mdl-icon>
+        <mdl-textfield label={{config.label}} [attr.placeholder]="config.placeholder" [formControlName]="config.name" floating-label></mdl-textfield>
     </div>
   `
 })

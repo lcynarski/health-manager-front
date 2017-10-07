@@ -48,7 +48,7 @@ export class PatientService {
     }
 
     public getPatientByPesel(pesel) {
-        return this.http.get(`${this.config.apiUrl}/patients/pesel/${pesel}`, this.authenticationService.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/patients?pesel=${pesel}`, this.authenticationService.addJwtOptions())
             .map((response) => response.json());
     }
 
