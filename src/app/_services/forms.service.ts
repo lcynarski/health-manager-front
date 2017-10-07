@@ -47,7 +47,7 @@ export class FormsService {
         return this.http.post(`${this.config.apiUrl}/forms`, form)
             .map((response: Response) => {
                 console.log('SAVE FORM: ' + response.json());
-            }).subscribe()
+            }).subscribe();
     }
 
     private addJwtOptions() {

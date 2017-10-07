@@ -54,7 +54,7 @@ export class FormsCreatorComponent implements OnInit {
         console.log('This.fields:  ', this.fields);
         const form = {
             name: this.formName,
-            formFields: {...this.fields}
+            formFields: [...this.fields]
         }
         console.log("MY FUCKIN FORM: ", form);
         this.formsService.saveForm(form);
