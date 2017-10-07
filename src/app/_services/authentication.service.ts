@@ -20,8 +20,8 @@ export class AuthenticationService {
         // set token if saved in local storage
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
-        let jwtHelper: JwtHelper = new JwtHelper();
-        this.role = jwtHelper.decodeToken(this.token).scopes;
+        const jwtHelper: JwtHelper = new JwtHelper();
+        this.role = this.token && jwtHelper.decodeToken(this.token).scopes;
     }
 
     public login(email: string, password: string): Observable<boolean> {
