@@ -31,6 +31,16 @@
     <modal-body>
         <h2>Doctor {{doctor?.firstName}} {{doctor?.lastName}}</h2>
         <h2>{{modalDate}}, {{modalTime}}</h2>
+        <div *ngIf='config!=null && !showSlotMoveMenu'>
+            <button (click)='displaySlotMoveMenu($event)'>Move timeslot</button>
+        </div>
+        <div *ngIf='showSlotMoveMenu'>
+            Move timeslot <br />
+            <div class="create-timeslot-form">
+                <dynamic-form [config]="config" #form="dynamicForm" (submit)="moveTimeSlot($event)">
+                </dynamic-form>
+            </div>
+        </div>
         <h3>Patient's data</h3>
         <!--<div class="dropdown">-->
         <!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{patientName}}-->

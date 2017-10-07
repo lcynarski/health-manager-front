@@ -16,12 +16,10 @@ import { Http } from '@angular/http';
 export class CreateTimeslotComponent implements AfterViewInit, OnInit {
     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
     private router: Router;
-    private docIdByName;
+    public docIdByName;
 
     constructor(
         router: Router,
-        private http: Http,
-        private route: ActivatedRoute,
         private doctorService: DoctorService) {
         this.router = router;
     }
@@ -60,6 +58,7 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
     ];
 
     ngOnInit(): void {
+        console.log('Zbieram doktorków!')
         this.docIdByName = {};
 
         this.doctorService.getAll()
@@ -67,7 +66,8 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
                 doctors.forEach((doctor) => {
                     this.docIdByName[`${doctor.firstName} ${doctor.lastName}`] = doctor._id;
                 })
-                this.form.config[0].options = doctors.map((doctor) => `${doctor.firstName} ${doctor.lastName}`);
+                this.config[0].options = doctors.map((doctor) => `${doctor.firstName} ${doctor.lastName}`);
+                console.log('Doktorkowie zebrani!')
             })
     }
 
@@ -83,6 +83,7 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
     }
 
     submit(value) {
+        console.log('submit')
         const timeSlot = {
             id: 0,
             startDateTime: value.startDateTime,

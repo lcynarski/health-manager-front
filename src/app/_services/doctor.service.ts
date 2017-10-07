@@ -8,6 +8,7 @@ import { AppConfig } from '../app.config';
 import { Patient } from '../_models/index';
 import {Doctor} from "../_models/doctor";
 import { Specialization } from "../_models/specialization";
+import { TimeSlot } from "../_models/timeslot"
 
 @Injectable()
 export class DoctorService {
@@ -29,6 +30,11 @@ export class DoctorService {
     public saveTimeSlot(data, doctorId) {
         console.log(data);
         return this.http.post(`${this.config.apiUrl}/doctors/${doctorId}/slots`, data, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
+
+    public removeTimeSlot(doctorId, timeslotId): Observable<TimeSlot> {
+        return this.http.delete(`${this.config.apiUrl}/doctors/${doctorId}/slots/${timeslotId}`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 
