@@ -196,7 +196,7 @@ export class VisitsCalendarComponent implements OnInit {
             }
         }
         this.appointmentService.saveAppointment(this.patient.id, appointmentData)
-            .subscribe(anything => this.modalClosed())
+            .subscribe(appointment => this.modalClosed())
     }
 
     modalClosed() {
@@ -234,13 +234,13 @@ export class VisitsCalendarComponent implements OnInit {
 
     swapAppointment(appointment: Appointment, timeSlot: TimeSlot, docId: number) {
         this.appointmentService.removeAppointment(appointment.id)
-            .subscribe(anything => {
+            .subscribe(removedAppointment => {
                 this.swapTimeSlot(docId, timeSlot).subscribe((newTimeSlot: TimeSlot) => {
                     appointment.id = null;
                     appointment.timeSlot = newTimeSlot
                     appointment.timeSlotId = newTimeSlot.id
                     this.appointmentService.saveAppointment(this.patient.id, appointment)
-                        .subscribe(anything => this.modalClosed())
+                        .subscribe(appointment => this.modalClosed())
                 })
             })
     }
