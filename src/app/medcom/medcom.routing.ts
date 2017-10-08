@@ -9,7 +9,7 @@ import { ModalitiesComponent } from './modalities/modalities.component';
 
 export const routes: Routes = [
     {
-        path: 'pages/medcom',
+        path: '',
         component: MedcomComponent,
         children: [
             { path: 'dicom-archive', component: DicomArchiveComponent },
