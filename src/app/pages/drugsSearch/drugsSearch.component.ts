@@ -7,40 +7,8 @@ import {DrugsService} from '../../_services/drugs.service';
 @Component({
     providers: [DrugsService],
     selector: 'drugs-search',
-    styleUrls: ['./drugsSearch.component.scss'],
-    template: `
-        <div>
-            <form [formGroup]="form"
-                  (submit)="onSubmit($event)"
-                    class="search-form"
-            >
-                <div>
-                    Start typing drug's name:
-                </div>
-                <p>
-                    <mdl-textfield
-                            label="DRUG NAME"
-                            name="drugName" type="text"
-                            formControlName="drugName"
-                            floating-label
-                            (input)="onSubmit($event.target.value)"></mdl-textfield>
-                </p>
-            </form>
-            <mdl-list *ngIf="drugs"
-                      infiniteScroll
-                      [infiniteScrollDistance]="2"
-                      [infiniteScrollThrottle]="700"
-                      (scrolled)="onScroll()"
-            >
-                <mdl-list-item *ngFor="let drug of drugs">
-                    <mdl-list-item-primary-content >
-                        <mdl-icon mdl-list-item-icon>healing</mdl-icon>
-                        {{ drug.name }}
-                    </mdl-list-item-primary-content>
-                </mdl-list-item>
-            </mdl-list>
-        </div>
-    `
+    templateUrl: 'drugsSearch.component.html',
+    styleUrls: ['./drugsSearch.component.scss']
 })
 
 export class DrugsSearchComponent implements OnInit{

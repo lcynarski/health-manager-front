@@ -10,43 +10,43 @@ import {AuthenticationService} from "../../_services/authentication.service";
 export class DashboardComponent implements OnInit {
     public widgets: any[] = [
         {
-            title: "Patient's creator",
+            title: 'PatientCreator',
             buttonLabel: 'Create',
             link: '/pages/createPatient',
             roles: ['ROLE_PATIENT', 'ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
-            title: "Doctor's creator",
+            title: 'DoctorCreator',
             buttonLabel: 'Create',
             link: '/pages/createDoctor',
             roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
-            title: 'Timeslot creator',
+            title: 'TimeslotCreator',
             buttonLabel: 'Create',
             link: '/pages/createTimeslot',
             roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
-            title: 'Proceed with an appointment',
+            title: 'ProceedWithAppoinment',
             buttonLabel: 'Proceed',
             link: '/pages/proceedAppointment',
             roles: ['ROLE_PATIENT', 'ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
-            title: 'Search for a patient',
+            title: 'SearchForPatient',
             buttonLabel: 'Search',
             link: '/pages/patientSearch',
             roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
-            title: 'Search for drugs',
+            title: 'SearchForDrugs',
             buttonLabel: 'Search',
             link: '/pages/drugsSearch',
             roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
-            title: 'Forms creator',
+            title: 'FormsCreator',
             buttonLabel: 'Go to creator',
             link: '/pages/formsCreator',
             roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']

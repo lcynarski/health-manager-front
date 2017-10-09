@@ -112,3 +112,21 @@ register {
     margin-bottom: 2rem;
   }
 }
+
+.lang-select {
+  background: $oc-gray-0;
+  position: absolute;
+  top: 0;
+  right: 2rem;
+  width: 10rem;
+  height: 2.4rem;
+  padding: 2px 2px 2px 3rem;
+  font-size: 1.4rem;
+}
+
+.translate-icon {
+  position: absolute;
+  top: 0;
+  right: 9.4rem;
+  z-index: 10;
+}

@@ -4,5 +4,21 @@
   "SignInToHM": "Zaloguj sie do Health Manager",
   "Register": "Zarejestruj",
   "Login": "Zaloguj",
-  "ForgotPassword": "Zapomnialem hasla"
+  "ForgotPassword": "Zapomnialem hasla",
+  "PatientsList": "Lista pacjentow",
+  "DoctorsList": "List lekarzy",
+  "DrugsList": "List lekow",
+  "StartTypingDrugsName": "Zacznij wpisywac nazwe leku",
+  "DrugName": "Nazwa leku",
+  "SearchForPatient": "Szukaj pacjenta",
+  "SearchForDoctor": "Szukaj lekarza",
+  "SearchForDrugs": "Szukaj lekow",
+  "PatientCreator": "Stworz nowe konto pacjenta",
+  "DoctorCreator": "Stworz nowe konto lekarza",
+  "FormsCreator": "Stworz wlasny formularz",
+  "TimeslotCreator": "Nowy przedzial godzinowy",
+  "ProceedWithAppoinment": "Rozpocznij wizyte",
+  "Create": "Stworz",
+  "Search": "Szukaj",
+  "Proceed": "Rozpocznij"
 }

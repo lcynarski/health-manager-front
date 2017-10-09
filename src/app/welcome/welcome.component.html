@@ -27,9 +27,10 @@
         <div>{{ 'RegisterMessage' | translate }}</div>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="button" (click)="startRegister()">{{ 'Register' | translate }}</button>
     </div>
-
-
-    <select #langSelect (change)="translate.use(langSelect.value)">
-        <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
-    </select>
 </div>
+<i class="material-icons translate-icon">translate</i>
+<mat-select #langSelect (change)="translate.use(langSelect.value)" label="lang" class="lang-select">
+    <mat-option *ngFor="let lang of translate.getLangs()" [value]="lang">{{ lang }}</mat-option>
+</mat-select>
+
+

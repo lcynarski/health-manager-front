@@ -44,6 +44,7 @@ import {FormSelectComponent} from "../components/dynamic-form/components/form-se
 import {FormCreatorStore} from "../stores/formCreatorStore";
 import {FormsCreatorComponent} from "../forms/formsCreator/formsCreator.component";
 import {MdlSelectModule} from "@angular2-mdl-ext/select";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -68,7 +69,8 @@ import {MdlSelectModule} from "@angular2-mdl-ext/select";
         MatLineModule,
         MatButtonToggleModule,
         MatIconModule,
-        MatRippleModule
+        MatRippleModule,
+        TranslateModule
     ],
     declarations: [
         Pages,

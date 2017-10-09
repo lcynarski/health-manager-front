@@ -4,5 +4,21 @@
   "SignInToHM": "Sign in to Health Manager",
   "Register": "Register",
   "Login": "Login",
-  "ForgotPassword": "I forgot password"
+  "ForgotPassword": "I forgot password",
+  "PatientsList": "List of patients",
+  "DoctorsList": "List of doctors",
+  "DrugsList": "List of drugs",
+  "StartTypingDrugsName": "Start typing drug's name",
+  "DrugName": "Drug name",
+  "SearchForPatient": "Search for a patient",
+  "SearchForDoctor": "Search for a doctor",
+  "SearchForDrugs": "Search for a drugs",
+  "PatientCreator": "Create new patient",
+  "DoctorCreator": "Create new doctor",
+  "FormsCreator": "Create new form",
+  "TimeslotCreator": "Create timeslot",
+  "ProceedWithAppoinment": "Proceed with an appoinment",
+  "Create": "Create",
+  "Search": "Search",
+  "Proceed": "Proceed"
 }
