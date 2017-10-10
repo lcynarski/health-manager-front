@@ -38,7 +38,10 @@ import {DashboardWidgetComponent} from "./pages/dashboard/dashboard-widget.compo
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {TranslateModule, TranslateLoader} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {MatFormFieldModule, MatOptionModule, MatSelectModule} from "@angular/material";
+import {
+    MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatOptionModule,
+    MatSelectModule
+} from "@angular/material";
 
 const socialProviders = {
     google: {
@@ -79,7 +82,11 @@ export function createTranslateLoader(http: Http) {
             }
         }),
         MatSelectModule,
-        MatOptionModule
+        MatOptionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule
     ],
     declarations: [
         AppComponent,

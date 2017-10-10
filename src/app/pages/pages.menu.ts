@@ -18,7 +18,7 @@ export const PAGES_MENU = [
                 path: 'patientsList',
                 data: {
                     menu: {
-                        title: 'Patients List',
+                        title: 'PatientsList',
                         icon: 'view_list',
                         selected: false,
                         expanded: false,
@@ -30,7 +30,7 @@ export const PAGES_MENU = [
                 path: 'doctorsList',
                 data: {
                     menu: {
-                        title: 'List of doctors',
+                        title: 'ListOfDoctors',
                         icon: 'view_list',
                         selected: false,
                         expanded: false,

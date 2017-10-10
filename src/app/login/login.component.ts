@@ -4,6 +4,7 @@ import { AuthService } from 'angular2-social-login';
 import { AlertService, AuthenticationService } from '../_services/index';
 import {Http, RequestOptions, Headers } from "@angular/http";
 import {AppConfig} from "../app.config";
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
     selector: 'login',
@@ -18,6 +19,8 @@ export class LoginComponent implements OnInit {
     returnUrl: string;
     public user = {};
     sub: any = {};
+    emailAddress = new FormControl('', [Validators.required, Validators.email]);
+    hide = true;
 
     constructor(
         private router: Router,
@@ -82,5 +85,11 @@ export class LoginComponent implements OnInit {
                 //name, image, uid, provider, uid, email, token (accessToken for Facebook & google, no token for linkedIn), idToken(only for google)
             }
         )
+    }
+
+    getErrorMessage() {
+        return this.emailAddress.hasError('required') ? 'You must enter a value' :
+            this.emailAddress.hasError('email') ? 'Not a valid email' :
+                '';
     }
 }
