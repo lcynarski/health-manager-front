@@ -21,7 +21,7 @@
     "no-input-rename": true,
     "no-output-rename": true,
     "member-access": false,
-    "pipe-naming": [true, "camelCase", "my"],
+    "pipe-naming": [true, "camelCase", "hm"],
     "templates-use-public": true,
     "use-host-property-decorator": true,
     "use-input-property-decorator": true,

@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { ArchiveService } from '../../_services/index';
-import { DicomArchive } from '../../_models/medcom/archive';
-import { Subject } from 'rxjs/Subject';
+import { ArchiveService } from '../../_services';
+import { MedcomPatient } from '../../_models';
 
 
 @Component({
@@ -10,11 +9,11 @@ import { Subject } from 'rxjs/Subject';
     templateUrl: 'dicom-archive.component.html',
     styleUrls: ['dicom-archive.component.scss']
 })
-export class DicomArchiveComponent implements OnInit, OnDestroy {
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
-    private fetching: boolean = false;
-    private errorMsg: string = null;
-    private archive: DicomArchive = null;
+export class DicomArchiveComponent implements OnInit {
+
+    fetching: boolean = false;
+    errorMsg: string = null;
+    patients: MedcomPatient[] = null;
 
     constructor(private archiveService: ArchiveService) {
     }
@@ -24,22 +23,14 @@ export class DicomArchiveComponent implements OnInit, OnDestroy {
         this.fetchArchive();
     }
 
-    public ngOnDestroy() {
-        console.log('ngOnDestroy');
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
-    }
-
     private fetchArchive(): void {
         this.fetching = true;
-        this.archiveService.getArchiveTree()
-        // this.archiveService.getMockArchiveTree()
-            .takeUntil(this.ngUnsubscribe)
+        this.archiveService.getMedcomPatients()
             .subscribe(
-                (archive: DicomArchive) => {
+                (patients: MedcomPatient[]) => {
                     this.fetching = false;
                     this.errorMsg = null;
-                    this.archive = archive;
+                    this.patients = patients;
                     console.log('dicomArchive fetched successfully');
                 },
                 (error) => {

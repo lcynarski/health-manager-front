@@ -5,7 +5,7 @@ export const mockScheduledProcedures: ScheduledProcedure[] = [
     {
         id: 1,
         date: 1504130965105,
-        modalityId: 1,
+        modalityAET: 'CT-001',
         description: 'test study 1',
         studyInstanceUid: 'S001',
         patient: {
@@ -22,7 +22,7 @@ export const mockScheduledProcedures: ScheduledProcedure[] = [
     {
         id: 2,
         date: 1504260000000,
-        modalityId: 2,
+        modalityAET: 'US-001',
         description: 'test study 2',
         studyInstanceUid: 'S002',
         patient: {

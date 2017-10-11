@@ -4,15 +4,20 @@
         <!--<div class="header">Dicom Archive</div>-->
 
         <div *ngIf="fetching">
-            Loading...
+            Loading... <!-- TODO proper spinner -->
         </div>
         <div *ngIf="!fetching && !!errorMsg">
             {{errorMsg}}
         </div>
 
         <div id="listContainer" *ngIf="!fetching && !errorMsg">
-            <!--TODO: change to patients list component-->
-            <patient-record *ngFor="let patient of archive.patients" [patient]="patient"></patient-record>
+            <div id="listHeaders" fxLayout="row">
+                <div fxFlex="20">pesel</div>
+                <div fxFlex="40">name</div>
+                <div fxFlex="15" class="ta-r">studies</div>
+                <div fxFlex="25" class="ta-r">last study</div>
+            </div>
+            <patient-record *ngFor="let patient of patients" [patient]="patient"></patient-record>
         </div>
 
     </div>

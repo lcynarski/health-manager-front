@@ -1,19 +1,19 @@
-import { Modality } from '../../medcom/modality';
+import { DicomModality } from '../../medcom/dicomModality';
 
 
-export const mockModalities: Modality[] = [
+export const mockModalities: DicomModality[] = [
     {
-        id: 1,
         applicationEntity: 'CT-001',
-        name: 'CT',
+        type: 'CT',
         description: 'Computed Tomography',
-        location: 'room 312'
+        location: 'room 312',
+        attributes: {}
     },
     {
-        id: 2,
         applicationEntity: 'US-001',
-        name: 'US',
+        type: 'US',
         description: 'Ultrasound',
-        location: 'room 313'
+        location: 'room 313',
+        attributes: {}
     }
 ];
