@@ -14,11 +14,11 @@ import { FieldConfig } from '../../components/dynamic-form/models/field-config.i
 interface SlotInfo {
     startTime: Date
     endTime: Date
-    asString: string
+    asString: string // for display
 }
 interface DoctorInfo {
-    doctorName: string;
-    doctorHumanId: number;
+    doctorName: string; //for display
+    personId: number; //to identify same doctor with multiple specializations
     subsequentDaysInfo: SlotInfo[][]; //każdy dzień może mieć kilka terminów
 }
 
@@ -30,17 +30,18 @@ export class TimeTableComponent implements OnInit {
     constructor(private doctorService: DoctorService,
         private timeSlotService: TimeSlotService,
         private router: Router) {
-
     }
 
     private doctorInfos: DoctorInfo[]
 
     private startDate: Date = new Date();
-    private endDate: Date = new Date();
-
-    private datesSequence: string[] = []
-
-    private doctorData: { [key: number]: Doctor[]; }
+    private endDate: Date = this.initEndDate()
+    private initEndDate(): Date {
+        var date = new Date();
+        date.setDate(this.startDate.getDate() + 6)
+        return date
+    }
+    private datesSequence: string[] = []; //for displaying as table header
 
     private config: FieldConfig[] = [{
         type: 'date',
@@ -58,15 +59,106 @@ export class TimeTableComponent implements OnInit {
         type: 'button'
     }]
 
-    private mergeDoctors(doctors: Doctor[]): { [key: number]: Doctor[]; } {
-        var result: { [key: number]: Doctor[]; } = {}
-        for (var doc of doctors) {
-            result[doc.personId] = []
+    refresh() {
+        this.startDate.setHours(0, 0, 0, 0);
+        this.endDate.setHours(23, 59, 59, 999);
+        this.doctorService.getAll().subscribe(doctors => {
+            let doctorTimeSlots: Observable<[Doctor, TimeSlot[]]>[] = doctors.map(doctor => {
+                let timeSlots: Observable<TimeSlot[]> = this.timeSlotService
+                    .getTimeSlots(doctor, this.startDate, this.endDate);
+                return timeSlots.map(slot => [doctor, slot])
+            })
+            Observable.forkJoin(doctorTimeSlots).subscribe((everyDoctorData: [Doctor, TimeSlot[]][]) =>
+                this.refreshWithDataReady(everyDoctorData))
+        })
+    }
+
+    private refreshWithDataReady(everyDoctorData: [Doctor, TimeSlot[]][]): void {
+        var newDoctorInfos: DoctorInfo[] = []
+        var newDatesSequence: string[] = []
+        let daysCount = Math.round((this.endDate.getTime() - this.startDate.getTime()) / 1000 / 60 / 60 / 24)
+        for (var singleDoctorData of everyDoctorData) {
+            var [doctor, slots] = singleDoctorData
+            this.processSingleDoctor(doctor, slots, newDoctorInfos, newDatesSequence, daysCount)
         }
-        for (var doc of doctors) {
-            result[doc.personId].push(doc)
+        this.doctorInfos = this.sortSlotsInsideDoctorInfo(newDoctorInfos)
+        this.datesSequence = newDatesSequence
+    }
+
+    private processSingleDoctor(doctor: Doctor, slots: TimeSlot[],
+        doctorInfos: DoctorInfo[], datesSequence: string[], daysCount: number): void {
+        var processedDocInfo: DoctorInfo = this.fetchDoctorToProcess(doctor, doctorInfos, daysCount)
+        for (var dayOffset = 0; dayOffset < daysCount; dayOffset++) {
+            let dayStartTime: Date = new Date(this.startDate.getTime())
+            dayStartTime.setDate(this.startDate.getDate() + dayOffset)
+            let dayEndTime: Date = new Date(this.startDate.getTime())
+            dayEndTime.setDate(this.startDate.getDate() + dayOffset + 1)
+            datesSequence.push(dayStartTime.getDate() + "." + (dayStartTime.getMonth() + 1))
+            let slotInfos: SlotInfo[] = this.createSlotInfosForDay(slots, dayStartTime, dayEndTime)
+            var resultArray: SlotInfo[] = processedDocInfo.subsequentDaysInfo[dayOffset]
+            for (var slot of slotInfos) {
+                resultArray.push(slot)
+            }
         }
-        return result;
+    }
+
+    private createSlotInfosForDay(slots: TimeSlot[], dayStartTime: Date, dayEndTime: Date): SlotInfo[] {
+        return slots.filter(slot =>
+            slot.startDateTime.getTime() > dayStartTime.getTime()
+            && slot.endDateTime.getTime() < dayEndTime.getTime())
+            .map(slot => {
+                return {
+                    startTime: slot.startDateTime,
+                    endTime: slot.endDateTime,
+                    asString: this.toHourString(slot.startDateTime, slot.endDateTime)
+                }
+            })
+    }
+
+    private fetchDoctorToProcess(doctor: Doctor, doctorInfos: DoctorInfo[], daysCount: number): DoctorInfo {
+        if (doctorInfos.filter(d => d.personId == doctor.personId).length == 0) {
+            var doctorInfo: DoctorInfo = {
+                doctorName: doctor.firstName + " " + doctor.lastName,
+                personId: doctor.personId,
+                subsequentDaysInfo: this.prepareSubsequentDaysInfoArray(daysCount)
+            }
+            doctorInfos.push(doctorInfo)
+            return doctorInfo
+        } else {
+            return doctorInfos.filter(d => d.personId == doctor.personId)[0]
+        }
+    }
+
+    private sortSlotsInsideDoctorInfo(doctorInfos: DoctorInfo[]): DoctorInfo[] {
+        for (var doctorInfo of doctorInfos) {
+            for (var info of doctorInfo.subsequentDaysInfo)
+                info.sort((s1, s2) => {
+                    if (s1.startTime.getTime() < s2.startTime.getTime()) {
+                        return -1;
+                    } else if (s1.startTime.getTime() > s2.startTime.getTime()) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                })
+        }
+        return doctorInfos;
+    }
+
+    private toHourString(d1: Date, d2: Date): string {
+        return d1.getHours() + ":" +
+            this.safeMinutes(d1.getMinutes()) + "\u00A0-\u00A0" + //NPSP
+            d2.getHours() + ":" +
+            this.safeMinutes(d2.getMinutes());
+    }
+
+    private safeMinutes(minute: number): string {
+        let str: string = minute + ""
+        if (str.length == 1) {
+            return "0" + str;
+        } else {
+            return str;
+        }
     }
 
     private changeTimeRange(event): void {
@@ -85,102 +177,15 @@ export class TimeTableComponent implements OnInit {
         }
     }
 
-    refresh() {
-        this.startDate.setHours(0, 0, 0, 0);
-        this.endDate.setHours(23, 59, 59, 999);
-        this.doctorService.getAll().subscribe(doctors => {
-            let docsAndTimeSlot: Observable<[Doctor, TimeSlot[]]>[] = doctors.map(doctor => {
-                let timeSlots: Observable<TimeSlot[]> = this.timeSlotService
-                    .getTimeSlots(doctor, this.startDate, this.endDate);
-                let result: Observable<[Doctor, TimeSlot[]]> = timeSlots.map(t => [doctor, t])
-                return result;
-            })
-            this.doctorData = this.mergeDoctors(doctors)
-            Observable.forkJoin(docsAndTimeSlot).subscribe((resQ: [Doctor, TimeSlot[]][]) => {
-                var doctorInfos: DoctorInfo[] = []
-                console.log("TRUD SKOŃCZONY")
-                console.log(resQ)
-                let daysCount = Math.round((this.endDate.getTime() - this.startDate.getTime()) / 1000 / 60 / 60 / 24)
-                console.log(daysCount)
-                for (var resw of resQ) {
-                    var [doctor, slots] = resw
-                    var processedDocInfo: DoctorInfo;
-                    var arr = []
-                    for (var j =0; j< daysCount; j++){
-                        arr.push([])
-                    }
-                    if (doctorInfos.filter(d => d.doctorHumanId == doctor.personId).length == 0) {
-                        doctorInfos.push({
-                            doctorName: doctor.firstName + " " + doctor.lastName,
-                            doctorHumanId: doctor.personId,
-                            subsequentDaysInfo: arr
-                        })
-                    }
-                    processedDocInfo = doctorInfos.filter(d => d.doctorHumanId == doctor.personId)[0]
-                    // console.log("slots")
-                    // console.log(slots)
-                    var newDates: string[] = []
-
-                    for (var i = 0; i < daysCount; i++) {
-                        let sdate: Date = new Date(this.startDate.getTime())
-                        sdate.setDate(this.startDate.getDate() + i)
-                        let edate: Date = new Date(this.startDate.getTime())
-                        edate.setDate(this.startDate.getDate() + i + 1)
-                        newDates.push(sdate.getDate() + "." +  (sdate.getMonth()+1))
-                        let goodSlots: SlotInfo[] = slots.filter(s => {
-                            return new Date(s.startDateTime).getTime() > sdate.getTime()
-                                && new Date(s.endDateTime).getTime() < edate.getTime()
-                        }).map(slot => {
-                            return {
-                                startTime: new Date(slot.startDateTime),
-                                endTime: new Date(slot.endDateTime),
-                                asString: this.toHourString(new Date(slot.startDateTime), new Date(slot.endDateTime))
-                            };
-                        })
-                        var procs: SlotInfo[] = processedDocInfo.subsequentDaysInfo[i]
-                        for (var ii of goodSlots) {
-                            procs.push(ii)
-                        }
-                    }
-                }
-                for (var infoQ of doctorInfos) {
-                    for (var info of infoQ.subsequentDaysInfo)
-                        info.sort((s1, s2) => {
-                            if (s1.startTime.getTime() < s2.startTime.getTime()) {
-                                return -1;
-                            } else if (s1.startTime.getTime() > s2.startTime.getTime()) {
-                                return 1;
-                            } else {
-                                return 0;
-                            }
-                        })
-                }
-                this.doctorInfos = doctorInfos
-                this.datesSequence = newDates                
-                console.log(this.doctorInfos)
-            })
-
-        })
-    }
-
-    private toHourString(d1: Date, d2: Date): string {
-        return d1.getHours() + ":" +
-        this.safeMinutes(d1.getMinutes()) + " - " +
-         d2.getHours() + ":" + 
-         this.safeMinutes(d2.getMinutes());
-    }
-
-    private safeMinutes(minute: number): string  {
-        let str : string = minute + ""
-        if(str.length == 1){
-            return "0"+str;
-        }else{
-            return str;
+    private prepareSubsequentDaysInfoArray(daysCount: number): SlotInfo[][] {
+        var result = []
+        for (var i = 0; i < daysCount; i++) {
+            result.push([])
         }
+        return result
     }
 
     ngOnInit() {
-        this.endDate.setDate(this.startDate.getDate() + 6)
         this.refresh();
     }
 }
