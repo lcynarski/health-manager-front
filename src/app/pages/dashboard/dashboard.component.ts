@@ -50,6 +50,12 @@ export class DashboardComponent {
             link: '/dashboard',
             roles: ['ROLE_PATIENT', 'ROLE_ADMIN']
         },
+        {
+            title: 'Show time table',
+            buttonLabel: 'Show',
+            link: '/pages/timeTable',
+            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
+        },
     ];
     private router: Router;
 }

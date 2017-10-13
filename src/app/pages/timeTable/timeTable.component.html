@@ -1,0 +1,27 @@
+<div class="col-md-6 col-md-offset-3">
+    <h1>Select time range</h1>
+
+    ELO ELU TU WYBIERAJKA
+
+    <table class="table table-bordered">
+        <!-- <thead>
+            <tr>
+                <th></th> //empty header
+                <th>Calendar</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Specialization</th>
+            </tr>
+        </thead> -->
+        <tbody>
+            <tr *ngFor="let doctor of doctorInfos">
+                <td *ngFor="let dayInfo of doctor.subsequentDaysInfo">
+                    <div *ngFor="let slotInfo of dayInfo">
+                            SIEMANO: {{slotInfo.asString}} :                            
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!--<p><a [routerLink]="['/home']">Back</a></p>-->
+</div>

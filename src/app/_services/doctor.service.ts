@@ -39,11 +39,14 @@ export class DoctorService {
     }
 
     doctorFromJson(obj:any):Doctor{
+        console.log("GOT CDOTCOR")
+        console.log(obj)
         return {
             _id:obj.id,
             firstName:obj.account.personalDetails.firstName,
             lastName:obj.account.personalDetails.lastName,
-            specialization: obj.specialization
+            specialization: obj.specialization,
+            personId:obj.account.personalDetails.id
         };
     }
 
