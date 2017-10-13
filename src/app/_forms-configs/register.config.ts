@@ -23,6 +23,12 @@
         placeholder: 'Email'
     },
     {
+     type: 'input',
+     label: 'Password',
+     name: 'password',
+     placeholder: 'Password'
+    },
+    {
         type: 'date',
         label: 'Date of birth',
         name: 'birthdate',

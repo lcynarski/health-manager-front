@@ -36,11 +36,19 @@ export class RegisterComponent implements AfterViewInit {
         // this.registerForm.setDisabled('submit', true);
     }
 
-    private register() {
-        console.log('register');
+    private register(data) {
+        console.log(data);
         this.loading = true;
         console.log(this.model);
-        this.userService.create(this.model)
+        const { email, password, ...personalDetails} = data;
+        const registerData = {
+            email,
+            password,
+            personalDetails,
+            insuranceNumber: '222121212'
+        };
+        console.log(registerData)
+        this.userService.create(registerData)
             .subscribe(
                 (data) => {
                     this.alertService.success('Registration successful', true);

@@ -26,7 +26,7 @@ export class UserService {
             .map((response: Response) => response.json());
     }
 
-    public create(user: User) {
+    public create(user: any) {
         return this.http.post(`${this.config.apiUrl}/users/register`, user);
     }
     public update(user: User) {

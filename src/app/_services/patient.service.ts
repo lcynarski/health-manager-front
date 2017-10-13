@@ -35,9 +35,15 @@ export class PatientService {
             .map((response: Response) => response.json());
     }
 
+    // public savePatient(data) {
+    //     console.log(data);
+    //     return this.http.post(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
+    //         .map((response: Response) => response.json());
+    // }
+
     public savePatient(data) {
         console.log(data);
-        return this.http.post(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
+        return this.http.post(`${this.config.apiUrl}/users/registerOnBehalf`, data, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 
