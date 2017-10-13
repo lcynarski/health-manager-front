@@ -10,17 +10,12 @@ import {TimeTableComponent} from "./timeTable.component";
 @NgModule({
     imports: [
         CommonModule,
-
         FormsModule,
         NgaModule,
         routing
-
-
     ],
     declarations: [
         TimeTableComponent
-        // visitsCalendarItemComponent
-        // PatientDetailsComponent
     ]
 })
 export class TimeTableModule {
