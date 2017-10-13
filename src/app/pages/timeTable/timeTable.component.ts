@@ -9,6 +9,7 @@ import { DoctorService } from "../../_services/doctor.service";
 import { TimeSlotService } from "../../_services/timeSlot.service";
 import { Observable } from "rxjs/Observable";
 import { TimeSlot } from '../../_models/timeslot';
+import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 
 interface SlotInfo {
     startTime: Date
@@ -40,6 +41,23 @@ export class TimeTableComponent implements OnInit {
 
     private doctorData: { [key: number]: Doctor[]; }
 
+    private config: FieldConfig[] =        [ {
+        type: 'date',
+        label: 'Start Date-time',
+        name: 'startDateTime',
+        placeholder: 'Date-time'
+    },
+    {
+        type: 'date',
+        label: 'End Date-time',
+        name: 'endDateTime',
+        //placeholder: 'Date-time'
+    },
+    {
+        label: 'Submit',
+        name: 'submit',
+        type: 'button'
+    }]
 
     private mergeDocs(doctors: Doctor[]): { [key: number]: Doctor[]; } {
         var result: { [key: number]: Doctor[]; } = {}
@@ -56,8 +74,28 @@ export class TimeTableComponent implements OnInit {
         return result;
     }
 
+    changeTimeRange(event): void {
+        console.log(event)        
+        if(event.startDateTime != undefined && event.endDateTime != undefined){
+            var s = event.startDateTime
+            var e = event.endDateTime
+            if(!s.includes(":")){
+                s = s + " 10:10"
+            }
+            if(!e.includes(":")){
+                e = e + " 10:10"
+            }
+            this.startDate =new Date(s)
+            this.endDate = new Date(e)
+            this.reloadDoctors()
+        }
+    }
 
     reloadDoctors() {
+        this.startDate.setHours(0, 0, 0, 0);
+        this.endDate.setHours(23, 59, 59, 999);
+        console.log(" FROM " + this.startDate + " to " + this.endDate)
+
         this.doctorService.getAll().subscribe(doctors => {
             let docsAndTimeSlot: Observable<[Doctor, TimeSlot[]]>[] = doctors.map(doctor => {
                 let timeSlots: Observable<TimeSlot[]> = this.timeSlotService
@@ -87,18 +125,18 @@ export class TimeTableComponent implements OnInit {
                         })
                     }
                     processedDocInfo= doctorInfos.filter(d => d.doctorHumanId == doctor.personId)[0]
-                    console.log("slots")
-                    console.log(slots)
+                    // console.log("slots")
+                    // console.log(slots)
                     for (var i = 0; i < daysCount; i++) {
                         let sdate: Date = new Date(this.startDate.getTime())
                         sdate.setDate(this.startDate.getDate() + i)
                         let edate: Date = new Date(this.startDate.getTime())
                         edate.setDate(this.startDate.getDate() + i + 1)
                         let goodSlots: SlotInfo[] = slots.filter(s => {
-                            console.log(sdate + " < " + s.startDateTime + " ? " +
-                                edate + " > " + s.endDateTime + " ? " +
-                                + (s.startDateTime.getTime > sdate.getTime && s.endDateTime.getTime < edate.getTime) + " no i co")
-                            console.log(s.startDateTime)
+                            // console.log(sdate + " < " + s.startDateTime + " ? " +
+                                // edate + " > " + s.endDateTime + " ? " +
+                                // + (s.startDateTime.getTime > sdate.getTime && s.endDateTime.getTime < edate.getTime) + " no i co")
+                            // console.log(s.startDateTime)
                             return new Date(s.startDateTime).getTime() > sdate.getTime()
                                 && new Date(s.endDateTime).getTime() < edate.getTime()
                         }).map(slot => {
@@ -108,8 +146,8 @@ export class TimeTableComponent implements OnInit {
                                 asString: this.toHourString(new Date(slot.startDateTime), new Date(slot.endDateTime))
                             };
                         })
-                        console.log(sdate + " do " + edate)
-                        console.log(goodSlots)
+                        // console.log(sdate + " do " + edate)
+                        // console.log(goodSlots)
 
                         var procs: SlotInfo[] = processedDocInfo.subsequentDaysInfo[i]
 
@@ -133,53 +171,19 @@ export class TimeTableComponent implements OnInit {
                 }
                 this.doctorInfos = doctorInfos
                 console.log(this.doctorInfos)
-            }   /*  */)
+            })
 
         })
-
-
-        //     const observables: Array<Observable<[VisitEvent, Appointment]>> =
-        //     eventsTmp.map((event) => this.appointmentService.getByTimeSlot(event.slotId)
-        //         .map((appintment: Appointment) => [event, appintment])
-        //         .catch((err: any) => Observable.of([event, null as Appointment])));
-
-        // const self = this;
-        // Observable.forkJoin(observables)
-        //     .subscribe((dataArray: Array<[VisitEvent, Appointment]>) => {
-
-
-
-        //  this.doctorService.getAll().subscribe(docs => {
-
-        //      //todo: merge different specs doctors!
-
-        //      let doctors = []
-        //      for (var doc of docs) {
-        //          var a:any = doc
-        //          a.dayInfos = ["ELO",doc.firstName, doc.lastName, doc.specialization.description]
-        //          doctors.push(a)
-        //     }
-        //     this.doctors =doctors;
-        //     });
     }
 
     private toHourString(d1: Date, d2: Date): string {
         return d1.getHours() + ":" + d1.getMinutes() + " - " + d2.getHours() + ":" + d2.getMinutes()
     }
 
-    goToDetails(doctorId: string) {
-        console.log("szakalaka " + doctorId);
-        // this.router.navigate(['medcom']);
-        this.router.navigate(['/pages/doctor/' + doctorId]);
-    }
-
 
 
     ngOnInit() {
-        this.startDate.setHours(0, 0, 0, 0);
         this.endDate.setDate(this.startDate.getDate() + 6)
-        this.endDate.setHours(23, 59, 59, 999);
-        console.log(" FROM " + this.startDate + " to " + this.endDate)
         this.reloadDoctors();
     }
 

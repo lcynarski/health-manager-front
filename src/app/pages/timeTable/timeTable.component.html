@@ -1,8 +1,13 @@
 <div class="col-md-6 col-md-offset-3">
-    <h1>Select time range</h1>
+    
 
-    ELO ELU TU WYBIERAJKA
+    <h1>ELO ELU TU WYBIERAJKA</h1>
+    <div class="create-timeslot-form">
+            <dynamic-form [config]="config" #form="dynamicForm" (submit)="changeTimeRange($event)">
+            </dynamic-form>
 
+
+            <h1>Time range from {{startDate}} tp {{endDate}}</h1>
     <table class="table table-bordered">
         <!-- <thead>
             <tr>
