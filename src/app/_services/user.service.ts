@@ -37,15 +37,16 @@ export class UserService {
         return this.http.delete(`${this.config.apiUrl}/users/${_id}`, this.authenticationService.addJwtOptions());
     }
 
-    public changePassword(data: ChangePassword): Observable<boolean> {
-        return this.http.post(`${this.config.apiUrl}/users/updatePassword`, data, this.authenticationService.addJwtOptions())
+    public changePassword(newPassword: string, params): Observable<boolean> {
+        const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
+        return this.http.post(`${this.config.apiUrl}/users/password_token`, newPassword, {params: {...params}, headers })
             .map((response: Response) => {
                 return response.json() && response.json().isSuccess;
             });
     }
 
     public resetPassword(email: string): Observable<boolean> {
-        return this.http.post(`${this.config.apiUrl}/users/resetPassword`, email)
+        return this.http.post(`${this.config.apiUrl}/users/password/reset`, email)
             .map((response: Response) => {
                 return response.json();
             });

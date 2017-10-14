@@ -22,5 +22,8 @@
   "ProceedWithAppoinment": "Rozpocznij wizyte",
   "Create": "Stworz",
   "Search": "Szukaj",
-  "Proceed": "Rozpocznij"
+  "Proceed": "Rozpocznij",
+  "ChangePassword": "Zmien haslo",
+  "NewPassword": "Nowe haslo",
+  "ResetPassword": "Resetuj haslo"
 }

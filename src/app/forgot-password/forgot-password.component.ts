@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService, UserService } from '../_services/index';
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
     templateUrl: 'forgot-password.component.html',
@@ -11,6 +12,7 @@ export class ForgotPasswordComponent {
     public model: any = {};
     private loading = false;
     private returnUrl: string;
+    private email = new FormControl('', [Validators.required, Validators.email]);
 
     constructor(
         private router: Router,

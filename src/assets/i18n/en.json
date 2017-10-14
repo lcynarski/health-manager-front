@@ -6,7 +6,7 @@
   "Login": "Login",
   "EnterEmail": "Enter your email",
   "EnterPassword": "Enter your password",
-  "ForgotPassword": "I forgot password",
+  "ForgotPassword": "Forgot password",
   "PatientsList": "List of patients",
   "ListOfDoctors": "List of doctors",
   "DrugsList": "List of drugs",
@@ -22,5 +22,8 @@
   "ProceedWithAppoinment": "Proceed with an appoinment",
   "Create": "Create",
   "Search": "Search",
-  "Proceed": "Proceed"
+  "Proceed": "Proceed",
+  "ChangePassword": "Change password",
+  "NewPassword": "New password",
+  "ResetPassword": "Reset password"
 }
