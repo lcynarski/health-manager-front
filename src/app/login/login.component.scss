@@ -10,10 +10,15 @@
 
   &-wrapper {
     width: 20rem;
-    margin: 10rem auto;
-    padding: 2rem;
-    border: 2px solid $oc-gray-2;
-    border-radius: 4px;
+    margin: 2rem auto;
+    padding: 4rem;
+    //border: 2px solid $oc-gray-2;
+    //border-radius: 4px;
+    background: $oc-white;
+    //padding: 20px 30px;
+    //width: 52rem;
+    //box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
 
     input {
 

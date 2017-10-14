@@ -1,22 +1,39 @@
 
 .form-creator {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
 
   &__form {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
     background: #fff;
     padding: 20px 30px;
     width: 30rem;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
     min-height: 40rem;
+    min-width: 32rem;
     height: auto;
+    margin: 1rem;
+    align-items: center;
   }
 
   &__action-buttons {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+
+    button {
+      width: 8rem;
+    }
   }
 
   button {
     margin: 2rem;
+  }
+
+  :host /deep/  .dynamic-form {
+    justify-content: flex-start;
   }
 }

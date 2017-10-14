@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { routing } from './pages.routing';
 import { NgaModule } from '../navigation/nga.module';
-// import { AppTranslationModule } from '../app.translation.module';
 import { ModalModule } from 'ng2-bs4-modal/ng2-bs4-modal';
 import { Pages } from './pages.component';
 import { PatientDetailsComponent } from './patientDetails/patientDetails.component';
@@ -22,9 +21,15 @@ import { PhotoUploader } from '../components/photoUploader/photoUploader.compone
 import { NgUploaderModule } from 'ngx-uploader';
 import { MdlModule } from '@angular-mdl/core';
 import { PatientSearchComponent } from './patientSearch/patientSearch.component';
-import {ProceedAppointmentComponent} from "./proceedApoinment/proceed-appointment.component";
-import {ChangePasswordComponent} from "../change-password/change-password.component";
-import {DashboardWidgetComponent} from "./dashboard/dashboard-widget.component";
+import { ProceedAppointmentComponent } from './proceedApoinment/proceed-appointment.component';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { FieldsCreatorComponent } from '../forms/fieldCreator/fieldCreator.component';
+import { FieldsRemoverComponent } from '../forms/fieldsRemover/fieldsRemover.component';
+import { FormsCreatorComponent } from '../forms/formsCreator/formsCreator.component';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
+
 
 @NgModule({
     imports: [
@@ -39,6 +44,8 @@ import {DashboardWidgetComponent} from "./dashboard/dashboard-widget.component";
         DynamicFormModule,
         NgUploaderModule,
         MdlModule,
+        InfiniteScrollModule,
+        MdlSelectModule
     ],
     declarations: [
         Pages,
@@ -54,7 +61,11 @@ import {DashboardWidgetComponent} from "./dashboard/dashboard-widget.component";
         PatientSearchComponent,
         ProceedAppointmentComponent,
         ChangePasswordComponent,
-        TimeTableComponent
+        TimeTableComponent,
+        DrugsSearchComponent,
+        FieldsCreatorComponent,
+        FieldsRemoverComponent,
+        FormsCreatorComponent
     ]
 })
 export class PagesModule {

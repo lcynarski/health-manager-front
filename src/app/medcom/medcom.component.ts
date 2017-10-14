@@ -27,15 +27,13 @@ export class MedcomComponent implements OnInit, OnDestroy {
             index: 2,
         }
     ];
-    activePageIndex: number;
+    activePageIndex: number = 0;
 
     constructor(private router: Router) {
-        this.onTabChange({ index: 0 });
-        this.handleRouteChanges();
     }
 
     public ngOnInit() {
-
+        this.handleRouteChanges();
     }
 
     public ngOnDestroy() {

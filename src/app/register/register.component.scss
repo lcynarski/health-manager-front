@@ -1,5 +1,10 @@
 @import '../../assets/styles/colors';
 
+@keyframes expand {
+  from {width: 0%;}
+  to {width: 100%;}
+}
+
 .form {
   &-group {
     .help-block {
@@ -9,11 +14,11 @@
   }
 
   &-wrapper {
-    width: 20rem;
-    margin: 10rem auto;
+    margin: 0 5rem;
     padding: 2rem;
     border: 2px solid $oc-gray-2;
     border-radius: 4px;
+    background: $oc-white;
   }
 
   &-title {
@@ -46,4 +51,8 @@
     display: inline;
     padding: 12px 0;
   }
+}
+
+:host /deep/ form-button {
+  justify-content: center !important;
 }

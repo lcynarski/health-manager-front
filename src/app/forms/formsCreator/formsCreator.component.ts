@@ -5,9 +5,11 @@ import { Http } from '@angular/http';
 import { FieldsCreatorComponent } from '../fieldCreator/fieldCreator.component';
 import { Form } from '../../_models/form';
 import {FormCreatorStore} from "../../stores/formCreatorStore";
+import {FieldCreatorStore} from "../../stores/fieldCreatorStore";
+
 
 @Component({
-    providers: [FormsService, FormCreatorStore],
+    providers: [FormsService, FormCreatorStore, FieldCreatorStore],
     selector: 'form-creator',
     styleUrls: ['formsCreator.component.scss'],
     templateUrl: './formsCreator.component.html'
@@ -15,46 +17,57 @@ import {FormCreatorStore} from "../../stores/formCreatorStore";
 
 export class FormsCreatorComponent implements OnInit {
 
+    private formId: number;
     private router: Router;
     private form: Form;
     private fields: FieldsCreatorComponent[];
+    formName: string;
 
     constructor(router: Router,
                 private http: Http,
                 private route: ActivatedRoute,
                 private formsService: FormsService,
                 private formCreatorStore: FormCreatorStore) {
-        this.router = router;
+        // this.router = router;
     }
 
     public ngOnInit() {
-        this.formCreatorStore.formFields.subscribe(data => this.fields = data);
+        this.formCreatorStore.formFields.subscribe(data => {
+            this.fields = data;
+            console.log("THIS DUPA DFIELS", this.fields)
+        });
+        console.log(this.route.params)
+        this.route.params.subscribe((params) => {
+            if (params['formId']) {
+                this.loadForm(params['formId']);
+            }
+        });
+
     }
 
     save(value) {
+        this.fields.forEach((field) => {
+            if ( field['placeholder'] === 'date' ) {
+                field['type'] = 'date';
+            }
+        })
         console.log('This.fields:  ', this.fields);
-        console.log('Value:: ', value);
+        const form = {
+            name: this.formName,
+            formFields: [...this.fields]
+        }
+        console.log("MY FUCKIN FORM: ", form);
+        this.formsService.saveForm(form);
     }
 
-    // public ngOnInit() {
-    //     this.route.params.subscribe((params) => {
-    //         if (params['formId']) {
-    //             this.loadForm(params['formId']);
-    //         }
-    //     });
-    // }
-    //
-    // ngAfterViewInit(): void {
-    //     console.log('Method not implemented.');
-    // }
-    //
-    // loadForm(id: number) {
-    //     this.formsService.getFormById(id)
-    //         .subscribe((form) => {
-    //             console.log(form);
-    //             this.form = form;
-    //         });
-    // }
+    loadForm(id: number) {
+        this.formsService.getFormById(id)
+            .subscribe((form) => {
+                form.formFields.forEach((f) => {
+                    this.formCreatorStore.addExistingField(f)
+                });
+            });
+    }
     //
     // saveForm(): void {
     //     this.formsService.saveForm(this.form)

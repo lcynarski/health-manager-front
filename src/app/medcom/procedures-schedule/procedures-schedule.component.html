@@ -6,16 +6,16 @@
             <div fxFlex="20">patient</div>
             <div fxFlex="20">doctor</div>
             <div fxFlex="10">modality</div>
-            <div fxFlex="30">description</div>
+            <div fxFlex="30" class="ta-r">description</div>
         </div>
 
         <div id="listContainer">
             <div class="record" fxLayout="row" *ngFor="let procedure of procedures">
-                <div fxFlex="20">{{procedure.date | date: 'dd-MM-yyyy HH:mm'}}</div>
+                <div fxFlex="20">{{procedure.date | date:'dd-MM-yyyy HH:mm'}}</div>
                 <div fxFlex="20">{{procedure.patient.firstName}} {{procedure.patient.lastName}}</div>
                 <div fxFlex="20">{{procedure.doctor.firstName}} {{procedure.doctor.lastName}}</div>
-                <div fxFlex="10">{{modalitiesService.findMockModalityById(procedure.id).name}}</div>
-                <div fxFlex="30">{{procedure.description}}</div>
+                <div fxFlex="10">{{procedure.modalityAET}}</div>
+                <div fxFlex="30" class="ta-r">{{procedure.description}}</div>
             </div>
         </div>
 

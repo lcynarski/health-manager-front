@@ -17,19 +17,17 @@
   color: rgba(black, 0.8);
 }
 
-#listContainer {
-  .record {
-    margin: 10px;
-    padding: 10px; // TODO: extract into shared record mixin
-    background: $oc-gray-8;
-    color: white;
-    cursor: pointer;
-    @include shadow(2px);
-    z-index: 10;
-    position: relative;
-    &:hover {
-      color: $oc-indigo-4;
-    }
+.record {
+  margin: 10px;
+  padding: 10px; // TODO: extract into shared record mixin
+  background: $oc-gray-8;
+  color: white;
+  cursor: pointer;
+  @include shadow(2px);
+  z-index: 10;
+  position: relative;
+  &:hover {
+    color: $oc-indigo-4;
   }
 }
 

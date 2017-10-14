@@ -12,8 +12,7 @@ export class ProceduresScheduleComponent implements OnInit, OnDestroy {
 
     procedures: ScheduledProcedure[];
 
-    constructor(private scheduledProceduresService: ScheduledProceduresService,
-                public modalitiesService: ModalitiesService) {}
+    constructor(private scheduledProceduresService: ScheduledProceduresService) {}
 
     public ngOnInit() {
         this.scheduledProceduresService.getMockSchedule()

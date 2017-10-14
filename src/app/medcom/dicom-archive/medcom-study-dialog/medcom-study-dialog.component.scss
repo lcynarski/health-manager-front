@@ -8,9 +8,12 @@ $tabHeight: 48px;
   color: white;
   height: 100%;
 
+  div {
+    height: 100%;
+  }
+
   #dicomContainer {
     margin: 0 auto;
-    height: 100%;
     div {
       margin: 0 auto;
       width: 100%;
