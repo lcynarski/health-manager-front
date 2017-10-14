@@ -129,7 +129,7 @@ export class PatientDetailsComponent implements OnInit {
         this.patientService.getById(this.id)
             .subscribe((patient) => {
                 this.patient = patient;
-                this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${patient.account.personalDetails.city}`)
+                this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${patient.city}`)
                     .map( (res) => res.json())
                     .subscribe( (response) => {
                         this.lat = response['results'][0]['geometry']['location']['lat'];
@@ -166,8 +166,8 @@ export class PatientDetailsComponent implements OnInit {
     }
 
     onDialogShow = (dialogRef) => {
-        Object.keys(this.patient.account.personalDetails).forEach(key => {
-            (key !== 'id') && this.form.setValue(key, this.patient.account.personalDetails[key]);
+        Object.keys(this.patient).forEach(key => {
+            (key !== 'id') && this.form.setValue(key, this.patient[key]);
                 });
     }
 }
