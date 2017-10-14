@@ -108,7 +108,7 @@ export class UsersProfileComponent implements OnInit {
         const personalDetails = { account: { personalDetails: { ...value } } };
         // this.patientService.savePatient(personalDetails)
         //     .subscribe((data) => console.log(data));
-        console.log(personalDetails)
+        console.log(personalDetails);
     }
 
     private getAccount() {

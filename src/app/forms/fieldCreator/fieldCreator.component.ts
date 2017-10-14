@@ -136,7 +136,7 @@ export class FieldsCreatorComponent implements OnInit {
     }
 
     saveDateField(value) {
-        console.log('saveDate', value)
+        console.log('saveDate', value);
         const field = {
             type: 'input',
             label: value['date'],
@@ -160,7 +160,7 @@ export class FieldsCreatorComponent implements OnInit {
         const onlyOptions = [];
         this.options.forEach(o => {
             onlyOptions.push({ value: o['option'] });
-        })
+        });
         const field = {
             type: 'select',
             label: this.selectFieldName,

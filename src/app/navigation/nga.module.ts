@@ -40,7 +40,7 @@ import {
 //     BaThemePreloader,
 //     BaThemeSpinner
 } from './services';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslateModule } from '@ngx-translate/core';
 //
 // import {
 //     EmailValidator,

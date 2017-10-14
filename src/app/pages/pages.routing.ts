@@ -1,27 +1,28 @@
 import { Routes, RouterModule } from '@angular/router';
 import { Pages } from './pages.component';
 import { ModuleWithProviders } from '@angular/core';
-import {LoginComponent} from '../login/login.component';
-import {RegisterComponent} from '../register/register.component';
-import {PatientDetailsComponent} from './patientDetails/patientDetails.component';
-import {VisitsCalendarComponent} from './visitsCalendar/visitsCalendar.component';
-import {ForgotPasswordComponent} from '../forgot-password/forgot-password.component';
-import {CreatePatientComponent} from './createPatient/createPatient.component';
-import {CreateDoctorComponent} from './createDoctor/createDoctor.component';
-import {CreateTimeslotComponent} from './createTimeslot/createTimeslot.component';
-import {UsersProfileComponent} from './usersProfile/usersProfile.component';
-import {PatientSearchComponent} from './patientSearch/patientSearch.component';
-import {FormsCreatorComponent} from '../forms/formsCreator/formsCreator.component';
-import {FieldsCreatorComponent} from '../forms/fieldCreator/fieldCreator.component';
-import {ProceedAppointmentComponent} from './proceedApoinment/proceed-appointment.component';
+import { LoginComponent } from '../login/login.component';
+import { RegisterComponent } from '../register/register.component';
+import { PatientDetailsComponent } from './patientDetails/patientDetails.component';
+import { VisitsCalendarComponent } from './visitsCalendar/visitsCalendar.component';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
+import { CreatePatientComponent } from './createPatient/createPatient.component';
+import { CreateDoctorComponent } from './createDoctor/createDoctor.component';
+import { CreateTimeslotComponent } from './createTimeslot/createTimeslot.component';
+import { UsersProfileComponent } from './usersProfile/usersProfile.component';
+import { PatientSearchComponent } from './patientSearch/patientSearch.component';
+import { FormsCreatorComponent } from '../forms/formsCreator/formsCreator.component';
+import { FieldsCreatorComponent } from '../forms/fieldCreator/fieldCreator.component';
+import { ProceedAppointmentComponent } from './proceedApoinment/proceed-appointment.component';
 import { MedcomModule } from '../medcom/medcom.module';
 import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
-import {WelcomeComponent} from "../welcome/welcome.component";
-import {ChangePasswordComponent} from "../change-password/change-password.component";
+import { WelcomeComponent } from '../welcome/welcome.component';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
 // import {MedcomComponent} from '../medcom/medcom.component';
 
 export const routes: Routes = [
-    { path: '',
+    {
+        path: '',
         component: WelcomeComponent
     },
     {

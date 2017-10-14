@@ -31,20 +31,20 @@ import { PhotoUploader } from '../components/photoUploader/photoUploader.compone
 import { NgUploaderModule } from 'ngx-uploader';
 import { MdlModule } from '@angular-mdl/core';
 import { PatientSearchComponent } from './patientSearch/patientSearch.component';
-import {ProceedAppointmentComponent} from "./proceedApoinment/proceed-appointment.component";
-import {ChangePasswordComponent} from "../change-password/change-password.component";
-import {DashboardWidgetComponent} from "./dashboard/dashboard-widget.component";
-import {DrugsSearchComponent} from "./drugsSearch/drugsSearch.component";
-import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import { ProceedAppointmentComponent } from './proceedApoinment/proceed-appointment.component';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { DashboardWidgetComponent } from './dashboard/dashboard-widget.component';
+import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MedcomModule } from '../medcom/medcom.module';
-import {FormCheckboxComponent} from "../components/dynamic-form/components/form-checkbox/form-checkbox.component";
-import {FieldsCreatorComponent} from "../forms/fieldCreator/fieldCreator.component";
-import {FieldsRemoverComponent} from "../forms/fieldsRemover/fieldsRemover.component";
-import {FormSelectComponent} from "../components/dynamic-form/components/form-select/form-select.component";
-import {FormCreatorStore} from "../stores/formCreatorStore";
-import {FormsCreatorComponent} from "../forms/formsCreator/formsCreator.component";
-import {MdlSelectModule} from "@angular2-mdl-ext/select";
-import {TranslateModule} from "@ngx-translate/core";
+import { FormCheckboxComponent } from '../components/dynamic-form/components/form-checkbox/form-checkbox.component';
+import { FieldsCreatorComponent } from '../forms/fieldCreator/fieldCreator.component';
+import { FieldsRemoverComponent } from '../forms/fieldsRemover/fieldsRemover.component';
+import { FormSelectComponent } from '../components/dynamic-form/components/form-select/form-select.component';
+import { FormCreatorStore } from '../stores/formCreatorStore';
+import { FormsCreatorComponent } from '../forms/formsCreator/formsCreator.component';
+import { MdlSelectModule } from '@angular2-mdl-ext/select';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
