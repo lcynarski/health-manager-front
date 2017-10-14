@@ -34,7 +34,7 @@ export class FormsCreatorComponent implements OnInit {
     public ngOnInit() {
         this.formCreatorStore.formFields.subscribe(data => {
             this.fields = data;
-            console.log("THIS DUPA DFIELS", this.fields)
+            console.log("fields: ", this.fields)
         });
         console.log(this.route.params)
         this.route.params.subscribe((params) => {
@@ -51,12 +51,10 @@ export class FormsCreatorComponent implements OnInit {
                 field['type'] = 'date';
             }
         })
-        console.log('This.fields:  ', this.fields);
         const form = {
             name: this.formName,
             formFields: [...this.fields]
         }
-        console.log("MY FUCKIN FORM: ", form);
         this.formsService.saveForm(form);
     }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {TranslateService} from "@ngx-translate/core";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
 
@@ -11,11 +11,9 @@ import {TranslateService} from "@ngx-translate/core";
 export class WelcomeComponent implements OnInit {
     private doRegister: boolean;
 
-    constructor(
-        private router: Router,
-        private translate: TranslateService
-    ) {
-        translate.addLangs(["en", "pl"]);
+    constructor(private router: Router,
+                private translate: TranslateService) {
+        translate.addLangs(['en', 'pl']);
         translate.setDefaultLang('en');
 
         let browserLang = translate.getBrowserLang();

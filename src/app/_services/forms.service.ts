@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions, Response} from '@angular/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 
-import {AuthenticationService} from '../_services/index';
-import {AppConfig} from '../app.config';
-import {Form} from "../_models/form";
+import { AuthenticationService } from '../_services/index';
+import { AppConfig } from '../app.config';
+import { Form } from '../_models/form';
 
 @Injectable()
 export class FormsService {
@@ -53,8 +53,8 @@ export class FormsService {
     private addJwtOptions() {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.token) {
-            const headers = new Headers({Authorization: 'Bearer ' + this.authenticationService.token});
-            return new RequestOptions({headers});
+            const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
+            return new RequestOptions({ headers });
         }
     }
 }

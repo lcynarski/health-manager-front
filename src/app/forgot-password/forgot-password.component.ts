@@ -15,11 +15,11 @@ export class ForgotPasswordComponent {
     private returnUrl: string;
     private email = new FormControl('', [Validators.required, Validators.email]);
 
-    constructor(
-        private router: Router,
-        private route: ActivatedRoute,
-        private userService: UserService,
-        private dialogService: MdlDialogService) { }
+    constructor(private router: Router,
+                private route: ActivatedRoute,
+                private userService: UserService,
+                private dialogService: MdlDialogService) {
+    }
 
     public onSubmit() {
         console.log('inside submit ' + this.model.email);
@@ -28,7 +28,7 @@ export class ForgotPasswordComponent {
                 (data) => {
                     console.log('Forgot password component data: ' + data);
                     const result = this.dialogService.alert('Succesfully reset password. Check your mailbox');
-                    result.onErrorResumeNext().subscribe( () => {
+                    result.onErrorResumeNext().subscribe(() => {
                         this.router.navigate(['/']);
                     });
                 },

@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import {AuthenticationService} from '../../_services/authentication.service';
+import { AuthenticationService } from '../../_services/authentication.service';
 
 @Component({
     selector: 'dashboard-widget',
@@ -19,7 +19,7 @@ export class DashboardWidgetComponent implements OnInit {
     private route: ActivatedRoute;
     private toDisplay: boolean;
 
-    constructor(router: Router, route: ActivatedRoute, private authService: AuthenticationService ) {
+    constructor(router: Router, route: ActivatedRoute, private authService: AuthenticationService) {
         this.router = router;
         this.route = route;
     }

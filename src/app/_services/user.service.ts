@@ -10,10 +10,9 @@ import { PersonalDetails } from '../_models/personalDetails';
 
 @Injectable()
 export class UserService {
-    constructor(
-        private http: Http,
-        private authenticationService: AuthenticationService,
-        private config: AppConfig) {
+    constructor(private http: Http,
+                private authenticationService: AuthenticationService,
+                private config: AppConfig) {
     }
 
     public getAll() {
@@ -29,6 +28,7 @@ export class UserService {
     public create(user: any) {
         return this.http.post(`${this.config.apiUrl}/users/register`, user);
     }
+
     public update(user: User) {
         return this.http.put(`${this.config.apiUrl}/users/${user._id}`, user, this.authenticationService.addJwtOptions());
     }
@@ -39,7 +39,10 @@ export class UserService {
 
     public changePassword(newPassword: string, params) {
         const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
-        return this.http.post(`${this.config.apiUrl}/users/password_token`, newPassword, {params: {...params}, headers })
+        return this.http.post(`${this.config.apiUrl}/users/password_token`, newPassword, {
+            params: { ...params },
+            headers
+        })
             .map((response: Response) => {
                 return response;
             });
@@ -57,8 +60,7 @@ export class UserService {
     }
 
     public getPersonalDetails(): Observable<PersonalDetails> {
-        return this.http.get(`${this.config.apiUrl}/accounts/personaldetails`, this.authenticationService.addJwtOptions()).
-            map((response: Response) => response.json());
+        return this.http.get(`${this.config.apiUrl}/accounts/personaldetails`, this.authenticationService.addJwtOptions()).map((response: Response) => response.json());
     }
 
     public saveProfilePicture(_id: string, photo: any): Observable<String> {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PatientService } from '../../_services/patient.service';
 import { Patient } from '../../_models/patient';
-import {DrugsService} from '../../_services/drugs.service';
+import { DrugsService } from '../../_services/drugs.service';
 
 @Component({
     providers: [DrugsService],
@@ -11,7 +11,7 @@ import {DrugsService} from '../../_services/drugs.service';
     styleUrls: ['./drugsSearch.component.scss']
 })
 
-export class DrugsSearchComponent implements OnInit{
+export class DrugsSearchComponent implements OnInit {
 
     private form: FormGroup;
     private drugName = new FormControl('', Validators.required);
@@ -20,7 +20,8 @@ export class DrugsSearchComponent implements OnInit{
     private searchedValue: string;
     private searchedName: string;
 
-    constructor(private fb: FormBuilder, private drugsService: DrugsService) {}
+    constructor(private fb: FormBuilder, private drugsService: DrugsService) {
+    }
 
     public ngOnInit() {
         this.form = this.fb.group({
@@ -37,7 +38,7 @@ export class DrugsSearchComponent implements OnInit{
     }
 
     public onDisableForm(formDisabled: boolean) {
-        if ( formDisabled ) {
+        if (formDisabled) {
             this.form.disable();
         } else {
             this.form.enable();
@@ -46,17 +47,23 @@ export class DrugsSearchComponent implements OnInit{
 
     private getDrugsByName(name) {
         this.drugsService.getDrugsByName(name)
-            .subscribe((drugs) => { this.drugs = drugs; });
+            .subscribe((drugs) => {
+                this.drugs = drugs;
+            });
     }
 
     private getDrugsByNamePageable(name, page, size) {
         this.drugsService.getDrugsByNamePageable(name, page, size)
-            .subscribe((drugs) => { this.drugs = drugs.content; });
+            .subscribe((drugs) => {
+                this.drugs = drugs.content;
+            });
     }
 
     private onScroll() {
         this.page++;
         this.drugsService.getDrugsByNamePageable(this.searchedValue, this.page, 30)
-            .subscribe((drugs) => { Array.prototype.push.apply(this.drugs, drugs.content); });
+            .subscribe((drugs) => {
+                Array.prototype.push.apply(this.drugs, drugs.content);
+            });
     }
 }

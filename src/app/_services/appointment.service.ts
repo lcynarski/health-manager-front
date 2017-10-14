@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 
-import {AuthenticationService} from '../_services/index';
-import {AppConfig} from '../app.config';
-import {Appointment} from "../_models/appointment";
+import { AuthenticationService } from '../_services/index';
+import { AppConfig } from '../app.config';
+import { Appointment } from '../_models/appointment';
 
 @Injectable()
 export class AppointmentService {
@@ -16,7 +16,7 @@ export class AppointmentService {
 
     /** returns saved Appointment */
     public saveAppointment(patientId, appointmentData): Observable<Appointment> {
-       return this.http.put(`${this.config.apiUrl}/patients/${patientId}/appointments`,
+        return this.http.put(`${this.config.apiUrl}/patients/${patientId}/appointments`,
             appointmentData, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }

@@ -1,10 +1,10 @@
-import {Component, ViewChild, AfterViewInit, Input, Inject} from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input, Inject } from '@angular/core';
 import { FormsService } from '../../_services/forms.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
-import {FormField} from '../../_models/form';
-import {FieldConfig} from '../../components/dynamic-form/models/field-config.interface';
-import {DynamicFormComponent} from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
+import { FormField } from '../../_models/form';
+import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
+import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { FormCreatorStore } from '../../stores/formCreatorStore';
 
 @Component({
@@ -15,7 +15,7 @@ import { FormCreatorStore } from '../../stores/formCreatorStore';
 
 export class FieldsRemoverComponent {
     @Input() fields: any;
-    @ViewChild(DynamicFormComponent)form: DynamicFormComponent;
+    @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
 
     public id: string;
     field: FormField;
@@ -57,7 +57,8 @@ export class FieldsRemoverComponent {
         }
     ];
 
-    constructor(private formCreatorStore: FormCreatorStore) {}
+    constructor(private formCreatorStore: FormCreatorStore) {
+    }
 
     removeField(name) {
         console.log('FORM FIELD TO DELETE => ', name);

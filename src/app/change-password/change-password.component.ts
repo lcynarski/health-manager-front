@@ -20,8 +20,8 @@ export class ChangePasswordComponent implements OnInit {
     constructor(private userService: UserService,
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
-                private dialogService: MdlDialogService
-    ) { }
+                private dialogService: MdlDialogService) {
+    }
 
     ngOnInit() {
         this.activatedRoute.queryParams.subscribe((params: Params) => {
@@ -36,7 +36,7 @@ export class ChangePasswordComponent implements OnInit {
         this.userService.changePassword(this.model.newPassword, this.params).subscribe(
             (res) => {
                 const result = this.dialogService.alert('Succesfully changed password. Click OK and sign in');
-                result.onErrorResumeNext().subscribe( () => {
+                result.onErrorResumeNext().subscribe(() => {
                     this.router.navigate(['/']);
                 });
             }, (error) => {

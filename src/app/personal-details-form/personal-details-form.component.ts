@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 import { AlertService, UserService } from '../_services/index';
 import { PersonalDetails } from '../_models/personalDetails';
-import {error} from 'util';
+import { error } from 'util';
 
 @Component({
     templateUrl: 'personal-details-form.component.html',
@@ -41,8 +41,12 @@ export class PersonalDetailsFormComponent implements OnInit {
 
     private getPersonalDetails() {
         this.userService.getPersonalDetails().subscribe(
-            (data) => { this.personalDetails = data; },
-            (error) => { this.alertService.error(error._body); }
+            (data) => {
+                this.personalDetails = data;
+            },
+            (error) => {
+                this.alertService.error(error._body);
+            }
         );
     }
 

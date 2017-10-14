@@ -1,10 +1,10 @@
-import {Component, OnChanges, OnInit, ViewChild} from '@angular/core';
+import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Patient } from '../../_models/patient';
 import { PatientService } from '../../_services/patient.service';
-import {DynamicFormComponent} from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
-import {FieldConfig} from '../../components/dynamic-form/models/field-config.interface';
+import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
+import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 
 @Component({
     providers: [PatientService],
@@ -98,13 +98,12 @@ export class PatientDetailsComponent implements OnInit {
         }
     ];
 
-    constructor(
-        router: Router,
-        private http: Http,
-        private route: ActivatedRoute,
-        private patientService: PatientService) {
-            this.router = router;
-            // this.id = route.params[0];
+    constructor(router: Router,
+                private http: Http,
+                private route: ActivatedRoute,
+                private patientService: PatientService) {
+        this.router = router;
+        // this.id = route.params[0];
     }
 
     public ngOnInit() {
@@ -130,12 +129,12 @@ export class PatientDetailsComponent implements OnInit {
             .subscribe((patient) => {
                 this.patient = patient;
                 this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${patient.city}`)
-                    .map( (res) => res.json())
-                    .subscribe( (response) => {
+                    .map((res) => res.json())
+                    .subscribe((response) => {
                         this.lat = response['results'][0]['geometry']['location']['lat'];
                         this.lng = response['results'][0]['geometry']['location']['lng'];
                     });
-        });
+            });
         return this.patient;
     }
 
@@ -149,9 +148,9 @@ export class PatientDetailsComponent implements OnInit {
     submit(value) {
         const personalDetails = {
             id: this.patient.id,
-            account : {
+            account: {
                 id: this.patient.account.id,
-                personalDetails : {
+                personalDetails: {
                     id: this.patient.account.personalDetails.id,
                     ...value
                 }
@@ -161,13 +160,13 @@ export class PatientDetailsComponent implements OnInit {
             .subscribe((data) => {
                 console.log(data);
                 this.router.navigate(['/patientDetails'],
-                    {queryParams: {id: this.id}});
+                    { queryParams: { id: this.id } });
             });
     }
 
     onDialogShow = (dialogRef) => {
         Object.keys(this.patient).forEach(key => {
             (key !== 'id') && this.form.setValue(key, this.patient[key]);
-                });
+        });
     }
 }

@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import {GlobalState} from '../../../global.state';
+import { GlobalState } from '../../../global.state';
 
 @Component({
     selector: 'page-top',
@@ -9,14 +9,12 @@ import {GlobalState} from '../../../global.state';
 })
 export class PageTop {
 
-    public isScrolled:boolean = false;
-    public isMenuCollapsed:boolean = false;
+    public isScrolled: boolean = false;
+    public isMenuCollapsed: boolean = false;
 
-    constructor(
-        private _state: GlobalState,
-        private router: Router,
-        private route: ActivatedRoute,
-        ) {
+    constructor(private _state: GlobalState,
+                private router: Router,
+                private route: ActivatedRoute,) {
         this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
             this.isMenuCollapsed = isCollapsed;
         });

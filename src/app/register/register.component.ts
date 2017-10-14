@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
-import {Http, Headers, RequestOptions, Response} from '@angular/http';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
-import {AlertService, UserService} from '../_services/index';
-import {DynamicFormComponent} from "../components/dynamic-form/containers/dynamic-form/dynamic-form.component";
-import registerConfig from "../_forms-configs/register.config";
+import { AlertService, UserService } from '../_services/index';
+import { DynamicFormComponent } from '../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
+import registerConfig from '../_forms-configs/register.config';
 
 @Component({
     selector: 'register',
@@ -40,7 +40,7 @@ export class RegisterComponent implements AfterViewInit {
         console.log(data);
         this.loading = true;
         console.log(this.model);
-        const { email, password, ...personalDetails} = data;
+        const { email, password, ...personalDetails } = data;
         const registerData = {
             email,
             password,

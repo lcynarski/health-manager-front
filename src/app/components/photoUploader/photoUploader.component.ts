@@ -1,79 +1,81 @@
-import {Component, ViewChild, Input, Output, EventEmitter, ElementRef, Renderer} from '@angular/core';
-import {NgUploaderOptions } from 'ngx-uploader';
+import { Component, ViewChild, Input, Output, EventEmitter, ElementRef, Renderer } from '@angular/core';
+import { NgUploaderOptions } from 'ngx-uploader';
+
 // import { UploadOutput, UploadInput, UploadFile, humanizeBytes } from 'ngx-uploader';
 
 @Component({
-  selector: 'photo-uploader',
-  styleUrls: ['./photoUploader.scss'],
-  templateUrl: './photoUploader.html',
+    selector: 'photo-uploader',
+    styleUrls: ['./photoUploader.scss'],
+    templateUrl: './photoUploader.html',
 })
 export class PhotoUploader {
 
-  @Input() defaultPicture: string = '';
-  @Input() picture: string = '';
+    @Input() defaultPicture: string = '';
+    @Input() picture: string = '';
 
-  @Input() uploaderOptions: NgUploaderOptions = { url: '' };
-  @Input() canDelete: boolean = true;
+    @Input() uploaderOptions: NgUploaderOptions = { url: '' };
+    @Input() canDelete: boolean = true;
 
-  @Output() onUpload = new EventEmitter<any>();
-  @Output() onUploadCompleted = new EventEmitter<any>();
+    @Output() onUpload = new EventEmitter<any>();
+    @Output() onUploadCompleted = new EventEmitter<any>();
 
-  @ViewChild('fileUpload') public _fileUpload: ElementRef;
+    @ViewChild('fileUpload') public _fileUpload: ElementRef;
 
-  public uploadInProgress: boolean;
+    public uploadInProgress: boolean;
 
-  constructor(private renderer: Renderer) {
-  }
-
-  beforeUpload(uploadingFile): void {
-    const files = this._fileUpload.nativeElement.files;
-
-    if (files.length) {
-      const file = files[0];
-      this._changePicture(file);
-
-      if (!this._canUploadOnServer()) {
-        uploadingFile.setAbort();
-      } else {
-        this.uploadInProgress = true;
-      }
+    constructor(private renderer: Renderer) {
     }
-  }
 
-  bringFileSelector(): boolean {
-    this.renderer.invokeElementMethod(this._fileUpload.nativeElement, 'click');
-    return false;
-  }
+    beforeUpload(uploadingFile): void {
+        const files = this._fileUpload.nativeElement.files;
 
-  removePicture(): boolean {
-    this.picture = '';
-    return false;
-  }
+        if (files.length) {
+            const file = files[0];
+            this._changePicture(file);
 
-  _changePicture(file: File): void {
-    const reader = new FileReader();
-    reader.addEventListener('load', (event: Event) => {
-      this.picture = (event.target as any).result;
-    }, false);
-    reader.readAsDataURL(file);
-  }
-
-  _onUpload(data): void {
-    if (data['done'] || data['abort'] || data['error']) {
-      this._onUploadCompleted(data);
-    } else {
-      this.onUpload.emit(data);
+            if (!this._canUploadOnServer()) {
+                uploadingFile.setAbort();
+            } else {
+                this.uploadInProgress = true;
+            }
+        }
     }
-  }
 
-  _onUploadCompleted(data): void {
-    this.uploadInProgress = false;
-    this.onUploadCompleted.emit(this.picture);
-  }
+    bringFileSelector(): boolean {
+        this.renderer.invokeElementMethod(this._fileUpload.nativeElement, 'click');
+        return false;
+    }
 
-  _canUploadOnServer(): boolean {
-    return true
-  }
+    removePicture(): boolean {
+        this.picture = '';
+        return false;
+    }
+
+    _changePicture(file: File): void {
+        const reader = new FileReader();
+        reader.addEventListener('load', (event: Event) => {
+            this.picture = (event.target as any).result;
+        }, false);
+        reader.readAsDataURL(file);
+    }
+
+    _onUpload(data): void {
+        if (data['done'] || data['abort'] || data['error']) {
+            this._onUploadCompleted(data);
+        } else {
+            this.onUpload.emit(data);
+        }
+    }
+
+    _onUploadCompleted(data): void {
+        this.uploadInProgress = false;
+        this.onUploadCompleted.emit(this.picture);
+    }
+
+    _canUploadOnServer(): boolean {
+        return true;
+    }
+
 //   formData: FormData;
 //   files: UploadFile[];
 //   uploadInput: EventEmitter<UploadInput>;

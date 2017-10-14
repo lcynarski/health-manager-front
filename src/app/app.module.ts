@@ -13,8 +13,6 @@ import { routing }        from './app.routing';
 import { AppConfig } from './app.config';
 import { NgaModule } from './navigation/nga.module';
 import { NgUploaderModule, NgFileSelectDirective } from 'ngx-uploader';
-
-import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { AlertService, AuthenticationService, UserService} from './_services';
 import { LoginComponent } from './login/index';
@@ -94,7 +92,6 @@ export function createTranslateLoader(http: Http) {
         HomeComponent,
         WelcomeComponent,
         RegisterComponent,
-        AlertComponent,
         ForgotPasswordComponent,
         PersonalDetailsFormComponent,
         InlineEditComponent

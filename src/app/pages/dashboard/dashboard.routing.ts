@@ -1,6 +1,4 @@
 import { Routes, RouterModule } from '@angular/router';
-
-import { ChangePasswordComponent } from '../../change-password';
 import { DashboardComponent } from './dashboard.component';
 import { ModuleWithProviders } from '@angular/core';
 

@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 
-import {AppConfig} from '../app.config';
-import {JwtHelper} from "angular2-jwt";
+import { AppConfig } from '../app.config';
+import { JwtHelper } from 'angular2-jwt';
 
 @Injectable()
 export class AuthenticationService {
@@ -26,14 +26,14 @@ export class AuthenticationService {
 
     public login(email: string, password: string): Observable<boolean> {
         console.log('DBG: trying to login.' + email + ' ' + password);
-        return this.http.post(this.config.apiUrl + '/users/login', {email, password})
+        return this.http.post(this.config.apiUrl + '/users/login', { email, password })
             .map((response: Response) => {
                 const token = response.json() && response.json().token;
                 const role = response.json() && response.json().role;
                 console.log('DBG: token ' + token);
                 if (token) {
                     this.token = token;
-                    localStorage.setItem('currentUser', JSON.stringify({email, token}));
+                    localStorage.setItem('currentUser', JSON.stringify({ email, token }));
                     let jwtHelper: JwtHelper = new JwtHelper();
                     console.log('token to ')
                     console.log(jwtHelper.decodeToken(token))

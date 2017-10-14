@@ -1,5 +1,5 @@
-import {Patient} from "./patient";
-import {TimeSlot} from "./timeslot";
+import { Patient } from './patient';
+import { TimeSlot } from './timeslot';
 
 export class Appointment {
     id: number;
@@ -8,5 +8,5 @@ export class Appointment {
     officeNumber: number;
     data: string;
     patient: Patient;
-    timeSlot: TimeSlot
+    timeSlot: TimeSlot;
 }
