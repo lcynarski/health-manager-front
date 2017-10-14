@@ -1,10 +1,11 @@
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { Pages } from './pages.component';
 import { ModuleWithProviders } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 import { PatientDetailsComponent } from './patientDetails/patientDetails.component';
 import { VisitsCalendarComponent } from './visitsCalendar/visitsCalendar.component';
+import { TimeTableComponent } from './timeTable/timeTable.component';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { CreatePatientComponent } from './createPatient/createPatient.component';
 import { CreateDoctorComponent } from './createDoctor/createDoctor.component';
@@ -18,7 +19,6 @@ import { MedcomModule } from '../medcom/medcom.module';
 import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
-// import {MedcomComponent} from '../medcom/medcom.component';
 
 export const routes: Routes = [
     {
@@ -51,6 +51,7 @@ export const routes: Routes = [
             { path: 'doctorsList', loadChildren: './doctorsList/doctorsList.module#DoctorsListModule' },
             { path: 'patientDetails/:patientId', component: PatientDetailsComponent },
             { path: 'doctor/:doctorId', component: VisitsCalendarComponent },
+            { path: 'timeTable', component: TimeTableComponent },
             { path: 'createPatient', component: CreatePatientComponent },
             { path: 'createDoctor', component: CreateDoctorComponent },
             { path: 'createTimeslot', component: CreateTimeslotComponent },

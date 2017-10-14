@@ -33,6 +33,9 @@ export class DoctorsListComponent implements OnInit {
         this.router.navigate(['/pages/doctor/' + doctorId]);
     }
 
+    showTimeTable(){
+        this.router.navigate(['/pages/timeTable']);
+    }
 
 
     ngOnInit() {

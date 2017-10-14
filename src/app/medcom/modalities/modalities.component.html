@@ -1,19 +1,19 @@
 <div id="modalitiesComponent">
     <div id="viewContainer">
 
-        <div id="listHeaders" fxLayout="row">
-            <div fxFlex="25">AE title</div>
-            <div fxFlex="15">type</div>
-            <div fxFlex="35">description</div>
-            <div fxFlex="25">location</div>
-        </div>
+        <div id="listContainer" *ngIf="!fetching">
+            <div id="listHeaders" fxLayout="row">
+                <div fxFlex="25">AE title</div>
+                <div fxFlex="15">type</div>
+                <div fxFlex="35">description</div>
+                <div fxFlex="25" class="ta-r">location</div>
+            </div>
 
-        <div id="listContainer">
             <div class="record" fxLayout="row" *ngFor="let modality of modalities">
                 <div fxFlex="25">{{modality.applicationEntity}}</div>
-                <div fxFlex="15">{{modality.name}}</div>
-                <div fxFlex="35">{{modality.description}}</div>
-                <div fxFlex="25">{{modality.location}}</div>
+                <div fxFlex="15">{{modality.type}}</div>
+                <div fxFlex="35">{{modality.description | hmDefault:'—'}} </div>
+                <div fxFlex="25" class="ta-r">{{modality.location | hmDefault:'—'}}</div>
             </div>
         </div>
 

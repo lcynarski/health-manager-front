@@ -23,6 +23,7 @@ import { VisitsCalendarComponent } from './visitsCalendar/visitsCalendar.compone
 import { CalendarModule } from 'angular-calendar';
 import { CalendarHeaderComponent } from './visitsCalendar/calendar-header.component';
 import { CreatePatientComponent } from './createPatient/createPatient.component';
+import { TimeTableComponent } from './timeTable/timeTable.component';
 import { CreateDoctorComponent } from './createDoctor/createDoctor.component';
 import { CreateTimeslotComponent } from './createTimeslot/createTimeslot.component';
 import { DynamicFormModule } from '../components/dynamic-form/dynamic-form.module';
@@ -70,7 +71,8 @@ import { TranslateModule } from '@ngx-translate/core';
         MatButtonToggleModule,
         MatIconModule,
         MatRippleModule,
-        TranslateModule
+        TranslateModule,
+        MdlSelectModule
     ],
     declarations: [
         Pages,
@@ -86,6 +88,7 @@ import { TranslateModule } from '@ngx-translate/core';
         PatientSearchComponent,
         ProceedAppointmentComponent,
         ChangePasswordComponent,
+        TimeTableComponent,
         DrugsSearchComponent,
         FieldsCreatorComponent,
         FieldsRemoverComponent,

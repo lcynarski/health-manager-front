@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalitiesService } from '../../_services/medcom/modalities.service';
-import { Modality } from '../../_models/medcom/modality';
+import { DicomModality } from '../../_models/medcom/dicomModality';
 
 
 @Component({
@@ -10,15 +10,18 @@ import { Modality } from '../../_models/medcom/modality';
 })
 export class ModalitiesComponent implements OnInit, OnDestroy {
 
-    modalities: Modality[];
+    modalities: DicomModality[];
+    fetching: boolean = false;
 
     constructor(private modalitiesService: ModalitiesService) {}
 
     public ngOnInit() {
-        this.modalitiesService.getMockModalities()
+        this.fetching = true;
+        this.modalitiesService.getModalities()
             .subscribe(
                 (modalities) => {
                     this.modalities = modalities;
+                    this.fetching = false;
                 }
             );
     }

@@ -12,6 +12,11 @@
   color: $oc-gray-9;
 }
 
+#listHeaders { // TODO: extract into shared record mixin
+  margin: 10px 20px;
+  color: rgba(black, 0.8);
+}
+
 .header {
   text-align: center;
   color: $oc-indigo-6;

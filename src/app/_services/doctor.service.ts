@@ -39,10 +39,11 @@ export class DoctorService {
 
     doctorFromJson(obj: any): Doctor {
         return {
-            _id: obj.id,
-            firstName: obj.account.personalDetails.firstName,
-            lastName: obj.account.personalDetails.lastName,
-            specialization: obj.specialization
+            _id:obj.id,
+            firstName:obj.account.personalDetails.firstName,
+            lastName:obj.account.personalDetails.lastName,
+            specialization: obj.specialization,
+            personId:obj.account.personalDetails.id
         };
     }
 
