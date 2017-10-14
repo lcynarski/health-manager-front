@@ -12,6 +12,7 @@ import { DicomArchiveComponent } from './dicom-archive/dicom-archive.component';
 import { ModalitiesComponent } from './modalities/modalities.component';
 import { ProceduresScheduleComponent } from './procedures-schedule/procedures-schedule.component';
 import { ArchiveService, ScheduledProceduresService, ModalitiesService } from '../_services/medcom';
+import { DefaultPipe } from '../_pipes';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { ArchiveService, ScheduledProceduresService, ModalitiesService } from '.
         ModalitiesComponent,
         ProceduresScheduleComponent,
         DicomDirective,
+        DefaultPipe
     ],
     entryComponents: [
         MedcomStudyDialogComponent,

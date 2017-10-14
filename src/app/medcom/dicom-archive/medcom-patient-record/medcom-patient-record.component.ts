@@ -1,9 +1,11 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { MdlDialogService, MdlDialogComponent } from '@angular-mdl/core';
-import { DicomPatient, DicomStudy } from '../../../_models/medcom/archive';
+import { Component, Input } from '@angular/core';
+import { MdlDialogService } from '@angular-mdl/core';
+
+import { ArchiveService } from '../../../_services';
+import { MedcomPatient, DicomStudy } from '../../../_models';
 import {
     MedcomStudyDialogComponent,
-    STUDY_INJECTION_TOKEN
+    STUDY_INJECTION_TOKEN,
 } from '../medcom-study-dialog/medcom-study-dialog.component';
 
 
@@ -15,22 +17,29 @@ import {
 export class MedcomPatientRecordComponent {
 
     @Input()
-    public patient: DicomPatient;
-
+    public patient: MedcomPatient;
+    studies: DicomStudy[];
     expanded: boolean = false;
+    fetchingStudies: boolean = false;
 
-    constructor(private dialogService: MdlDialogService) {}
+    constructor(private dialogService: MdlDialogService,
+                private archiveService: ArchiveService) {}
 
     toggleExpanded() {
-        this.expanded = !this.expanded;
+        if (this.expanded) {
+            this.onCollapse();
+        } else {
+            this.onExpand();
+        }
     }
 
     showStudy(study: DicomStudy, $event) {
-        study.patientId = this.patient.patientId;
         this.dialogService.showCustomDialog({
             openFrom: $event,
             component: MedcomStudyDialogComponent,
-            providers: [{ provide: STUDY_INJECTION_TOKEN, useValue: study }],
+            providers: [
+                { provide: STUDY_INJECTION_TOKEN, useValue: study },
+            ],
             isModal: true,
             styles: {
                 width: '90%',
@@ -42,6 +51,27 @@ export class MedcomPatientRecordComponent {
             enterTransitionDuration: 400,
             leaveTransitionDuration: 400
         });
+    }
+
+    private onExpand() {
+        this.fetchingStudies = true;
+        this.archiveService.getStudies(this.patient.id)
+            .subscribe(
+                (studies: DicomStudy[]) => {
+                    this.studies = studies;
+                    this.fetchingStudies = false;
+                    this.expanded = true;
+                },
+                (error) => {
+                    this.onCollapse();
+                }
+            );
+    }
+
+    private onCollapse() {
+        this.studies = null;
+        this.expanded = false;
+        this.fetchingStudies = false;
     }
 
 }

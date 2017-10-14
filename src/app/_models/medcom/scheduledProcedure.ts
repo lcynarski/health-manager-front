@@ -2,7 +2,7 @@
 export interface ScheduledProcedure {
     id: number;
     date: number;
-    modalityId: number;
+    modalityAET: string;
     description: string;
     studyInstanceUid: string;
     patient: {

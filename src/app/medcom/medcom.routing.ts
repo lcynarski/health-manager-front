@@ -9,9 +9,10 @@ import { ModalitiesComponent } from './modalities/modalities.component';
 
 export const routes: Routes = [
     {
-        path: 'pages/medcom',
+        path: '',
         component: MedcomComponent,
         children: [
+            { path: '', redirectTo: 'dicom-archive', pathMatch: 'full' },
             { path: 'dicom-archive', component: DicomArchiveComponent },
             { path: 'procedures-schedule', component: ProceduresScheduleComponent },
             { path: 'modalities', component: ModalitiesComponent },
