@@ -9,7 +9,7 @@ import { Patient } from '../../_models/patient';
     templateUrl: './patientSearch.component.html'
 })
 
-export class PatientSearchComponent implements OnInit{
+export class PatientSearchComponent implements OnInit {
 
     public disableForm = false;
     public form: FormGroup;
@@ -18,7 +18,8 @@ export class PatientSearchComponent implements OnInit{
     public patient: Patient;
     patients: Patient[] = [];
 
-    constructor(private fb: FormBuilder, private patientService: PatientService) {}
+    constructor(private fb: FormBuilder, private patientService: PatientService) {
+    }
 
     public ngOnInit() {
         this.form = this.fb.group({
@@ -41,7 +42,7 @@ export class PatientSearchComponent implements OnInit{
     }
 
     public onDisableForm(formDisabled: boolean) {
-        if ( formDisabled ) {
+        if (formDisabled) {
             this.form.disable();
         } else {
             this.form.enable();
@@ -50,7 +51,9 @@ export class PatientSearchComponent implements OnInit{
 
     private getPatientByPesel(pesel) {
         this.patientService.getPatientByPesel(pesel)
-            .subscribe( (patients) => { this.patient = patients; });
+            .subscribe((patients) => {
+                this.patient = patients;
+            });
     }
 
 }

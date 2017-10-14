@@ -4,7 +4,7 @@
 <div class="patient-details">
     <div class="patient-details__title">
         <div class="patient-details__name">
-            {{ patient?.account.personalDetails.firstName }} {{ patient?.account.personalDetails.lastName}}
+            {{ patient?.firstName }} {{ patient?.lastName}}
         </div>
         <div class="patient-details__photo">
             <i class="material-icons">face</i>
@@ -50,27 +50,27 @@
     <div class="patient-details__info">
         <div>
             <div class="patient-details__info-label">Date of birth: </div>
-            <div class="patient-details__info-value">{{ patient?.account.personalDetails.birthdate }}</div>
+            <div class="patient-details__info-value">{{ patient?.birthdate }}</div>
         </div>
         <div>
             <div class="patient-details__info-label">Gender: </div>
-            <div class="patient-details__info-value">{{ patient?.account.personalDetails.gender }}</div>
+            <div class="patient-details__info-value">{{ patient?.gender }}</div>
         </div>
         <div>
             <div class="patient-details__info-label"> Phone:</div>
-            <div class="patient-details__info-value">{{ patient?.account.personalDetails.phoneNumber }}</div>
+            <div class="patient-details__info-value">{{ patient?.phoneNumber }}</div>
         </div>
         <div>
             <div class="patient-details__info-label">Country:</div>
-            <div class="patient-details__info-value">{{ patient?.account.personalDetails.country }}</div>
+            <div class="patient-details__info-value">{{ patient?.country }}</div>
         </div>
         <div>
             <div class="patient-details__info-label">Address:</div>
-            <div class="patient-details__info-value">{{ patient?.account.personalDetails.city }}</div>
+            <div class="patient-details__info-value">{{ patient?.city }}</div>
         </div>
         <div>
             <div class="patient-details__info-label">PESEL:</div>
-            <div class="patient-details__info-value">{{ patient?.account.personalDetails.pesel }}</div>
+            <div class="patient-details__info-value">{{ patient?.pesel }}</div>
         </div>
     </div>
     <agm-map [latitude]="lat" [longitude]="lng">

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -16,14 +16,14 @@ export class PatientsListItemComponent {
     private route: ActivatedRoute;
     public id: number;
 
-    constructor(router: Router, route: ActivatedRoute ) {
+    constructor(router: Router, route: ActivatedRoute) {
         this.router = router;
         this.route = route;
         this.id = parseInt(this.route.params['patientId'], 10);
     }
 
     public viewDetails(): void {
-        this.router.navigate(['/patientDetails', {patientId: this.id}]);
+        this.router.navigate(['/patientDetails', { patientId: this.id }]);
     }
 
     public goToList(): void {

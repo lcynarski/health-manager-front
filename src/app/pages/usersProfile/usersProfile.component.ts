@@ -1,12 +1,12 @@
-import {Component, ViewChild, AfterViewInit, OnInit, EventEmitter, Output} from '@angular/core';
-import {Validators} from '@angular/forms';
+import { Component, ViewChild, AfterViewInit, OnInit, EventEmitter, Output } from '@angular/core';
+import { Validators } from '@angular/forms';
 
-import {UserService} from '../../_services/index';
-import {Http, Headers, RequestOptions, Response} from '@angular/http';
-import {PersonalDetails} from '../../_models/personalDetails';
-import {Router} from '@angular/router';
-import {DynamicFormComponent} from "../../components/dynamic-form/containers/dynamic-form/dynamic-form.component";
-import {FieldConfig} from "../../components/dynamic-form/models/field-config.interface";
+import { UserService } from '../../_services/index';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { PersonalDetails } from '../../_models/personalDetails';
+import { Router } from '@angular/router';
+import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
+import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 
 @Component({
     selector: 'users-profile',
@@ -105,10 +105,10 @@ export class UsersProfileComponent implements OnInit {
     }
 
     submit(value) {
-        const personalDetails = {account: {personalDetails: {...value}}};
+        const personalDetails = { account: { personalDetails: { ...value } } };
         // this.patientService.savePatient(personalDetails)
         //     .subscribe((data) => console.log(data));
-        console.log(personalDetails)
+        console.log(personalDetails);
     }
 
     private getAccount() {

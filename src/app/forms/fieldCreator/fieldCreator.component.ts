@@ -1,15 +1,15 @@
-import {Component, ViewChild, AfterViewInit, Input, Inject, OnInit} from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input, Inject, OnInit } from '@angular/core';
 import { FormsService } from '../../_services/forms.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
-import {FormField} from '../../_models/form';
-import {FieldConfig} from '../../components/dynamic-form/models/field-config.interface';
-import {DynamicFormComponent} from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
+import { FormField } from '../../_models/form';
+import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
+import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { FormCreatorStore } from '../../stores/formCreatorStore';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {FieldCreatorStore} from '../../stores/fieldCreatorStore';
-import {nodeValue} from "@angular/core/src/view";
-import {getBindingElementVariableDeclaration} from "tslint";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FieldCreatorStore } from '../../stores/fieldCreatorStore';
+import { nodeValue } from '@angular/core/src/view';
+import { getBindingElementVariableDeclaration } from 'tslint';
 
 @Component({
     selector: 'field-creator',
@@ -134,8 +134,9 @@ export class FieldsCreatorComponent implements OnInit {
         console.log('FORM FIELD TO DELETE => ', name);
         this.fieldCreatorStore.deleteOption(name);
     }
+
     saveDateField(value) {
-        console.log('saveDate', value)
+        console.log('saveDate', value);
         const field = {
             type: 'input',
             label: value['date'],
@@ -158,8 +159,8 @@ export class FieldsCreatorComponent implements OnInit {
     saveOptionField(value) {
         const onlyOptions = [];
         this.options.forEach(o => {
-            onlyOptions.push({value: o['option']});
-        })
+            onlyOptions.push({ value: o['option'] });
+        });
         const field = {
             type: 'select',
             label: this.selectFieldName,

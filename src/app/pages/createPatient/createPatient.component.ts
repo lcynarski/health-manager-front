@@ -1,11 +1,11 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import {PatientService} from '../../_services/patient.service';
+import { PatientService } from '../../_services/patient.service';
 
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Http} from '@angular/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Http } from '@angular/http';
 import createPatientConfig from '../../_forms-configs/create-patient.config';
 
 @Component({
@@ -18,11 +18,10 @@ export class CreatePatientComponent implements AfterViewInit {
     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
     private router: Router;
 
-    constructor(
-        router: Router,
-        private http: Http,
-        private route: ActivatedRoute,
-        private patientService: PatientService) {
+    constructor(router: Router,
+                private http: Http,
+                private route: ActivatedRoute,
+                private patientService: PatientService) {
         this.router = router;
     }
 
@@ -40,12 +39,19 @@ export class CreatePatientComponent implements AfterViewInit {
     }
 
     submit(value) {
-        console.log(value)
-        const personalDetails = { account : { personalDetails : { ...value }}};
-        this.patientService.savePatient(personalDetails)
+        console.log(value);
+        const { email, ...personalDetails } = value;
+        // const personalDetails = { account : { personalDetails : { ...value }}};
+        const registerData = {
+            email,
+            personalDetails,
+            insuranceNumber: '222121212',
+            role: 'ROLE_PATIENT'
+        };
+        this.patientService.savePatient(registerData)
             .subscribe((data) => {
                 console.log(data);
                 this.router.navigate(['/dashboard']);
-        });
+            });
     }
 }

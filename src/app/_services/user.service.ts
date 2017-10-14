@@ -10,10 +10,9 @@ import { PersonalDetails } from '../_models/personalDetails';
 
 @Injectable()
 export class UserService {
-    constructor(
-        private http: Http,
-        private authenticationService: AuthenticationService,
-        private config: AppConfig) {
+    constructor(private http: Http,
+                private authenticationService: AuthenticationService,
+                private config: AppConfig) {
     }
 
     public getAll() {
@@ -26,9 +25,10 @@ export class UserService {
             .map((response: Response) => response.json());
     }
 
-    public create(user: User) {
+    public create(user: any) {
         return this.http.post(`${this.config.apiUrl}/users/register`, user);
     }
+
     public update(user: User) {
         return this.http.put(`${this.config.apiUrl}/users/${user._id}`, user, this.authenticationService.addJwtOptions());
     }
@@ -37,15 +37,19 @@ export class UserService {
         return this.http.delete(`${this.config.apiUrl}/users/${_id}`, this.authenticationService.addJwtOptions());
     }
 
-    public changePassword(data: ChangePassword): Observable<boolean> {
-        return this.http.post(`${this.config.apiUrl}/users/updatePassword`, data, this.authenticationService.addJwtOptions())
+    public changePassword(newPassword: string, params) {
+        const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
+        return this.http.post(`${this.config.apiUrl}/users/password_token`, newPassword, {
+            params: { ...params },
+            headers
+        })
             .map((response: Response) => {
-                return response.json() && response.json().isSuccess;
+                return response;
             });
     }
 
     public resetPassword(email: string): Observable<boolean> {
-        return this.http.post(`${this.config.apiUrl}/users/resetPassword`, email)
+        return this.http.post(`${this.config.apiUrl}/users/password/reset`, email)
             .map((response: Response) => {
                 return response.json();
             });
@@ -56,8 +60,7 @@ export class UserService {
     }
 
     public getPersonalDetails(): Observable<PersonalDetails> {
-        return this.http.get(`${this.config.apiUrl}/accounts/personaldetails`, this.authenticationService.addJwtOptions()).
-            map((response: Response) => response.json());
+        return this.http.get(`${this.config.apiUrl}/accounts/personaldetails`, this.authenticationService.addJwtOptions()).map((response: Response) => response.json());
     }
 
     public saveProfilePicture(_id: string, photo: any): Observable<String> {

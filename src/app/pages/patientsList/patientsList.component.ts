@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import {Patient} from '../../_models/patient';
+import { Patient } from '../../_models/patient';
 import { PatientService } from '../../_services/patient.service';
 import { PatientsListItemComponent } from './patients-list-item.component';
 
@@ -25,10 +25,12 @@ export class PatientsListComponent implements OnInit {
     }
 
     private loadAllPatients() {
-        this.patientService.getPatients().subscribe( (patients) => { this.patients = patients; });
+        this.patientService.getPatients().subscribe((patients) => {
+            this.patients = patients;
+        });
     }
 
     public viewDetails(id): void {
-        this.router.navigate(['/patientDetails', {userId: id}]);
+        this.router.navigate(['/patientDetails', { userId: id }]);
     }
 }

@@ -9,15 +9,11 @@
   }
 
   &-wrapper {
-    width: 20rem;
+    width: 28rem;
+    height: 36rem;
     margin: 2rem auto;
-    padding: 4rem;
-    //border: 2px solid $oc-gray-2;
-    //border-radius: 4px;
+    padding: 2.6rem;
     background: $oc-white;
-    //padding: 20px 30px;
-    //width: 52rem;
-    //box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
     box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
 
     input {
@@ -43,11 +39,19 @@
           background: darken($oc-red-7, 5%);
         }
       }
+
+      &.login-button {
+        margin-top: 2rem;
+      }
     }
 
     a {
       display: inline;
       padding: 12px 0;
+    }
+
+    .bottom-options {
+      margin-top: 1rem;
     }
 
   }
@@ -59,6 +63,23 @@
     color: inherit;
     padding-bottom: 2rem;
   }
+}
 
+:host /deep/ .mat-input-container {
+  width: 22rem;
+}
+
+
+:host /deep/ .mat-input-suffix {
+  cursor: pointer;
+}
+
+:host /deep/ .mat-input-wrapper {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+
+  mat-icon {
+    vertical-align: bottom;
+  }
 }
 

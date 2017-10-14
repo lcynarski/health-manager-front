@@ -40,6 +40,7 @@ import {
 //     BaThemePreloader,
 //     BaThemeSpinner
 } from './services';
+import { TranslateModule } from '@ngx-translate/core';
 //
 // import {
 //     EmailValidator,
@@ -88,7 +89,8 @@ const NGA_SERVICES = [
         CommonModule,
         RouterModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        TranslateModule
     ],
     exports: [
         // ...NGA_PIPES,

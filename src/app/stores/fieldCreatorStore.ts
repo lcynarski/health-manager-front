@@ -1,6 +1,6 @@
-import {Injectable, OnInit} from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import * as Rx from 'rxjs';
-import {FormField} from "../_models/form";
+import { FormField } from '../_models/form';
 
 let initialState: any[] = [];
 

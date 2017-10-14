@@ -6,16 +6,15 @@ import 'rxjs/add/operator/map';
 import { AuthenticationService } from '../_services/index';
 import { AppConfig } from '../app.config';
 import { Patient } from '../_models/index';
-import {Doctor} from "../_models/doctor";
-import { Specialization } from "../_models/specialization";
-import { TimeSlot } from "../_models/timeslot"
+import { Doctor } from '../_models/doctor';
+import { Specialization } from '../_models/specialization';
+import { TimeSlot } from '../_models/timeslot'
 
 @Injectable()
 export class DoctorService {
-    constructor(
-        private http: Http,
-        private authenticationService: AuthenticationService,
-        private config: AppConfig) {
+    constructor(private http: Http,
+                private authenticationService: AuthenticationService,
+                private config: AppConfig) {
     }
 
     //TODO dodac wywołania endpointów
@@ -38,7 +37,7 @@ export class DoctorService {
             .map((response: Response) => response.json());
     }
 
-    doctorFromJson(obj:any):Doctor{
+    doctorFromJson(obj: any): Doctor {
         return {
             _id:obj.id,
             firstName:obj.account.personalDetails.firstName,
@@ -56,9 +55,9 @@ export class DoctorService {
     getById(_id: string): Observable<Doctor> {
         return this.http.get(`${this.config.apiUrl}/doctors/${_id}`)
             .map((response: Response) => {
-            console.log("responsee");
-            console.log(response.json());
-            return this.doctorFromJson(response.json());
-        });
+                console.log('responsee');
+                console.log(response.json());
+                return this.doctorFromJson(response.json());
+            });
     }
 }

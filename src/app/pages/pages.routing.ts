@@ -18,10 +18,11 @@ import { ProceedAppointmentComponent } from './proceedApoinment/proceed-appointm
 import { MedcomModule } from '../medcom/medcom.module';
 import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
-
+import { ChangePasswordComponent } from '../change-password/change-password.component';
 
 export const routes: Routes = [
-    { path: '',
+    {
+        path: '',
         component: WelcomeComponent
     },
     {
@@ -35,6 +36,10 @@ export const routes: Routes = [
     {
         path: 'forgotPassword',
         component: ForgotPasswordComponent
+    },
+    {
+        path: 'changePassword',
+        component: ChangePasswordComponent
     },
     {
         path: 'pages',

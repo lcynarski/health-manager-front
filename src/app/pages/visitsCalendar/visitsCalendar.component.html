@@ -53,12 +53,12 @@
         </div>
         <div *ngIf='!imAPatient && currentSlotTaken'>
             <a (click)="showPatientDetails()">
-    Taken by: {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}</a>
+    Taken by: {{patient.firstName}} {{patient.lastName}}</a>
         </div>
         <div *ngIf='!imAPatient && !currentSlotTaken'>
             <ul>
                 <li *ngFor="let patient of patients"><a (click)="setPatient(patient)">
-                    {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}
+                    {{patient.firstName}} {{patient.lastName}}
                 </a></li>
 
             </ul>

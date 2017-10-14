@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 
-import {AuthenticationService} from '../_services/index';
-import {AppConfig} from '../app.config';
-import {Patient} from '../_models/index';
+import { AuthenticationService } from '../_services/index';
+import { AppConfig } from '../app.config';
+import { Patient } from '../_models/index';
 
 @Injectable()
 export class PatientService {
@@ -35,14 +35,20 @@ export class PatientService {
             .map((response: Response) => response.json());
     }
 
+    // public savePatient(data) {
+    //     console.log(data);
+    //     return this.http.post(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
+    //         .map((response: Response) => response.json());
+    // }
+
     public savePatient(data) {
         console.log(data);
-        return this.http.post(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
+        return this.http.post(`${this.config.apiUrl}/users/registerOnBehalf`, data, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 
     public editPatient(data) {
-        console.log("editPatient", data)
+        console.log('editPatient', data)
         return this.http.put(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
             .map((response) => response.json());
     }

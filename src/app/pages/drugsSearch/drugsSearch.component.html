@@ -1,0 +1,31 @@
+<div>
+    <form [formGroup]="form"
+          (submit)="onSubmit($event)"
+          class="search-form"
+    >
+        <div>
+            {{ 'StartTypingDrugsName' | translate }}
+        </div>
+        <p>
+            <mdl-textfield
+                    label="{{ 'DrugName' | translate }}"
+                    name="drugName" type="text"
+                    formControlName="drugName"
+                    floating-label
+                    (input)="onSubmit($event.target.value)"></mdl-textfield>
+        </p>
+    </form>
+    <mdl-list *ngIf="drugs"
+              infiniteScroll
+              [infiniteScrollDistance]="2"
+              [infiniteScrollThrottle]="700"
+              (scrolled)="onScroll()"
+    >
+        <mdl-list-item *ngFor="let drug of drugs">
+            <mdl-list-item-primary-content >
+                <mdl-icon mdl-list-item-icon>healing</mdl-icon>
+                {{ drug.name }}
+            </mdl-list-item-primary-content>
+        </mdl-list-item>
+    </mdl-list>
+</div>

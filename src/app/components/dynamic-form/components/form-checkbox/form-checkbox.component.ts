@@ -13,7 +13,6 @@ import { FieldConfig } from '../../models/field-config.interface';
       <mdl-checkbox [formControlName]="config.name">
           {{config.label}}
       </mdl-checkbox>\
-        
     </form>
   `
 })

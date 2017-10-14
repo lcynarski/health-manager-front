@@ -4,9 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { FieldsCreatorComponent } from '../fieldCreator/fieldCreator.component';
 import { Form } from '../../_models/form';
-import {FormCreatorStore} from "../../stores/formCreatorStore";
-import {FieldCreatorStore} from "../../stores/fieldCreatorStore";
-
+import { FormCreatorStore } from '../../stores/formCreatorStore';
+import { FieldCreatorStore } from '../../stores/fieldCreatorStore';
 
 @Component({
     providers: [FormsService, FormCreatorStore, FieldCreatorStore],
@@ -34,9 +33,9 @@ export class FormsCreatorComponent implements OnInit {
     public ngOnInit() {
         this.formCreatorStore.formFields.subscribe(data => {
             this.fields = data;
-            console.log("THIS DUPA DFIELS", this.fields)
+            console.log('fields: ', this.fields);
         });
-        console.log(this.route.params)
+        console.log(this.route.params);
         this.route.params.subscribe((params) => {
             if (params['formId']) {
                 this.loadForm(params['formId']);
@@ -47,16 +46,14 @@ export class FormsCreatorComponent implements OnInit {
 
     save(value) {
         this.fields.forEach((field) => {
-            if ( field['placeholder'] === 'date' ) {
+            if (field['placeholder'] === 'date') {
                 field['type'] = 'date';
             }
-        })
-        console.log('This.fields:  ', this.fields);
+        });
         const form = {
             name: this.formName,
             formFields: [...this.fields]
-        }
-        console.log("MY FUCKIN FORM: ", form);
+        };
         this.formsService.saveForm(form);
     }
 
@@ -64,10 +61,11 @@ export class FormsCreatorComponent implements OnInit {
         this.formsService.getFormById(id)
             .subscribe((form) => {
                 form.formFields.forEach((f) => {
-                    this.formCreatorStore.addExistingField(f)
+                    this.formCreatorStore.addExistingField(f);
                 });
             });
     }
+
     //
     // saveForm(): void {
     //     this.formsService.saveForm(this.form)

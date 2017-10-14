@@ -6,11 +6,11 @@ import { RegisterComponent } from './register/index';
 import { HomeComponent } from './home/index';
 import { WelcomeComponent } from './welcome/index';
 import { AuthGuard } from './_guards/index';
-import {PatientsListComponent} from './pages/patientsList/index';
+import { PatientsListComponent } from './pages/patientsList/index';
 import { PatientDetailsComponent } from './pages/patientDetails/index';
 import { PersonalDetailsFormComponent } from './personal-details-form/index';
-import { FieldsCreatorComponent } from "./forms/fieldCreator/fieldCreator.component";
-import {FormsCreatorComponent} from "./forms/formsCreator/formsCreator.component";
+import { FieldsCreatorComponent } from './forms/fieldCreator/fieldCreator.component';
+import { FormsCreatorComponent } from './forms/formsCreator/formsCreator.component';
 
 const routes: Routes = [
     // { path: '', component: WelcomeComponent },
@@ -28,4 +28,4 @@ const routes: Routes = [
     { path: '**', redirectTo: 'pages/dashboard' }
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: true , enableTracing: true });
+export const routing: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: true, enableTracing: true });

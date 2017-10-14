@@ -10,6 +10,7 @@ import { NgaModule } from '../../navigation/nga.module';
 import { MdlModule } from '@angular-mdl/core';
 import { ChangePasswordComponent } from '../../change-password/index';
 import { DashboardWidgetComponent } from './dashboard-widget.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -17,14 +18,14 @@ import { DashboardWidgetComponent } from './dashboard-widget.component';
         FormsModule,
         NgaModule,
         routing,
-        MdlModule
+        MdlModule,
+        TranslateModule
     ],
     declarations: [
         DashboardComponent,
         DashboardWidgetComponent
     ],
-    providers: [
-
-    ]
+    providers: []
 })
-export class DashboardModule {}
+export class DashboardModule {
+}

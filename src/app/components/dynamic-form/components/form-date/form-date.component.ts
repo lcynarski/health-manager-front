@@ -3,9 +3,9 @@ import { FormGroup } from '@angular/forms';
 import jQuery from 'jquery';
 import { Field } from '../../models/field.interface';
 import { FieldConfig } from '../../models/field-config.interface';
-import {MdlDatePickerService} from '@angular-mdl/datepicker';
+import { MdlDatePickerService } from '@angular-mdl/datepicker';
 import moment = require('moment');
-import {DynamicFormComponent} from "../../containers/dynamic-form/dynamic-form.component";
+import { DynamicFormComponent } from '../../containers/dynamic-form/dynamic-form.component';
 
 @Component({
   selector: 'form-date',
