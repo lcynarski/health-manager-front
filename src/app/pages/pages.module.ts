@@ -12,6 +12,7 @@ import { VisitsCalendarComponent } from './visitsCalendar/visitsCalendar.compone
 import { CalendarModule } from 'angular-calendar';
 import { CalendarHeaderComponent } from './visitsCalendar/calendar-header.component';
 import { CreatePatientComponent } from './createPatient/createPatient.component';
+import { TimeTableComponent } from './timeTable/timeTable.component';
 import { CreateDoctorComponent } from './createDoctor/createDoctor.component';
 import { CreateTimeslotComponent } from './createTimeslot/createTimeslot.component';
 import { DynamicFormModule } from '../components/dynamic-form/dynamic-form.module';
@@ -60,6 +61,7 @@ import { MdlSelectModule } from '@angular2-mdl-ext/select';
         PatientSearchComponent,
         ProceedAppointmentComponent,
         ChangePasswordComponent,
+        TimeTableComponent,
         DrugsSearchComponent,
         FieldsCreatorComponent,
         FieldsRemoverComponent,

@@ -43,7 +43,8 @@ export class DoctorService {
             _id:obj.id,
             firstName:obj.account.personalDetails.firstName,
             lastName:obj.account.personalDetails.lastName,
-            specialization: obj.specialization
+            specialization: obj.specialization,
+            personId:obj.account.personalDetails.id
         };
     }
 

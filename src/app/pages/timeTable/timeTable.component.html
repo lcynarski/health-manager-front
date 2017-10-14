@@ -1,0 +1,29 @@
+<div class="col-md-6 col-md-offset-3">
+
+
+    <h1>Change timespan</h1>
+    <div class="create-timeslot-form">
+        <dynamic-form [config]="config" #form="dynamicForm" (submit)="changeTimeRange($event)">
+        </dynamic-form>
+    </div>
+
+
+    <h1>Timetable</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Doctor</th>
+                <th *ngFor="let date of datesSequence">{{date}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let doctor of doctorInfos">
+                <td>{{doctor.doctorName}}</td>
+                <td *ngFor="let dayInfo of doctor.subsequentDaysInfo">
+                    <div *ngFor="let slotInfo of dayInfo">{{slotInfo.asString}}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!--<p><a [routerLink]="['/home']">Back</a></p>-->
+</div>
