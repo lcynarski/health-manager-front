@@ -79,15 +79,15 @@ export class TimeTableComponent implements OnInit {
         let daysCount = Math.round((this.endDate.getTime() - this.startDate.getTime()) / 1000 / 60 / 60 / 24)
         for (var singleDoctorData of everyDoctorData) {
             var [doctor, slots] = singleDoctorData
-            this.processSingleDoctor(doctor, slots, newDoctorInfos, newDatesSequence, daysCount)
+            this.refreshSingleDoctorInfo(doctor, slots, newDoctorInfos, newDatesSequence, daysCount)
         }
         this.doctorInfos = this.sortSlotsInsideDoctorInfo(newDoctorInfos)
         this.datesSequence = newDatesSequence
     }
 
-    private processSingleDoctor(doctor: Doctor, slots: TimeSlot[],
+    private refreshSingleDoctorInfo(doctor: Doctor, slots: TimeSlot[],
         doctorInfos: DoctorInfo[], datesSequence: string[], daysCount: number): void {
-        var processedDocInfo: DoctorInfo = this.fetchDoctorToProcess(doctor, doctorInfos, daysCount)
+        var processedDocInfo: DoctorInfo = this.getOrCreateDoctorInfo(doctor, doctorInfos, daysCount)
         for (var dayOffset = 0; dayOffset < daysCount; dayOffset++) {
             let dayStartTime: Date = new Date(this.startDate.getTime())
             dayStartTime.setDate(this.startDate.getDate() + dayOffset)
@@ -115,7 +115,7 @@ export class TimeTableComponent implements OnInit {
             })
     }
 
-    private fetchDoctorToProcess(doctor: Doctor, doctorInfos: DoctorInfo[], daysCount: number): DoctorInfo {
+    private getOrCreateDoctorInfo(doctor: Doctor, doctorInfos: DoctorInfo[], daysCount: number): DoctorInfo {
         if (doctorInfos.filter(d => d.personId == doctor.personId).length == 0) {
             var doctorInfo: DoctorInfo = {
                 doctorName: doctor.firstName + " " + doctor.lastName,
