@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AlertService, UserService } from '../_services/index';
-import {FormControl, Validators} from "@angular/forms";
+import { UserService } from '../_services/index';
+import { FormControl, Validators } from '@angular/forms';
+import { MdlDialogService } from '@angular-mdl/core';
 
 @Component({
     templateUrl: 'forgot-password.component.html',
@@ -17,8 +18,8 @@ export class ForgotPasswordComponent {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private alertService: AlertService,
-        private userService: UserService) { }
+        private userService: UserService,
+        private dialogService: MdlDialogService) { }
 
     public onSubmit() {
         console.log('inside submit ' + this.model.email);
@@ -26,11 +27,14 @@ export class ForgotPasswordComponent {
             .subscribe(
                 (data) => {
                     console.log('Forgot password component data: ' + data);
-                    // this.router.navigate(['/dashboard']);
+                    const result = this.dialogService.alert('Succesfully reset password. Check your mailbox');
+                    result.onErrorResumeNext().subscribe( () => {
+                        this.router.navigate(['/']);
+                    });
                 },
                 (error) => {
                     console.log('Forgot password component error: ' + error);
-                    // this.alertService.error(error._body);
+                    this.dialogService.alert('Something went wrong. Try again.');
                 });
     }
 }
