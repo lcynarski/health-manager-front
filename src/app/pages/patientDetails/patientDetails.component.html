@@ -1,23 +1,27 @@
 <!--<script screatePatient.component.tst.ts"></script>-->
 <button #editUserButton mdl-button mdl-button-type="raised" mdl-colored="primary"
-        mdl-ripple (click)="editUserDialog.show()">Edit Patient</button>
+        mdl-ripple (click)="editUserDialog.show()">Edit Patient
+</button>
 <div class="patient-details">
     <div class="patient-details__title">
-        <div class="patient-details__name">
-            {{ patient?.firstName }} {{ patient?.lastName}}
-        </div>
         <div class="patient-details__photo">
             <i class="material-icons">face</i>
         </div>
-    </div>
-    <div class="patient-details__info" *ngIf="patient?.emergencyContact">
-        <div>
-            <div class="patient-details__info-label">Emergency contact </div>
+        <div class="patient-details__name">
+            {{ patient?.firstName }} {{ patient?.lastName}}
         </div>
-
     </div>
-
-
+    <div class="patient-details__action-buttons" style="display: flex; flex-direction: column">
+        <button mat-mini-fab color="primary">
+            <mat-icon aria-label="Example icon-button with a heart icon">mode_edit</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary">
+            <mat-icon aria-label="Example icon-button with a heart icon">launch</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary">
+            <mat-icon aria-label="Example icon-button with a heart icon">mail_outline</mat-icon>
+        </button>
+    </div>
 
 
     <mat-tab-group class="demo-tab-group">
@@ -25,11 +29,11 @@
             <div class="demo-tab-content">
                 <div class="patient-details__info">
                     <div>
-                        <div class="patient-details__info-label">Date of birth: </div>
+                        <div class="patient-details__info-label">Date of birth:</div>
                         <div class="patient-details__info-value">{{ patient?.birthdate }}</div>
                     </div>
                     <div>
-                        <div class="patient-details__info-label">Gender: </div>
+                        <div class="patient-details__info-label">Gender:</div>
                         <div class="patient-details__info-value">{{ patient?.gender }}</div>
                     </div>
                     <div>
@@ -58,19 +62,19 @@
         </mat-tab>
         <mat-tab label="Emergency Contact" disabled="patient?.emergencyContact">
             <div>
-                <div class="patient-details__info-label">First Name: </div>
+                <div class="patient-details__info-label">First Name:</div>
                 <div class="patient-details__info-value">{{ patient?.emergencyContact?.firstName }}</div>
             </div>
             <div>
-                <div class="patient-details__info-label">Last Name: </div>
+                <div class="patient-details__info-label">Last Name:</div>
                 <div class="patient-details__info-value">{{ patient?.emergencyContact?.lastName }}</div>
             </div>
             <div>
-                <div class="patient-details__info-label">Date of birth: </div>
+                <div class="patient-details__info-label">Date of birth:</div>
                 <div class="patient-details__info-value">{{ patient?.emergencyContact?.birthdate }}</div>
             </div>
             <div>
-                <div class="patient-details__info-label">Gender: </div>
+                <div class="patient-details__info-label">Gender:</div>
                 <div class="patient-details__info-value">{{ patient?.emergencyContact?.gender }}</div>
             </div>
             <div>
@@ -113,7 +117,7 @@
               openFrom: editUserButton,
               enterTransitionDuration: 400,
               leaveTransitionDuration: 400}"
-              (show)="onDialogShow(dialogRef)"
+                (show)="onDialogShow(dialogRef)"
     >
         <h3 class="mdl-dialog__title">Edit Patient</h3>
         <div class="mdl-dialog__content">
