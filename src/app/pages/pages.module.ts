@@ -61,7 +61,6 @@ import { TranslateModule } from '@ngx-translate/core';
         NgUploaderModule,
         MdlModule,
         InfiniteScrollModule,
-        MedcomModule,
         MdlSelectModule,
         MatStepperModule,
         MatFormFieldModule,
