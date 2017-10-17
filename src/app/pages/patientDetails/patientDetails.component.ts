@@ -166,7 +166,7 @@ export class PatientDetailsComponent implements OnInit {
 
     onDialogShow = (dialogRef) => {
         Object.keys(this.patient).forEach(key => {
-            (key !== 'id') && this.form.setValue(key, this.patient[key]);
+            (key !== 'id') && this.form && this.form.setValue(key, this.patient[key]);
         });
     }
 }

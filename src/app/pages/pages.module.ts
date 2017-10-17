@@ -12,7 +12,8 @@ import {
     MatButtonToggleModule,
     MatLineModule,
     MatIconModule,
-    MatRippleModule
+    MatRippleModule,
+    MatTabsModule
 } from '@angular/material';
 import { ModalModule } from 'ng2-bs4-modal/ng2-bs4-modal';
 import { Pages } from './pages.component';
@@ -71,7 +72,8 @@ import { TranslateModule } from '@ngx-translate/core';
         MatIconModule,
         MatRippleModule,
         TranslateModule,
-        MdlSelectModule
+        MdlSelectModule,
+        MatTabsModule
     ],
     declarations: [
         Pages,

@@ -14,68 +14,96 @@
         <div>
             <div class="patient-details__info-label">Emergency contact </div>
         </div>
-        <div>
-            <div class="patient-details__info-label">First Name: </div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.firstName }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Last Name: </div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.lastName }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Date of birth: </div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.birthdate }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Gender: </div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.gender }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Phone:</div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.phoneNumber }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Country:</div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.country }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Address:</div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.city }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">PESEL:</div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.pesel }}</div>
-        </div>
+
     </div>
-    <div class="patient-details__info">
-        <div>
-            <div class="patient-details__info-label">Date of birth: </div>
-            <div class="patient-details__info-value">{{ patient?.birthdate }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Gender: </div>
-            <div class="patient-details__info-value">{{ patient?.gender }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label"> Phone:</div>
-            <div class="patient-details__info-value">{{ patient?.phoneNumber }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Country:</div>
-            <div class="patient-details__info-value">{{ patient?.country }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Address:</div>
-            <div class="patient-details__info-value">{{ patient?.city }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">PESEL:</div>
-            <div class="patient-details__info-value">{{ patient?.pesel }}</div>
-        </div>
-    </div>
-    <agm-map [latitude]="lat" [longitude]="lng">
-        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-    </agm-map>
+
+
+
+
+    <mat-tab-group class="demo-tab-group">
+        <mat-tab label="Basic Informations">
+            <div class="demo-tab-content">
+                <div class="patient-details__info">
+                    <div>
+                        <div class="patient-details__info-label">Date of birth: </div>
+                        <div class="patient-details__info-value">{{ patient?.birthdate }}</div>
+                    </div>
+                    <div>
+                        <div class="patient-details__info-label">Gender: </div>
+                        <div class="patient-details__info-value">{{ patient?.gender }}</div>
+                    </div>
+                    <div>
+                        <div class="patient-details__info-label"> Phone:</div>
+                        <div class="patient-details__info-value">{{ patient?.phoneNumber }}</div>
+                    </div>
+                    <div>
+                        <div class="patient-details__info-label">Country:</div>
+                        <div class="patient-details__info-value">{{ patient?.country }}</div>
+                    </div>
+                    <div>
+                        <div class="patient-details__info-label">Address:</div>
+                        <div class="patient-details__info-value">{{ patient?.city }}</div>
+                    </div>
+                    <div>
+                        <div class="patient-details__info-label">PESEL:</div>
+                        <div class="patient-details__info-value">{{ patient?.pesel }}</div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Medical History">
+            <div class="demo-tab-content">
+                Some Medical History
+            </div>
+        </mat-tab>
+        <mat-tab label="Emergency Contact" disabled="patient?.emergencyContact">
+            <div>
+                <div class="patient-details__info-label">First Name: </div>
+                <div class="patient-details__info-value">{{ patient?.emergencyContact?.firstName }}</div>
+            </div>
+            <div>
+                <div class="patient-details__info-label">Last Name: </div>
+                <div class="patient-details__info-value">{{ patient?.emergencyContact?.lastName }}</div>
+            </div>
+            <div>
+                <div class="patient-details__info-label">Date of birth: </div>
+                <div class="patient-details__info-value">{{ patient?.emergencyContact?.birthdate }}</div>
+            </div>
+            <div>
+                <div class="patient-details__info-label">Gender: </div>
+                <div class="patient-details__info-value">{{ patient?.emergencyContact?.gender }}</div>
+            </div>
+            <div>
+                <div class="patient-details__info-label">Phone:</div>
+                <div class="patient-details__info-value">{{ patient?.emergencyContact?.phoneNumber }}</div>
+            </div>
+            <div>
+                <div class="patient-details__info-label">Country:</div>
+                <div class="patient-details__info-value">{{ patient?.emergencyContact?.country }}</div>
+            </div>
+            <div>
+                <div class="patient-details__info-label">Address:</div>
+                <div class="patient-details__info-value">{{ patient?.emergencyContact?.city }}</div>
+            </div>
+            <div>
+                <div class="patient-details__info-label">PESEL:</div>
+                <div class="patient-details__info-value">{{ patient?.emergencyContact?.pesel }}</div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Locate XD">
+            <div class="demo-tab-content">
+                <agm-map [latitude]="lat" [longitude]="lng">
+                    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                </agm-map>
+            </div>
+        </mat-tab>
+        <mat-tab label="Results">
+            No content
+        </mat-tab>
+        <mat-tab label="Appointments">
+            No content
+        </mat-tab>
+    </mat-tab-group>
 
     <mdl-dialog #editUserDialog
                 [mdl-dialog-config]="{
