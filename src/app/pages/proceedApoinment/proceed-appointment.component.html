@@ -1,64 +1,30 @@
-<!--<div class="proceed-apoinment-container">-->
-    <!--<mdl-switch [(ngModel)]="disableTargaryens" mdl-ripple>Disable Targaryens</mdl-switch>-->
-    <!--<mdl-switch [(ngModel)]="disableBaratheon" mdl-ripple>Disable Baratheon</mdl-switch>-->
-    <!--<mdl-tabs mdl-ripple mdl-tab-active-index="0" (mdl-tab-active-changed)="tabChanged($event)">-->
-        <!--<mdl-tab-panel>-->
-            <!--<mdl-tab-panel-title>-->
-                <!--<mdl-icon class="mdl-color-text&#45;&#45;primary">person</mdl-icon><span>Starks</span>-->
-            <!--</mdl-tab-panel-title>-->
-            <!--<mdl-tab-panel-content>-->
-                <!--<ul>-->
-                    <!--<li>Eddard</li>-->
-                    <!--<li>Catelyn</li>-->
-                    <!--<li>Robb</li>-->
-                    <!--<li>Sansa</li>-->
-                    <!--<li>Brandon</li>-->
-                    <!--<li>Arya</li>-->
-                    <!--<li>Rickon</li>-->
-                <!--</ul>-->
-            <!--</mdl-tab-panel-content>-->
-        <!--</mdl-tab-panel>-->
-        <!--<mdl-tab-panel mdl-tab-panel-title="Lannisters">-->
-            <!--<ul>-->
-                <!--<li>Tywin</li>-->
-                <!--<li>Cersei</li>-->
-                <!--<li>Jamie</li>-->
-                <!--<li>Tyrion</li>-->
-            <!--</ul>-->
-        <!--</mdl-tab-panel>-->
-        <!--<mdl-tab-panel mdl-tab-panel-title="Targaryens" [disabled]="disableTargaryens">-->
-            <!--<ul>-->
-                <!--<li>Viserys</li>-->
-                <!--<li>Daenerys</li>-->
-            <!--</ul>-->
-        <!--</mdl-tab-panel>-->
-        <!--<mdl-tab-panel mdl-tab-panel-title="Baratheon" [disabled]="disableBaratheon">-->
-            <!--<mdl-tab-panel-title>-->
-                <!--<mdl-icon class="mdl-color-text&#45;&#45;primary">person</mdl-icon><span>Baratheon</span>-->
-            <!--</mdl-tab-panel-title>-->
-            <!--<mdl-tab-panel-content>-->
-                <!--<ul>-->
-                    <!--<li>Robert</li>-->
-                    <!--<li>Renly</li>-->
-                    <!--<li>Stanis</li>-->
-                    <!--<li>Joffrey</li>-->
-                    <!--<li>Myrcella</li>-->
-                    <!--<li>Tommen</li>-->
-                <!--</ul>-->
-            <!--</mdl-tab-panel-content>-->
-        <!--</mdl-tab-panel>-->
-    <!--</mdl-tabs>-->
-<!--</div>-->
-
-<button mat-raised-button (click)="isLinear = true" id="toggle-linear">Enable linear mode</button>
-
 <mat-horizontal-stepper [linear]="isLinear">
     <mat-step [stepControl]="firstFormGroup">
         <form [formGroup]="firstFormGroup">
-            <ng-template matStepLabel>Fill out your name</ng-template>
+            <ng-template matStepLabel>{{ 'PatientsPersonalInfo' | translate }}</ng-template>
             <mat-form-field>
                 <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
             </mat-form-field>
+
+            <form [formGroup]="form"
+                  (submit)="onSubmit($event)"
+                  *ngIf="!patient"
+            >
+                <div>
+                    Enter patient's PESEL number:
+                </div>
+                <p>
+                    <mdl-textfield label="PESEL" name="pesel" type="text" formControlName="pesel"
+                                   floating-label></mdl-textfield>
+                </p>
+                <p>
+                    <button mdl-button type="submit" [disabled]="!form.valid" mdl-button-type="raised" mdl-ripple
+                            mdl-colored="primary">Submit
+                    </button>
+                </p>
+            </form>
+            <patient-details *ngIf="patient" [patient]="patient"></patient-details>
+
             <div>
                 <button mat-button matStepperNext>Next</button>
             </div>

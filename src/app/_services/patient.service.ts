@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 
@@ -26,20 +26,25 @@ export class PatientService {
     }
 
     public getMedicalInfo(_id: string) {
-        return this.http.get(`${this.config.apiUrl}/patients/${_id}`)
+        return this.http.get(`${this.config.apiUrl}/patients/${_id}/medicalInformations`, this.authenticationService.addJwtOptions())
             .map((res) => res.json());
+    }
+
+    public getMedicalHistory(patientId, dateStart, dateEnd) {
+        const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
+        return this.http.get(`${this.config.apiUrl}/patients/${patientId}/history`, {
+            params: { dateStart, dateEnd },
+            headers
+        })
+            .map((response: Response) => {
+                return response.json();
+            });
     }
 
     public getPatients(): Observable<Patient[]> {
         return this.http.get(`${this.config.apiUrl}/patients`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
-
-    // public savePatient(data) {
-    //     console.log(data);
-    //     return this.http.post(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
-    //         .map((response: Response) => response.json());
-    // }
 
     public savePatient(data) {
         console.log(data);
@@ -48,7 +53,7 @@ export class PatientService {
     }
 
     public editPatient(data) {
-        console.log('editPatient', data)
+        console.log('editPatient', data);
         return this.http.put(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
             .map((response) => response.json());
     }

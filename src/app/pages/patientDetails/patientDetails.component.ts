@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Patient } from '../../_models/patient';
@@ -8,20 +8,23 @@ import { FieldConfig } from '../../components/dynamic-form/models/field-config.i
 
 @Component({
     providers: [PatientService],
+    selector: 'patient-details',
     templateUrl: './patientDetails.component.html',
     styleUrls: ['./patientDetails.component.scss']
 })
 
 export class PatientDetailsComponent implements OnInit {
     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+    @Input() patient: Patient;
 
-    public patient: Patient;
+    // public patient: Patient;
     public id: string;
     public lat: number = 51.678418;
     public lng: number = 7.809007;
     // public form: DynamicFormComponent;
     private router: Router;
     private sub: any;
+    model: any = {};
 
     config: FieldConfig[] = [
         {
@@ -164,9 +167,18 @@ export class PatientDetailsComponent implements OnInit {
             });
     }
 
+    showMedicalHistory() {
+        console.log('Start date: ', this.model.startDate);
+        console.log('End date: ', this.model.endDate);
+        this.patientService.getMedicalHistory(this.patient.id, this.model.startDate, this.model.endDate)
+            .subscribe((data) => {
+                console.log('showMedicalHistory response: ', data);
+            });
+    }
+
     onDialogShow = (dialogRef) => {
         Object.keys(this.patient).forEach(key => {
             (key !== 'id') && this.form && this.form.setValue(key, this.patient[key]);
         });
-    }
+    };
 }

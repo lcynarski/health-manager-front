@@ -13,7 +13,7 @@ import {
     MatLineModule,
     MatIconModule,
     MatRippleModule,
-    MatTabsModule
+    MatTabsModule, MatDatepickerModule, MatNativeDateModule
 } from '@angular/material';
 import { ModalModule } from 'ng2-bs4-modal/ng2-bs4-modal';
 import { Pages } from './pages.component';
@@ -73,7 +73,9 @@ import { TranslateModule } from '@ngx-translate/core';
         MatRippleModule,
         TranslateModule,
         MdlSelectModule,
-        MatTabsModule
+        MatTabsModule,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     declarations: [
         Pages,

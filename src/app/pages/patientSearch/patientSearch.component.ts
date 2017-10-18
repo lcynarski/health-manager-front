@@ -5,6 +5,7 @@ import { Patient } from '../../_models/patient';
 
 @Component({
     providers: [PatientService],
+    selector: 'patient-pesel-search',
     styleUrls: ['./patientSearch.component.scss'],
     templateUrl: './patientSearch.component.html'
 })

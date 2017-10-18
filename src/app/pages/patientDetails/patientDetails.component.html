@@ -12,13 +12,13 @@
         </div>
     </div>
     <div class="patient-details__action-buttons" style="display: flex; flex-direction: column">
-        <button mat-mini-fab color="primary">
-            <mat-icon aria-label="Example icon-button with a heart icon">mode_edit</mat-icon>
+        <button mat-mini-fab color="primary" mdl-tooltip-large="Edit patient" mdl-tooltip-position="right">
+            <mat-icon>mode_edit</mat-icon>
         </button>
-        <button mat-mini-fab color="primary">
+        <button mat-mini-fab color="primary" mdl-tooltip-large="Proceed with an appoinment" mdl-tooltip-position="right">
             <mat-icon aria-label="Example icon-button with a heart icon">launch</mat-icon>
         </button>
-        <button mat-mini-fab color="primary">
+        <button mat-mini-fab color="primary" mdl-tooltip-large="Send an email" mdl-tooltip-position="right">
             <mat-icon aria-label="Example icon-button with a heart icon">mail_outline</mat-icon>
         </button>
     </div>
@@ -57,7 +57,24 @@
         </mat-tab>
         <mat-tab label="Medical History">
             <div class="demo-tab-content">
-                Some Medical History
+
+                <mat-form-field class="example-full-width">
+                    <input matInput [(ngModel)]="model.startDate" [matDatepicker]="pickerStart" placeholder="From">
+                    <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                    <mat-datepicker touchUi="true" #pickerStart></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput [(ngModel)]="model.endDate" [matDatepicker]="pickerEnd" placeholder="To">
+                    <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                    <mat-datepicker touchUi="true" #pickerEnd></mat-datepicker>
+                </mat-form-field>
+
+                <button mat-button color="primary" (click)="showMedicalHistory()">
+                    {{ 'Show' | translate }}
+                </button>
+
+
             </div>
         </mat-tab>
         <mat-tab label="Emergency Contact" disabled="patient?.emergencyContact">
