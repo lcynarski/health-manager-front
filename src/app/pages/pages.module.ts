@@ -20,6 +20,7 @@ import { PatientDetailsComponent } from './patientDetails/patientDetails.compone
 import { AgmCoreModule } from '@agm/core';
 import { Paper } from '../components/paper/paper.component';
 import { VisitsCalendarComponent } from './visitsCalendar/visitsCalendar.component';
+import { VisitListComponent } from './visitList/visitList.component';
 import { CalendarModule } from 'angular-calendar';
 import { CalendarHeaderComponent } from './visitsCalendar/calendar-header.component';
 import { CreatePatientComponent } from './createPatient/createPatient.component';
@@ -78,6 +79,7 @@ import { TranslateModule } from '@ngx-translate/core';
         PatientDetailsComponent,
         Paper,
         VisitsCalendarComponent,
+        VisitListComponent,
         CalendarHeaderComponent,
         CreatePatientComponent,
         CreateTimeslotComponent,
