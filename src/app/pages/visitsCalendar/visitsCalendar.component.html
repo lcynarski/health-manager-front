@@ -41,6 +41,17 @@
                 </dynamic-form>
             </div>
         </div>
+
+        <div *ngIf='!currentSlotTaken'>
+            <input #textbox type="text" [(ngModel)]="data" required> 
+        </div>
+
+        <div *ngIf='!currentSlotTaken && !imAPatient'>
+            <select #select [(ngModel)]="priority">
+                <option *ngFor="let item of priorities" [value]="item.id">{{item.name}}</option>
+            </select>
+        </div>
+
         <h3>Patient's data</h3>
         <!--<div class="dropdown">-->
         <!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{patientName}}-->

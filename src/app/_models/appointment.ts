@@ -9,4 +9,5 @@ export class Appointment {
     data: string;
     patient: Patient;
     timeSlot: TimeSlot;
+    priority: string; //LOW, NORMAL, HIGH
 }
