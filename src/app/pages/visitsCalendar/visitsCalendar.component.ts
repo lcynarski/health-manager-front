@@ -19,7 +19,8 @@ import { FieldConfig } from '../../components/dynamic-form/models/field-config.i
 
 interface VisitEvent extends CalendarEvent {
     slotId: number;
-    patient?: Patient; // null jak termin nie zarezerwowany
+    patient?: Patient; // nullæ jak termin nie zarezerwowany
+    appointmentId?: number;//nullæ jak nie zarezerwowany!!
     availableForSelfSign: boolean;
 }
 
@@ -142,6 +143,7 @@ export class VisitsCalendarComponent implements OnInit {
                             } else {
                                 if (!self.imAPatient || appointment.patient.id === self.patient.id) {
                                     event.patient = appointment.patient
+                                    event.appointmentId = appointment.id;
                                     event.color = self.colors.red;
                                     return event;
                                 } else {
@@ -259,6 +261,13 @@ export class VisitsCalendarComponent implements OnInit {
     swapTimeSlot(newDocId: number, timSlotData): Observable<TimeSlot> {
         return this.doctorService.removeTimeSlot(this.id, this.currentSlotId)
             .flatMap((data) => this.doctorService.saveTimeSlot(timSlotData, newDocId));
+    }
+
+    unEnroll() {
+        let appointmentId = this.events.filter(event => event.slotId == this.currentSlotId)[0].appointmentId
+        console.log("Usuwam rezerwację o id: " + appointmentId)
+        this.appointmentService.removeAppointment(appointmentId)
+        .subscribe(appointment => this.modalClosed())
     }
 
     ngOnInit() {
