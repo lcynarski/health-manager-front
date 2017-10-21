@@ -75,6 +75,6 @@ export class AuthenticationService {
     }
 
     public getRole() {
-        return 'ROLE_ADMIN';
+        return this.role;
     }
 }

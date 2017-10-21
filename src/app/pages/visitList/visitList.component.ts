@@ -49,8 +49,6 @@ export class VisitListComponent implements OnInit {
         return date
     }
 
-    private debugMode = true //Celowo zostawiam to w kodzie żeby za każdym razem nie dodawać jak coś trzeba pooprawić
-
     private allTheData: Appointment[]
 
     private toShow: Appointment[]
@@ -75,37 +73,25 @@ export class VisitListComponent implements OnInit {
 
     ngOnInit() {
         this.patientMode = AuthenticationService.ROLE_PATIENT == this.authService.getRole();
-        console.log("INIT VISIT LIST")
-        if (this.debugMode) {
-            this.patientMode = false;
-            this.headers = this.doctorHeaders
-            this.doctorService.getById("1").subscribe(patient => {
-                this.doctor = patient
-                this.refresh()
-            })
+        if (this.patientMode) {
+            this.headers = this.patientHeaders
+            this.patientService.getPatientByEmail(this.authService.getEmail())
+                .subscribe(patient => {
+                    this.patient = patient
+                    this.refresh()
+                })
         } else {
-            if (this.patientMode) {
-                this.headers = this.patientHeaders
-
-                this.patientService.getPatientByEmail(this.authService.getEmail())
-                    .subscribe(patient => {
-                        this.patient = patient
-                        this.refresh()
-                    })
-            } else {
-                this.headers = this.doctorHeaders
-                this.doctorService.getDoctorByEmail(this.authService.getEmail())
-                    .subscribe(doctor => {
-                        this.doctor = doctor
-                        this.refresh()
-                    })
-            }
+            this.headers = this.doctorHeaders
+            this.doctorService.getDoctorByEmail(this.authService.getEmail())
+                .subscribe(doctor => {
+                    this.doctor = doctor
+                    this.refresh()
+                })
         }
     }
 
-    ///////////////////////////////////
-    //return is nullable
-    private getAppointment(slot: TimeSlot): Observable<Appointment> {
+    //return is nullable-inside observable
+    private fetchAppointment(slot: TimeSlot): Observable<Appointment> {
         return this.appointmentService.getByTimeSlot(slot.id)
             .map((appointment: Appointment) => {
                 console.log("jest app dla id" + slot.id)
@@ -117,45 +103,50 @@ export class VisitListComponent implements OnInit {
             })
     }
 
+    private fetchAppointmentsOfEachDoctor(doctors: Doctor[]): Observable<Appointment[]>[] {
+        return doctors.map(doctor => {
+            let timeSlots: Observable<TimeSlot[]> = this.timeSlotService
+                .getTimeSlots(doctor, this.startDate, this.endDate);
+            let appointmetsObs: Observable<Appointment[]> = timeSlots.flatMap((slots: TimeSlot[]) => {
+                let appointments: Observable<Appointment>[] =
+                    slots.map(slot => this.fetchAppointment(slot))
+                return Observable.forkJoin(appointments)
+            })
+            return appointmetsObs
+        })
+    }
+
     refresh(): void {
         this.startDate.setHours(0, 0, 0, 0);
         this.endDate.setHours(23, 59, 59, 999);
-        console.log("ODŚWIEŻAM")
+        console.log("Refreshing")
         this.doctorService.getAll().subscribe(doctors => {
             let appointmentsOfEachDoctor: Observable<Appointment[]>[] =
-                doctors.map(doctor => {
-                    let timeSlots: Observable<TimeSlot[]> = this.timeSlotService
-                        .getTimeSlots(doctor, this.startDate, this.endDate);
-                    let appointmetsObs: Observable<Appointment[]> = timeSlots.flatMap((slots: TimeSlot[]) => {
-                        let appointments: Observable<Appointment>[] =
-                            slots.map(slot => this.getAppointment(slot))
-                        return Observable.forkJoin(appointments)
-                    })
-                    return appointmetsObs
-                })
-            let coTuSiexD: Observable<Appointment[]> =
+                this.fetchAppointmentsOfEachDoctor(doctors)
+            let appointmentsObs: Observable<Appointment[]> =
                 Observable.forkJoin(appointmentsOfEachDoctor).flatMap(x => x)
-
-            coTuSiexD
-                .subscribe((xd: Appointment[]) => {
-                    this.allTheData = xd.filter(x=>x!=null)
-                    console.log(this.allTheData)
-                    this.allTheData.sort((s1, s2) => {
-                        console.log(s1)
-                        if (s1.timeSlot.endDateTime.getTime() < s2.timeSlot.endDateTime.getTime()) {
-                            return -1;
-                        } else if (s1.timeSlot.endDateTime.getTime() > s2.timeSlot.endDateTime.getTime()) {
-                            return 1;
-                        } else {
-                            return 0;
-                        }
-                    })
+            appointmentsObs
+                .subscribe((appointments: Appointment[]) => {
+                    this.allTheData = this.sortData(appointments.filter(x => x != null))
                     this.formatDataToShow()
                 })
         })
     }
 
-    routeToVisitPage(row: string[]) {
+    private sortData(appointments: Appointment[]): Appointment[] {
+        appointments.sort((a1, a2) => {
+            if (a1.timeSlot.endDateTime.getTime() < a2.timeSlot.endDateTime.getTime()) {
+                return -1;
+            } else if (a1.timeSlot.endDateTime.getTime() > a2.timeSlot.endDateTime.getTime()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        })
+        return appointments;
+    }
+
+    routeToVisitPage(row: string[]): void {
         let rowNum: number = this.toShowStr.indexOf(row)
         let appointment = this.toShow[rowNum]
         console.log('Wysyłam cię do appointmentId=' + appointment.id)
@@ -187,7 +178,6 @@ export class VisitListComponent implements OnInit {
 
 
     formatDataToShow() {
-        console.log("Zyjem")
         if (this.patientMode) {
             this.toShow = this.allTheData.filter((a: Appointment) => this.patient.id == a.patient.id)
             this.toShowStr = this.toShow.map((a: Appointment) => {
@@ -195,16 +185,13 @@ export class VisitListComponent implements OnInit {
                 a.timeSlot.doctor.firstName + "\u00A0" + a.timeSlot.doctor.lastName, this.formatOfficeNum(a)]
             })
         } else {
-        console.log("Zyjem2")        
             this.toShow = this.allTheData.filter((a: Appointment) => this.doctor._id == a.timeSlot.doctor._id)
-        console.log("Zyjem3")        
             this.toShowStr = this.toShow.map((a: Appointment) => {
                 return [this.displayDate(a.timeSlot.startDateTime, a.timeSlot.endDateTime),
                 a.patient.account.personalDetails.firstName + "\u00A0" + a.patient.account.personalDetails.lastName,
                 a.priority, a.data, this.formatOfficeNum(a)]
             })
         }
-        console.log(this.toShowStr)
     }
 
     private changeTimeRange(event): void {

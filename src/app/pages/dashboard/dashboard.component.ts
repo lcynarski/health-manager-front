@@ -67,7 +67,7 @@ export class DashboardComponent {
             title: 'My visits',
             buttonLabel: 'Show',
             link: '/pages/myAppointments',
-            roles: ['ROLE_DOCTOR', 'ROLE_PATIENT','ROLE_ADMIN'] //todo tylko pacjent i doktor
+            roles: ['ROLE_DOCTOR', 'ROLE_PATIENT']
         },
     ];
     private router: Router;

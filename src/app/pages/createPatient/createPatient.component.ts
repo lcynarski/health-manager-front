@@ -32,10 +32,10 @@ export class CreatePatientComponent implements AfterViewInit {
         this.form.changes.subscribe(() => {
             if (this.form.valid !== previousValid) {
                 previousValid = this.form.valid;
-                this.form.setDisabled('submit', false);
+                this.form.setDisabled('submit', !previousValid);
             }
         });
-        this.form.setDisabled('submit', false);
+        this.form.setDisabled('submit', true);
     }
 
     submit(value) {
