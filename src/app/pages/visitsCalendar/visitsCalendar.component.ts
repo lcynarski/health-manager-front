@@ -19,9 +19,9 @@ import { FieldConfig } from '../../components/dynamic-form/models/field-config.i
 
 interface VisitEvent extends CalendarEvent {
     slotId: number;
+    availableForSelfSign: boolean;    
     patient?: Patient; // nullæ jak termin nie zarezerwowany
-    appointmentId?: number;//nullæ jak nie zarezerwowany!!
-    availableForSelfSign: boolean;
+    appointmentId?: number; // nullæ jak termin nie zarezerwowany
 }
 
 @Component({
@@ -71,14 +71,14 @@ export class VisitsCalendarComponent implements OnInit {
 
     showSlotMoveMenu: boolean = false
 
-    data: string = "Podód wizyty" //powód wizyty itp 
+    data: string = "Reason of visit" //powód wizyty itp 
 
-    priority: string = 'NORMAL'; //domyślnie, np kiedy pacjent się sam rejestruje
+    priority: string = Appointment.PRIORITY_NORMAL; //domyślnie, np kiedy pacjent się sam rejestruje
 
     priorities = [
-        { id: 'LOW', name: 'Low' },
-        { id: 'NORMAL', name: 'Normal' },
-        { id: 'HIGH', name: 'High' }
+        { id: Appointment.PRIORITY_LOW, name: 'Low' },
+        { id: Appointment.PRIORITY_NORMAL, name: 'Normal' },
+        { id: Appointment.PRIORITY_HIGH, name: 'High' }
     ];
 
     colors: { [s: string]: EventColor; } = {
@@ -225,7 +225,8 @@ export class VisitsCalendarComponent implements OnInit {
             id: 0,
             startDateTime: value.startDateTime,
             endDateTime: value.endDateTime,
-            availableForSelfSign: value.availableForSelfSign
+            availableForSelfSign: value.availableForSelfSign,
+            doctor: null //to nie potrzebne ale trochę żal
         };
         var docId
         if (value.doctor == undefined || this.createTimeSlotComponent.docIdByName[value.doctor] == undefined) {

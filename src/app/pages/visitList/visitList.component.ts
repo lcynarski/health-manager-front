@@ -51,9 +51,9 @@ export class VisitListComponent implements OnInit {
 
     private debugMode = true //Celowo zostawiam to w kodzie żeby za każdym razem nie dodawać jak coś trzeba pooprawić
 
-    private allTheData:[Doctor, Patient, TimeSlot, Appointment][] 
+    private allTheData: Appointment[]
 
-    private toShow: [Doctor, Patient, TimeSlot, Appointment][] 
+    private toShow: Appointment[]
 
     private toShowStr: string[][]
 
@@ -103,127 +103,109 @@ export class VisitListComponent implements OnInit {
         }
     }
 
+    ///////////////////////////////////
+    //return is nullable
+    private getAppointment(slot: TimeSlot): Observable<Appointment> {
+        return this.appointmentService.getByTimeSlot(slot.id)
+            .map((appointment: Appointment) => {
+                console.log("jest app dla id" + slot.id)
+                return appointment
+            })
+            .catch((err) => {
+                console.log("Nie ma app dla id " + slot.id)
+                return Observable.of(null);
+            })
+    }
+
     refresh(): void {
         this.startDate.setHours(0, 0, 0, 0);
         this.endDate.setHours(23, 59, 59, 999);
         console.log("ODŚWIEŻAM")
         this.doctorService.getAll().subscribe(doctors => {
-            let turboComboPre: Observable<[Doctor, Patient, TimeSlot, Appointment][]>[] =
+            let appointmentsOfEachDoctor: Observable<Appointment[]>[] =
                 doctors.map(doctor => {
                     let timeSlots: Observable<TimeSlot[]> = this.timeSlotService
                         .getTimeSlots(doctor, this.startDate, this.endDate);
-                    console.log("PRZED KONSTRUKCJĄ ABC")
-                    let abc: Observable<[Doctor, Patient, TimeSlot, Appointment][]> =
-                        timeSlots.flatMap((slots: TimeSlot[]) => {
-                            console.log("PRZED KONSTRUKCJĄ QQQ")
-                            let qqq: Observable<[Doctor, Patient, TimeSlot, Appointment]>[] =
-                                slots.map(slot => {
-                                    console.log("Ogarniam pojedynczy slot "+ slot.id)
-                                    let qq: Observable<[Doctor, Patient, TimeSlot, Appointment]>
-                                        = this.appointmentService.getByTimeSlot(slot.id)
-                                            .map((appointment: Appointment) => {
-                                                console.log("jest app dla id"+ slot.id)
-                                                let res: [Doctor, Patient, TimeSlot, Appointment] =
-                                                    [doctor, appointment.patient, slot, appointment]
-                                                return res
-                                            })
-                                            .catch((err) => {
-                                                console.log("Nie ma app dla id "+slot.id)
-                                                return Observable.of(null);
-                                            })
-                                            console.log("Ogarnołem pojedynczy slot" + slot.id)
-                                    return qq;
-                                })
-                                console.log("Zkonstuowałem qqq!")
-                            let qqqw: Observable<[Doctor, Patient, TimeSlot, Appointment][]> =
-                             Observable.forkJoin(qqq).map(a => {
-                                 console.log("PRZERZYŁEM")
-                                 console.log(a)
-                                 return a.filter(a => a!=null)
-                             })
-                             console.log("Zkonstuowałem qqqw!")
-                            return qqqw;
-                        })
-                        console.log("Zkonstuowałem abc!")
-                    return abc;
+                    let appointmetsObs: Observable<Appointment[]> = timeSlots.flatMap((slots: TimeSlot[]) => {
+                        let appointments: Observable<Appointment>[] =
+                            slots.map(slot => this.getAppointment(slot))
+                        return Observable.forkJoin(appointments)
+                    })
+                    return appointmetsObs
                 })
-            let coTuSiexD: Observable<[Doctor, Patient, TimeSlot, Appointment][]> =
-                Observable.forkJoin(turboComboPre).flatMap(a => {
-                    console.log("flatmap a "+ a)
-                    return    a
-            }
-                )
+            let coTuSiexD: Observable<Appointment[]> =
+                Observable.forkJoin(appointmentsOfEachDoctor).flatMap(x => x)
 
-                coTuSiexD
-                .catch((e) => {
-                    console.log("CO TU SIE")
-                    console.log(e)
-                    return null})
-                .subscribe((xd:[Doctor, Patient, TimeSlot, Appointment][] ) => {
-                    console.log("LOOOOL xDD")
-                    console.log(xd)
-                    this.allTheData = xd
-                    this.allTheData.sort((s1,s2) => {
-                        if(s1[2].endDateTime.getTime()<s2[2].endDateTime.getTime()){
+            coTuSiexD
+                .subscribe((xd: Appointment[]) => {
+                    this.allTheData = xd.filter(x=>x!=null)
+                    console.log(this.allTheData)
+                    this.allTheData.sort((s1, s2) => {
+                        console.log(s1)
+                        if (s1.timeSlot.endDateTime.getTime() < s2.timeSlot.endDateTime.getTime()) {
                             return -1;
-                        }else if(s1[2].endDateTime.getTime()>s2[2].endDateTime.getTime()){
+                        } else if (s1.timeSlot.endDateTime.getTime() > s2.timeSlot.endDateTime.getTime()) {
                             return 1;
-                        }else{
+                        } else {
                             return 0;
                         }
                     })
-                    this.ogarnijxD()
+                    this.formatDataToShow()
                 })
-            })
-    }
-
-coto(row: string[]){
-    console.log("e")
-    console.log(row) //jak teraz rozpozanć który to?
-    let rowNum:number  = this.toShowStr.indexOf(row)
-    console.log(rowNum)
-    let the_row = this.toShow[rowNum]
-    let appintmentId =the_row[3].id
-    console.log('Wysyłam cię do appointmentId='+appintmentId)
-    this.router.navigate(['/pages/eloelo'+ appintmentId]) //TODO URL!!!!
-}
-
-ogarnijxD(){
-    if(this.patientMode){
-        this.toShow = this.allTheData.filter(([d,p,s,a]: [Doctor, Patient, TimeSlot, Appointment]) => this.patient.id == p.id)
-        
-       this.toShowStr= this.toShow.map(([d,p,s,a]: [Doctor, Patient, TimeSlot, Appointment]) =>
-                {
-                    var officeNum:string
-                    if(a.officeNumber==null){
-                        officeNum="unknown:("
-                    }else{
-                        officeNum = a.officeNumber+""
-                    }
-
-                    return [s.startDateTime +" - "+s.endDateTime,d.firstName+" "+d.lastName,officeNum]
-                })
-    }else{
-        this.toShow = this.allTheData.filter(([d,p,s,a]: [Doctor, Patient, TimeSlot, Appointment]) => this.doctor._id == d._id)
-    
-        this.toShowStr= this.toShow.map(([d,p,s,a]: [Doctor, Patient, TimeSlot, Appointment]) =>
-        {
-            var officeNum:string
-            if(a.officeNumber==null){
-                officeNum="unknown:("
-            }else{
-                officeNum = a.officeNumber+""
-            }
-
-            return [s.startDateTime +" - "+s.endDateTime,p.account.personalDetails.firstName+" "+p.account.personalDetails.lastName,
-        a.priority,a.data,officeNum]
         })
     }
-    console.log("Do pokazania")
 
-    //test
-    this.toShow[0][2].startDateTime
-}
+    routeToVisitPage(row: string[]) {
+        let rowNum: number = this.toShowStr.indexOf(row)
+        let appointment = this.toShow[rowNum]
+        console.log('Wysyłam cię do appointmentId=' + appointment.id)
+        this.router.navigate(['/pages/TODO' + appointment.id]) //TODO URL!!!!
+    }
+
+    private displayDate(start: Date, end: Date): string {
+        return start.getDate() + "." + (start.getMonth() + 1) + "\u00A0" +
+            start.getHours() + ":" + this.safeMinutes(start.getMinutes())
+            + "\u00A0-\u00A0" + end.getHours() + ":" + this.safeMinutes(end.getMinutes())
+    }
+
+    private safeMinutes(minute: number): string {
+        let str: string = minute + ""
+        if (str.length == 1) {
+            return "0" + str;
+        } else {
+            return str;
+        }
+    }
+
+    private formatOfficeNum(appointment: Appointment): string {
+        if (appointment.officeNumber == null) {
+            return "unknown"
+        } else {
+            return appointment.officeNumber + ""
+        }
+    }
+
+
+    formatDataToShow() {
+        console.log("Zyjem")
+        if (this.patientMode) {
+            this.toShow = this.allTheData.filter((a: Appointment) => this.patient.id == a.patient.id)
+            this.toShowStr = this.toShow.map((a: Appointment) => {
+                return [this.displayDate(a.timeSlot.startDateTime, a.timeSlot.endDateTime),
+                a.timeSlot.doctor.firstName + "\u00A0" + a.timeSlot.doctor.lastName, this.formatOfficeNum(a)]
+            })
+        } else {
+        console.log("Zyjem2")        
+            this.toShow = this.allTheData.filter((a: Appointment) => this.doctor._id == a.timeSlot.doctor._id)
+        console.log("Zyjem3")        
+            this.toShowStr = this.toShow.map((a: Appointment) => {
+                return [this.displayDate(a.timeSlot.startDateTime, a.timeSlot.endDateTime),
+                a.patient.account.personalDetails.firstName + "\u00A0" + a.patient.account.personalDetails.lastName,
+                a.priority, a.data, this.formatOfficeNum(a)]
+            })
+        }
+        console.log(this.toShowStr)
+    }
 
     private changeTimeRange(event): void {
         if (event.startDateTime != undefined && event.endDateTime != undefined) {
