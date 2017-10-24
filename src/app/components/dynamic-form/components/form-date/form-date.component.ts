@@ -13,7 +13,7 @@ import { DynamicFormComponent } from '../../containers/dynamic-form/dynamic-form
     template: `
         <mat-form-field class="example-full-width" [formGroup]="group">
             <input matInput [attr.placeholder]="config.placeholder" [formControlName]="config.name"
-                   [matDatepicker]="pickerStart" placeholder="config.placeholder">
+                   [matDatepicker]="pickerStart" [placeholder]="config.placeholder">
             <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
             <mat-datepicker #pickerStart></mat-datepicker>
         </mat-form-field>
