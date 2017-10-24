@@ -61,13 +61,13 @@
                 <mat-form-field class="example-full-width">
                     <input matInput [(ngModel)]="model.startDate" [matDatepicker]="pickerStart" placeholder="From">
                     <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
-                    <mat-datepicker touchUi="true" #pickerStart></mat-datepicker>
+                    <mat-datepicker #pickerStart></mat-datepicker>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
                     <input matInput [(ngModel)]="model.endDate" [matDatepicker]="pickerEnd" placeholder="To">
                     <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
-                    <mat-datepicker touchUi="true" #pickerEnd></mat-datepicker>
+                    <mat-datepicker #pickerEnd></mat-datepicker>
                 </mat-form-field>
 
                 <button mat-button color="primary" (click)="showMedicalHistory()">

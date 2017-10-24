@@ -1,10 +1,27 @@
 <mat-horizontal-stepper [linear]="isLinear">
     <mat-step [stepControl]="firstFormGroup">
         <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>{{ 'AppointmentsInfo' | translate }}</ng-template>
+            <!--<mat-form-field>-->
+                <!--<input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>-->
+            <!--</mat-form-field>-->
+            Doctor: MockDoctor
+            Patient: MockPatient
+            Date: MockDate
+            Price: MockPrice
+
+
+            <div>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
             <ng-template matStepLabel>{{ 'PatientsPersonalInfo' | translate }}</ng-template>
-            <mat-form-field>
-                <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-            </mat-form-field>
+            <!--<mat-form-field>-->
+                <!--<input matInput placeholder="Address" formControlName="secondCtrl" required>-->
+            <!--</mat-form-field>-->
 
             <form [formGroup]="form"
                   (submit)="onSubmit($event)"
@@ -19,23 +36,13 @@
                 </p>
                 <p>
                     <button mdl-button type="submit" [disabled]="!form.valid" mdl-button-type="raised" mdl-ripple
-                            mdl-colored="primary">Submit
+                            mdl-colored="primary">{{ 'Submit' | translate }}
                     </button>
                 </p>
             </form>
             <patient-details *ngIf="patient" [patient]="patient"></patient-details>
 
-            <div>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-        </form>
-    </mat-step>
-    <mat-step [stepControl]="secondFormGroup">
-        <form [formGroup]="secondFormGroup">
-            <ng-template matStepLabel>Fill out your address</ng-template>
-            <mat-form-field>
-                <input matInput placeholder="Address" formControlName="secondCtrl" required>
-            </mat-form-field>
+
             <div>
                 <button mat-button matStepperPrevious>Back</button>
                 <button mat-button matStepperNext>Next</button>
@@ -43,7 +50,14 @@
         </form>
     </mat-step>
     <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
+        <ng-template matStepLabel>{{ 'ProceedMedicalCheckup' | translate }}</ng-template>
+        You are now done.
+        <div>
+            <button mat-button matStepperPrevious>Back</button>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>{{ 'Summary' | translate }}</ng-template>
         You are now done.
         <div>
             <button mat-button matStepperPrevious>Back</button>

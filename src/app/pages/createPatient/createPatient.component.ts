@@ -7,6 +7,7 @@ import { DynamicFormComponent } from '../../components/dynamic-form/containers/d
 import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
 import createPatientConfig from '../../_forms-configs/create-patient.config';
+import moment = require('moment');
 
 @Component({
     providers: [PatientService],
@@ -40,11 +41,12 @@ export class CreatePatientComponent implements AfterViewInit {
 
     submit(value) {
         console.log(value);
-        const { email, ...personalDetails } = value;
-        // const personalDetails = { account : { personalDetails : { ...value }}};
+        const { email, birthdate, ...personalDetails } = value;
+        const formatedDate = moment(birthdate).format('YYYY-MM-DD');
+        const preparedPersonalDetails = { ...personalDetails, birthdate: formatedDate };
         const registerData = {
             email,
-            personalDetails,
+            personalDetails: preparedPersonalDetails,
             insuranceNumber: '222121212',
             role: 'ROLE_PATIENT'
         };
