@@ -46,7 +46,9 @@ export class ProceedAppointmentComponent implements OnInit {
         this.route.params.subscribe((params: Params) => {
             // let userId = params['userId'];
             console.log(params);
-            this.params = params;
+            const type = params['type'];
+            const id = params['id']
+            console.log('whats goin on: ', type, id)
         });
 
         // Simulates a later change of tabs

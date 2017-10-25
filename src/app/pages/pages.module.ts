@@ -48,6 +48,7 @@ import { FormCreatorStore } from '../stores/formCreatorStore';
 import { FormsCreatorComponent } from '../forms/formsCreator/formsCreator.component';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { TranslateModule } from '@ngx-translate/core';
+import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
 
 @NgModule({
     imports: [
@@ -97,7 +98,8 @@ import { TranslateModule } from '@ngx-translate/core';
         DrugsSearchComponent,
         FieldsCreatorComponent,
         FieldsRemoverComponent,
-        FormsCreatorComponent
+        FormsCreatorComponent,
+        DrugDetailsComponent
     ]
 })
 export class PagesModule {
