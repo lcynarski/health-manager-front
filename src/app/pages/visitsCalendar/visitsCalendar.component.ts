@@ -19,8 +19,9 @@ import { FieldConfig } from '../../components/dynamic-form/models/field-config.i
 
 interface VisitEvent extends CalendarEvent {
     slotId: number;
-    patient?: Patient; // null jak termin nie zarezerwowany
     availableForSelfSign: boolean;
+    patient?: Patient; // nullæ jak termin nie zarezerwowany
+    appointmentId?: number; // nullæ jak termin nie zarezerwowany
 }
 
 @Component({
@@ -69,6 +70,16 @@ export class VisitsCalendarComponent implements OnInit {
     imAPatient: boolean
 
     showSlotMoveMenu: boolean = false
+
+    data: string = "Reason of visit" //powód wizyty itp 
+
+    priority: string = Appointment.PRIORITY_NORMAL; //domyślnie, np kiedy pacjent się sam rejestruje
+
+    priorities = [
+        { id: Appointment.PRIORITY_LOW, name: 'Low' },
+        { id: Appointment.PRIORITY_NORMAL, name: 'Normal' },
+        { id: Appointment.PRIORITY_HIGH, name: 'High' }
+    ];
 
     colors: { [s: string]: EventColor; } = {
         red: {
@@ -132,6 +143,7 @@ export class VisitsCalendarComponent implements OnInit {
                             } else {
                                 if (!self.imAPatient || appointment.patient.id === self.patient.id) {
                                     event.patient = appointment.patient
+                                    event.appointmentId = appointment.id;
                                     event.color = self.colors.red;
                                     return event;
                                 } else {
@@ -186,7 +198,8 @@ export class VisitsCalendarComponent implements OnInit {
             timeSlotId: this.currentSlotId,
             tookPlace: false,
             officeNumber: null, //TODO jak wypełnić
-            data: "Jak będą formularze to tu coś będzie"
+            data: this.data,
+            priority: this.priority
         };
         for (var event of this.events) {
             if (event.slotId == this.currentSlotId) {
@@ -208,28 +221,30 @@ export class VisitsCalendarComponent implements OnInit {
     // moves also Appointment if necessary
     // WARNING: This operation should be atomic but it's not :P
     moveTimeSlot(value) {
-        const timeSlot = {
-            id: 0,
-            startDateTime: value.startDateTime,
-            endDateTime: value.endDateTime,
-            availableForSelfSign: value.availableForSelfSign
-        };
-        var docId
-        if (value.doctor == undefined || this.createTimeSlotComponent.docIdByName[value.doctor] == undefined) {
-            docId = this.id
-        } else {
-            docId = this.createTimeSlotComponent.docIdByName[value.doctor]
+        if (value.startDateTime != undefined && value.endDateTime != undefined) {
+            const timeSlot = {
+                id: 0,
+                startDateTime: value.startDateTime,
+                endDateTime: value.endDateTime,
+                availableForSelfSign: value.availableForSelfSign,
+                doctor: null //to nie potrzebne tutaj ale trochę żal
+            };
+            var docId
+            if (value.doctor == undefined || this.createTimeSlotComponent.docIdByName[value.doctor] == undefined) {
+                docId = this.id
+            } else {
+                docId = this.createTimeSlotComponent.docIdByName[value.doctor]
+            }
+            this.appointmentService.getByTimeSlot(this.currentSlotId)
+                .catch((err) => this.swapTimeSlot(docId, timeSlot).map((sth) => null))
+                .subscribe((appointment: Appointment) => {
+                    if (appointment != null) {
+                        this.swapAppointment(appointment, timeSlot, docId)
+                    } else {
+                        this.modalClosed()
+                    }
+                })
         }
-        this.appointmentService.getByTimeSlot(this.currentSlotId)
-            .catch((err) => this.swapTimeSlot(docId, timeSlot).map((sth) => null))
-            .subscribe((appointment: Appointment) => {
-                if (appointment != null) {
-                    this.swapAppointment(appointment, timeSlot, docId)
-                } else {
-                    this.modalClosed()
-                }
-            })
-
     }
 
     swapAppointment(appointment: Appointment, timeSlot: TimeSlot, docId: number) {
@@ -248,6 +263,13 @@ export class VisitsCalendarComponent implements OnInit {
     swapTimeSlot(newDocId: number, timSlotData): Observable<TimeSlot> {
         return this.doctorService.removeTimeSlot(this.id, this.currentSlotId)
             .flatMap((data) => this.doctorService.saveTimeSlot(timSlotData, newDocId));
+    }
+
+    unEnroll() {
+        let appointmentId = this.events.filter(event => event.slotId == this.currentSlotId)[0].appointmentId
+        console.log("Usuwam rezerwację o id: " + appointmentId)
+        this.appointmentService.removeAppointment(appointmentId)
+            .subscribe(appointment => this.modalClosed())
     }
 
     ngOnInit() {

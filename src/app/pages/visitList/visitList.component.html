@@ -1,0 +1,24 @@
+<div class="col-md-6 col-md-offset-3">
+    <h1>Change timespan</h1>
+    <div class="create-timeslot-form">
+        <dynamic-form [config]="config" #form="dynamicForm" (submit)="changeTimeRange($event)">
+        </dynamic-form>
+    </div>
+
+
+    <h1>Timetable</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th *ngFor="let header of headers">{{header}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of toShowStr">
+                <td *ngFor="let item of row">{{item}}</td>
+                <td ><a (click)='routeToVisitPage(row)'>Go</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <!--<p><a [routerLink]="['/home']">Back</a></p>-->
+</div>

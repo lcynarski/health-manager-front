@@ -52,6 +52,11 @@ export class DoctorService {
             .map((response: Response) => response.json().map(this.doctorFromJson));
     }
 
+    public getDoctorByEmail(email: string): Observable<Doctor> {
+        return this.http.get(`${this.config.apiUrl}/doctorByMail/${email}`, this.authenticationService.addJwtOptions())
+        .map((response: Response) => this.doctorFromJson(response.json()));
+    }
+
     getById(_id: string): Observable<Doctor> {
         return this.http.get(`${this.config.apiUrl}/doctors/${_id}`)
             .map((response: Response) => {

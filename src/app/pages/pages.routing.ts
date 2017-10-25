@@ -5,6 +5,7 @@ import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 import { PatientDetailsComponent } from './patientDetails/patientDetails.component';
 import { VisitsCalendarComponent } from './visitsCalendar/visitsCalendar.component';
+import { VisitListComponent } from './visitList/visitList.component';
 import { TimeTableComponent } from './timeTable/timeTable.component';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { CreatePatientComponent } from './createPatient/createPatient.component';
@@ -51,6 +52,7 @@ export const routes: Routes = [
             { path: 'doctorsList', loadChildren: './doctorsList/doctorsList.module#DoctorsListModule' },
             { path: 'patientDetails/:patientId', component: PatientDetailsComponent },
             { path: 'doctor/:doctorId', component: VisitsCalendarComponent },
+            { path: 'myAppointments', component: VisitListComponent },
             { path: 'timeTable', component: TimeTableComponent },
             { path: 'createPatient', component: CreatePatientComponent },
             { path: 'createDoctor', component: CreateDoctorComponent },
