@@ -1,7 +1,3 @@
-<!--<script screatePatient.component.tst.ts"></script>-->
-<button #editUserButton mdl-button mdl-button-type="raised" mdl-colored="primary"
-        mdl-ripple (click)="editUserDialog.show()">Edit Patient
-</button>
 <div class="patient-details">
     <div class="patient-details__title">
         <div class="patient-details__photo">
@@ -12,7 +8,12 @@
         </div>
     </div>
     <div class="patient-details__action-buttons" style="display: flex; flex-direction: column">
-        <button mat-mini-fab color="primary" mdl-tooltip-large="Edit patient" mdl-tooltip-position="right">
+        <button
+                mat-mini-fab color="primary"
+                mdl-tooltip-large="Edit patient"
+                mdl-tooltip-position="right"
+                (click)="editUserDialog.show()"
+        >
             <mat-icon>mode_edit</mat-icon>
         </button>
         <button mat-mini-fab color="primary" mdl-tooltip-large="Proceed with an appoinment" mdl-tooltip-position="right">
@@ -128,12 +129,13 @@
 
     <mdl-dialog #editUserDialog
                 [mdl-dialog-config]="{
-              clickOutsideToClose: true,
-              styles:{'width': '52rem'},
-              isModal:true,
-              openFrom: editUserButton,
-              enterTransitionDuration: 400,
-              leaveTransitionDuration: 400}"
+                  clickOutsideToClose: true,
+                  styles:{'width': '52rem'},
+                  isModal:true,
+                  openFrom: editUserButton,
+                  enterTransitionDuration: 400,
+                  leaveTransitionDuration: 400
+                 }"
                 (show)="onDialogShow(dialogRef)"
     >
         <h3 class="mdl-dialog__title">Edit Patient</h3>

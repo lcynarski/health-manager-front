@@ -62,6 +62,7 @@
 
 .mdl-dialog__content {
   height: 60vh;
+  overflow: auto;
 }
 
 :host /deep/ .dynamic-form {
