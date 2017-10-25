@@ -20,6 +20,7 @@ import { MedcomModule } from '../medcom/medcom.module';
 import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
+import * as path from 'path';
 
 export const routes: Routes = [
     {
@@ -61,6 +62,9 @@ export const routes: Routes = [
             { path: 'patientSearch', component: PatientSearchComponent },
             { path: 'medcom', loadChildren: () => MedcomModule },
             { path: 'proceedAppointment', component: ProceedAppointmentComponent },
+                // children: [
+                //     { path: ':type/:id', component: ProceedAppointmentComponent },
+                // ]
             { path: 'drugsSearch', component: DrugsSearchComponent },
             // { path: 'components', loadChildren: './components/components.module#ComponentsModule' },
             // { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },

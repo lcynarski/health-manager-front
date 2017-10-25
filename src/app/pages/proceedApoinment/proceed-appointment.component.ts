@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 import { AlertService, UserService } from '../../_services/index';
@@ -26,6 +26,7 @@ export class ProceedAppointmentComponent implements OnInit {
     secondFormGroup: FormGroup;
     public form: FormGroup;
     public pesel = new FormControl('', Validators.required);
+    private params: Params;
 
 
     constructor(private http: Http,
@@ -33,7 +34,8 @@ export class ProceedAppointmentComponent implements OnInit {
                 private userService: UserService,
                 private patientService: PatientService,
                 private alertService: AlertService,
-                private _formBuilder: FormBuilder) {
+                private _formBuilder: FormBuilder,
+                private route: ActivatedRoute) {
     }
 
     public tabChanged({ index }) {
@@ -41,6 +43,12 @@ export class ProceedAppointmentComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.route.params.subscribe((params: Params) => {
+            // let userId = params['userId'];
+            console.log(params);
+            this.params = params;
+        });
+
         // Simulates a later change of tabs
         setTimeout(() => {
             this.myArray = ['a', 'b', 'c'];

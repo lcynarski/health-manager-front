@@ -16,7 +16,13 @@
         >
             <mat-icon>mode_edit</mat-icon>
         </button>
-        <button mat-mini-fab color="primary" mdl-tooltip-large="Proceed with an appoinment" mdl-tooltip-position="right">
+        <button
+                mat-mini-fab
+                color="primary"
+                mdl-tooltip-large="Proceed with an appoinment"
+                mdl-tooltip-position="right"
+                [routerLink]="['/proceedAppointment', 'patient', patient?.id]">
+        >
             <mat-icon aria-label="Example icon-button with a heart icon">launch</mat-icon>
         </button>
         <button mat-mini-fab color="primary" mdl-tooltip-large="Send an email" mdl-tooltip-position="right">
