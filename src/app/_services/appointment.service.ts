@@ -10,8 +10,8 @@ import { Appointment } from '../_models/appointment';
 @Injectable()
 export class AppointmentService {
     constructor(private http: Http,
-                private authenticationService: AuthenticationService,
-                private config: AppConfig) {
+        private authenticationService: AuthenticationService,
+        private config: AppConfig) {
     }
 
     /** returns saved Appointment */
@@ -30,7 +30,13 @@ export class AppointmentService {
 
     public getByTimeSlot(timeSlotId): Observable<Appointment> {
         return this.http.get(`${this.config.apiUrl}/appointments/byTimeSlot/${timeSlotId}`, this.authenticationService.addJwtOptions())
-            .map((response: Response) => response.json());
+            .map((response: Response) => { //TODO: Dlaczego używamy _id tam gdzie jest 'id'?
+                let a: Appointment = response.json();
+                a.timeSlot.startDateTime = new Date(a.timeSlot.startDateTime)
+                a.timeSlot.endDateTime = new Date(a.timeSlot.endDateTime)
+                a.timeSlot.doctor._id = response.json().timeSlot.doctor.id
+                return a;
+            });
     }
 
 
