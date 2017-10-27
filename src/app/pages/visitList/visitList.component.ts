@@ -70,17 +70,17 @@ export class VisitListComponent implements OnInit {
     }]
 
     ngOnInit() {
-        this.patientMode = false;//AuthenticationService.ROLE_PATIENT == this.authService.getRole();
+        this.patientMode = AuthenticationService.ROLE_PATIENT == this.authService.getRole();
         if (this.patientMode) {
             this.headers = this.patientHeaders
-            this.patientService.getById("1")
+            this.patientService.getPatientByEmail(this.authService.getEmail())
                 .subscribe(patient => {
                     this.patient = patient
                     this.refresh()
                 })
         } else {
             this.headers = this.doctorHeaders
-            this.doctorService.getById("1")//Email(this.authService.getEmail())
+            this.doctorService..getDoctorByEmail(this.authService.getEmail())
                 .subscribe(doctor => {
                     this.doctor = doctor
                     this.refresh()
