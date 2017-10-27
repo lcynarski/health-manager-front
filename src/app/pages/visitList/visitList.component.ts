@@ -80,7 +80,7 @@ export class VisitListComponent implements OnInit {
                 })
         } else {
             this.headers = this.doctorHeaders
-            this.doctorService..getDoctorByEmail(this.authService.getEmail())
+            this.doctorService.getDoctorByEmail(this.authService.getEmail())
                 .subscribe(doctor => {
                     this.doctor = doctor
                     this.refresh()
