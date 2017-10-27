@@ -49,8 +49,6 @@ export class VisitListComponent implements OnInit {
         return date
     }
 
-    private allTheData: Appointment[]
-
     private toShow: Appointment[]
 
     private toShowStr: string[][]
@@ -72,17 +70,17 @@ export class VisitListComponent implements OnInit {
     }]
 
     ngOnInit() {
-        this.patientMode = AuthenticationService.ROLE_PATIENT == this.authService.getRole();
+        this.patientMode = false;//AuthenticationService.ROLE_PATIENT == this.authService.getRole();
         if (this.patientMode) {
             this.headers = this.patientHeaders
-            this.patientService.getPatientByEmail(this.authService.getEmail())
+            this.patientService.getById("1")
                 .subscribe(patient => {
                     this.patient = patient
                     this.refresh()
                 })
         } else {
             this.headers = this.doctorHeaders
-            this.doctorService.getDoctorByEmail(this.authService.getEmail())
+            this.doctorService.getById("1")//Email(this.authService.getEmail())
                 .subscribe(doctor => {
                     this.doctor = doctor
                     this.refresh()
@@ -90,46 +88,19 @@ export class VisitListComponent implements OnInit {
         }
     }
 
-    //return is nullable-inside observable
-    private fetchAppointment(slot: TimeSlot): Observable<Appointment> {
-        return this.appointmentService.getByTimeSlot(slot.id)
-            .map((appointment: Appointment) => {
-                console.log("jest app dla id" + slot.id)
-                return appointment
-            })
-            .catch((err) => {
-                console.log("Nie ma app dla id " + slot.id)
-                return Observable.of(null);
-            })
-    }
-
-    private fetchAppointmentsOfEachDoctor(doctors: Doctor[]): Observable<Appointment[]>[] {
-        return doctors.map(doctor => {
-            let timeSlots: Observable<TimeSlot[]> = this.timeSlotService
-                .getTimeSlots(doctor, this.startDate, this.endDate);
-            let appointmetsObs: Observable<Appointment[]> = timeSlots.flatMap((slots: TimeSlot[]) => {
-                let appointments: Observable<Appointment>[] =
-                    slots.map(slot => this.fetchAppointment(slot))
-                return Observable.forkJoin(appointments)
-            })
-            return appointmetsObs
-        })
-    }
-
     refresh(): void {
         this.startDate.setHours(0, 0, 0, 0);
         this.endDate.setHours(23, 59, 59, 999);
         console.log("Refreshing")
-        this.doctorService.getAll().subscribe(doctors => {
-            let appointmentsOfEachDoctor: Observable<Appointment[]>[] =
-                this.fetchAppointmentsOfEachDoctor(doctors)
-            let appointmentsObs: Observable<Appointment[]> =
-                Observable.forkJoin(appointmentsOfEachDoctor).flatMap(x => x)
-            appointmentsObs
-                .subscribe((appointments: Appointment[]) => {
-                    this.allTheData = this.sortData(appointments.filter(x => x != null))
-                    this.formatDataToShow()
-                })
+        var appointmentsObs: Observable<Appointment[]>
+        if (this.patientMode) {
+            appointmentsObs = this.appointmentService.getPatientAppointments(this.patient, this.startDate, this.endDate)
+        } else {
+            appointmentsObs = this.appointmentService.getDoctorAppointments(this.doctor, this.startDate, this.endDate)
+        }
+        appointmentsObs.subscribe(appointments => {
+            this.toShow = appointments
+            this.formatDataToShow()
         })
     }
 
@@ -179,16 +150,17 @@ export class VisitListComponent implements OnInit {
 
     formatDataToShow() {
         if (this.patientMode) {
-            this.toShow = this.allTheData.filter((a: Appointment) => this.patient.id == a.patient.id)
             this.toShowStr = this.toShow.map((a: Appointment) => {
                 return [this.displayDate(a.timeSlot.startDateTime, a.timeSlot.endDateTime),
                 a.timeSlot.doctor.firstName + "\u00A0" + a.timeSlot.doctor.lastName, this.formatOfficeNum(a)]
             })
         } else {
-            this.toShow = this.allTheData.filter((a: Appointment) => this.doctor._id == a.timeSlot.doctor._id)
             this.toShowStr = this.toShow.map((a: Appointment) => {
+                //ŻAL.PL Nie wiem co się zmieniło i dlaczego ale pacjent teraz wygląda inaczej
+                // w zwracanych jsonach i raz jest taki jak dawniej a raz inny
+                var patient: any = a.patient
                 return [this.displayDate(a.timeSlot.startDateTime, a.timeSlot.endDateTime),
-                a.patient.account.personalDetails.firstName + "\u00A0" + a.patient.account.personalDetails.lastName,
+                patient.firstName + "\u00A0" +patient.lastName,
                 a.priority, a.data, this.formatOfficeNum(a)]
             })
         }

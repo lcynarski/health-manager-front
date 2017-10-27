@@ -75,6 +75,8 @@ export class VisitsCalendarComponent implements OnInit {
 
     priority: string = Appointment.PRIORITY_NORMAL; //domyślnie, np kiedy pacjent się sam rejestruje
 
+    moveSlotErr: boolean = false
+
     priorities = [
         { id: Appointment.PRIORITY_LOW, name: 'Low' },
         { id: Appointment.PRIORITY_NORMAL, name: 'Normal' },
@@ -213,56 +215,32 @@ export class VisitsCalendarComponent implements OnInit {
     }
 
     modalClosed() {
+        this.moveSlotErr = false
         this.showSlotMoveMenu = false;
         this.modal.close();
         this.reloadEvents();
     }
 
     // moves also Appointment if necessary
-    // WARNING: This operation should be atomic but it's not :P
     moveTimeSlot(value) {
         if (value.startDateTime != undefined && value.endDateTime != undefined) {
-            const timeSlot = {
-                id: 0,
-                startDateTime: value.startDateTime,
-                endDateTime: value.endDateTime,
-                availableForSelfSign: value.availableForSelfSign,
-                doctor: null //to nie potrzebne tutaj ale trochę żal
-            };
             var docId
             if (value.doctor == undefined || this.createTimeSlotComponent.docIdByName[value.doctor] == undefined) {
                 docId = this.id
             } else {
                 docId = this.createTimeSlotComponent.docIdByName[value.doctor]
             }
-            this.appointmentService.getByTimeSlot(this.currentSlotId)
-                .catch((err) => this.swapTimeSlot(docId, timeSlot).map((sth) => null))
-                .subscribe((appointment: Appointment) => {
-                    if (appointment != null) {
-                        this.swapAppointment(appointment, timeSlot, docId)
-                    } else {
+            this.timeSlotService.moveTimeSlot(docId, this.currentSlotId,
+                new Date(value.startDateTime), new Date(value.endDateTime))
+                .catch(err => {
+                    this.moveSlotErr = true
+                    return null;
+                }).subscribe(res => {
+                    if (res != null) {
                         this.modalClosed()
                     }
                 })
         }
-    }
-
-    swapAppointment(appointment: Appointment, timeSlot: TimeSlot, docId: number) {
-        this.appointmentService.removeAppointment(appointment.id)
-            .subscribe(removedAppointment => {
-                this.swapTimeSlot(docId, timeSlot).subscribe((newTimeSlot: TimeSlot) => {
-                    appointment.id = null;
-                    appointment.timeSlot = newTimeSlot
-                    appointment.timeSlotId = newTimeSlot.id
-                    this.appointmentService.saveAppointment(this.patient.id, appointment)
-                        .subscribe(appointment => this.modalClosed())
-                })
-            })
-    }
-
-    swapTimeSlot(newDocId: number, timSlotData): Observable<TimeSlot> {
-        return this.doctorService.removeTimeSlot(this.id, this.currentSlotId)
-            .flatMap((data) => this.doctorService.saveTimeSlot(timSlotData, newDocId));
     }
 
     unEnroll() {
@@ -274,12 +252,14 @@ export class VisitsCalendarComponent implements OnInit {
 
     ngOnInit() {
         this.createTimeSlotComponent.ngOnInit()
+        let moveSlotConfig = this.createTimeSlotComponent.config
+            .filter(field => field.name != "availableForSelfSign")//self-sign ability donesn't change
         this.userRole = this.authService.getRole();
         console.log('My role is ' + this.userRole)
         if (this.userRole == AuthenticationService.ROLE_ADMIN) {
-            this.config = this.createTimeSlotComponent.config
+            this.config = moveSlotConfig
         } else if (this.userRole == AuthenticationService.ROLE_DOCTOR) {
-            this.config = this.createTimeSlotComponent.config.slice(1) //no doctor choice
+            this.config = moveSlotConfig.filter(field => field.name != 'doctor') //no doctor choice
         } else {
             this.config = null
         }
@@ -287,7 +267,6 @@ export class VisitsCalendarComponent implements OnInit {
 
         this.route.params.subscribe(params => {
             this.id = params['doctorId']; // (+) converts string 'id' to a number
-
 
             this.doctorService.getById(this.id).subscribe(doc => {
                 console.log("przyszło coś z promisa");

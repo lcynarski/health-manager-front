@@ -37,6 +37,10 @@
         <div *ngIf='showSlotMoveMenu'>
             Move timeslot
             <br />
+            <div *ngIf='moveSlotErr'>
+                Invalid Dates! Slot interleaves!
+                <br />
+            </div>
             <div class="create-timeslot-form">
                 <dynamic-form [config]="config" #form="dynamicForm" (submit)="moveTimeSlot($event)">
                 </dynamic-form>
@@ -71,7 +75,7 @@
         </div>
         <div *ngIf='!imAPatient && currentSlotTaken'>
             <a (click)="showPatientDetails()">
-                Taken by: {{patient.firstName}} {{patient.lastName}}</a>
+                Taken by: {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}</a>
         </div>
         <div *ngIf='!imAPatient && !currentSlotTaken'>
             <ul>
