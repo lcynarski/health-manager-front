@@ -1,8 +1,8 @@
-<div>
-    name: {{ drug?.name }}
-    CommonName: {{ drug?.commonName }}
-    strength: {{ drug?.strength }}
-    permitValidity: {{ drug?.permitValidity }}
-    entityResponsible: {{ drug?.entityResponsible }}
-    drugForm: {{ drug?.drugForm }}
-</div>
+<mat-list>
+    <mat-list-item> {{ 'name' | translate }}: {{ drug?.name }} </mat-list-item>
+    <mat-list-item> {{ 'CommonName' | translate }}: {{ drug?.commonName }}</mat-list-item>
+    <mat-list-item> {{ 'strength' | translate }}: {{ drug?.strength }} </mat-list-item>
+    <mat-list-item> {{ 'permitValidity' | translate }}: {{ drug?.permitValidity }} </mat-list-item>
+    <mat-list-item> {{ 'entityResponsible' | translate }}: {{ drug?.entityResponsible }} </mat-list-item>
+    <mat-list-item> {{ 'drugForm' | translate }}: {{ drug?.drugForm }} </mat-list-item>
+</mat-list>
