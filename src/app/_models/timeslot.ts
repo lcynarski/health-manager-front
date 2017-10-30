@@ -6,4 +6,5 @@ export class TimeSlot {
     endDateTime: Date;
     availableForSelfSign: boolean; // whether patient can see and sign for this timeslot in calendar
     doctor: Doctor;
+    doctorId: number;
 }
