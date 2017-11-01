@@ -30,6 +30,14 @@ export class PatientService {
             .map((res) => res.json());
     }
 
+    public saveMedicalInfo(_id, data) {
+        return this.http.post(`${this.config.apiUrl}/patients/${_id}/medicalInformations`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
+    }
+
+    public updateMedicalInfo(_id, data) {
+        return this.http.put(`${this.config.apiUrl}/patients/${_id}/medicalInformations`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
+    }
+
     public getMedicalHistory(patientId, dateStart, dateEnd) {
         const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
         return this.http.get(`${this.config.apiUrl}/patients/${patientId}/history`, {

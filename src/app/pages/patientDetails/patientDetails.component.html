@@ -21,7 +21,7 @@
                 color="primary"
                 mdl-tooltip-large="Proceed with an appoinment"
                 mdl-tooltip-position="right"
-                [routerLink]="['/proceedAppointment', 'patient', patient?.id]">
+                [routerLink]="['/proceedAppointment', 'patient', patient?.id]"
         >
             <mat-icon aria-label="Example icon-button with a heart icon">launch</mat-icon>
         </button>
@@ -35,6 +35,7 @@
         <mat-tab label="Basic Informations">
             <div class="demo-tab-content">
                 <div class="patient-details__info">
+                    {{ 'PersonalInfo' | translate }}
                     <div>
                         <div class="patient-details__info-label">Date of birth:</div>
                         <div class="patient-details__info-value">{{ patient?.birthdate }}</div>
@@ -59,6 +60,34 @@
                         <div class="patient-details__info-label">PESEL:</div>
                         <div class="patient-details__info-value">{{ patient?.pesel }}</div>
                     </div>
+                </div>
+                <div class="medical-info">
+                    <button
+                            *ngIf="!patient?.medicalInfo"
+                            mat-mini-fab color="primary"
+                            mdl-tooltip-large="Add Medical Information"
+                            mdl-tooltip-position="right"
+                            (click)="medicalInfoDialog.show()"
+                    >
+                        <mat-icon>mode_edit</mat-icon>
+                    </button>
+
+                    {{ 'MedicalInfo' | translate }}
+                    <mat-list *ngIf="patient?.medicalInfo">
+                        <mat-list-item> {{ 'height' | translate }}: {{ patient?.medicalInfo?.height}} </mat-list-item>
+                        <mat-list-item> {{ 'weight' | translate }}: {{ patient?.medicalInfo?.weight}} </mat-list-item>
+                        <mat-list-item> {{ 'allergies' | translate }}: {{ patient?.medicalInfo?.allergies}} </mat-list-item>
+                        <mat-list-item> {{ 'otherNotes' | translate }}: {{ patient?.medicalInfo?.otherNotes}} </mat-list-item>
+                        <button
+                                mat-mini-fab color="primary"
+                                mdl-tooltip-large="Edit Medical Information"
+                                mdl-tooltip-position="right"
+                                (click)="medicalInfoEditDialog.show()"
+                        >
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </mat-list>
+
                 </div>
             </div>
         </mat-tab>
@@ -147,8 +176,8 @@
         <h3 class="mdl-dialog__title">Edit Patient</h3>
         <div class="mdl-dialog__content">
             <dynamic-form
-                    [config]="config"
-                    #form="dynamicForm"
+                    [config]="editPatientConfig"
+                    #editPatientForm="dynamicForm"
                     (submit)="submit($event)">
             </dynamic-form>
         </div>
@@ -157,5 +186,57 @@
             <button mdl-button (click)="editUserDialog.close()" mdl-ripple>Cancel</button>
         </div>
     </mdl-dialog>
+
+
+    <mdl-dialog #medicalInfoDialog
+                [mdl-dialog-config]="{
+                  clickOutsideToClose: true,
+                  styles:{'width': '52rem'},
+                  isModal:true,
+                  openFrom: medicalInfoDialogButton,
+                  enterTransitionDuration: 400,
+                  leaveTransitionDuration: 400
+                 }"
+                (show)="onMedicalInfoDialogShow(dialogRef)"
+    >
+        <h3 class="mdl-dialog__title">Add Medical Information</h3>
+        <div class="mdl-dialog__content">
+            <dynamic-form
+                    [config]="medicalInfoConfig"
+                    #medicalInfoForm="dynamicForm"
+                    (submit)="addMedicalInfo($event)">
+            </dynamic-form>
+        </div>
+        <div class="mdl-dialog__actions">
+            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
+            <button mdl-button (click)="medicalInfoDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+
+    <mdl-dialog #medicalInfoEditDialog
+                [mdl-dialog-config]="{
+                  clickOutsideToClose: true,
+                  styles:{'width': '52rem'},
+                  isModal:true,
+                  openFrom: medicalInfoEditDialogButton,
+                  enterTransitionDuration: 400,
+                  leaveTransitionDuration: 400
+                 }"
+                (show)="onMedicalInfoEditDialogShow(dialogRef)"
+    >
+        <h3 class="mdl-dialog__title">Edit Medical Information</h3>
+        <div class="mdl-dialog__content">
+            <dynamic-form
+                    [config]="medicalInfoConfig"
+                    #medicalInfoEditForm="dynamicForm"
+                    (submit)="editMedicalInfo($event)">
+            </dynamic-form>
+        </div>
+        <div class="mdl-dialog__actions">
+            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
+            <button mdl-button (click)="medicalInfoEditDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+
     <dialog-outlet></dialog-outlet>
 </div>
