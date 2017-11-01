@@ -110,6 +110,23 @@
                     {{ 'Show' | translate }}
                 </button>
 
+                <button mat-button color="primary" (click)="addToMedicalHistoryDialog.show()">
+                    {{ 'AddToMedicalHistory' | translate }}
+                </button>
+
+                <mat-accordion class="example-headers-align" *ngIf="medicalHistory">
+                    <mat-expansion-panel *ngFor="let item of medicalHistory">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{ item.diseaseName}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                {{ item.detectionDate | date }} - {{ item.cureDate | date }}
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        {{ 'Symptoms' | translate }}: {{ item.symptoms }}
+                    </mat-expansion-panel>
+                </mat-accordion>
 
             </div>
         </mat-tab>
@@ -235,6 +252,31 @@
         <div class="mdl-dialog__actions">
             <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
             <button mdl-button (click)="medicalInfoEditDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+
+    <mdl-dialog #addToMedicalHistoryDialog
+                [mdl-dialog-config]="{
+                  clickOutsideToClose: true,
+                  styles:{'width': '52rem'},
+                  isModal:true,
+                  openFrom: medicalInfoEditDialogButton,
+                  enterTransitionDuration: 400,
+                  leaveTransitionDuration: 400
+                 }"
+                (show)="onMedicalInfoEditDialogShow(dialogRef)"
+    >
+        <h3 class="mdl-dialog__title">Add To Medical History</h3>
+        <div class="mdl-dialog__content">
+            <dynamic-form
+                    [config]="medicalHistoryDiseaseConfig"
+                    #medicalHistoryItemForm="dynamicForm"
+                    (submit)="addToMedicalHistory($event)">
+            </dynamic-form>
+        </div>
+        <div class="mdl-dialog__actions">
+            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
+            <button mdl-button (click)="addToMedicalHistoryDialog.close()" mdl-ripple>Cancel</button>
         </div>
     </mdl-dialog>
 

@@ -49,6 +49,13 @@ export class PatientService {
             });
     }
 
+    public addToMedicalHistory(patientId, data) {
+        return this.http.post(`${this.config.apiUrl}/patients/${patientId}/history`,
+            {patientId, ...data},
+            this.authenticationService.addJwtOptions()
+        );
+    }
+
     public getPatients(): Observable<Patient[]> {
         return this.http.get(`${this.config.apiUrl}/patients`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());

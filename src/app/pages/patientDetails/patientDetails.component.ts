@@ -4,10 +4,12 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Patient } from '../../_models/patient';
 import { PatientService } from '../../_services/patient.service';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
-import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
-import { createPatientConfig, medicalInfoConfig } from '../../_forms-configs';
+import {
+    createPatientConfig,
+    medicalInfoConfig,
+    medicalHistoryDiseaseConfig
+} from '../../_forms-configs';
 import moment = require('moment');
-import { isSuccess } from '@angular/http/src/http_utils';
 
 
 @Component({
@@ -20,7 +22,7 @@ import { isSuccess } from '@angular/http/src/http_utils';
 export class PatientDetailsComponent implements OnInit {
     @ViewChild('editPatientForm') editPatientForm: DynamicFormComponent;
     @ViewChild('medicalInfoEditForm') medicalInfoEditForm: DynamicFormComponent;
-    // medicalInfoEditForm: DynamicFormComponent;
+    @ViewChild('medicalHistoryItemForm') medicalHistoryItemForm: DynamicFormComponent;
     @Input() patient: Patient;
 
     // public patient: Patient;
@@ -29,9 +31,11 @@ export class PatientDetailsComponent implements OnInit {
     public lng: number = 7.809007;
     public editPatientConfig = createPatientConfig;
     public medicalInfoConfig = medicalInfoConfig;
+    public medicalHistoryDiseaseConfig = medicalHistoryDiseaseConfig;
     private router: Router;
     private sub: any;
-    model: any = {};
+    private medicalHistory: any;
+    private model: any = {};
 
     constructor(router: Router,
                 private http: Http,
@@ -116,7 +120,15 @@ export class PatientDetailsComponent implements OnInit {
         console.log('End date: ', this.model.endDate);
         this.patientService.getMedicalHistory(this.patient.id, this.model.startDate, this.model.endDate)
             .subscribe((data) => {
+                this.medicalHistory = data;
                 console.log('showMedicalHistory response: ', data);
+            });
+    }
+
+    addToMedicalHistory(value) {
+        this.patientService.addToMedicalHistory(this.patient.id, value)
+            .subscribe((data) => {
+                console.log('addToMedicalHistory response: ', data);
             });
     }
 

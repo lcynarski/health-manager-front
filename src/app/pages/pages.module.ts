@@ -13,7 +13,10 @@ import {
     MatLineModule,
     MatIconModule,
     MatRippleModule,
-    MatTabsModule, MatDatepickerModule, MatNativeDateModule, MatListModule
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatListModule, MatExpansionModule
 } from '@angular/material';
 import { ModalModule } from 'ng2-bs4-modal/ng2-bs4-modal';
 import { Pages } from './pages.component';
@@ -78,7 +81,9 @@ import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
         MatTabsModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatListModule
+        MatListModule,
+        MatExpansionModule,
+        MatInputModule
     ],
     declarations: [
         Pages,
