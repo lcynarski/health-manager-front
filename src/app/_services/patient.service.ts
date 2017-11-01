@@ -56,6 +56,16 @@ export class PatientService {
         );
     }
 
+    public getEmergencyContact(patientId) {
+        return this.http.get(`${this.config.apiUrl}/patients/${patientId}/emergency`, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
+
+    public addEmergencyContact(patientId, data) {
+        return this.http.post(`${this.config.apiUrl}/patients/${patientId}/emergency`, data, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
+
     public getPatients(): Observable<Patient[]> {
         return this.http.get(`${this.config.apiUrl}/patients`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());

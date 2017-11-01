@@ -69,7 +69,7 @@
                             mdl-tooltip-position="right"
                             (click)="medicalInfoDialog.show()"
                     >
-                        <mat-icon>mode_edit</mat-icon>
+                        <mat-icon>add</mat-icon>
                     </button>
 
                     {{ 'MedicalInfo' | translate }}
@@ -130,51 +130,56 @@
 
             </div>
         </mat-tab>
-        <mat-tab label="Emergency Contact" disabled="patient?.emergencyContact">
-            <div>
-                <div class="patient-details__info-label">First Name:</div>
-                <div class="patient-details__info-value">{{ patient?.emergencyContact?.firstName }}</div>
-            </div>
-            <div>
-                <div class="patient-details__info-label">Last Name:</div>
-                <div class="patient-details__info-value">{{ patient?.emergencyContact?.lastName }}</div>
-            </div>
-            <div>
-                <div class="patient-details__info-label">Date of birth:</div>
-                <div class="patient-details__info-value">{{ patient?.emergencyContact?.birthdate }}</div>
-            </div>
-            <div>
-                <div class="patient-details__info-label">Gender:</div>
-                <div class="patient-details__info-value">{{ patient?.emergencyContact?.gender }}</div>
-            </div>
-            <div>
-                <div class="patient-details__info-label">Phone:</div>
-                <div class="patient-details__info-value">{{ patient?.emergencyContact?.phoneNumber }}</div>
-            </div>
-            <div>
-                <div class="patient-details__info-label">Country:</div>
-                <div class="patient-details__info-value">{{ patient?.emergencyContact?.country }}</div>
-            </div>
-            <div>
-                <div class="patient-details__info-label">Address:</div>
-                <div class="patient-details__info-value">{{ patient?.emergencyContact?.city }}</div>
-            </div>
-            <div>
-                <div class="patient-details__info-label">PESEL:</div>
-                <div class="patient-details__info-value">{{ patient?.emergencyContact?.pesel }}</div>
+        <mat-tab label="Emergency Contact">
+            <button mat-button color="primary" (click)="addEmergencyContactDialog.show()" *ngIf="!emergencyContact">
+                {{ 'AddEmergencyContact' | translate }}
+            </button>
+            <div *ngIf="emergencyContact">
+                <div>
+                    <div class="patient-details__info-label">First Name:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.firstName }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Last Name:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.lastName }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Date of birth:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.birthdate }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Gender:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.gender }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Phone:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.phoneNumber }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Country:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.country }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Address:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.city }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">PESEL:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.pesel }}</div>
+                </div>
             </div>
         </mat-tab>
-        <mat-tab label="Locate XD">
+        <mat-tab label="Locate" disabled>
             <div class="demo-tab-content">
                 <agm-map [latitude]="lat" [longitude]="lng">
                     <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
                 </agm-map>
             </div>
         </mat-tab>
-        <mat-tab label="Results">
+        <mat-tab label="Results" disabled>
             No content
         </mat-tab>
-        <mat-tab label="Appointments">
+        <mat-tab label="Appointments" disabled>
             No content
         </mat-tab>
     </mat-tab-group>
@@ -264,7 +269,6 @@
                   enterTransitionDuration: 400,
                   leaveTransitionDuration: 400
                  }"
-                (show)="onMedicalInfoEditDialogShow(dialogRef)"
     >
         <h3 class="mdl-dialog__title">Add To Medical History</h3>
         <div class="mdl-dialog__content">
@@ -277,6 +281,29 @@
         <div class="mdl-dialog__actions">
             <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
             <button mdl-button (click)="addToMedicalHistoryDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+
+    <mdl-dialog #addEmergencyContactDialog
+                [mdl-dialog-config]="{
+                  clickOutsideToClose: true,
+                  styles:{'width': '52rem'},
+                  isModal:true,
+                  enterTransitionDuration: 400,
+                  leaveTransitionDuration: 400
+                 }"
+    >
+        <h3 class="mdl-dialog__title">{{ 'AddEmergencyContact' | translate }}</h3>
+        <div class="mdl-dialog__content">
+            <dynamic-form
+                    [config]="emergencyContactConfig"
+                    #addEmergencyContactForm="dynamicForm"
+                    (submit)="addEmergencyContact($event)">
+            </dynamic-form>
+        </div>
+        <div class="mdl-dialog__actions">
+            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
+            <button mdl-button (click)="addEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
         </div>
     </mdl-dialog>
 

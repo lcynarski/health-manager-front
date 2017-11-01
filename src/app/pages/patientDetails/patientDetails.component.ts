@@ -1,3 +1,4 @@
+///<reference path="../../_services/patient.service.ts"/>
 import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
@@ -7,7 +8,8 @@ import { DynamicFormComponent } from '../../components/dynamic-form/containers/d
 import {
     createPatientConfig,
     medicalInfoConfig,
-    medicalHistoryDiseaseConfig
+    medicalHistoryDiseaseConfig,
+    emergencyContactConfig
 } from '../../_forms-configs';
 import moment = require('moment');
 
@@ -32,9 +34,11 @@ export class PatientDetailsComponent implements OnInit {
     public editPatientConfig = createPatientConfig;
     public medicalInfoConfig = medicalInfoConfig;
     public medicalHistoryDiseaseConfig = medicalHistoryDiseaseConfig;
+    public emergencyContactConfig = emergencyContactConfig;
     private router: Router;
     private sub: any;
     private medicalHistory: any;
+    private emergencyContact: any;
     private model: any = {};
 
     constructor(router: Router,
@@ -51,6 +55,7 @@ export class PatientDetailsComponent implements OnInit {
             this.id = params['patientId']; // (+) converts string 'id' to a number
             this.loadPatientData();
             this.loadPatientMedicalData();
+            this.loadEmergencyData();
         });
     }
 
@@ -75,6 +80,13 @@ export class PatientDetailsComponent implements OnInit {
         this.patientService.getMedicalInfo(this.id)
             .subscribe((medicalInfo) => {
                 this.patient.medicalInfo = medicalInfo;
+            });
+    }
+
+    public loadEmergencyData() {
+        this.patientService.getEmergencyContact(this.id)
+            .subscribe((emergencyData) => {
+                this.emergencyContact = emergencyData;
             });
     }
 
@@ -112,7 +124,7 @@ export class PatientDetailsComponent implements OnInit {
             .subscribe((data) => {
                 console.log('saveMedicalInfo', data);
                 this.loadPatientMedicalData();
-        });
+            });
     }
 
     showMedicalHistory() {
@@ -132,16 +144,26 @@ export class PatientDetailsComponent implements OnInit {
             });
     }
 
+    addEmergencyContact(value) {
+        const { birthdate } = value;
+        const newDate = moment(birthdate).format('YYYY-MM-DD');
+        const toSend = { ...value, birthdate: newDate}
+        this.patientService.addEmergencyContact(this.patient.id, toSend)
+            .subscribe((data) => {
+                console.log('addEmergencyContact response: ', data);
+            });
+    }
+
     onDialogShow = (dialogRef) => {
         Object.keys(this.patient).forEach((key) => {
             if ((key !== 'id') && (key !== 'insuranceNumber') && (key !== 'medicalInfo') && this.editPatientForm) {
-                 this.editPatientForm.setValue(key, this.patient[key]);
+                this.editPatientForm.setValue(key, this.patient[key]);
             }
         });
-    }
+    };
 
     onMedicalInfoDialogShow = (dialogRef) => {
-    }
+    };
 
     onMedicalInfoEditDialogShow = (dialogRef) => {
         Object.keys(this.patient.medicalInfo).forEach((key) => {
@@ -149,5 +171,5 @@ export class PatientDetailsComponent implements OnInit {
                 this.medicalInfoEditForm.setValue(key, this.patient.medicalInfo[key]);
             }
         });
-    }
+    };
 }
