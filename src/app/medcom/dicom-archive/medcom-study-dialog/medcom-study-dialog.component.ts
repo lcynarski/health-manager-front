@@ -22,9 +22,11 @@ export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetail
 export class MedcomStudyDialogComponent implements OnInit {
 
     seriesList: ExtendedDicomSeries[] = [];
-    activeSeriesDicomUrls: string[];
+    activeSeries: ExtendedDicomSeries;
+
     fetchingSeries: boolean = false;
     errorMessage: string;
+    infoBoxVisible: boolean = false;
 
     constructor(@Inject(STUDY_INJECTION_TOKEN) public study: DicomStudy,
                 private dialog: MdlDialogReference,
@@ -37,35 +39,68 @@ export class MedcomStudyDialogComponent implements OnInit {
 
     onSeriesChange({ index }) {
         console.log('series changed to ' + index);
-        const instances = this.seriesList[index].instances;
+        this.activeSeries = this.seriesList[index];
+    }
 
-        this.activeSeriesDicomUrls = (instances)
-            ? instances.map((i) => i.dicomUrl)
-            : [];
+    toggleInfoBox() {
+        this.infoBoxVisible = !this.infoBoxVisible;
     }
 
     @HostListener('document:keydown.esc')
-    public onEsc(): void {
+    public closeDialog(): void {
         this.dialog.hide();
     }
+
+    // private getDicomsUrls(): string[] {
+    //     console.warn('getDicomsUrls');
+    //     const series = this.getActiveSeries();
+    //
+    //     return (series && series.instances)
+    //         ? series.instances.map((i) => i.dicomUrl)
+    //         : [];
+    // }
 
     private fetchSeries() {
         this.archiveService.getSeries(this.study.instanceUID)
             .subscribe(
-                (seriesList: DicomSeries[] = []) => {
+                (seriesList: DicomSeries[] = []) => { // TODO fit multiple tabs
+                    // MOCK
+                    /*
+                     seriesList.push({
+                     instanceUID: '1.3.6.1.4.1.5962.1.1.0.0.0.1194732126.13032.0.55',
+                     studyInstanceUID: 'test1',
+                     modalityAET: 'test1',
+                     attributes: {
+                     SeriesDescription: 'test series 1'
+                     },
+                     });
+                     seriesList.push({
+                     instanceUID: '1.3.6.1.4.1.5962.1.1.0.0.0.1194732126.13032.0.55',
+                     studyInstanceUID: 'test2',
+                     modalityAET: 'test2',
+                     attributes: {
+                     SeriesDescription: 'test series 2'
+                     },
+                     });
+                     */
+                    // MOCK
+
                     Promise.all(seriesList.map((series) => this.onSeries(series))) // TODO maybe do this with rxjs instead
                         .then(() => {
                             if (seriesList.length) {
                                 this.onSeriesChange({ index: 0 });
                             }
                             this.fetchingSeries = false;
-                        });
+                        })
+                        .catch((error) => this.onError(error, 'Could not fetch images'));
                 },
-                (error) => {
-                    this.fetchingSeries = false;
-                    this.errorMessage = `Error while fetching series: ${error.status} ${error.statusText}`;
-                }
+                (error) => this.onError(error, 'Could not fetch series')
             );
+    }
+
+    private onError(error: any, message: string): void {
+        this.fetchingSeries = false;
+        this.errorMessage = `${message}: ${error.status} ${error.statusText}`;
     }
 
     private onSeries(series: DicomSeries): Promise<any> {

@@ -1,18 +1,32 @@
 <div id="studyDialog">
     <div *ngIf="!fetchingSeries && !errorMessage">
 
-        <mdl-tabs mdl-ripple mdl-tab-active-index="0" (mdl-tab-active-changed)="onSeriesChange($event)">
-            <mdl-tab-panel *ngFor="let series of seriesList">
-                <mdl-tab-panel-title>
-                    [{{series.creationDate | date:'HH:mm:ss'}}]
-                    {{series.attributes.SeriesDescription}}
-                    ({{series.attributes.PerformedProcedureStepDescription}}) <!-- TODO surroundWithBraces pipe-->
-                </mdl-tab-panel-title>
-            </mdl-tab-panel>
-        </mdl-tabs>
+        <div id="topBar">
+            <button id="infoBoxButton" mdl-button mdl-ripple (click)="toggleInfoBox()">Info</button>
 
-        <div id="dicomContainer">
-            <div dicom [imageUrls]="activeSeriesDicomUrls"></div>
+            <mdl-tabs mdl-ripple mdl-tab-active-index="0" (mdl-tab-active-changed)="onSeriesChange($event)">
+                <mdl-tab-panel *ngFor="let series of seriesList">
+                    <mdl-tab-panel-title>
+                        [{{series.creationDate | date:'HH:mm:ss'}}]
+                        {{series.attributes.SeriesDescription}}
+                        ({{series.attributes.PerformedProcedureStepDescription}}) <!-- TODO surroundWithBraces pipe-->
+                    </mdl-tab-panel-title>
+                </mdl-tab-panel>
+            </mdl-tabs>
+
+            <button id="closeButton" mdl-button mdl-ripple (click)="closeDialog()">X</button> <!-- TODO: icons -->
+        </div>
+
+        <div id="viewer" dicom [series]="activeSeries">
+            <attributes-info *ngIf="infoBoxVisible" [study]="study" [series]="activeSeries"></attributes-info>
+            <!--<div id="infoPane" *ngIf="infoBoxVisible">-->
+                <!--<h3>Study</h3>-->
+                <!--{{study.instanceUID}}-->
+                <!--<h3>Series</h3>-->
+                <!--{{'no series'}}-->
+                <!--<h3>Instance</h3>-->
+                <!--?-->
+            <!--</div>-->
         </div>
     </div>
 

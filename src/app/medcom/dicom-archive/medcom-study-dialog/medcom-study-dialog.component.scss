@@ -1,7 +1,7 @@
 @import "../../../../assets/styles/colors";
 @import "../../../../assets/styles/variables";
 
-$tabHeight: 48px;
+$barHeight: 50px;
 
 #studyDialog {
   padding: 10px;
@@ -12,13 +12,35 @@ $tabHeight: 48px;
     height: 100%;
   }
 
-  #dicomContainer {
-    margin: 0 auto;
-    div {
-      margin: 0 auto;
-      width: 100%;
-      height: calc(100% - #{$tabHeight});
+  #topBar {
+    height: $barHeight;
+    position: relative;
+    button {
+      height: 100%;
+      position: absolute;
+      top: 0;
     }
+    #closeButton {
+      right: 0;
+      font-size: 20px;
+      color: red;
+    }
+  }
+
+  #viewer {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    height: calc(100% - #{$barHeight});
+    //#infoPane {
+    //  position: absolute;
+    //  top: 0;
+    //  left: 0;
+    //  width: 50%;
+    //  height: 100%;
+    //  background: rgba($oc-indigo-4, 0.4);
+    //  z-index: 10;
+    //}
   }
 
   .mdl-tabs__tab-bar {
