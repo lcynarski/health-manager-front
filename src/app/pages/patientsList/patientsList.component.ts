@@ -33,4 +33,9 @@ export class PatientsListComponent implements OnInit {
     public viewDetails(id): void {
         this.router.navigate(['/patientDetails', { userId: id }]);
     }
+
+    public viewDoctorsList(id): void {
+        this.router.navigate(['/doctorsList/patient', { patientId: id }]);
+    }
+
 }
