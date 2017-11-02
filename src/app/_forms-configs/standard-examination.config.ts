@@ -3,31 +3,30 @@ import { Validators } from '@angular/forms';
 
 const medicalInfoConfig: FieldConfig[] = [
     {
-        type: 'input',
-        label: 'Weight',
-        name: 'weight',
-        placeholder: 'Weight',
-        validation: [Validators.required]
-    },
-    {
-        type: 'input',
-        label: 'Height',
-        name: 'height',
-        placeholder: 'height',
-        validation: [Validators.required]
-    },
-    {
-        type: 'input',
-        label: 'Allergies',
-        name: 'allergies',
-        placeholder: 'Allergies',
-        validation: [Validators.required]
-    },
-    {
         type: 'textarea',
-        label: 'Other Notes',
-        name: 'otherNotes',
-        placeholder: 'Other Notes'
+        label: 'Symptoms',
+        name: 'symptoms',
+        placeholder: 'Symptoms',
+        validation: [Validators.required]
+    },
+    {
+        type: 'input',
+        label: 'Temperature',
+        name: 'temperature',
+        placeholder: 'Temperature',
+        validation: [Validators.required]
+    },
+    {
+        type: 'checkbox',
+        label: 'UsedDrugs',
+        name: 'usedDrugs',
+        placeholder: 'Used Drugs'
+    },
+    {
+        type: 'checkbox',
+        label: 'Dangerous',
+        name: 'dangerous',
+        placeholder: 'Dangerous'
     },
     {
         label: 'Submit',

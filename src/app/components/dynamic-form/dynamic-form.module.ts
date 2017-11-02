@@ -17,6 +17,7 @@ import {
     DateAdapter, MAT_DATE_FORMATS, MatDatepickerModule, MatFormFieldModule,
     MatInputModule
 } from '@angular/material';
+import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 
 @NgModule({
     imports: [
@@ -37,7 +38,8 @@ import {
         FormInputComponent,
         FormSelectComponent,
         FormCheckboxComponent,
-        FormDateComponent
+        FormDateComponent,
+        FormTextareaComponent
     ],
     exports: [
         DynamicFormComponent
@@ -47,7 +49,8 @@ import {
         FormInputComponent,
         FormSelectComponent,
         FormCheckboxComponent,
-        FormDateComponent
+        FormDateComponent,
+        FormTextareaComponent
     ]
 })
 export class DynamicFormModule {
