@@ -26,7 +26,7 @@ interface VisitEvent extends CalendarEvent {
 }
 
 @Component({
-    providers: [DoctorService, PatientService, AppointmentService, TimeSlotService, GoogleCalendarService],
+    providers: [DoctorService, PatientService, AppointmentService, TimeSlotService],
     templateUrl: './visitsCalendar.component.html',
     styleUrls: ['./visitsCalendar.component.scss']
 })
