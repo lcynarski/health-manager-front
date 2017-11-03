@@ -42,7 +42,7 @@ export class AuthenticationService {
                     console.log('mój email to ' + this.email);
                     return true;
                 }
-                return false;
+                return true;
             });
     }
 
@@ -77,4 +77,8 @@ export class AuthenticationService {
     public getRole() {
         return this.role;
     }
+
+    public isReceptionist(): boolean {
+    return this.getRole() == AuthenticationService.ROLE_ADMIN;
+}
 }

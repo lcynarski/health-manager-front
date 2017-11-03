@@ -25,7 +25,8 @@
 
 <modal #visitModal>
     <modal-header [show-close]="true">
-        <h1 class="modal-title">Visit</h1>
+        <h1 class="modal-title" *ngIf='currentSlotTaken'>Reserved Visit</h1>
+        <h1 class="modal-title" *ngIf='!currentSlotTaken'>Available Visit</h1>
 
     </modal-header>
     <modal-body>
@@ -58,7 +59,7 @@
         </div>
 
         <div *ngIf='currentSlotTaken'>
-            <a (click)="unEnroll()">
+            <a (click)="unEnroll()" class="btn btn-default">
                 UnEnroll!
             </a>
         </div>
@@ -71,10 +72,10 @@
             You are already enrolled for this appointment!
         </div>
         <div *ngIf='imAPatient && !currentSlotTaken'>
-            <a (click)="enrollMe()">Enroll!</a>
+            <a (click)="enrollMe()" class="btn btn-default">Enroll!</a>
         </div>
         <div *ngIf='!imAPatient && currentSlotTaken'>
-            <a (click)="showPatientDetails()">
+            <a (click)="showPatientDetails()" class="btn btn-default">
                 Taken by: {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}</a>
         </div>
         <div *ngIf='!imAPatient && !currentSlotTaken'>
