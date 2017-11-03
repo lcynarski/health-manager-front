@@ -17,16 +17,13 @@
             <button id="closeButton" mdl-button mdl-ripple (click)="closeDialog()">X</button> <!-- TODO: icons -->
         </div>
 
-        <div id="viewer" dicom [series]="activeSeries">
-            <attributes-info *ngIf="infoBoxVisible" [study]="study" [series]="activeSeries"></attributes-info>
-            <!--<div id="infoPane" *ngIf="infoBoxVisible">-->
-                <!--<h3>Study</h3>-->
-                <!--{{study.instanceUID}}-->
-                <!--<h3>Series</h3>-->
-                <!--{{'no series'}}-->
-                <!--<h3>Instance</h3>-->
-                <!--?-->
-            <!--</div>-->
+        <div id="viewer" dicom [series]="activeSeries" (imageLoaded)="onImageLoaded($event)">
+            <attributes-info
+                    *ngIf="infoBoxVisible"
+                    [study]="study"
+                    [series]="activeSeries"
+                    [instance]="activeInstance"
+            ></attributes-info>
         </div>
     </div>
 

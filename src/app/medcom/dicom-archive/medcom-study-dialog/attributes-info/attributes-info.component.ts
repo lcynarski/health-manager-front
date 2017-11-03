@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DicomStudy, DicomSeries } from '../../../../_models';
+import { DicomStudy, DicomSeries, DicomInstance } from '../../../../_models';
 
 @Component({
     selector: 'attributes-info',
@@ -14,6 +14,10 @@ export class AttributesInfoComponent {
     @Input()
     series: DicomSeries;
 
-    constructor() {}
+    @Input()
+    instance: DicomInstance;
+
+    constructor() {
+    }
 
 }

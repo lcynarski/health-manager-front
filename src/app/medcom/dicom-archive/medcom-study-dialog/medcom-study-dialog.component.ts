@@ -23,6 +23,7 @@ export class MedcomStudyDialogComponent implements OnInit {
 
     seriesList: ExtendedDicomSeries[] = [];
     activeSeries: ExtendedDicomSeries;
+    activeInstance: ExtendedDicomInstance;
 
     fetchingSeries: boolean = false;
     errorMessage: string;
@@ -37,9 +38,12 @@ export class MedcomStudyDialogComponent implements OnInit {
         this.fetchSeries();
     }
 
-    onSeriesChange({ index }) {
-        console.log('series changed to ' + index);
+    onSeriesChange({index}) {
         this.activeSeries = this.seriesList[index];
+    }
+
+    onImageLoaded(instance: ExtendedDicomInstance) {
+        this.activeInstance = instance;
     }
 
     toggleInfoBox() {
@@ -50,15 +54,6 @@ export class MedcomStudyDialogComponent implements OnInit {
     public closeDialog(): void {
         this.dialog.hide();
     }
-
-    // private getDicomsUrls(): string[] {
-    //     console.warn('getDicomsUrls');
-    //     const series = this.getActiveSeries();
-    //
-    //     return (series && series.instances)
-    //         ? series.instances.map((i) => i.dicomUrl)
-    //         : [];
-    // }
 
     private fetchSeries() {
         this.archiveService.getSeries(this.study.instanceUID)
@@ -88,7 +83,7 @@ export class MedcomStudyDialogComponent implements OnInit {
                     Promise.all(seriesList.map((series) => this.onSeries(series))) // TODO maybe do this with rxjs instead
                         .then(() => {
                             if (seriesList.length) {
-                                this.onSeriesChange({ index: 0 });
+                                this.onSeriesChange({index: 0});
                             }
                             this.fetchingSeries = false;
                         })
@@ -104,7 +99,7 @@ export class MedcomStudyDialogComponent implements OnInit {
     }
 
     private onSeries(series: DicomSeries): Promise<any> {
-        const extendedSeries: ExtendedDicomSeries = { ...series, instances: null };
+        const extendedSeries: ExtendedDicomSeries = {...series, instances: null};
         this.seriesList.push(extendedSeries);
 
         return new Promise((resolve, reject) => {

@@ -1,5 +1,5 @@
-import { Directive, Input, ElementRef, OnChanges, HostListener, Renderer2 } from '@angular/core';
-import { ExtendedDicomSeries } from '../../_models';
+import { Directive, DoCheck, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output } from '@angular/core';
+import { ExtendedDicomSeries, ExtendedDicomInstance } from '../../_models';
 
 declare const cornerstone;
 declare const cornerstoneTools;
@@ -11,7 +11,7 @@ const WadoImageLoaderSchemeName = 'wadouri:';
     selector: '[dicom]',
 })
 
-export class DicomDirective implements OnChanges {
+export class DicomDirective implements OnChanges, DoCheck {
 
     private static configureCornerstone() { // TODO move to service - should only be called once
         cornerstoneWADOImageLoader.configure({
@@ -21,10 +21,10 @@ export class DicomDirective implements OnChanges {
             }
         });
         const config = {
-            webWorkerPath: '../../../node_modules/cornerstone-wado-image-loader/dist/cornerstoneWADOImageLoaderWebWorker.js',
+            webWorkerPath: '/node_modules/cornerstone-wado-image-loader/dist/cornerstoneWADOImageLoaderWebWorker.min.js',
             taskConfiguration: {
                 decodeTask: {
-                    codecsPath: '../../../node_modules/cornerstone-wado-image-loader/dist/cornerstoneWADOImageLoaderCodecs.js'
+                    codecsPath: '/node_modules/cornerstone-wado-image-loader/dist/cornerstoneWADOImageLoaderCodecs.min.js'
                 }
             }
         };
@@ -39,24 +39,21 @@ export class DicomDirective implements OnChanges {
     @Input()
     public series: ExtendedDicomSeries;
 
+    @Output()
+    public imageLoaded: EventEmitter<ExtendedDicomInstance> = new EventEmitter();
+
     private imageUrls: string[];
     private element: any;
-    private currentIndex: number;
     private toolsInitialized: boolean;
+    private stackState = {
+        currentImageIdIndex: 0,
+        previousImageIdIndex: 0,
+        imageIds: []
+    };
 
-
-    constructor(private elementRef: ElementRef,
-                private renderer: Renderer2) {
+    constructor(private elementRef: ElementRef) {
         this.element = elementRef.nativeElement;
         DicomDirective.configureCornerstone();
-        renderer.listen(this.element, 'CornerstoneNewImage', (e) =>
-            console.info('CornerstoneNewImage', e));
-        renderer.listen(this.element, 'CornerstoneImageLoaded', (e) =>
-            console.info('CornerstoneImageLoaded', e));
-        renderer.listen(this.element, 'CornerstoneImageLoadProgress', (e) =>
-            console.info('CornerstoneImageLoadProgress', e));
-        renderer.listen(this.element, 'CornerstoneImageRendered', (e) =>
-            console.info('CornerstoneImageRendered', e)); // TODO maybe different jQuery version?
     }
 
     @HostListener('contextmenu', ['$event'])
@@ -64,7 +61,7 @@ export class DicomDirective implements OnChanges {
         event.preventDefault();
     }
 
-    public ngOnChanges() {
+    ngOnChanges() {
         if (!this.series || !this.series.instances.length) {
             console.warn('[dicom] no instances provided!');
             return;
@@ -73,17 +70,25 @@ export class DicomDirective implements OnChanges {
             this.imageUrls = this.series.instances.map((i) => i.dicomUrl);
             cornerstone.enable(this.element);
             this.toolsInitialized = false;
-            this.currentIndex = 0;
-
+            this.stackState.currentImageIdIndex = 0;
+            this.stackState.imageIds = this.imageUrls.map((url) => WadoImageLoaderSchemeName + url);
             this.imageUrls.forEach((url) => {
                 console.log(`loading dicom image: '${url}'`);
                 cornerstoneWADOImageLoader.wadouri.dataSetCacheManager.load(url);
             });
 
-            this.displayImage(this.currentIndex);
+            this.displayImage(this.stackState.currentImageIdIndex);
         } catch (error) {
             console.error(`failed to display dicom files: '${this.imageUrls}'!`, error);
         }
+    }
+
+    ngDoCheck(): void {
+        // manual check for image index is needed as receiving events from cornerstone does not work
+        if (this.stackState.currentImageIdIndex !== this.stackState.previousImageIdIndex) {
+            this.onImageLoaded();
+        }
+        this.stackState.previousImageIdIndex = this.stackState.currentImageIdIndex;
     }
 
     private displayImage(index: number) {
@@ -96,6 +101,7 @@ export class DicomDirective implements OnChanges {
 
                 cornerstone.displayImage(this.element, image, viewport);
                 this.initializeTools();
+                this.onImageLoaded();
             })
             .catch((error) => {
                 console.error(`failed to load dicom file: '${url}'!`, error);
@@ -117,19 +123,17 @@ export class DicomDirective implements OnChanges {
         // cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
 
         cornerstoneTools.addStackStateManager(this.element, ['stack', 'playClip']);
-        cornerstoneTools.addToolState(this.element, 'stack', {
-            currentImageIdIndex: this.currentIndex,
-            imageIds: this.imageUrls.map((url) => WadoImageLoaderSchemeName + url)
-        });
+        cornerstoneTools.addToolState(this.element, 'stack', this.stackState);
         cornerstoneTools.stackScrollWheel.activate(this.element);
         cornerstoneTools.scrollIndicator.enable(this.element);
 
         this.toolsInitialized = true;
     }
 
-    @HostListener('onCornerstoneNewImage', ['$event'])
-    private onImageChange(event) {
-        console.warn('image changed to ' + this.currentIndex, event);
+    private onImageLoaded() {
+        this.imageLoaded.emit(
+          this.series.instances[this.stackState.currentImageIdIndex]
+        );
     }
 
 }
