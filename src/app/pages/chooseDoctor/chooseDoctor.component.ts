@@ -41,7 +41,7 @@ export class ChooseDoctorComponent implements OnInit {
     }
 
     reloadDoctors(){
-        this.doctorsService.getAll().subscribe(docs => {this.doctors = docs});
+        this.doctorsService.getAll().subscribe(docs => {this.doctors = docs; });
     }
 
     goToCalendar(doctorId: string) {

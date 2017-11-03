@@ -71,12 +71,14 @@ export class AuthenticationService {
     }
 
     public getEmail(): string {
-        // return this.email;
-        return 'a@a';
+        return this.email;
     }
 
     public getRole() {
-        // return this.role;
-        return AuthenticationService.ROLE_ADMIN;
+        return this.role;
     }
+
+    public isReceptionist(): boolean {
+    return this.getRole() == AuthenticationService.ROLE_ADMIN;
+}
 }
