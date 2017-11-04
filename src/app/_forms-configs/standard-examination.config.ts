@@ -1,7 +1,7 @@
 import { FieldConfig } from '../components/dynamic-form/models/field-config.interface';
 import { Validators } from '@angular/forms';
 
-const medicalInfoConfig: FieldConfig[] = [
+const standardExaminationConfig: FieldConfig[] = [
     {
         type: 'textarea',
         label: 'Symptoms',
@@ -35,4 +35,4 @@ const medicalInfoConfig: FieldConfig[] = [
     }
 ];
 
-export default medicalInfoConfig;
+export default standardExaminationConfig;

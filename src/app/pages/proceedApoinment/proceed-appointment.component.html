@@ -50,8 +50,47 @@
         </form>
     </mat-step>
     <mat-step>
-        <ng-template matStepLabel>{{ 'ProceedMedicalCheckup' | translate }}</ng-template>
+        <ng-template matStepLabel>{{ 'Interview' | translate }}</ng-template>
+
+
+        <dynamic-form
+                [config]="standardExaminationConfig"
+                #standardExaminationForm="dynamicForm"
+                (submit)="submitInterviewForm($event)">
+        </dynamic-form>
+
+
+        <div>
+            <button mat-button matStepperPrevious>Back</button>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>{{ 'WritePrescription' | translate }}</ng-template>
         You are now done.
+
+
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" (click)="getPacks()">
+                        {{ option?.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+
+        <form class="example-form">
+
+        <mat-form-field>
+            <mat-select placeholder="Select size" *ngIf="packs">
+                <mat-option *ngFor="let food of packs" [value]="food">
+                    {{ food }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        </form>
+
         <div>
             <button mat-button matStepperPrevious>Back</button>
         </div>

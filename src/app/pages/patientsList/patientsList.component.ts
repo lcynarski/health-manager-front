@@ -4,6 +4,8 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Patient } from '../../_models/patient';
 import { PatientService } from '../../_services/patient.service';
 import { PatientsListItemComponent } from './patients-list-item.component';
+import { DataSource } from '@angular/cdk/collections';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
 
@@ -15,6 +17,7 @@ import { PatientsListItemComponent } from './patients-list-item.component';
 export class PatientsListComponent implements OnInit {
     patients: Patient[] = [];
     private router: Router;
+    // publcdataSource: PatientsDataSource;
 
     constructor(private patientService: PatientService) {
         this.patients = JSON.parse(localStorage.getItem('patients'));
@@ -27,6 +30,7 @@ export class PatientsListComponent implements OnInit {
     private loadAllPatients() {
         this.patientService.getPatients().subscribe((patients) => {
             this.patients = patients;
+            // dataSource = new PatientsDataSource(this.patients);
         });
     }
 

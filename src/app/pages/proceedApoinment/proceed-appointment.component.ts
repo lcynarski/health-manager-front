@@ -8,9 +8,12 @@ import { error } from 'util';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PatientService } from '../../_services/patient.service';
 import { Patient } from '../../_models/patient';
+import { Observable } from 'rxjs/Observable';
+import { DrugsService } from '../../_services/drugs.service';
+import { standardExaminationConfig } from '../../_forms-configs'
 
 @Component({
-    providers: [PatientService],
+    providers: [PatientService, DrugsService],
     templateUrl: 'proceed-appointment.component.html',
     styleUrls: ['./proceed-appointment.component.scss']
 })
@@ -27,6 +30,24 @@ export class ProceedAppointmentComponent implements OnInit {
     public form: FormGroup;
     public pesel = new FormControl('', Validators.required);
     private params: Params;
+    private drugs = [];
+    public packs = [];
+    private standardExaminationConfig = standardExaminationConfig;
+
+
+    //==
+    myControl: FormControl = new FormControl();
+
+    options = [];
+
+    filteredOptions: Observable<string[]>;
+    //--
+
+    foods = [
+        {value: 'steak-0', viewValue: 'Steak'},
+        {value: 'pizza-1', viewValue: 'Pizza'},
+        {value: 'tacos-2', viewValue: 'Tacos'}
+    ];
 
 
     constructor(private http: Http,
@@ -35,7 +56,8 @@ export class ProceedAppointmentComponent implements OnInit {
                 private patientService: PatientService,
                 private alertService: AlertService,
                 private _formBuilder: FormBuilder,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private drugsService: DrugsService) {
     }
 
     public tabChanged({ index }) {
@@ -65,6 +87,35 @@ export class ProceedAppointmentComponent implements OnInit {
         this.form = this._formBuilder.group({
             pesel: this.pesel
         });
+
+        this.filteredOptions = this.myControl.valueChanges
+            .startWith(null)
+            .map(val => val ? this.filter(val) : this.drugs.slice());
+    }
+
+    filter(val: string): string[] {
+        val.length > 2 && this.drugsService.getDrugsByName(this.myControl.value)
+            .subscribe((drugs) => {
+                this.drugs = drugs;
+            });
+        return this.drugs.filter(option =>
+            option.name.toLowerCase().indexOf(val.toLowerCase()) === 0);
+    }
+
+    private getDrugsByName() {
+        this.drugsService.getDrugsByName(this.myControl.value)
+            .subscribe((drugs) => {
+                this.drugs = drugs;
+            });
+    }
+
+    private getPacks() {
+        const chosenDrug = this.drugs.filter((drug) => drug.name === this.myControl.value)[0];
+        this.drugsService.getDrugDetails(chosenDrug.id)
+            .subscribe((drug) => {
+                const prePacks = drug.packs.filter((value, index) => drug.packs.indexOf(value) === index);
+                this.packs = Array.from(new Set(prePacks.map((item: any) => `${item.count}-${item.unit}`)));
+            });
     }
 
     // private onSubmit() {
@@ -100,4 +151,7 @@ export class ProceedAppointmentComponent implements OnInit {
         this.getPatientByPesel(this.form.value.pesel);
     }
 
+    public submitInterviewForm(value) {
+        console.log("submitInterviewForm value: ", value);
+    }
 }

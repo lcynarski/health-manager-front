@@ -7,13 +7,18 @@ import { routing } from './patientsList.routing';
 import { PatientsListComponent } from './patientsList.component';
 import { PatientsListItemComponent } from './patients-list-item.component';
 import { PatientDetailsComponent } from '../patientDetails/patientDetails.component';
+import { MatTableModule } from '@angular/material';
+import { TranslateModule } from '@ngx-translate/core';
+
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         NgaModule,
-        routing
+        routing,
+        TranslateModule,
+        MatTableModule
     ],
     declarations: [
         PatientsListComponent,
