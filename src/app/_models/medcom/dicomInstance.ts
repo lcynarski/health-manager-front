@@ -9,8 +9,5 @@ export class DicomInstance extends DicomObject {
     seriesInstanceUID: string;
     sopClassName: string;
     creationDate?: number;
-}
-
-export interface ExtendedDicomInstance extends DicomInstance { // TODO remove
-    dicomUrl: string;
+    dicomUrl?: string;
 }

@@ -1,5 +1,5 @@
 import { Directive, DoCheck, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output } from '@angular/core';
-import { ExtendedDicomSeries, ExtendedDicomInstance } from '../../_models';
+import { DicomSeries, DicomInstance } from '../../_models';
 import { CornerstoneService } from '../../_services/medcom';
 
 declare const cornerstone;
@@ -15,10 +15,10 @@ const WadoImageLoaderSchemeName = 'wadouri:';
 export class DicomDirective implements OnChanges, DoCheck {
 
     @Input()
-    public series: ExtendedDicomSeries;
+    public series: DicomSeries;
 
     @Output()
-    public imageLoaded: EventEmitter<ExtendedDicomInstance> = new EventEmitter();
+    public imageLoaded: EventEmitter<DicomInstance> = new EventEmitter();
 
     private imageUrls: string[];
     private element: any;
@@ -40,7 +40,7 @@ export class DicomDirective implements OnChanges, DoCheck {
     }
 
     ngOnChanges() {
-        if (!this.series || !this.series.instances.length) {
+        if (!this.series || !this.series.instances || !this.series.instances.length) {
             console.warn('[dicom] no instances provided!');
             return;
         }

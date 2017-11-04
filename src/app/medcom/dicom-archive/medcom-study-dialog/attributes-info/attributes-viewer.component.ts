@@ -5,8 +5,6 @@ import { DicomStudy, DicomSeries, DicomInstance } from '../../../../_models';
 import { Attribute, DicomAttributesService } from '../../../../_services/medcom';
 
 
-
-
 @Component({
     selector: 'attributes-viewer',
     templateUrl: 'attributes-viewer.component.html',

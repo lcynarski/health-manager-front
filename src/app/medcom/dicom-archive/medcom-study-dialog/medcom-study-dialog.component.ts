@@ -5,8 +5,8 @@ import {
 import { MdlDialogReference } from '@angular-mdl/core';
 
 import {
-    DicomStudy, DicomSeries, ExtendedDicomSeries,
-    DicomInstance, ExtendedDicomInstance
+    DicomStudy, DicomSeries,
+    DicomInstance
 } from '../../../_models';
 import { ArchiveService, DicomAttributesService } from '../../../_services';
 
@@ -21,9 +21,9 @@ export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetail
 })
 export class MedcomStudyDialogComponent implements OnInit {
 
-    seriesList: ExtendedDicomSeries[] = [];
-    activeSeries: ExtendedDicomSeries;
-    activeInstance: ExtendedDicomInstance;
+    seriesList: DicomSeries[] = [];
+    activeSeries: DicomSeries;
+    activeInstance: DicomInstance;
 
     fetchingSeries: boolean = false;
     errorMessage: string;
@@ -44,7 +44,7 @@ export class MedcomStudyDialogComponent implements OnInit {
         this.activeSeries = this.seriesList[index];
     }
 
-    onImageLoaded(instance: ExtendedDicomInstance) {
+    onImageLoaded(instance: DicomInstance) {
         this.activeInstance = instance;
     }
 
@@ -102,15 +102,16 @@ export class MedcomStudyDialogComponent implements OnInit {
     }
 
     private onSeries(series: DicomSeries): Promise<any> {
-        const extendedSeries: ExtendedDicomSeries = {...series, instances: null};
-        this.seriesList.push(extendedSeries);
+        this.seriesList.push(series);
 
         return new Promise((resolve, reject) => {
             this.archiveService.getInstances(series.instanceUID)
                 .subscribe(
                     (instances: DicomInstance[]) => {
-                        extendedSeries.instances = instances.map((instance) =>
-                            this.extendInstance(instance));
+                        series.instances = instances.map((instance) => {
+                            instance.dicomUrl = this.archiveService.resolveDicomUrl(this.study, instance);
+                            return instance;
+                        });
                         resolve();
                     },
                     (error) => {
@@ -118,12 +119,5 @@ export class MedcomStudyDialogComponent implements OnInit {
                     }
                 );
         });
-    }
-
-    private extendInstance(instance: DicomInstance): ExtendedDicomInstance {
-        return {
-            ...instance,
-            dicomUrl: this.archiveService.resolveDicomUrl(this.study, instance)
-        };
     }
 }

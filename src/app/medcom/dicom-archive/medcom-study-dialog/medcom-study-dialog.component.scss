@@ -15,15 +15,24 @@ $barHeight: 50px;
   #topBar {
     height: $barHeight;
     position: relative;
-    button {
-      height: 100%;
-      position: absolute;
-      top: 0;
+    #infoBoxButton {
+      color: white;
+      &:hover {
+        color: $oc-indigo-4;
+      }
+      &.active {
+        color: $oc-indigo-4;
+      }
+    }
+    #tabsContainer {
+      position: relative;
+      top: 2px;
     }
     #closeButton {
-      right: 0;
-      font-size: 20px;
-      color: red;
+      color: white;
+      &:hover {
+        color: red;
+      }
     }
   }
 
@@ -34,10 +43,11 @@ $barHeight: 50px;
     height: calc(100% - #{$barHeight});
   }
 
-  .mdl-tabs__tab-bar {
-    border-color: rgba(black, 0.5);
-  }
 
+   /* customize mdl */
+  .mdl-tabs__tab-bar {
+    border: none !important;
+  }
   .mdl-tabs__tab {
     color: white;
     cursor: pointer;

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { DicomObject, DicomStudy, DicomSeries, DicomInstance } from '../../_models/medcom';
 
 export interface Attribute {
@@ -6,11 +7,13 @@ export interface Attribute {
     value: string;
 }
 
+const DATE_FORMAT = 'dd.MM.yyyy HH:mm:ss';
+
 @Injectable()
 export class DicomAttributesService {
 
     private attributesCache: Map<string, Attribute[]> = new Map();
-
+    private datePipe = new DatePipe('pl');
 
     public getAttributes(dicomObject: DicomObject): Attribute[] {
         let attributes = this.attributesCache.get(dicomObject.instanceUID);
@@ -43,7 +46,7 @@ export class DicomAttributesService {
             ['InstanceCreationDate', 'InstanceCreationTime', 'modality'],
             {
                 sopClassName: instance.sopClassName,
-                creationDate: instance.creationDate
+                creationDate: this.formatDate(instance.creationDate)
             }
         );
     }
@@ -53,7 +56,7 @@ export class DicomAttributesService {
             series.attributes,
             ['SeriesDate', 'SeriesTime'],
             {
-                creationDate: series.creationDate,
+                creationDate: this.formatDate(series.creationDate),
                 modality: series.modalityAET
             }
         );
@@ -63,14 +66,13 @@ export class DicomAttributesService {
         return this.createAttributesList(
             study.attributes,
             ['StudyDate', 'StudyTime'],
-            {creationDate: study.creationDate}
+            {creationDate: this.formatDate(study.creationDate)}
         );
     }
 
     private createAttributesList(attributes: object,
                                  exclusions: string[] = [],
                                  extensions: object = {}): Attribute[] {
-        console.warn('createAttributesList');
         const all = {...extensions, ...attributes};
         return Object.keys(all)
             .filter((key) => !exclusions.includes(key))
@@ -79,5 +81,9 @@ export class DicomAttributesService {
                 array.push({key, value: all[key]});
                 return array;
             }, []);
+    }
+
+    private formatDate(dateMs: number): string {
+        return this.datePipe.transform(dateMs, DATE_FORMAT);
     }
 }

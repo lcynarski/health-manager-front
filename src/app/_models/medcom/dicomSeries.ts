@@ -1,5 +1,5 @@
 import { DicomObject } from './dicomObject';
-import { ExtendedDicomInstance } from './dicomInstance';
+import { DicomInstance } from './dicomInstance';
 
 export class DicomSeries extends DicomObject {
 
@@ -10,8 +10,5 @@ export class DicomSeries extends DicomObject {
     studyInstanceUID: string;
     modalityAET: string;
     creationDate?: number;
-}
-
-export interface ExtendedDicomSeries extends DicomSeries {
-    instances: ExtendedDicomInstance[];
+    instances?: DicomInstance[];
 }
