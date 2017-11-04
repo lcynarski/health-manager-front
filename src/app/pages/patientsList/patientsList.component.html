@@ -7,6 +7,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Birthdate</th>
+            <th *ngIf='isReceptionist' >Visits</th>
         </tr>
         </thead>
         <tbody >
@@ -20,6 +21,9 @@
                 <td>{{ patient?.firstName }}</td>
                 <td>{{ patient?.lastName }}</td>
                 <td> {{ patient?.birthdate }}</td>
+                <td *ngIf='isReceptionist'><button [routerLink]="['/pages/doctorsList/patient/', patient.id]"
+                       class="btn btn-default">
+                    Register visit</button></td>
             </tr>
         </tbody>
     </table>

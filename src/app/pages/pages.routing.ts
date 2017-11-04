@@ -5,6 +5,7 @@ import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 import { PatientDetailsComponent } from './patientDetails/patientDetails.component';
 import { VisitsCalendarComponent } from './visitsCalendar/visitsCalendar.component';
+import { VisitListComponent } from './visitList/visitList.component';
 import { TimeTableComponent } from './timeTable/timeTable.component';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { CreatePatientComponent } from './createPatient/createPatient.component';
@@ -19,6 +20,7 @@ import { MedcomModule } from '../medcom/medcom.module';
 import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
+import {ChooseDoctorComponent} from "./chooseDoctor/chooseDoctor.component";
 
 export const routes: Routes = [
     {
@@ -50,7 +52,10 @@ export const routes: Routes = [
             { path: 'patientsList', loadChildren: './patientsList/patientsList.module#PatientsListModule' },
             { path: 'doctorsList', loadChildren: './doctorsList/doctorsList.module#DoctorsListModule' },
             { path: 'patientDetails/:patientId', component: PatientDetailsComponent },
+            { path: 'doctorsList/patient/:patientId', component: ChooseDoctorComponent},
             { path: 'doctor/:doctorId', component: VisitsCalendarComponent },
+            { path: 'doctor/:doctorId/patient/:patientId', component: VisitsCalendarComponent },
+            { path: 'myAppointments', component: VisitListComponent },
             { path: 'timeTable', component: TimeTableComponent },
             { path: 'createPatient', component: CreatePatientComponent },
             { path: 'createDoctor', component: CreateDoctorComponent },

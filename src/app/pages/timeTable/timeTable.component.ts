@@ -77,23 +77,27 @@ export class TimeTableComponent implements OnInit {
         var newDoctorInfos: DoctorInfo[] = []
         var newDatesSequence: string[] = []
         let daysCount = Math.round((this.endDate.getTime() - this.startDate.getTime()) / 1000 / 60 / 60 / 24)
+        for (var dayOffset = 0; dayOffset < daysCount; dayOffset++) {
+            let dayTime: Date = new Date(this.startDate.getTime())
+            dayTime.setDate(this.startDate.getDate() + dayOffset)
+            newDatesSequence.push(dayTime.getDate() + "." + (dayTime.getMonth() + 1))
+        }
+        this.datesSequence = newDatesSequence        
         for (var singleDoctorData of everyDoctorData) {
             var [doctor, slots] = singleDoctorData
-            this.refreshSingleDoctorInfo(doctor, slots, newDoctorInfos, newDatesSequence, daysCount)
+            this.refreshSingleDoctorInfo(doctor, slots, newDoctorInfos, daysCount)
         }
         this.doctorInfos = this.sortSlotsInsideDoctorInfo(newDoctorInfos)
-        this.datesSequence = newDatesSequence
     }
 
     private refreshSingleDoctorInfo(doctor: Doctor, slots: TimeSlot[],
-        doctorInfos: DoctorInfo[], datesSequence: string[], daysCount: number): void {
+        doctorInfos: DoctorInfo[],  daysCount: number): void {
         var processedDocInfo: DoctorInfo = this.getOrCreateDoctorInfo(doctor, doctorInfos, daysCount)
         for (var dayOffset = 0; dayOffset < daysCount; dayOffset++) {
             let dayStartTime: Date = new Date(this.startDate.getTime())
             dayStartTime.setDate(this.startDate.getDate() + dayOffset)
             let dayEndTime: Date = new Date(this.startDate.getTime())
             dayEndTime.setDate(this.startDate.getDate() + dayOffset + 1)
-            datesSequence.push(dayStartTime.getDate() + "." + (dayStartTime.getMonth() + 1))
             let slotInfos: SlotInfo[] = this.createSlotInfosForDay(slots, dayStartTime, dayEndTime)
             var resultArray: SlotInfo[] = processedDocInfo.subsequentDaysInfo[dayOffset]
             for (var slot of slotInfos) {

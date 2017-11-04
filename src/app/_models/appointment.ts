@@ -8,5 +8,11 @@ export class Appointment {
     officeNumber: number;
     data: string;
     patient: Patient;
+    patientId: number;
     timeSlot: TimeSlot;
+    priority: string;
+
+    static PRIORITY_LOW = "LOW"
+    static PRIORITY_NORMAL = "NORMAL"
+    static PRIORITY_HIGH = "HIGH"
 }

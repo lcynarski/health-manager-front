@@ -20,6 +20,7 @@ import { PatientDetailsComponent } from './patientDetails/patientDetails.compone
 import { AgmCoreModule } from '@agm/core';
 import { Paper } from '../components/paper/paper.component';
 import { VisitsCalendarComponent } from './visitsCalendar/visitsCalendar.component';
+import { VisitListComponent } from './visitList/visitList.component';
 import { CalendarModule } from 'angular-calendar';
 import { CalendarHeaderComponent } from './visitsCalendar/calendar-header.component';
 import { CreatePatientComponent } from './createPatient/createPatient.component';
@@ -46,6 +47,7 @@ import { FormCreatorStore } from '../stores/formCreatorStore';
 import { FormsCreatorComponent } from '../forms/formsCreator/formsCreator.component';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { TranslateModule } from '@ngx-translate/core';
+import {ChooseDoctorComponent} from "./chooseDoctor/chooseDoctor.component";
 
 @NgModule({
     imports: [
@@ -75,9 +77,11 @@ import { TranslateModule } from '@ngx-translate/core';
     ],
     declarations: [
         Pages,
+        ChooseDoctorComponent,
         PatientDetailsComponent,
         Paper,
         VisitsCalendarComponent,
+        VisitListComponent,
         CalendarHeaderComponent,
         CreatePatientComponent,
         CreateTimeslotComponent,
