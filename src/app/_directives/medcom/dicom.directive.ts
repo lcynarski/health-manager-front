@@ -1,5 +1,6 @@
 import { Directive, DoCheck, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output } from '@angular/core';
 import { ExtendedDicomSeries, ExtendedDicomInstance } from '../../_models';
+import { CornerstoneService } from '../../_services/medcom';
 
 declare const cornerstone;
 declare const cornerstoneTools;
@@ -12,29 +13,6 @@ const WadoImageLoaderSchemeName = 'wadouri:';
 })
 
 export class DicomDirective implements OnChanges, DoCheck {
-
-    private static configureCornerstone() { // TODO move to service - should only be called once
-        cornerstoneWADOImageLoader.configure({
-            beforeSend: (xhr) => {
-                // Add custom headers here (e.g. auth tokens)
-                // xhr.setRequestHeader('APIKEY', 'my auth token');
-            }
-        });
-        const config = {
-            webWorkerPath: '/node_modules/cornerstone-wado-image-loader/dist/cornerstoneWADOImageLoaderWebWorker.min.js',
-            taskConfiguration: {
-                decodeTask: {
-                    codecsPath: '/node_modules/cornerstone-wado-image-loader/dist/cornerstoneWADOImageLoaderCodecs.min.js'
-                }
-            }
-        };
-        try {
-            cornerstoneWADOImageLoader.webWorkerManager.initialize(config);
-        } catch (e) {
-            console.warn('double cornerstone init!');
-        }
-    }
-
 
     @Input()
     public series: ExtendedDicomSeries;
@@ -51,9 +29,9 @@ export class DicomDirective implements OnChanges, DoCheck {
         imageIds: []
     };
 
-    constructor(private elementRef: ElementRef) {
+    constructor(private elementRef: ElementRef,
+                private service: CornerstoneService) {
         this.element = elementRef.nativeElement;
-        DicomDirective.configureCornerstone();
     }
 
     @HostListener('contextmenu', ['$event'])
@@ -132,7 +110,7 @@ export class DicomDirective implements OnChanges, DoCheck {
 
     private onImageLoaded() {
         this.imageLoaded.emit(
-          this.series.instances[this.stackState.currentImageIdIndex]
+            this.series.instances[this.stackState.currentImageIdIndex]
         );
     }
 

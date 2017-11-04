@@ -18,12 +18,12 @@
         </div>
 
         <div id="viewer" dicom [series]="activeSeries" (imageLoaded)="onImageLoaded($event)">
-            <attributes-info
+            <attributes-viewer
                     *ngIf="infoBoxVisible"
                     [study]="study"
                     [series]="activeSeries"
                     [instance]="activeInstance"
-            ></attributes-info>
+            ></attributes-viewer>
         </div>
     </div>
 

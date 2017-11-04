@@ -8,7 +8,7 @@ import {
     DicomStudy, DicomSeries, ExtendedDicomSeries,
     DicomInstance, ExtendedDicomInstance
 } from '../../../_models';
-import { ArchiveService } from '../../../_services';
+import { ArchiveService, DicomAttributesService } from '../../../_services';
 
 
 export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetails');
@@ -31,10 +31,12 @@ export class MedcomStudyDialogComponent implements OnInit {
 
     constructor(@Inject(STUDY_INJECTION_TOKEN) public study: DicomStudy,
                 private dialog: MdlDialogReference,
-                private archiveService: ArchiveService) {
+                private archiveService: ArchiveService,
+                private attributesService: DicomAttributesService) {
     }
 
     ngOnInit(): void {
+        this.attributesService.clearCache();
         this.fetchSeries();
     }
 
@@ -46,6 +48,7 @@ export class MedcomStudyDialogComponent implements OnInit {
         this.activeInstance = instance;
     }
 
+    @HostListener('document:keydown.i')
     toggleInfoBox() {
         this.infoBoxVisible = !this.infoBoxVisible;
     }

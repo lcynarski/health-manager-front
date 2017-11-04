@@ -1,4 +1,5 @@
 export * from './dicomObject';
+export * from './attributesContainer';
 export * from './dicomInstance';
 export * from './dicomSeries';
 export * from './dicomStudy';

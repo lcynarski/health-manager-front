@@ -1,8 +1,12 @@
 import { DicomObject } from './dicomObject';
 import { ExtendedDicomInstance } from './dicomInstance';
 
-export interface DicomSeries extends DicomObject {
-    instanceUID: string;
+export class DicomSeries extends DicomObject {
+
+    public static is(object: any) {
+        return !!object.studyInstanceUID && DicomObject.is(object);
+    }
+
     studyInstanceUID: string;
     modalityAET: string;
     creationDate?: number;

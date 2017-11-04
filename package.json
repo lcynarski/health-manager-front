@@ -49,6 +49,7 @@
     "moment": "^2.18.1",
     "ng2-bs4-modal": "0.2.0",
     "ngx-infinite-scroll": "^0.5.1",
+    "ngx-slimscroll": "~3.3.0",
     "ngx-uploader": "2.0.0",
     "node-sass": "4.5.2",
     "open-color": "1.5.1",
