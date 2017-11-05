@@ -6,16 +6,23 @@
 
   &__title {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     font-size: 2rem;
   }
 
   &__photo {
-    margin-left: 5rem;
 
     i {
       font-size: 10rem;
+    }
+  }
+
+  &__action-buttons {
+    box-shadow: none;
+
+    button {
+      margin: 1rem;
     }
   }
 
@@ -47,17 +54,15 @@
   }
 
   & > div {
-    box-shadow: 2px 2px 2px $oc-gray-3;
-    background: $oc-white;
     margin: 1rem;
     padding: 2rem;
-    width: calc(50% - 2rem);
   }
 }
 
 
 .mdl-dialog__content {
   height: 60vh;
+  overflow: auto;
 }
 
 :host /deep/ .dynamic-form {

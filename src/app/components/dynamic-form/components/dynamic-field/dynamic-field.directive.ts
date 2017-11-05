@@ -18,13 +18,15 @@ import { Field } from '../../models/field.interface';
 import { FieldConfig } from '../../models/field-config.interface';
 import { FormCheckboxComponent } from '../form-checkbox/form-checkbox.component';
 import { FormDateComponent } from '../form-date/form-date.component';
+import { FormTextareaComponent } from '../form-textarea/form-textarea.component';
 
 const components: { [type: string]: Type<Field> } = {
     button: FormButtonComponent,
     input: FormInputComponent,
     select: FormSelectComponent,
     checkbox: FormCheckboxComponent,
-    date: FormDateComponent
+    date: FormDateComponent,
+    textarea: FormTextareaComponent
 };
 
 @Directive({

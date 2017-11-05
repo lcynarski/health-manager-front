@@ -12,7 +12,11 @@ import {
     MatButtonToggleModule,
     MatLineModule,
     MatIconModule,
-    MatRippleModule
+    MatRippleModule,
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatListModule, MatExpansionModule, MatSortModule, MatTableModule, MatAutocompleteModule, MatSelectModule
 } from '@angular/material';
 import { ModalModule } from 'ng2-bs4-modal/ng2-bs4-modal';
 import { Pages } from './pages.component';
@@ -48,6 +52,7 @@ import { FormsCreatorComponent } from '../forms/formsCreator/formsCreator.compon
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { TranslateModule } from '@ngx-translate/core';
 import {ChooseDoctorComponent} from "./chooseDoctor/chooseDoctor.component";
+import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
 
 @NgModule({
     imports: [
@@ -73,7 +78,17 @@ import {ChooseDoctorComponent} from "./chooseDoctor/chooseDoctor.component";
         MatIconModule,
         MatRippleModule,
         TranslateModule,
-        MdlSelectModule
+        MdlSelectModule,
+        MatTabsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatListModule,
+        MatExpansionModule,
+        MatInputModule,
+        MatSortModule,
+        MatTableModule,
+        MatAutocompleteModule,
+        MatSelectModule
     ],
     declarations: [
         Pages,
@@ -95,7 +110,8 @@ import {ChooseDoctorComponent} from "./chooseDoctor/chooseDoctor.component";
         DrugsSearchComponent,
         FieldsCreatorComponent,
         FieldsRemoverComponent,
-        FormsCreatorComponent
+        FormsCreatorComponent,
+        DrugDetailsComponent
     ]
 })
 export class PagesModule {

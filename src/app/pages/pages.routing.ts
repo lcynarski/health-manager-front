@@ -20,6 +20,7 @@ import { MedcomModule } from '../medcom/medcom.module';
 import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
 import {ChooseDoctorComponent} from "./chooseDoctor/chooseDoctor.component";
 
 export const routes: Routes = [
@@ -65,12 +66,7 @@ export const routes: Routes = [
             { path: 'medcom', loadChildren: () => MedcomModule },
             { path: 'proceedAppointment', component: ProceedAppointmentComponent },
             { path: 'drugsSearch', component: DrugsSearchComponent },
-            // { path: 'components', loadChildren: './components/components.module#ComponentsModule' },
-            // { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
-            // { path: 'ui', loadChildren: './ui/ui.module#UiModule' },
-            // { path: 'forms', loadChildren: './forms/forms.module#FormsModule' },
-            // { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
-            // { path: 'maps', loadChildren: './maps/maps.module#MapsModule' }
+            { path: 'drugDetails/:drugId', component: DrugDetailsComponent },
             { path: 'fieldsCreator', component: FieldsCreatorComponent },
             { path: 'formsCreator', component: FormsCreatorComponent },
             { path: 'formsCreator/:formId', component: FormsCreatorComponent },

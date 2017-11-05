@@ -1,148 +1,93 @@
-import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
+///<reference path="../../_services/patient.service.ts"/>
+import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Patient } from '../../_models/patient';
 import { PatientService } from '../../_services/patient.service';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
-import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
+import {
+    createPatientConfig,
+    medicalInfoConfig,
+    medicalHistoryDiseaseConfig,
+    emergencyContactConfig
+} from '../../_forms-configs';
+import moment = require('moment');
+
 
 @Component({
     providers: [PatientService],
+    selector: 'patient-details',
     templateUrl: './patientDetails.component.html',
     styleUrls: ['./patientDetails.component.scss']
 })
 
 export class PatientDetailsComponent implements OnInit {
-    @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+    @ViewChild('editPatientForm') editPatientForm: DynamicFormComponent;
+    @ViewChild('medicalInfoEditForm') medicalInfoEditForm: DynamicFormComponent;
+    @ViewChild('medicalHistoryItemForm') medicalHistoryItemForm: DynamicFormComponent;
+    @Input() patient: Patient;
 
-    public patient: Patient;
+    // public patient: Patient;
     public id: string;
     public lat: number = 51.678418;
     public lng: number = 7.809007;
-    // public form: DynamicFormComponent;
+    public editPatientConfig = createPatientConfig;
+    public medicalInfoConfig = medicalInfoConfig;
+    public medicalHistoryDiseaseConfig = medicalHistoryDiseaseConfig;
+    public emergencyContactConfig = emergencyContactConfig;
     private router: Router;
     private sub: any;
-
-    config: FieldConfig[] = [
-        {
-            type: 'input',
-            label: 'First Name',
-            name: 'firstName',
-            placeholder: 'First Name'
-        },
-        {
-            type: 'input',
-            label: 'Last Name',
-            name: 'lastName',
-            placeholder: 'Last Name'
-        },
-        {
-            type: 'input',
-            label: 'Date of birth',
-            name: 'birthdate',
-            placeholder: 'Date'
-        },
-        {
-            type: 'input',
-            label: 'PESEL',
-            name: 'pesel',
-            placeholder: 'PESEL'
-        },
-        {
-            type: 'select',
-            label: 'Gender',
-            name: 'gender',
-            options: ['Male', 'Female', 'Other'],
-            placeholder: 'Select an option'
-        },
-        {
-            type: 'input',
-            label: 'Phone Number',
-            name: 'phoneNumber',
-            placeholder: 'Phone Number'
-        },
-        {
-            type: 'input',
-            label: 'Country',
-            name: 'country',
-            placeholder: 'Country'
-        },
-        {
-            type: 'input',
-            label: 'City',
-            name: 'city',
-            placeholder: 'City'
-        },
-        {
-            type: 'input',
-            label: 'Street',
-            name: 'street',
-            placeholder: 'Street'
-        },
-        {
-            type: 'input',
-            label: 'Building',
-            name: 'buildingNumber',
-            placeholder: 'Building number'
-        },
-        {
-            type: 'input',
-            label: 'Flat',
-            name: 'flatNumber',
-            placeholder: 'Flat number'
-        },
-        {
-            label: 'Submit',
-            name: 'submit',
-            type: 'button'
-        }
-    ];
+    private medicalHistory: any;
+    private emergencyContact: any;
+    private model: any = {};
 
     constructor(router: Router,
                 private http: Http,
                 private route: ActivatedRoute,
                 private patientService: PatientService) {
         this.router = router;
-        // this.id = route.params[0];
     }
 
     public ngOnInit() {
+        console.log(this.editPatientConfig);
+        console.log(this.medicalInfoConfig);
         this.sub = this.route.params.subscribe((params) => {
             this.id = params['patientId']; // (+) converts string 'id' to a number
             this.loadPatientData();
             this.loadPatientMedicalData();
+            this.loadEmergencyData();
         });
-        // this.form.setValue('name', 'Todd Motto');
-        // this.patient.account.personalDetails.keys
-        // for ( item in this.patient.account.personalDetails) {
-        // Object.entries(this.patient.account.personalDetails).forEach(([key, value]) => {
-        //     this.form.setValue(key, value);
-        // };
-        // Object.keys( this.patient.account.personalDetails ).forEach( key => {
-        //     this.form.setValue(key, this.patient.account.personalDetails[key]);
-        // });
-        // }
     }
 
     public loadPatientData() {
         this.patientService.getById(this.id)
             .subscribe((patient) => {
                 this.patient = patient;
+                const { birthdate } = patient;
+                const formattedDate = moment(birthdate).format('YYYY-MM-DD');
+                this.patient = { ...this.patient, birthdate: formattedDate };
                 this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${patient.city}`)
                     .map((res) => res.json())
                     .subscribe((response) => {
-                        this.lat = response['results'][0]['geometry']['location']['lat'];
-                        this.lng = response['results'][0]['geometry']['location']['lng'];
+                        // this.lat = response['results'][0]['geometry']['location']['lat'];
+                        // this.lng = response['results'][0]['geometry']['location']['lng'];
                     });
             });
         return this.patient;
     }
 
     public loadPatientMedicalData() {
-        // this.patientService.getMedicalInfo(this.id)
-        //     .subscribe((medicalInfo) => {
-        //         this.patient.medicalInfo = medicalInfo;
-        //     });
+        this.patientService.getMedicalInfo(this.id)
+            .subscribe((medicalInfo) => {
+                this.patient.medicalInfo = medicalInfo;
+            });
+    }
+
+    public loadEmergencyData() {
+        this.patientService.getEmergencyContact(this.id)
+            .subscribe((emergencyData) => {
+                this.emergencyContact = emergencyData;
+            });
     }
 
     submit(value) {
@@ -164,9 +109,67 @@ export class PatientDetailsComponent implements OnInit {
             });
     }
 
-    onDialogShow = (dialogRef) => {
-        Object.keys(this.patient).forEach(key => {
-            (key !== 'id') && this.form.setValue(key, this.patient[key]);
-        });
+    addMedicalInfo(value) {
+        console.log('medicalinfovalue', value);
+        this.patientService.saveMedicalInfo(this.patient.id, value)
+            .subscribe((data) => {
+                console.log('saveMedicalInfo', data);
+                this.loadPatientMedicalData();
+            });
     }
+
+    editMedicalInfo(value) {
+        console.log('medicalinfovalue', value);
+        this.patientService.updateMedicalInfo(this.patient.id, value)
+            .subscribe((data) => {
+                console.log('saveMedicalInfo', data);
+                this.loadPatientMedicalData();
+            });
+    }
+
+    showMedicalHistory() {
+        console.log('Start date: ', this.model.startDate);
+        console.log('End date: ', this.model.endDate);
+        this.patientService.getMedicalHistory(this.patient.id, this.model.startDate, this.model.endDate)
+            .subscribe((data) => {
+                this.medicalHistory = data;
+                console.log('showMedicalHistory response: ', data);
+            });
+    }
+
+    addToMedicalHistory(value) {
+        this.patientService.addToMedicalHistory(this.patient.id, value)
+            .subscribe((data) => {
+                console.log('addToMedicalHistory response: ', data);
+            });
+    }
+
+    addEmergencyContact(value) {
+        const { birthdate } = value;
+        const newDate = moment(birthdate).format('YYYY-MM-DD');
+        const toSend = { ...value, birthdate: newDate}
+        this.patientService.addEmergencyContact(this.patient.id, toSend)
+            .subscribe((data) => {
+                console.log('addEmergencyContact response: ', data);
+            });
+    }
+
+    onDialogShow = (dialogRef) => {
+        Object.keys(this.patient).forEach((key) => {
+            if ((key !== 'id') && (key !== 'insuranceNumber') && (key !== 'medicalInfo') && this.editPatientForm) {
+                this.editPatientForm.setValue(key, this.patient[key]);
+            }
+        });
+    };
+
+    onMedicalInfoDialogShow = (dialogRef) => {
+    };
+
+    onMedicalInfoEditDialogShow = (dialogRef) => {
+        Object.keys(this.patient.medicalInfo).forEach((key) => {
+            if ((key !== 'id') && this.medicalInfoEditForm) {
+                this.medicalInfoEditForm.setValue(key, this.patient.medicalInfo[key]);
+            }
+        });
+    };
 }

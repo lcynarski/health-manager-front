@@ -1,64 +1,16 @@
-<!--<div class="proceed-apoinment-container">-->
-    <!--<mdl-switch [(ngModel)]="disableTargaryens" mdl-ripple>Disable Targaryens</mdl-switch>-->
-    <!--<mdl-switch [(ngModel)]="disableBaratheon" mdl-ripple>Disable Baratheon</mdl-switch>-->
-    <!--<mdl-tabs mdl-ripple mdl-tab-active-index="0" (mdl-tab-active-changed)="tabChanged($event)">-->
-        <!--<mdl-tab-panel>-->
-            <!--<mdl-tab-panel-title>-->
-                <!--<mdl-icon class="mdl-color-text&#45;&#45;primary">person</mdl-icon><span>Starks</span>-->
-            <!--</mdl-tab-panel-title>-->
-            <!--<mdl-tab-panel-content>-->
-                <!--<ul>-->
-                    <!--<li>Eddard</li>-->
-                    <!--<li>Catelyn</li>-->
-                    <!--<li>Robb</li>-->
-                    <!--<li>Sansa</li>-->
-                    <!--<li>Brandon</li>-->
-                    <!--<li>Arya</li>-->
-                    <!--<li>Rickon</li>-->
-                <!--</ul>-->
-            <!--</mdl-tab-panel-content>-->
-        <!--</mdl-tab-panel>-->
-        <!--<mdl-tab-panel mdl-tab-panel-title="Lannisters">-->
-            <!--<ul>-->
-                <!--<li>Tywin</li>-->
-                <!--<li>Cersei</li>-->
-                <!--<li>Jamie</li>-->
-                <!--<li>Tyrion</li>-->
-            <!--</ul>-->
-        <!--</mdl-tab-panel>-->
-        <!--<mdl-tab-panel mdl-tab-panel-title="Targaryens" [disabled]="disableTargaryens">-->
-            <!--<ul>-->
-                <!--<li>Viserys</li>-->
-                <!--<li>Daenerys</li>-->
-            <!--</ul>-->
-        <!--</mdl-tab-panel>-->
-        <!--<mdl-tab-panel mdl-tab-panel-title="Baratheon" [disabled]="disableBaratheon">-->
-            <!--<mdl-tab-panel-title>-->
-                <!--<mdl-icon class="mdl-color-text&#45;&#45;primary">person</mdl-icon><span>Baratheon</span>-->
-            <!--</mdl-tab-panel-title>-->
-            <!--<mdl-tab-panel-content>-->
-                <!--<ul>-->
-                    <!--<li>Robert</li>-->
-                    <!--<li>Renly</li>-->
-                    <!--<li>Stanis</li>-->
-                    <!--<li>Joffrey</li>-->
-                    <!--<li>Myrcella</li>-->
-                    <!--<li>Tommen</li>-->
-                <!--</ul>-->
-            <!--</mdl-tab-panel-content>-->
-        <!--</mdl-tab-panel>-->
-    <!--</mdl-tabs>-->
-<!--</div>-->
-
-<button mat-raised-button (click)="isLinear = true" id="toggle-linear">Enable linear mode</button>
-
 <mat-horizontal-stepper [linear]="isLinear">
     <mat-step [stepControl]="firstFormGroup">
         <form [formGroup]="firstFormGroup">
-            <ng-template matStepLabel>Fill out your name</ng-template>
-            <mat-form-field>
-                <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-            </mat-form-field>
+            <ng-template matStepLabel>{{ 'AppointmentsInfo' | translate }}</ng-template>
+            <!--<mat-form-field>-->
+                <!--<input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>-->
+            <!--</mat-form-field>-->
+            Doctor: MockDoctor
+            Patient: MockPatient
+            Date: MockDate
+            Price: MockPrice
+
+
             <div>
                 <button mat-button matStepperNext>Next</button>
             </div>
@@ -66,10 +18,31 @@
     </mat-step>
     <mat-step [stepControl]="secondFormGroup">
         <form [formGroup]="secondFormGroup">
-            <ng-template matStepLabel>Fill out your address</ng-template>
-            <mat-form-field>
-                <input matInput placeholder="Address" formControlName="secondCtrl" required>
-            </mat-form-field>
+            <ng-template matStepLabel>{{ 'PatientsPersonalInfo' | translate }}</ng-template>
+            <!--<mat-form-field>-->
+                <!--<input matInput placeholder="Address" formControlName="secondCtrl" required>-->
+            <!--</mat-form-field>-->
+
+            <form [formGroup]="form"
+                  (submit)="onSubmit($event)"
+                  *ngIf="!patient"
+            >
+                <div>
+                    Enter patient's PESEL number:
+                </div>
+                <p>
+                    <mdl-textfield label="PESEL" name="pesel" type="text" formControlName="pesel"
+                                   floating-label></mdl-textfield>
+                </p>
+                <p>
+                    <button mdl-button type="submit" [disabled]="!form.valid" mdl-button-type="raised" mdl-ripple
+                            mdl-colored="primary">{{ 'Submit' | translate }}
+                    </button>
+                </p>
+            </form>
+            <patient-details *ngIf="patient" [patient]="patient"></patient-details>
+
+
             <div>
                 <button mat-button matStepperPrevious>Back</button>
                 <button mat-button matStepperNext>Next</button>
@@ -77,7 +50,53 @@
         </form>
     </mat-step>
     <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
+        <ng-template matStepLabel>{{ 'Interview' | translate }}</ng-template>
+
+
+        <dynamic-form
+                [config]="standardExaminationConfig"
+                #standardExaminationForm="dynamicForm"
+                (submit)="submitInterviewForm($event)">
+        </dynamic-form>
+
+
+        <div>
+            <button mat-button matStepperPrevious>Back</button>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>{{ 'WritePrescription' | translate }}</ng-template>
+        You are now done.
+
+
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" (click)="getPacks()">
+                        {{ option?.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+
+        <form class="example-form">
+
+        <mat-form-field>
+            <mat-select placeholder="Select size" *ngIf="packs">
+                <mat-option *ngFor="let food of packs" [value]="food">
+                    {{ food }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        </form>
+
+        <div>
+            <button mat-button matStepperPrevious>Back</button>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>{{ 'Summary' | translate }}</ng-template>
         You are now done.
         <div>
             <button mat-button matStepperPrevious>Back</button>
