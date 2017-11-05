@@ -42,10 +42,10 @@ export class VisitsCalendarComponent implements OnInit {
         private authService: AuthenticationService,
         private router: Router) {
 
-        this.createTimeSlotComponent = new CreateTimeslotComponent(router, doctorService)
+        this.createTimeSlotComponent = new CreateTimeslotComponent(router, doctorService);
     }
 
-    createTimeSlotComponent: CreateTimeslotComponent
+    createTimeSlotComponent: CreateTimeslotComponent;
 
     config: FieldConfig[];
 
@@ -65,15 +65,17 @@ export class VisitsCalendarComponent implements OnInit {
 
     viewDate: Date = new Date();
 
-    userRole: string
+    userRole: string;
 
-    imAPatient: boolean
+    imAPatient: boolean;
 
-    showSlotMoveMenu: boolean = false
+    showSlotMoveMenu: boolean = false;
 
     data: string = "Reason of visit" //powód wizyty itp 
 
     priority: string = Appointment.PRIORITY_NORMAL; //domyślnie, np kiedy pacjent się sam rejestruje
+
+    moveSlotErr: boolean = false
 
     priorities = [
         { id: Appointment.PRIORITY_LOW, name: 'Low' },
@@ -105,6 +107,37 @@ export class VisitsCalendarComponent implements OnInit {
         });
     }
 
+    private slotToVisitEvent(slot: TimeSlot): VisitEvent{
+        return {
+            slotId: slot.id,
+            title: "Visit",
+            start: new Date(slot.startDateTime),
+            end: new Date(slot.endDateTime),
+            color: this.colors.blue,
+            availableForSelfSign: slot.availableForSelfSign
+        };
+    }
+
+    private doSomethingWojtekKnowsWhat([event, appointment]: [VisitEvent, Appointment]): VisitEvent{
+        if (appointment === null) {
+            if (event.availableForSelfSign || !this.imAPatient) {
+                event.color = this.colors.blue;
+                return event;
+            } else {
+                return null;
+            }
+        } else {
+            if (!this.imAPatient || appointment.patient.id === this.patient.id) {
+                event.patient = appointment.patient;
+                event.appointmentId = appointment.id;
+                event.color = this.colors.red;
+                return event;
+            } else {
+                return null;
+            }
+        }
+    }
+
     reloadEvents() {
         //zawsze zaciągamy miesiąc - nawet jak patrzymy na tydzień/dzień (tak prościej :P)
         var viewStart = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1);
@@ -112,16 +145,10 @@ export class VisitsCalendarComponent implements OnInit {
 
         this.timeSlotService.getTimeSlots(this.doctor, viewStart, viewEnd)
             .subscribe(slots => {
+
                 const eventsTmp: VisitEvent[] = slots.map((slot) => {
-                    return {
-                        slotId: slot.id,
-                        title: "Visit",
-                        start: new Date(slot.startDateTime),
-                        end: new Date(slot.endDateTime),
-                        color: this.colors.blue,
-                        availableForSelfSign: slot.availableForSelfSign
-                    }
-                })
+                  return this.slotToVisitEvent(slot);
+                });
 
 
                 const observables: Array<Observable<[VisitEvent, Appointment]>> =
@@ -133,25 +160,10 @@ export class VisitsCalendarComponent implements OnInit {
                 Observable.forkJoin(observables)
                     .subscribe((dataArray: Array<[VisitEvent, Appointment]>) => {
                         self.events = dataArray.map(([event, appointment]: [VisitEvent, Appointment]) => {
-                            if (appointment === null) {
-                                if (event.availableForSelfSign || !self.imAPatient) {
-                                    event.color = self.colors.blue
-                                    return event;
-                                } else {
-                                    return null;
-                                }
-                            } else {
-                                if (!self.imAPatient || appointment.patient.id === self.patient.id) {
-                                    event.patient = appointment.patient
-                                    event.appointmentId = appointment.id;
-                                    event.color = self.colors.red;
-                                    return event;
-                                } else {
-                                    return null;
-                                }
-                            }
+                            return this.doSomethingWojtekKnowsWhat([event, appointment]);
                         }).filter((ev) => ev != null);
                     });
+
             });
     }
 
@@ -168,9 +180,9 @@ export class VisitsCalendarComponent implements OnInit {
         this.modalTime = event.start.toLocaleTimeString().substring(0, 5);
         console.log(event);
 
-        var visitEvent: VisitEvent = (event as VisitEvent)
+        var visitEvent: VisitEvent = (event as VisitEvent);
         this.currentSlotId = visitEvent.slotId;
-        this.currentSlotTaken = visitEvent.patient != null
+        this.currentSlotTaken = visitEvent.patient != null;
         if (!this.imAPatient) {
             this.patient = visitEvent.patient;
         }
@@ -182,8 +194,8 @@ export class VisitsCalendarComponent implements OnInit {
     }
 
     enrollMe() {
-        console.log('Enrolling myself:')
-        console.log(this.patient)
+        console.log('Enrolling myself:');
+        console.log(this.patient);
         this.setPatient(this.patient);
     }
 
@@ -209,91 +221,85 @@ export class VisitsCalendarComponent implements OnInit {
             }
         }
         this.appointmentService.saveAppointment(this.patient.id, appointmentData)
-            .subscribe(appointment => this.modalClosed())
+            .subscribe(appointment => this.modalClosed());
     }
 
     modalClosed() {
+        this.moveSlotErr = false;
         this.showSlotMoveMenu = false;
         this.modal.close();
         this.reloadEvents();
     }
 
     // moves also Appointment if necessary
-    // WARNING: This operation should be atomic but it's not :P
     moveTimeSlot(value) {
         if (value.startDateTime != undefined && value.endDateTime != undefined) {
-            const timeSlot = {
-                id: 0,
-                startDateTime: value.startDateTime,
-                endDateTime: value.endDateTime,
-                availableForSelfSign: value.availableForSelfSign,
-                doctor: null //to nie potrzebne tutaj ale trochę żal
-            };
             var docId
             if (value.doctor == undefined || this.createTimeSlotComponent.docIdByName[value.doctor] == undefined) {
-                docId = this.id
+                docId = this.id;
             } else {
-                docId = this.createTimeSlotComponent.docIdByName[value.doctor]
+                docId = this.createTimeSlotComponent.docIdByName[value.doctor];
             }
-            this.appointmentService.getByTimeSlot(this.currentSlotId)
-                .catch((err) => this.swapTimeSlot(docId, timeSlot).map((sth) => null))
-                .subscribe((appointment: Appointment) => {
-                    if (appointment != null) {
-                        this.swapAppointment(appointment, timeSlot, docId)
-                    } else {
-                        this.modalClosed()
+            this.timeSlotService.moveTimeSlot(docId, this.currentSlotId,
+                new Date(value.startDateTime), new Date(value.endDateTime))
+                .catch(err => {
+                    this.moveSlotErr = true;
+                    return null;
+                }).subscribe(res => {
+                    if (res != null) {
+                        this.modalClosed();
                     }
-                })
+                });
         }
-    }
-
-    swapAppointment(appointment: Appointment, timeSlot: TimeSlot, docId: number) {
-        this.appointmentService.removeAppointment(appointment.id)
-            .subscribe(removedAppointment => {
-                this.swapTimeSlot(docId, timeSlot).subscribe((newTimeSlot: TimeSlot) => {
-                    appointment.id = null;
-                    appointment.timeSlot = newTimeSlot
-                    appointment.timeSlotId = newTimeSlot.id
-                    this.appointmentService.saveAppointment(this.patient.id, appointment)
-                        .subscribe(appointment => this.modalClosed())
-                })
-            })
-    }
-
-    swapTimeSlot(newDocId: number, timSlotData): Observable<TimeSlot> {
-        return this.doctorService.removeTimeSlot(this.id, this.currentSlotId)
-            .flatMap((data) => this.doctorService.saveTimeSlot(timSlotData, newDocId));
     }
 
     unEnroll() {
         let appointmentId = this.events.filter(event => event.slotId == this.currentSlotId)[0].appointmentId
-        console.log("Usuwam rezerwację o id: " + appointmentId)
+        console.log("Usuwam rezerwację o id: " + appointmentId);
         this.appointmentService.removeAppointment(appointmentId)
-            .subscribe(appointment => this.modalClosed())
+            .subscribe(appointment => this.modalClosed());
+    }
+
+    private initializeConfig() {
+        let moveSlotConfig = this.createTimeSlotComponent.config
+            .filter(field => field.name != "availableForSelfSign"); // self-sign ability donesn't change
+
+        if (this.userRole == AuthenticationService.ROLE_ADMIN) {
+            this.config = moveSlotConfig;
+        } else if (this.userRole == AuthenticationService.ROLE_DOCTOR) {
+            this.config = moveSlotConfig.filter(field => field.name != 'doctor'); // no doctor choice
+        } else {
+            this.config = null;
+        }
     }
 
     ngOnInit() {
-        this.createTimeSlotComponent.ngOnInit()
+        this.createTimeSlotComponent.ngOnInit();
         this.userRole = this.authService.getRole();
-        console.log('My role is ' + this.userRole)
-        if (this.userRole == AuthenticationService.ROLE_ADMIN) {
-            this.config = this.createTimeSlotComponent.config
-        } else if (this.userRole == AuthenticationService.ROLE_DOCTOR) {
-            this.config = this.createTimeSlotComponent.config.slice(1) //no doctor choice
-        } else {
-            this.config = null
-        }
+        console.log('My role is ' + this.userRole);
+        this.initializeConfig();
         this.imAPatient = this.userRole === AuthenticationService.ROLE_PATIENT;
 
         this.route.params.subscribe(params => {
             this.id = params['doctorId']; // (+) converts string 'id' to a number
 
+            console.log('ziomuś, popatrz na paramsy:', params);
 
             this.doctorService.getById(this.id).subscribe(doc => {
                 console.log("przyszło coś z promisa");
                 console.log(doc);
                 this.doctor = doc;
                 console.log(this.doctor);
+
+                let patientId = params['patientId'];
+
+                if(patientId){
+                    this.imAPatient = true;
+                    this.patientService.getById(patientId).subscribe((patient) => {
+                        this.patient = patient;
+                        this.reloadEvents();
+                    });
+                }
 
                 if (this.imAPatient) {
                     this.patientService/*.getById('1')*/ // włączyć dla łatwiejszej prezentacji

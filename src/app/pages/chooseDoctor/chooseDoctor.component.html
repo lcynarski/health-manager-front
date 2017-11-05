@@ -1,0 +1,9 @@
+<h1 class="jumbotron">Registering visit for patient {{ patient?.firstName }} {{ patient?.lastName}}</h1>
+<h2>Choose a doctor</h2>
+
+
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let doctor of doctors" (click)="goToCalendar(doctor._id)">
+        {{doctor.firstName}}  {{doctor.lastName}}  {{doctor.specialization.description}}   </li>
+
+</ul>

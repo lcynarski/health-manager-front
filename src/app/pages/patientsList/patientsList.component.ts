@@ -1,13 +1,16 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Patient } from '../../_models/patient';
 import { PatientService } from '../../_services/patient.service';
 import { Observable } from 'rxjs/Observable';
 import { PatientsDataSource } from './patientsDataSource';
+import { PatientsListItemComponent } from './patients-list-item.component';
+import {AuthenticationService} from "../../_services/authentication.service";
 
 @Component({
 
-    providers: [PatientService],
+    providers: [PatientService, AuthenticationService],
     templateUrl: './patientsList.component.html',
     styleUrls: ['./patientsList.component.scss']
 })
@@ -18,9 +21,12 @@ export class PatientsListComponent implements OnInit {
     private router: Router;
     dataSource: PatientsDataSource | null;
 
+    isReceptionist: boolean;
 
-    constructor(private patientService: PatientService) {
+    constructor(private patientService: PatientService,
+                private authenticationService: AuthenticationService) {
         this.patients = JSON.parse(localStorage.getItem('patients'));
+        this.isReceptionist = authenticationService.isReceptionist();
     }
 
     ngOnInit() {
@@ -45,4 +51,13 @@ export class PatientsListComponent implements OnInit {
             this.dataSource = new PatientsDataSource(this.patients);
         });
     }
+
+    public viewDetails(id): void {
+        this.router.navigate(['/patientDetails', { userId: id }]);
+    }
+
+    public viewDoctorsList(id): void {
+        this.router.navigate(['/doctorsList/patient', { patientId: id }]);
+    }
+
 }

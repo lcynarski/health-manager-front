@@ -25,7 +25,8 @@
 
 <modal #visitModal>
     <modal-header [show-close]="true">
-        <h1 class="modal-title">Visit</h1>
+        <h1 class="modal-title" *ngIf='currentSlotTaken'>Reserved Visit</h1>
+        <h1 class="modal-title" *ngIf='!currentSlotTaken'>Available Visit</h1>
 
     </modal-header>
     <modal-body>
@@ -37,6 +38,10 @@
         <div *ngIf='showSlotMoveMenu'>
             Move timeslot
             <br />
+            <div *ngIf='moveSlotErr'>
+                Invalid Dates! Slot interleaves!
+                <br />
+            </div>
             <div class="create-timeslot-form">
                 <dynamic-form [config]="config" #form="dynamicForm" (submit)="moveTimeSlot($event)">
                 </dynamic-form>
@@ -54,7 +59,7 @@
         </div>
 
         <div *ngIf='currentSlotTaken'>
-            <a (click)="unEnroll()">
+            <a (click)="unEnroll()" class="btn btn-default">
                 UnEnroll!
             </a>
         </div>
@@ -67,11 +72,11 @@
             You are already enrolled for this appointment!
         </div>
         <div *ngIf='imAPatient && !currentSlotTaken'>
-            <a (click)="enrollMe()">Enroll!</a>
+            <a (click)="enrollMe()" class="btn btn-default">Enroll!</a>
         </div>
         <div *ngIf='!imAPatient && currentSlotTaken'>
-            <a (click)="showPatientDetails()">
-                Taken by: {{patient.firstName}} {{patient.lastName}}</a>
+            <a (click)="showPatientDetails()" class="btn btn-default">
+                Taken by: {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}</a>
         </div>
         <div *ngIf='!imAPatient && !currentSlotTaken'>
             <ul>

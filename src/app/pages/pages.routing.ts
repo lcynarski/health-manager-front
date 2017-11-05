@@ -20,8 +20,8 @@ import { MedcomModule } from '../medcom/medcom.module';
 import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
-import * as path from 'path';
 import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
+import {ChooseDoctorComponent} from "./chooseDoctor/chooseDoctor.component";
 
 export const routes: Routes = [
     {
@@ -53,7 +53,9 @@ export const routes: Routes = [
             { path: 'patientsList', loadChildren: './patientsList/patientsList.module#PatientsListModule' },
             { path: 'doctorsList', loadChildren: './doctorsList/doctorsList.module#DoctorsListModule' },
             { path: 'patientDetails/:patientId', component: PatientDetailsComponent },
+            { path: 'doctorsList/patient/:patientId', component: ChooseDoctorComponent},
             { path: 'doctor/:doctorId', component: VisitsCalendarComponent },
+            { path: 'doctor/:doctorId/patient/:patientId', component: VisitsCalendarComponent },
             { path: 'myAppointments', component: VisitListComponent },
             { path: 'timeTable', component: TimeTableComponent },
             { path: 'createPatient', component: CreatePatientComponent },
@@ -63,9 +65,6 @@ export const routes: Routes = [
             { path: 'patientSearch', component: PatientSearchComponent },
             { path: 'medcom', loadChildren: () => MedcomModule },
             { path: 'proceedAppointment', component: ProceedAppointmentComponent },
-                // children: [
-                //     { path: 'proceedAppointment/:type/:id', component: ProceedAppointmentComponent },
-                // ]
             { path: 'drugsSearch', component: DrugsSearchComponent },
             { path: 'drugDetails/:drugId', component: DrugDetailsComponent },
             { path: 'fieldsCreator', component: FieldsCreatorComponent },

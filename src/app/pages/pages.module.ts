@@ -51,6 +51,7 @@ import { FormCreatorStore } from '../stores/formCreatorStore';
 import { FormsCreatorComponent } from '../forms/formsCreator/formsCreator.component';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { TranslateModule } from '@ngx-translate/core';
+import {ChooseDoctorComponent} from "./chooseDoctor/chooseDoctor.component";
 import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
 
 @NgModule({
@@ -91,6 +92,7 @@ import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
     ],
     declarations: [
         Pages,
+        ChooseDoctorComponent,
         PatientDetailsComponent,
         Paper,
         VisitsCalendarComponent,
