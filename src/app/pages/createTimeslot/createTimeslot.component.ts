@@ -6,6 +6,7 @@ import { FieldConfig } from '../../components/dynamic-form/models/field-config.i
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
+import moment = require('moment');
 
 @Component({
     providers: [DoctorService],
@@ -86,8 +87,8 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
         console.log('submit')
         const timeSlot = {
             id: 0,
-            startDateTime: value.startDateTime,
-            endDateTime: value.endDateTime,
+            startDateTime: moment(value.startDateTime).format('YYYY-MM-DD hh:mm'),
+            endDateTime: moment(value.endDateTime).format('YYYY-MM-DD hh:mm'),
             availableForSelfSign: value.availableForSelfSign
         };
         this.doctorService.saveTimeSlot(timeSlot, this.docIdByName[value.doctor])
