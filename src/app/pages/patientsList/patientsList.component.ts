@@ -22,6 +22,7 @@ export class PatientsListComponent implements OnInit {
     dataSource: PatientsDataSource | null;
 
     isReceptionist: boolean;
+    columnsToDisplay = [];
 
     constructor(private patientService: PatientService,
                 private authenticationService: AuthenticationService) {
@@ -33,6 +34,7 @@ export class PatientsListComponent implements OnInit {
         this.loadAllPatients();
 
         this.patients = [];
+        this.columnsToDisplay = this.isReceptionist ? ['id', 'firstName', 'lastName', 'birthdate', 'registerVisit'] : ['id', 'firstName', 'lastName', 'birthdate'];
         this.dataSource = new PatientsDataSource(this.patients);
         Observable.fromEvent(this.filter.nativeElement, 'keyup')
             .debounceTime(150)

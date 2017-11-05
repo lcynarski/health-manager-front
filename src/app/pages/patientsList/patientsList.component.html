@@ -35,40 +35,16 @@
             <mat-cell *matCellDef="let row"> {{row.birthdate | date }} </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="['id', 'firstName', 'lastName', 'birthdate']"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: ['id', 'firstName', 'lastName', 'birthdate']"></mat-row>
+        <ng-container matColumnDef="registerVisit">
+            <mat-header-cell *matHeaderCellDef> {{ 'birthdate' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button mat-button [routerLink]="['/pages/doctorsList/patient/', row.id]"
+                        class="btn btn-default">
+                    Register visit</button>z
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
     </mat-table>
 </div>
-
-
-<!--<div class="col-md-6 col-md-offset-3">-->
-    <!--<h1>Patient's list</h1>-->
-    <!--<table class="table table-bordered">-->
-        <!--<thead>-->
-        <!--<tr>-->
-            <!--<th>Details</th>-->
-            <!--<th>First Name</th>-->
-            <!--<th>Last Name</th>-->
-            <!--<th>Birthdate</th>-->
-            <!--<th *ngIf='isReceptionist' >Visits</th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody >-->
-        <!--<tr *ngFor="let patient of patients">-->
-            <!--<th scope="row">-->
-                <!--&lt;!&ndash;<div (click)="viewDetails(patient._id)">&ndash;&gt;-->
-                <!--<a [routerLink]="['/pages/patientDetails', patient.id]" [href]="'/patientDetails'">-->
-                    <!--<i class="material-icons">pageview</i>-->
-                <!--</a>-->
-            <!--</th>-->
-            <!--<td>{{ patient?.firstName }}</td>-->
-            <!--<td>{{ patient?.lastName }}</td>-->
-            <!--<td> {{ patient?.birthdate }}</td>-->
-            <!--<td *ngIf='isReceptionist'><button [routerLink]="['/pages/doctorsList/patient/', patient.id]"-->
-                                               <!--class="btn btn-default">-->
-                <!--Register visit</button></td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-    <!--</table>-->
-    <!--&lt;!&ndash;<p><a [routerLink]="['/home']">Back</a></p>&ndash;&gt;-->
-<!--</div>-->
