@@ -7,7 +7,7 @@ import { routing } from './patientsList.routing';
 import { PatientsListComponent } from './patientsList.component';
 import { PatientsListItemComponent } from './patients-list-item.component';
 import { PatientDetailsComponent } from '../patientDetails/patientDetails.component';
-import { MatTableModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatInputModule, MatTableModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 
@@ -18,7 +18,10 @@ import { TranslateModule } from '@ngx-translate/core';
         NgaModule,
         routing,
         TranslateModule,
-        MatTableModule
+        MatTableModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule
     ],
     declarations: [
         PatientsListComponent,

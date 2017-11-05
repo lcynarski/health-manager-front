@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Patient } from '../../_models/patient';
 import { PatientService } from '../../_services/patient.service';
-import { PatientsListItemComponent } from './patients-list-item.component';
-import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
+import { PatientsDataSource } from './patientsDataSource';
 
 @Component({
 
@@ -15,9 +13,11 @@ import { Observable } from 'rxjs/Observable';
 })
 
 export class PatientsListComponent implements OnInit {
+    @ViewChild('filter') filter: ElementRef;
     patients: Patient[] = [];
     private router: Router;
-    // publcdataSource: PatientsDataSource;
+    dataSource: PatientsDataSource | null;
+
 
     constructor(private patientService: PatientService) {
         this.patients = JSON.parse(localStorage.getItem('patients'));
@@ -25,16 +25,24 @@ export class PatientsListComponent implements OnInit {
 
     ngOnInit() {
         this.loadAllPatients();
+
+        this.patients = [];
+        this.dataSource = new PatientsDataSource(this.patients);
+        Observable.fromEvent(this.filter.nativeElement, 'keyup')
+            .debounceTime(150)
+            .distinctUntilChanged()
+            .subscribe(() => {
+                if (!this.dataSource) {
+                    return;
+                }
+                this.dataSource.filter = this.filter.nativeElement.value;
+            });
     }
 
     private loadAllPatients() {
         this.patientService.getPatients().subscribe((patients) => {
             this.patients = patients;
-            // dataSource = new PatientsDataSource(this.patients);
+            this.dataSource = new PatientsDataSource(this.patients);
         });
-    }
-
-    public viewDetails(id): void {
-        this.router.navigate(['/patientDetails', { userId: id }]);
     }
 }
