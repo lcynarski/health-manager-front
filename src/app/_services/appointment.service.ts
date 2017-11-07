@@ -47,7 +47,7 @@ export class AppointmentService {
     }
 
     public getPatientAppointments(patient: Patient, startDate: Date, endDate: Date): Observable<Appointment[]> {
-        return this.http.get(`${this.config.apiUrl}/appointmentsForDoc/${patient.id}/${startDate.getTime()}/${endDate.getTime()}`)
+        return this.http.get(`${this.config.apiUrl}/appointmentsForPatient/${patient.id}/${startDate.getTime()}/${endDate.getTime()}`)
             .map((response) => response.json())
             .flatMap((slots: any[]) =>
                 Observable.forkJoin(slots.map(s=>this.fromJson(s))))
