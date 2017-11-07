@@ -40,6 +40,7 @@ import {
     MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatOptionModule,
     MatSelectModule
 } from '@angular/material';
+import { GoogleCalendarService } from './_services/googleCalendar.service';
 
 const socialProviders = {
     google: {
@@ -100,6 +101,7 @@ export function createTranslateLoader(http: Http) {
         AppConfig,
         AuthGuard,
         AuthenticationService,
+        GoogleCalendarService,
         UserService,
         AlertService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
