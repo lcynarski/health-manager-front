@@ -1,27 +1,50 @@
-<div class="col-md-6 col-md-offset-3">
-    <h1>Patient's list</h1>
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Details</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Birthdate</th>
-        </tr>
-        </thead>
-        <tbody >
-            <tr *ngFor="let patient of patients">
-                <th scope="row">
-                    <!--<div (click)="viewDetails(patient._id)">-->
-                    <a [routerLink]="['/pages/patientDetails', patient.id]" [href]="'/patientDetails'">
-                        <i class="material-icons">pageview</i>
-                    </a>
-                </th>
-                <td>{{ patient?.firstName }}</td>
-                <td>{{ patient?.lastName }}</td>
-                <td> {{ patient?.birthdate }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <!--<p><a [routerLink]="['/home']">Back</a></p>-->
+<div class="example-container mat-elevation-z8">
+    <div class="example-header">
+        <mat-form-field floatPlaceholder="never">
+            <input matInput #filter placeholder="Filter patients">
+        </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource">
+
+        <!-- ID Column with link to profile -->
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef> {{ 'seeDetails' | translate }} </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button mat-button color="primary" [routerLink]="['/pages/patientDetails', row.id]">
+                    <i class="material-icons">more_horiz</i>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <!-- First Name Column -->
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef> {{ 'firstName' | translate }} </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.firstName}} </mat-cell>
+        </ng-container>
+
+        <!-- Last Name Column -->
+        <ng-container matColumnDef="lastName">
+            <mat-header-cell *matHeaderCellDef> {{ 'lastName' | translate }} </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.lastName}} </mat-cell>
+        </ng-container>
+
+        <!-- Birthdate Column -->
+        <ng-container matColumnDef="birthdate">
+            <mat-header-cell *matHeaderCellDef> {{ 'birthdate' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.birthdate | date }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="registerVisit">
+            <mat-header-cell *matHeaderCellDef> {{ 'birthdate' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button mat-button [routerLink]="['/pages/doctorsList/patient/', row.id]"
+                        class="btn btn-default">
+                    Register visit</button>z
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+    </mat-table>
 </div>

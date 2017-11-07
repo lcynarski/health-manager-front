@@ -22,7 +22,7 @@
               (scrolled)="onScroll()"
     >
         <mdl-list-item *ngFor="let drug of drugs">
-            <mdl-list-item-primary-content >
+            <mdl-list-item-primary-content [routerLink]="['/pages/drugDetails', drug?.id]">
                 <mdl-icon mdl-list-item-icon>healing</mdl-icon>
                 {{ drug.name }}
             </mdl-list-item-primary-content>

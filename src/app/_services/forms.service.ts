@@ -19,8 +19,15 @@ export class FormsService {
         return null;
     }
 
+    public getAllForms() {
+        return this.http.get(`${this.config.apiUrl}/forms`, this.authenticationService.addJwtOptions())
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
+
     public getFormById(id: number) {
-        return this.http.get(`${this.config.apiUrl}/forms/${id}`)
+        return this.http.get(`${this.config.apiUrl}/forms/${id}`, this.authenticationService.addJwtOptions())
             .map((response: Response) => {
                 console.log('GET FORM BY ID: ' + response.json());
                 return response.json();
@@ -28,7 +35,7 @@ export class FormsService {
     }
 
     public getFormsByName(name: string) {
-        return this.http.get(`${this.config.apiUrl}/forms/name/${name}`)
+        return this.http.get(`${this.config.apiUrl}/forms/name/${name}`, this.authenticationService.addJwtOptions())
             .map((response: Response) => {
                 console.log('GET FORMS BY NAME: ' + response.json());
                 return response.json();
@@ -36,7 +43,7 @@ export class FormsService {
     }
 
     public getFormsByOwnerId(id: number) {
-        return this.http.get(`${this.config.apiUrl}/forms/owner/${id}`)
+        return this.http.get(`${this.config.apiUrl}/forms/owner/${id}`, this.authenticationService.addJwtOptions())
             .map((response: Response) => {
                 console.log('GET FORMS BY OWNER: ' + response.json());
                 return response.json();
@@ -44,17 +51,17 @@ export class FormsService {
     }
 
     public saveForm(form) {
-        return this.http.post(`${this.config.apiUrl}/forms`, form)
+        return this.http.post(`${this.config.apiUrl}/forms`, form, this.authenticationService.addJwtOptions())
             .map((response: Response) => {
                 console.log('SAVE FORM: ' + response.json());
             }).subscribe();
     }
 
-    private addJwtOptions() {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
-            return new RequestOptions({ headers });
-        }
+    public deleteForm(id: number) {
+        return this.http.delete(`${this.config.apiUrl}/forms/${id}`, this.authenticationService.addJwtOptions())
+            .map((response: Response) => {
+                console.log('DELETE FORM: ' + response.json());
+                return response.json();
+            });
     }
 }

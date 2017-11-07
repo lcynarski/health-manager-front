@@ -8,6 +8,7 @@ export class Appointment {
     officeNumber: number;
     data: string;
     patient: Patient;
+    patientId: number;
     timeSlot: TimeSlot;
     priority: string;
 

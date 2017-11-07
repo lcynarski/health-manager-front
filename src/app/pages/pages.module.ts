@@ -12,7 +12,11 @@ import {
     MatButtonToggleModule,
     MatLineModule,
     MatIconModule,
-    MatRippleModule
+    MatRippleModule,
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatListModule, MatExpansionModule, MatSortModule, MatTableModule, MatAutocompleteModule, MatSelectModule
 } from '@angular/material';
 import { ModalModule } from 'ng2-bs4-modal/ng2-bs4-modal';
 import { Pages } from './pages.component';
@@ -47,6 +51,8 @@ import { FormCreatorStore } from '../stores/formCreatorStore';
 import { FormsCreatorComponent } from '../forms/formsCreator/formsCreator.component';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { TranslateModule } from '@ngx-translate/core';
+import {ChooseDoctorComponent} from "./chooseDoctor/chooseDoctor.component";
+import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
 
 @NgModule({
     imports: [
@@ -72,10 +78,21 @@ import { TranslateModule } from '@ngx-translate/core';
         MatIconModule,
         MatRippleModule,
         TranslateModule,
-        MdlSelectModule
+        MdlSelectModule,
+        MatTabsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatListModule,
+        MatExpansionModule,
+        MatInputModule,
+        MatSortModule,
+        MatTableModule,
+        MatAutocompleteModule,
+        MatSelectModule
     ],
     declarations: [
         Pages,
+        ChooseDoctorComponent,
         PatientDetailsComponent,
         Paper,
         VisitsCalendarComponent,
@@ -93,7 +110,8 @@ import { TranslateModule } from '@ngx-translate/core';
         DrugsSearchComponent,
         FieldsCreatorComponent,
         FieldsRemoverComponent,
-        FormsCreatorComponent
+        FormsCreatorComponent,
+        DrugDetailsComponent
     ]
 })
 export class PagesModule {

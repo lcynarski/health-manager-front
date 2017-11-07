@@ -1,97 +1,205 @@
-<!--<script screatePatient.component.tst.ts"></script>-->
-<button #editUserButton mdl-button mdl-button-type="raised" mdl-colored="primary"
-        mdl-ripple (click)="editUserDialog.show()">Edit Patient</button>
 <div class="patient-details">
     <div class="patient-details__title">
-        <div class="patient-details__name">
-            {{ patient?.firstName }} {{ patient?.lastName}}
-        </div>
         <div class="patient-details__photo">
             <i class="material-icons">face</i>
         </div>
-    </div>
-    <div class="patient-details__info" *ngIf="patient?.emergencyContact">
-        <div>
-            <div class="patient-details__info-label">Emergency contact </div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">First Name: </div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.firstName }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Last Name: </div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.lastName }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Date of birth: </div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.birthdate }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Gender: </div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.gender }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Phone:</div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.phoneNumber }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Country:</div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.country }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Address:</div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.city }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">PESEL:</div>
-            <div class="patient-details__info-value">{{ patient?.emergencyContact?.pesel }}</div>
+        <div class="patient-details__name">
+            {{ patient?.firstName }} {{ patient?.lastName}}
         </div>
     </div>
-    <div class="patient-details__info">
-        <div>
-            <div class="patient-details__info-label">Date of birth: </div>
-            <div class="patient-details__info-value">{{ patient?.birthdate }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Gender: </div>
-            <div class="patient-details__info-value">{{ patient?.gender }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label"> Phone:</div>
-            <div class="patient-details__info-value">{{ patient?.phoneNumber }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Country:</div>
-            <div class="patient-details__info-value">{{ patient?.country }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">Address:</div>
-            <div class="patient-details__info-value">{{ patient?.city }}</div>
-        </div>
-        <div>
-            <div class="patient-details__info-label">PESEL:</div>
-            <div class="patient-details__info-value">{{ patient?.pesel }}</div>
-        </div>
+    <div class="patient-details__action-buttons" style="display: flex; flex-direction: column">
+        <button
+                mat-mini-fab color="primary"
+                mdl-tooltip-large="Edit patient"
+                mdl-tooltip-position="right"
+                (click)="editUserDialog.show()"
+        >
+            <mat-icon>mode_edit</mat-icon>
+        </button>
+        <button
+                mat-mini-fab
+                color="primary"
+                mdl-tooltip-large="Proceed with an appoinment"
+                mdl-tooltip-position="right"
+                [routerLink]="['/proceedAppointment', 'patient', patient?.id]"
+        >
+            <mat-icon aria-label="Example icon-button with a heart icon">launch</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" mdl-tooltip-large="Send an email" mdl-tooltip-position="right">
+            <mat-icon aria-label="Example icon-button with a heart icon">mail_outline</mat-icon>
+        </button>
     </div>
-    <agm-map [latitude]="lat" [longitude]="lng">
-        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-    </agm-map>
+
+
+    <mat-tab-group class="demo-tab-group">
+        <mat-tab label="Basic Informations">
+            <div class="demo-tab-content">
+                <div class="patient-details__info">
+                    {{ 'PersonalInfo' | translate }}
+                    <div>
+                        <div class="patient-details__info-label">Date of birth:</div>
+                        <div class="patient-details__info-value">{{ patient?.birthdate }}</div>
+                    </div>
+                    <div>
+                        <div class="patient-details__info-label">Gender:</div>
+                        <div class="patient-details__info-value">{{ patient?.gender }}</div>
+                    </div>
+                    <div>
+                        <div class="patient-details__info-label"> Phone:</div>
+                        <div class="patient-details__info-value">{{ patient?.phoneNumber }}</div>
+                    </div>
+                    <div>
+                        <div class="patient-details__info-label">Country:</div>
+                        <div class="patient-details__info-value">{{ patient?.country }}</div>
+                    </div>
+                    <div>
+                        <div class="patient-details__info-label">Address:</div>
+                        <div class="patient-details__info-value">{{ patient?.city }}</div>
+                    </div>
+                    <div>
+                        <div class="patient-details__info-label">PESEL:</div>
+                        <div class="patient-details__info-value">{{ patient?.pesel }}</div>
+                    </div>
+                </div>
+                <div class="medical-info">
+                    <button
+                            *ngIf="!patient?.medicalInfo"
+                            mat-mini-fab color="primary"
+                            mdl-tooltip-large="Add Medical Information"
+                            mdl-tooltip-position="right"
+                            (click)="medicalInfoDialog.show()"
+                    >
+                        <mat-icon>add</mat-icon>
+                    </button>
+
+                    {{ 'MedicalInfo' | translate }}
+                    <mat-list *ngIf="patient?.medicalInfo">
+                        <mat-list-item> {{ 'height' | translate }}: {{ patient?.medicalInfo?.height}} </mat-list-item>
+                        <mat-list-item> {{ 'weight' | translate }}: {{ patient?.medicalInfo?.weight}} </mat-list-item>
+                        <mat-list-item> {{ 'allergies' | translate }}: {{ patient?.medicalInfo?.allergies}} </mat-list-item>
+                        <mat-list-item> {{ 'otherNotes' | translate }}: {{ patient?.medicalInfo?.otherNotes}} </mat-list-item>
+                        <button
+                                mat-mini-fab color="primary"
+                                mdl-tooltip-large="Edit Medical Information"
+                                mdl-tooltip-position="right"
+                                (click)="medicalInfoEditDialog.show()"
+                        >
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+                    </mat-list>
+
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Medical History">
+            <div class="demo-tab-content">
+
+                <mat-form-field class="example-full-width">
+                    <input matInput [(ngModel)]="model.startDate" [matDatepicker]="pickerStart" placeholder="From">
+                    <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput [(ngModel)]="model.endDate" [matDatepicker]="pickerEnd" placeholder="To">
+                    <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerEnd></mat-datepicker>
+                </mat-form-field>
+
+                <button mat-button color="primary" (click)="showMedicalHistory()">
+                    {{ 'Show' | translate }}
+                </button>
+
+                <button mat-button color="primary" (click)="addToMedicalHistoryDialog.show()">
+                    {{ 'AddToMedicalHistory' | translate }}
+                </button>
+
+                <mat-accordion class="example-headers-align" *ngIf="medicalHistory">
+                    <mat-expansion-panel *ngFor="let item of medicalHistory">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{ item.diseaseName}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                {{ item.detectionDate | date }} - {{ item.cureDate | date }}
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        {{ 'Symptoms' | translate }}: {{ item.symptoms }}
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+            </div>
+        </mat-tab>
+        <mat-tab label="Emergency Contact">
+            <button mat-button color="primary" (click)="addEmergencyContactDialog.show()" *ngIf="!emergencyContact">
+                {{ 'AddEmergencyContact' | translate }}
+            </button>
+            <div *ngIf="emergencyContact">
+                <div>
+                    <div class="patient-details__info-label">First Name:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.firstName }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Last Name:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.lastName }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Date of birth:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.birthdate }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Gender:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.gender }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Phone:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.phoneNumber }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Country:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.country }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">Address:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.city }}</div>
+                </div>
+                <div>
+                    <div class="patient-details__info-label">PESEL:</div>
+                    <div class="patient-details__info-value">{{ emergencyContact?.pesel }}</div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Locate" disabled>
+            <div class="demo-tab-content">
+                <agm-map [latitude]="lat" [longitude]="lng">
+                    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                </agm-map>
+            </div>
+        </mat-tab>
+        <mat-tab label="Results" disabled>
+            No content
+        </mat-tab>
+        <mat-tab label="Appointments" disabled>
+            No content
+        </mat-tab>
+    </mat-tab-group>
 
     <mdl-dialog #editUserDialog
                 [mdl-dialog-config]="{
-              clickOutsideToClose: true,
-              styles:{'width': '52rem'},
-              isModal:true,
-              openFrom: editUserButton,
-              enterTransitionDuration: 400,
-              leaveTransitionDuration: 400}"
-              (show)="onDialogShow(dialogRef)"
+                  clickOutsideToClose: true,
+                  styles:{'width': '52rem'},
+                  isModal:true,
+                  openFrom: editUserButton,
+                  enterTransitionDuration: 400,
+                  leaveTransitionDuration: 400
+                 }"
+                (show)="onDialogShow(dialogRef)"
     >
         <h3 class="mdl-dialog__title">Edit Patient</h3>
         <div class="mdl-dialog__content">
             <dynamic-form
-                    [config]="config"
-                    #form="dynamicForm"
+                    [config]="editPatientConfig"
+                    #editPatientForm="dynamicForm"
                     (submit)="submit($event)">
             </dynamic-form>
         </div>
@@ -100,5 +208,104 @@
             <button mdl-button (click)="editUserDialog.close()" mdl-ripple>Cancel</button>
         </div>
     </mdl-dialog>
+
+
+    <mdl-dialog #medicalInfoDialog
+                [mdl-dialog-config]="{
+                  clickOutsideToClose: true,
+                  styles:{'width': '52rem'},
+                  isModal:true,
+                  openFrom: medicalInfoDialogButton,
+                  enterTransitionDuration: 400,
+                  leaveTransitionDuration: 400
+                 }"
+                (show)="onMedicalInfoDialogShow(dialogRef)"
+    >
+        <h3 class="mdl-dialog__title">Add Medical Information</h3>
+        <div class="mdl-dialog__content">
+            <dynamic-form
+                    [config]="medicalInfoConfig"
+                    #medicalInfoForm="dynamicForm"
+                    (submit)="addMedicalInfo($event)">
+            </dynamic-form>
+        </div>
+        <div class="mdl-dialog__actions">
+            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
+            <button mdl-button (click)="medicalInfoDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+
+    <mdl-dialog #medicalInfoEditDialog
+                [mdl-dialog-config]="{
+                  clickOutsideToClose: true,
+                  styles:{'width': '52rem'},
+                  isModal:true,
+                  openFrom: medicalInfoEditDialogButton,
+                  enterTransitionDuration: 400,
+                  leaveTransitionDuration: 400
+                 }"
+                (show)="onMedicalInfoEditDialogShow(dialogRef)"
+    >
+        <h3 class="mdl-dialog__title">Edit Medical Information</h3>
+        <div class="mdl-dialog__content">
+            <dynamic-form
+                    [config]="medicalInfoConfig"
+                    #medicalInfoEditForm="dynamicForm"
+                    (submit)="editMedicalInfo($event)">
+            </dynamic-form>
+        </div>
+        <div class="mdl-dialog__actions">
+            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
+            <button mdl-button (click)="medicalInfoEditDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+
+    <mdl-dialog #addToMedicalHistoryDialog
+                [mdl-dialog-config]="{
+                  clickOutsideToClose: true,
+                  styles:{'width': '52rem'},
+                  isModal:true,
+                  openFrom: medicalInfoEditDialogButton,
+                  enterTransitionDuration: 400,
+                  leaveTransitionDuration: 400
+                 }"
+    >
+        <h3 class="mdl-dialog__title">Add To Medical History</h3>
+        <div class="mdl-dialog__content">
+            <dynamic-form
+                    [config]="medicalHistoryDiseaseConfig"
+                    #medicalHistoryItemForm="dynamicForm"
+                    (submit)="addToMedicalHistory($event)">
+            </dynamic-form>
+        </div>
+        <div class="mdl-dialog__actions">
+            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
+            <button mdl-button (click)="addToMedicalHistoryDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+
+    <mdl-dialog #addEmergencyContactDialog
+                [mdl-dialog-config]="{
+                  clickOutsideToClose: true,
+                  styles:{'width': '52rem'},
+                  isModal:true,
+                  enterTransitionDuration: 400,
+                  leaveTransitionDuration: 400
+                 }"
+    >
+        <h3 class="mdl-dialog__title">{{ 'AddEmergencyContact' | translate }}</h3>
+        <div class="mdl-dialog__content">
+            <dynamic-form
+                    [config]="emergencyContactConfig"
+                    #addEmergencyContactForm="dynamicForm"
+                    (submit)="addEmergencyContact($event)">
+            </dynamic-form>
+        </div>
+        <div class="mdl-dialog__actions">
+            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
+            <button mdl-button (click)="addEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+
     <dialog-outlet></dialog-outlet>
 </div>
