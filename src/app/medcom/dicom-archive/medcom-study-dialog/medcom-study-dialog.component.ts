@@ -5,10 +5,10 @@ import {
 import { MdlDialogReference } from '@angular-mdl/core';
 
 import {
-    DicomStudy, DicomSeries, ExtendedDicomSeries,
-    DicomInstance, ExtendedDicomInstance
+    DicomStudy, DicomSeries,
+    DicomInstance
 } from '../../../_models';
-import { ArchiveService } from '../../../_services';
+import { ArchiveService, DicomAttributesService } from '../../../_services';
 
 
 export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetails');
@@ -21,63 +21,97 @@ export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetail
 })
 export class MedcomStudyDialogComponent implements OnInit {
 
-    seriesList: ExtendedDicomSeries[] = [];
-    activeSeriesDicomUrls: string[];
+    seriesList: DicomSeries[] = [];
+    activeSeries: DicomSeries;
+    activeInstance: DicomInstance;
+
     fetchingSeries: boolean = false;
     errorMessage: string;
+    infoBoxVisible: boolean = false;
 
     constructor(@Inject(STUDY_INJECTION_TOKEN) public study: DicomStudy,
                 private dialog: MdlDialogReference,
-                private archiveService: ArchiveService) {
+                private archiveService: ArchiveService,
+                private attributesService: DicomAttributesService) {
     }
 
     ngOnInit(): void {
+        this.attributesService.clearCache();
         this.fetchSeries();
     }
 
-    onSeriesChange({ index }) {
-        console.log('series changed to ' + index);
-        const instances = this.seriesList[index].instances;
+    onSeriesChange({index}) {
+        this.activeSeries = this.seriesList[index];
+    }
 
-        this.activeSeriesDicomUrls = (instances)
-            ? instances.map((i) => i.dicomUrl)
-            : [];
+    onImageLoaded(instance: DicomInstance) {
+        this.activeInstance = instance;
+    }
+
+    @HostListener('document:keydown.i')
+    toggleInfoBox() {
+        this.infoBoxVisible = !this.infoBoxVisible;
     }
 
     @HostListener('document:keydown.esc')
-    public onEsc(): void {
+    public closeDialog(): void {
         this.dialog.hide();
     }
 
     private fetchSeries() {
         this.archiveService.getSeries(this.study.instanceUID)
             .subscribe(
-                (seriesList: DicomSeries[] = []) => {
+                (seriesList: DicomSeries[] = []) => { // TODO fit multiple tabs
+                    // MOCK
+                    /*
+                     seriesList.push({
+                     instanceUID: '1.3.6.1.4.1.5962.1.1.0.0.0.1194732126.13032.0.55',
+                     studyInstanceUID: 'test1',
+                     modalityAET: 'test1',
+                     attributes: {
+                     SeriesDescription: 'test series 1'
+                     },
+                     });
+                     seriesList.push({
+                     instanceUID: '1.3.6.1.4.1.5962.1.1.0.0.0.1194732126.13032.0.55',
+                     studyInstanceUID: 'test2',
+                     modalityAET: 'test2',
+                     attributes: {
+                     SeriesDescription: 'test series 2'
+                     },
+                     });
+                     */
+                    // MOCK
+
                     Promise.all(seriesList.map((series) => this.onSeries(series))) // TODO maybe do this with rxjs instead
                         .then(() => {
                             if (seriesList.length) {
-                                this.onSeriesChange({ index: 0 });
+                                this.onSeriesChange({index: 0});
                             }
                             this.fetchingSeries = false;
-                        });
+                        })
+                        .catch((error) => this.onError(error, 'Could not fetch images'));
                 },
-                (error) => {
-                    this.fetchingSeries = false;
-                    this.errorMessage = `Error while fetching series: ${error.status} ${error.statusText}`;
-                }
+                (error) => this.onError(error, 'Could not fetch series')
             );
     }
 
+    private onError(error: any, message: string): void {
+        this.fetchingSeries = false;
+        this.errorMessage = `${message}: ${error.status} ${error.statusText}`;
+    }
+
     private onSeries(series: DicomSeries): Promise<any> {
-        const extendedSeries: ExtendedDicomSeries = { ...series, instances: null };
-        this.seriesList.push(extendedSeries);
+        this.seriesList.push(series);
 
         return new Promise((resolve, reject) => {
             this.archiveService.getInstances(series.instanceUID)
                 .subscribe(
                     (instances: DicomInstance[]) => {
-                        extendedSeries.instances = instances.map((instance) =>
-                            this.extendInstance(instance));
+                        series.instances = instances.map((instance) => {
+                            instance.dicomUrl = this.archiveService.resolveDicomUrl(this.study, instance);
+                            return instance;
+                        });
                         resolve();
                     },
                     (error) => {
@@ -85,12 +119,5 @@ export class MedcomStudyDialogComponent implements OnInit {
                     }
                 );
         });
-    }
-
-    private extendInstance(instance: DicomInstance): ExtendedDicomInstance {
-        return {
-            ...instance,
-            dicomUrl: this.archiveService.resolveDicomUrl(this.study, instance)
-        };
     }
 }

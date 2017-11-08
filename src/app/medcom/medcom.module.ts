@@ -2,16 +2,26 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MdlModule } from '@angular-mdl/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgSlimScrollModule } from 'ngx-slimscroll';
 
 import { routing } from './medcom.routing';
 import { DicomDirective } from '../_directives/medcom/dicom.directive';
+
 import { MedcomComponent } from './medcom.component';
 import { MedcomPatientRecordComponent } from './dicom-archive/medcom-patient-record/medcom-patient-record.component';
 import { MedcomStudyDialogComponent } from './dicom-archive/medcom-study-dialog/medcom-study-dialog.component';
+import { AttributesViewerComponent } from './dicom-archive/medcom-study-dialog/attributes-info/attributes-viewer.component';
 import { DicomArchiveComponent } from './dicom-archive/dicom-archive.component';
 import { ModalitiesComponent } from './modalities/modalities.component';
 import { ProceduresScheduleComponent } from './procedures-schedule/procedures-schedule.component';
-import { ArchiveService, ScheduledProceduresService, ModalitiesService } from '../_services/medcom';
+
+import {
+    ArchiveService,
+    ScheduledProceduresService,
+    ModalitiesService,
+    CornerstoneService,
+    DicomAttributesService,
+} from '../_services/medcom';
 import { DefaultPipe } from '../_pipes';
 
 
@@ -19,6 +29,7 @@ import { DefaultPipe } from '../_pipes';
     imports: [
         CommonModule,
         FlexLayoutModule,
+        NgSlimScrollModule,
         MdlModule,
         routing,
     ],
@@ -29,6 +40,7 @@ import { DefaultPipe } from '../_pipes';
         MedcomStudyDialogComponent,
         ModalitiesComponent,
         ProceduresScheduleComponent,
+        AttributesViewerComponent,
         DicomDirective,
         DefaultPipe
     ],
@@ -39,6 +51,8 @@ import { DefaultPipe } from '../_pipes';
         ArchiveService,
         ScheduledProceduresService,
         ModalitiesService,
+        CornerstoneService,
+        DicomAttributesService,
     ]
 })
 export class MedcomModule {

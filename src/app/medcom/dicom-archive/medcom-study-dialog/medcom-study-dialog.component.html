@@ -1,18 +1,34 @@
 <div id="studyDialog">
     <div *ngIf="!fetchingSeries && !errorMessage">
 
-        <mdl-tabs mdl-ripple mdl-tab-active-index="0" (mdl-tab-active-changed)="onSeriesChange($event)">
-            <mdl-tab-panel *ngFor="let series of seriesList">
-                <mdl-tab-panel-title>
-                    [{{series.creationDate | date:'HH:mm:ss'}}]
-                    {{series.attributes.SeriesDescription}}
-                    ({{series.attributes.PerformedProcedureStepDescription}}) <!-- TODO surroundWithBraces pipe-->
-                </mdl-tab-panel-title>
-            </mdl-tab-panel>
-        </mdl-tabs>
+        <div id="topBar" fxLayout="row" fxLayoutAlign="space-between center">
+            <button fxFlex id="infoBoxButton" mdl-button
+                    (click)="toggleInfoBox()" [class.active]="infoBoxVisible">
+                <mdl-icon>info_outline</mdl-icon>
+            </button>
 
-        <div id="dicomContainer">
-            <div dicom [imageUrls]="activeSeriesDicomUrls"></div>
+            <div fxFlex="90" id="tabsContainer">
+                <mdl-tabs mdl-ripple mdl-tab-active-index="0" (mdl-tab-active-changed)="onSeriesChange($event)">
+                    <mdl-tab-panel *ngFor="let series of seriesList">
+                        <mdl-tab-panel-title>
+                            {{series.attributes.SeriesDescription}}
+                        </mdl-tab-panel-title>
+                    </mdl-tab-panel>
+                </mdl-tabs>
+            </div>
+
+            <button fxFlex id="closeButton" mdl-button (click)="closeDialog()">
+                <mdl-icon>close</mdl-icon>
+            </button>
+        </div>
+
+        <div id="viewer" dicom [series]="activeSeries" (imageLoaded)="onImageLoaded($event)">
+            <attributes-viewer
+                    *ngIf="infoBoxVisible"
+                    [study]="study"
+                    [series]="activeSeries"
+                    [instance]="activeInstance"
+            ></attributes-viewer>
         </div>
     </div>
 
