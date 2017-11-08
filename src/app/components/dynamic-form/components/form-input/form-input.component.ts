@@ -9,7 +9,7 @@ import { FieldConfig } from '../../models/field-config.interface';
   styleUrls: ['form-input.component.scss'],
   template: `
     <mat-form-field class="dynamic-field form-input" [formGroup]="group">
-        <input matInput [placeholder]="config.placeholder" [formControlName]="config.name">
+        <input matInput [attr.placeholder]="config.placeholder" [placeholder]="config.placeholder" [formControlName]="config.name">
     </mat-form-field>
   `
 })

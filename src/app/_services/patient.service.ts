@@ -26,16 +26,16 @@ export class PatientService {
     }
 
     public getMedicalInfo(_id: string) {
-        return this.http.get(`${this.config.apiUrl}/patients/${_id}/medicalInformations`, this.authenticationService.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, this.authenticationService.addJwtOptions())
             .map((res) => res.json());
     }
 
     public saveMedicalInfo(_id, data) {
-        return this.http.post(`${this.config.apiUrl}/patients/${_id}/medicalInformations`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
+        return this.http.post(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
     }
 
     public updateMedicalInfo(_id, data) {
-        return this.http.put(`${this.config.apiUrl}/patients/${_id}/medicalInformations`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
+        return this.http.put(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
     }
 
     public getMedicalHistory(patientId, dateStart, dateEnd) {

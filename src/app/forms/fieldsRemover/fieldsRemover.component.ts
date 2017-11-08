@@ -41,7 +41,7 @@ export class FieldsRemoverComponent {
         {
             type: 'input',
             label: 'Placeholder',
-            name: 'field-placeholderl',
+            name: 'field-placeholder',
             placeholder: 'Placeholder'
         },
         {

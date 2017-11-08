@@ -47,12 +47,14 @@ export class FormsCreatorComponent implements OnInit {
     save(value) {
         this.fields.forEach((field) => {
             if (field['placeholder'] === 'date') {
-                field['type'] = 'date';
+                field['type'] = 'DATE';
             }
+            field['type'] = field['type'].toUpperCase();
         });
         const form = {
             name: this.formName,
-            formFields: [...this.fields]
+            formFields: [...this.fields],
+            ownerId: 1
         };
         this.formsService.saveForm(form);
     }

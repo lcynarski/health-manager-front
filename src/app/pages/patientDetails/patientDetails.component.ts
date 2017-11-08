@@ -93,13 +93,7 @@ export class PatientDetailsComponent implements OnInit {
     submit(value) {
         const personalDetails = {
             id: this.patient.id,
-            account: {
-                id: this.patient.account.id,
-                personalDetails: {
-                    id: this.patient.account.personalDetails.id,
-                    ...value
-                }
-            }
+            ...value
         };
         this.patientService.editPatient(personalDetails)
             .subscribe((data) => {
