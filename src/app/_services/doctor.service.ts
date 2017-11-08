@@ -53,7 +53,7 @@ export class DoctorService {
     }
 
     public getDoctorByEmail(email: string): Observable<Doctor> {
-        return this.http.get(`${this.config.apiUrl}/doctorByMail/${email}`, this.authenticationService.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/doctorByMail/${email}/`, this.authenticationService.addJwtOptions())
         .map((response: Response) => this.doctorFromJson(response.json()));
     }
 

@@ -13,6 +13,11 @@ import { MdlPopoverModule } from '@angular2-mdl-ext/popover';
 import { FormCheckboxComponent } from './components/form-checkbox/form-checkbox.component';
 import { FormDateComponent } from './components/form-date/form-date.component';
 import { MdlDatePickerModule } from '@angular-mdl/datepicker';
+import {
+    DateAdapter, MAT_DATE_FORMATS, MatDatepickerModule, MatFormFieldModule,
+    MatInputModule
+} from '@angular/material';
+import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 
 @NgModule({
     imports: [
@@ -21,7 +26,10 @@ import { MdlDatePickerModule } from '@angular-mdl/datepicker';
         MdlModule,
         MdlSelectModule,
         MdlPopoverModule,
-        MdlDatePickerModule
+        MdlDatePickerModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatInputModule
     ],
     declarations: [
         DynamicFieldDirective,
@@ -30,7 +38,8 @@ import { MdlDatePickerModule } from '@angular-mdl/datepicker';
         FormInputComponent,
         FormSelectComponent,
         FormCheckboxComponent,
-        FormDateComponent
+        FormDateComponent,
+        FormTextareaComponent
     ],
     exports: [
         DynamicFormComponent
@@ -40,7 +49,8 @@ import { MdlDatePickerModule } from '@angular-mdl/datepicker';
         FormInputComponent,
         FormSelectComponent,
         FormCheckboxComponent,
-        FormDateComponent
+        FormDateComponent,
+        FormTextareaComponent
     ]
 })
 export class DynamicFormModule {

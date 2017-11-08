@@ -16,6 +16,7 @@ import { AuthenticationService } from '../../_services/authentication.service';
 import { Observable } from "rxjs/Observable";
 
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
+import { GoogleCalendarService } from '../../_services/googleCalendar.service';
 
 interface VisitEvent extends CalendarEvent {
     slotId: number;
@@ -39,6 +40,7 @@ export class VisitsCalendarComponent implements OnInit {
         private patientService: PatientService,
         private appointmentService: AppointmentService,
         private timeSlotService: TimeSlotService,
+        private googleCalendarService: GoogleCalendarService,
         private authService: AuthenticationService,
         private router: Router) {
 
@@ -60,6 +62,10 @@ export class VisitsCalendarComponent implements OnInit {
     currentSlotId: number;
 
     currentSlotTaken: boolean;
+
+    currentEndDate: Date;
+
+    currentStartDate: Date;
 
     view: string = 'month';
 
@@ -182,7 +188,10 @@ export class VisitsCalendarComponent implements OnInit {
 
         var visitEvent: VisitEvent = (event as VisitEvent);
         this.currentSlotId = visitEvent.slotId;
-        this.currentSlotTaken = visitEvent.patient != null;
+        this.currentSlotTaken = visitEvent.patient != null
+        this.currentStartDate = visitEvent.start;
+        this.currentEndDate = visitEvent.end;
+
         if (!this.imAPatient) {
             this.patient = visitEvent.patient;
         }
@@ -260,10 +269,20 @@ export class VisitsCalendarComponent implements OnInit {
             .subscribe(appointment => this.modalClosed());
     }
 
+    exportToGoogle() {
+        let event = {
+            startDateTime: this.currentStartDate,
+            endDateTime: this.currentEndDate,
+            doctor: this.doctor.firstName + " " + this.doctor.lastName
+        }
+
+        this.googleCalendarService.exportAppointment(event);
+    }
+
+
     private initializeConfig() {
         let moveSlotConfig = this.createTimeSlotComponent.config
             .filter(field => field.name != "availableForSelfSign"); // self-sign ability donesn't change
-
         if (this.userRole == AuthenticationService.ROLE_ADMIN) {
             this.config = moveSlotConfig;
         } else if (this.userRole == AuthenticationService.ROLE_DOCTOR) {
