@@ -1,6 +1,6 @@
-import { DicomObject } from './dicomObject';
+import { AttributesContainer } from './attributesContainer';
 
-export interface DicomModality extends DicomObject {
+export interface DicomModality extends AttributesContainer {
     applicationEntity: string;
     stationName?: string;
     type?: string;

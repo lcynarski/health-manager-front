@@ -94,7 +94,7 @@ export class PatientService {
     }
 
     public getPatientByEmail(email: string) {
-        return this.http.get(`${this.config.apiUrl}/patientByMail/${email}`, this.authenticationService.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/patientByMail/${email}/`, this.authenticationService.addJwtOptions())
             .map((res) => res.json());
     }
 }

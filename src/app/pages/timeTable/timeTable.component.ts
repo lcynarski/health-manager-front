@@ -169,12 +169,13 @@ export class TimeTableComponent implements OnInit {
         if (event.startDateTime != undefined && event.endDateTime != undefined) {
             var start = event.startDateTime
             var end = event.endDateTime
-            if (!start.includes(":")) { //hacks to make our date-picker work(((
-                start = start + " 10:10"
-            }
-            if (!end.includes(":")) {
-                end = end + " 10:10"
-            }
+// coś się zmieiło i teraz nie działa gdy to jest :/
+//            if (!start.includes(":")) { //hacks to make our date-picker work(((
+//                start = start + " 10:10"
+//            }
+//            if (!end.includes(":")) {
+//                end = end + " 10:10"
+//            }
             this.startDate = new Date(start)
             this.endDate = new Date(end)
             this.refresh()

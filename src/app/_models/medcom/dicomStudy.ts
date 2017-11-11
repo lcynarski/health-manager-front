@@ -1,7 +1,11 @@
 import { DicomObject } from './dicomObject';
 
-export interface DicomStudy extends DicomObject {
-    instanceUID: string;
+export class DicomStudy extends DicomObject {
+
+    public static is(object: any) {
+        return !!object.patientPesel && DicomObject.is(object);
+    }
+
     patientPesel: string;
     creationDate?: number;
 }

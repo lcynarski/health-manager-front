@@ -10,20 +10,41 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/src/assets/styles/styles.css">
     <link rel="stylesheet" href="/node_modules/angular-calendar/dist/css/angular-calendar.css">
-    <link rel="stylesheet" href="../node_modules/@angular-mdl/select/select.css">
-    <link rel="stylesheet" href="../node_modules/@angular-mdl/datepicker/datepicker.css">
+    <link rel="stylesheet" href="/node_modules/@angular-mdl/select/select.css">
+    <link rel="stylesheet" href="/node_modules/@angular-mdl/datepicker/datepicker.css">
 
     <!-- medcom dependencies -->
-    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="../node_modules/cornerstone-core/dist/cornerstone.min.js"></script>
-    <script src="../node_modules/cornerstone-math/dist/cornerstoneMath.min.js"></script>
-    <script src="../node_modules/cornerstone-tools/dist/cornerstoneTools.min.js"></script>
-    <script src="../node_modules/dicom-parser/dist/dicomParser.min.js"></script>
-    <script src="../node_modules/cornerstone-wado-image-loader/dist/cornerstoneWADOImageLoader.min.js"></script>
-    <link href="node_modules/@angular/material/prebuilt-themes/indigo-pink.css" rel="stylesheet">
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/cornerstone-core/dist/cornerstone.min.js"></script>
+    <script src="/node_modules/cornerstone-math/dist/cornerstoneMath.min.js"></script>
+    <script src="/node_modules/cornerstone-tools/dist/cornerstoneTools.min.js"></script>
+    <script src="/node_modules/dicom-parser/dist/dicomParser.min.js"></script>
+    <script src="/node_modules/cornerstone-wado-image-loader/dist/cornerstoneWADOImageLoader.min.js"></script>
+
+    <link href="/node_modules/@angular/material/prebuilt-themes/indigo-pink.css" rel="stylesheet">
+
+    <!-- Google API Library -->
+    <script src="https://apis.google.com/js/api.js"></script>
 
 </head>
 <body style="background: #f8f9fa">
+
+        <script type="text/javascript">
+            function initClient() {
+              // Initialize the client with API key and People API, and initialize OAuth with an
+              // OAuth 2.0 client ID and scopes (space delimited string) to request access.
+              gapi.client.init({
+                  apiKey: 'AIzaSyCNsq6DWKCERx7iCDn8-gMY90tLtNlhSTA',
+                  discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+                  clientId: '261952745745-e55n2f6jg7mn1pfacvv0iggchdmse2nc.apps.googleusercontent.com',
+                  scope: 'https://www.googleapis.com/auth/calendar'
+              }).then(function () {
+                console.log('gapi initialized');
+              });
+            }
+
+            gapi.load('client:auth2', initClient);
+        </script>
 <my-app>
     <!--<div class="loader"></div>-->
     <div class="sk-cube-grid">

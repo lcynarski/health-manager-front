@@ -1,0 +1,42 @@
+<div id="attributesViewerComponent" >
+    <div id="scrollPane" slimScroll [options]="scrollOptions">
+        <section>
+            <div class="headerRow">Study</div>
+            <div class="attributeRow" fxLayout="row" fxLayoutAlign="center center"
+                 *ngFor="let attribute of studyAttributes">
+                <div class="key" fxFlex="40">
+                    {{attribute.key}}
+                </div>
+                <div class="value" fxFlex="60">
+                    {{attribute.value}}
+                </div>
+            </div>
+        </section>
+
+        <section *ngIf="series">
+            <div class="headerRow">Series</div>
+            <div class="attributeRow" fxLayout="row" fxLayoutAlign="center center"
+                 *ngFor="let attribute of seriesAttributes">
+                <div class="key" fxFlex="40">
+                    {{attribute.key}}
+                </div>
+                <div class="value" fxFlex="60">
+                    {{attribute.value}}
+                </div>
+            </div>
+        </section>
+
+        <section *ngIf="instance">
+            <div class="headerRow">Instance</div>
+            <div class="attributeRow" fxLayout="row" fxLayoutAlign="center center"
+                 *ngFor="let attribute of instanceAttributes">
+                <div class="key" fxFlex="40">
+                    {{attribute.key}}
+                </div>
+                <div class="value" fxFlex="60">
+                    {{attribute.value}}
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
