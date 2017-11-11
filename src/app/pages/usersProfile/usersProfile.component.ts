@@ -129,7 +129,6 @@ export class UsersProfileComponent implements OnInit {
     }
 
     private saveProfilePicture(photo) {
-        debugger;
         if (photo) {
             this.userService.saveProfilePicture('14', photo).subscribe(
                 (data) => {

@@ -13,23 +13,18 @@ export class MedicalCheckupService {
                 private config: AppConfig) {
     }
 
-    public getAllMedicalCheckups(patientId) {
-        return this.http.get(`${this.config.apiUrl}/patients/${patientId}/checkups`, this.authenticationService.addJwtOptions())
+    public saveMedicalCheckup(medicalCheckupData) {
+        return this.http.post(`${this.config.apiUrl}/checkups`, medicalCheckupData, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 
-    public saveMedicalCheckup(patientId, medicalCheckupData) {
-        return this.http.post(`${this.config.apiUrl}/patients/${patientId}/checkups`, medicalCheckupData, this.authenticationService.addJwtOptions())
+    public updateMedicalCheckup(medicalCheckupData) {
+        return this.http.put(`${this.config.apiUrl}/checkups/${medicalCheckupData.id}`, medicalCheckupData, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 
-    public updateMedicalCheckup(patientId, medicalCheckupData) {
-        return this.http.put(`${this.config.apiUrl}/patients/${patientId}/checkups`, medicalCheckupData, this.authenticationService.addJwtOptions())
-            .map((response: Response) => response.json());
-    }
-
-    public deleteMedicalCheckup(patientId) {
-        return this.http.delete(`${this.config.apiUrl}/patients/${patientId}/checkups`, this.authenticationService.addJwtOptions())
+    public deleteMedicalCheckup(medicalCheckupId) {
+        return this.http.delete(`${this.config.apiUrl}/checkups/${medicalCheckupId}`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 

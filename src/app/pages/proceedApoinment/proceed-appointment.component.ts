@@ -197,7 +197,6 @@ export class ProceedAppointmentComponent implements OnInit {
         console.log('submitPreparedForm value: ', data);
         const medicalCheckupValues = [];
         this.uploadedFormFields.map(({ id, name }) => {
-            debugger
             Object.keys(data).forEach((key) => {
                 if (key === name) {
                     medicalCheckupValues.push(
@@ -214,9 +213,19 @@ export class ProceedAppointmentComponent implements OnInit {
             medicalCheckupValues
         };
         console.log('medicalCheckupToSave: ', medicalCheckupToSave);
-        this.medicalCheckupService.saveMedicalCheckup(this.patient.id, medicalCheckupToSave)
+        this.medicalCheckupService.saveMedicalCheckup(medicalCheckupToSave)
             .subscribe((response) => {
-                console.log('saveMedicalCheckup response:', response);
+                const today = new Date();
+                const toSaveInMedicalHistory = {
+                    medicalCheckupId: response.id,
+                    detectionDate: today.getDate(),
+                    diseaseName: 'ptasia grypa'
+                }
+                this.patientService.addToMedicalHistory(this.patient.id, toSaveInMedicalHistory)
+                    .subscribe((resp) => {
+                        console.log(resp);
+                    })
+                console.log('saveMedicalCheckup response:', response, toSaveInMedicalHistory);
             });
     }
 
