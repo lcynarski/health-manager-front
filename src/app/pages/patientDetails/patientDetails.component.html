@@ -167,6 +167,14 @@
                     <div class="patient-details__info-label">PESEL:</div>
                     <div class="patient-details__info-value">{{ emergencyContact?.pesel }}</div>
                 </div>
+                <button
+                        mat-mini-fab color="primary"
+                        mdl-tooltip-large="Edit Medical Information"
+                        mdl-tooltip-position="right"
+                        (click)="editEmergencyContactDialog.show()"
+                >
+                    <mat-icon>mode_edit</mat-icon>
+                </button>
             </div>
         </mat-tab>
         <mat-tab label="Locate" disabled>
@@ -304,6 +312,30 @@
         <div class="mdl-dialog__actions">
             <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
             <button mdl-button (click)="addEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
+        </div>
+    </mdl-dialog>
+
+    <mdl-dialog #editEmergencyContactDialog
+                [mdl-dialog-config]="{
+                  clickOutsideToClose: true,
+                  styles:{'width': '52rem'},
+                  isModal:true,
+                  enterTransitionDuration: 400,
+                  leaveTransitionDuration: 400
+                 }"
+                (show)="onEditEmergencyContactDialogShow(dialogRef)"
+    >
+        <h3 class="mdl-dialog__title">{{ 'EditEmergencyContact' | translate }}</h3>
+        <div class="mdl-dialog__content">
+            <dynamic-form
+                    [config]="emergencyContactConfig"
+                    #editEmergencyContactForm="dynamicForm"
+                    (submit)="editEmergencyContact($event)">
+            </dynamic-form>
+        </div>
+        <div class="mdl-dialog__actions">
+            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
+            <button mdl-button (click)="editEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
         </div>
     </mdl-dialog>
 

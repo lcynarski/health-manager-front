@@ -44,8 +44,7 @@ export class RegisterComponent implements AfterViewInit {
         const registerData = {
             email,
             password,
-            personalDetails,
-            insuranceNumber: '222121212'
+            personalDetails
         };
         console.log(registerData)
         this.userService.create(registerData)

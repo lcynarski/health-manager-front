@@ -1,5 +1,5 @@
 ///<reference path="../../_services/patient.service.ts"/>
-import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Patient } from '../../_models/patient';
@@ -12,6 +12,7 @@ import {
     emergencyContactConfig
 } from '../../_forms-configs';
 import moment = require('moment');
+import { MdlDialogComponent } from '@angular-mdl/core';
 
 
 @Component({
@@ -25,6 +26,13 @@ export class PatientDetailsComponent implements OnInit {
     @ViewChild('editPatientForm') editPatientForm: DynamicFormComponent;
     @ViewChild('medicalInfoEditForm') medicalInfoEditForm: DynamicFormComponent;
     @ViewChild('medicalHistoryItemForm') medicalHistoryItemForm: DynamicFormComponent;
+    @ViewChild('editEmergencyContactForm') editEmergencyContactForm: DynamicFormComponent;
+    @ViewChild('addEmergencyContactDialog') addEmergencyContactDialog: MdlDialogComponent;
+    @ViewChild('addToMedicalHistoryDialog') addToMedicalHistoryDialog: MdlDialogComponent;
+    @ViewChild('medicalInfoEditDialog') medicalInfoEditDialog: MdlDialogComponent;
+    @ViewChild('medicalInfoDialog') medicalInfoDialog: MdlDialogComponent;
+    @ViewChild('editUserDialog') editUserDialog: MdlDialogComponent;
+    @ViewChild('editEmergencyContactDialog') editEmergencyContactDialog: MdlDialogComponent;
     @Input() patient: Patient;
 
     // public patient: Patient;
@@ -108,6 +116,7 @@ export class PatientDetailsComponent implements OnInit {
         this.patientService.saveMedicalInfo(this.patient.id, value)
             .subscribe((data) => {
                 console.log('saveMedicalInfo', data);
+                this.medicalInfoDialog.close();
                 this.loadPatientMedicalData();
             });
     }
@@ -117,6 +126,7 @@ export class PatientDetailsComponent implements OnInit {
         this.patientService.updateMedicalInfo(this.patient.id, value)
             .subscribe((data) => {
                 console.log('saveMedicalInfo', data);
+                this.medicalInfoEditDialog.close();
                 this.loadPatientMedicalData();
             });
     }
@@ -134,6 +144,7 @@ export class PatientDetailsComponent implements OnInit {
     addToMedicalHistory(value) {
         this.patientService.addToMedicalHistory(this.patient.id, value)
             .subscribe((data) => {
+                this.addToMedicalHistoryDialog.close();
                 console.log('addToMedicalHistory response: ', data);
             });
     }
@@ -144,7 +155,21 @@ export class PatientDetailsComponent implements OnInit {
         const toSend = { ...value, birthdate: newDate}
         this.patientService.addEmergencyContact(this.patient.id, toSend)
             .subscribe((data) => {
+                this.addEmergencyContactDialog.close();
+                this.loadEmergencyData();
                 console.log('addEmergencyContact response: ', data);
+            });
+    }
+
+    editEmergencyContact(value) {
+        const { birthdate } = value;
+        const newDate = moment(birthdate).format('YYYY-MM-DD');
+        const toSend = { ...value, birthdate: newDate}
+        this.patientService.editEmergencyContact(this.patient.id, toSend)
+            .subscribe((data) => {
+                this.editEmergencyContactDialog.close();
+                this.loadEmergencyData();
+                console.log('editEmergencyContact response: ', data);
             });
     }
 
@@ -163,6 +188,14 @@ export class PatientDetailsComponent implements OnInit {
         Object.keys(this.patient.medicalInfo).forEach((key) => {
             if ((key !== 'id') && this.medicalInfoEditForm) {
                 this.medicalInfoEditForm.setValue(key, this.patient.medicalInfo[key]);
+            }
+        });
+    };
+
+    onEditEmergencyContactDialogShow = (dialogRef) => {
+        Object.keys(this.emergencyContact).forEach((key) => {
+            if ((key !== 'id') && this.medicalInfoEditForm) {
+                this.editEmergencyContactForm.setValue(key, this.emergencyContact[key]);
             }
         });
     };

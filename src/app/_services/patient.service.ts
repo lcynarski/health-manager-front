@@ -66,6 +66,11 @@ export class PatientService {
             .map((response: Response) => response.json());
     }
 
+    public editEmergencyContact(patientId, data) {
+        return this.http.put(`${this.config.apiUrl}/patients/${patientId}/emergency`, data, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
+
     public getPatients(): Observable<Patient[]> {
         return this.http.get(`${this.config.apiUrl}/patients`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
@@ -79,7 +84,7 @@ export class PatientService {
 
     public editPatient(data) {
         console.log('editPatient', data);
-        return this.http.put(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
+        return this.http.put(`${this.config.apiUrl}/patients/${data.id}/personalDetails`, data, this.authenticationService.addJwtOptions())
             .map((response) => response.json());
     }
 
