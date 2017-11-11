@@ -38,7 +38,7 @@
                     {{ 'PersonalInfo' | translate }}
                     <div>
                         <div class="patient-details__info-label">Date of birth:</div>
-                        <div class="patient-details__info-value">{{ patient?.birthdate }}</div>
+                        <div class="patient-details__info-value">{{ patient?.birthdate | date }}</div>
                     </div>
                     <div>
                         <div class="patient-details__info-label">Gender:</div>

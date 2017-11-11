@@ -29,7 +29,7 @@
     </div>
 </div>
 <i class="material-icons translate-icon">translate</i>
-<mat-select #langSelect (change)="translate.use(langSelect.value)" label="lang" class="lang-select">
+<mat-select #langSelect (change)="onLangChange(langSelect.value)" label="lang" class="lang-select">
     <mat-option *ngFor="let lang of translate.getLangs()" [value]="lang">{{ lang }}</mat-option>
 </mat-select>
 

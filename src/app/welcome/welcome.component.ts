@@ -15,8 +15,9 @@ export class WelcomeComponent implements OnInit {
                 private translate: TranslateService) {
         translate.addLangs(['en', 'pl']);
         translate.setDefaultLang('en');
+        localStorage.setItem('currentLang', translate.getBrowserLang())
 
-        let browserLang = translate.getBrowserLang();
+        const browserLang = translate.getBrowserLang();
         translate.use(browserLang.match(/en|pl/) ? browserLang : 'en');
     }
 
@@ -30,6 +31,11 @@ export class WelcomeComponent implements OnInit {
 
     public backHome() {
         this.doRegister = false;
+    }
+
+    public onLangChange(value) {
+        this.translate.use(value);
+        localStorage.setItem('currentLang', value);
     }
 
     redirect(pagename: string) {

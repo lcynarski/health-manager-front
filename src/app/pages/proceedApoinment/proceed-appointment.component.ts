@@ -14,9 +14,12 @@ import { standardExaminationConfig } from '../../_forms-configs';
 import { FormsService } from '../../_services/forms.service';
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { MedicalCheckupService } from '../../_services/medical-checkup.service';
+import { AppointmentService } from '../../_services/appointment.service';
+import { TimeSlotService } from '../../_services/timeSlot.service';
+import { DoctorService } from '../../_services/doctor.service';
 
 @Component({
-    providers: [PatientService, DrugsService, FormsService, MedicalCheckupService],
+    providers: [PatientService, DrugsService, FormsService, MedicalCheckupService, AppointmentService, TimeSlotService, DoctorService],
     templateUrl: 'proceed-appointment.component.html',
     styleUrls: ['./proceed-appointment.component.scss']
 })
@@ -54,6 +57,10 @@ export class ProceedAppointmentComponent implements OnInit {
     currentChosenPack = "";
     currentChosenDrugName = "";
     notesModel = "";
+    appointment = {
+        id: '',
+        patientId: ''
+    };
 
     constructor(private router: Router,
                 private patientService: PatientService,
@@ -61,7 +68,8 @@ export class ProceedAppointmentComponent implements OnInit {
                 private route: ActivatedRoute,
                 private drugsService: DrugsService,
                 private formService: FormsService,
-                private medicalCheckupService: MedicalCheckupService) {
+                private medicalCheckupService: MedicalCheckupService,
+                private appointmentService: AppointmentService) {
     }
 
     public tabChanged({ index }) {
@@ -70,11 +78,17 @@ export class ProceedAppointmentComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
-            // let userId = params['userId'];
-            console.log(params);
-            const type = params['type'];
-            const id = params['id'];
-            console.log('whats goin on: ', type, id);
+            const appointmentId = params['appointmentId'];
+            this.appointmentService.getAppointmentById(appointmentId)
+                .subscribe((response) => {
+                    this.appointment = response;
+                    if (this.appointment && this.appointment.id) {
+                        this.patientService.getById(this.appointment.patientId)
+                            .subscribe((patient) => {
+                                this.patient = patient;
+                            });
+                    }
+                });
         });
 
         this.formService.getAllForms()
