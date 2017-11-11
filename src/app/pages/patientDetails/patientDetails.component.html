@@ -25,7 +25,7 @@
         >
             <mat-icon aria-label="Example icon-button with a heart icon">launch</mat-icon>
         </button>
-        <button mat-mini-fab color="primary" mdl-tooltip-large="Send an email" mdl-tooltip-position="right">
+        <button mat-mini-fab color="primary" mdl-tooltip-large="Send an email" mdl-tooltip-position="right" (click)="sendMail('cynarx@gmail.com','my-subject','my-message')">
             <mat-icon aria-label="Example icon-button with a heart icon">mail_outline</mat-icon>
         </button>
     </div>

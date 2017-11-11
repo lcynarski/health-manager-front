@@ -5,10 +5,9 @@
             <!--<mat-form-field>-->
                 <!--<input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>-->
             <!--</mat-form-field>-->
-            Doctor: MockDoctor
-            Patient: MockPatient
-            Date: MockDate
-            Price: MockPrice
+            Doctor: {{ doctor?.account?.personalDetails?.firstName }} {{ doctor?.account?.personalDetails?.lastName }}
+            {{ doctor?.specialization?.description }}
+            Patient: {{ patient?.firstName }} {{ patient?.lastName }}
 
 
             <div>

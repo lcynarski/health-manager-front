@@ -120,7 +120,7 @@ export class VisitListComponent implements OnInit {
     private routeToVisitPage(row: string[]): void {
         const rowNum: number = this.toShowStr.indexOf(row);
         const appointment = this.toShow[rowNum];
-        this.router.navigate([`/pages/proceedAppointment/${appointment.id}`]);
+        this.router.navigate([`/pages/proceedAppointment/${appointment.id}`], { queryParams: { doctor: this.doctor._id } });
     }
 
     private displayDate(start: Date, end: Date): string {

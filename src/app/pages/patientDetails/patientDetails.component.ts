@@ -173,6 +173,10 @@ export class PatientDetailsComponent implements OnInit {
             });
     }
 
+    public sendMail(emailId,subject,message) {
+        window.open("mailto:"+ emailId + "?subject=" + subject+"&body="+message,"_self");
+    };
+
     onDialogShow = (dialogRef) => {
         Object.keys(this.patient).forEach((key) => {
             if ((key !== 'id') && (key !== 'insuranceNumber') && (key !== 'medicalInfo') && this.editPatientForm) {

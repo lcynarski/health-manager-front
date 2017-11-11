@@ -17,6 +17,7 @@ import { MedicalCheckupService } from '../../_services/medical-checkup.service';
 import { AppointmentService } from '../../_services/appointment.service';
 import { TimeSlotService } from '../../_services/timeSlot.service';
 import { DoctorService } from '../../_services/doctor.service';
+import { subscribeOn } from 'rxjs/operator/subscribeOn';
 
 @Component({
     providers: [PatientService, DrugsService, FormsService, MedicalCheckupService, AppointmentService, TimeSlotService, DoctorService],
@@ -61,6 +62,7 @@ export class ProceedAppointmentComponent implements OnInit {
         id: '',
         patientId: ''
     };
+    doctor = {};
 
     constructor(private router: Router,
                 private patientService: PatientService,
@@ -69,7 +71,8 @@ export class ProceedAppointmentComponent implements OnInit {
                 private drugsService: DrugsService,
                 private formService: FormsService,
                 private medicalCheckupService: MedicalCheckupService,
-                private appointmentService: AppointmentService) {
+                private appointmentService: AppointmentService,
+                private doctorService: DoctorService) {
     }
 
     public tabChanged({ index }) {
@@ -77,7 +80,8 @@ export class ProceedAppointmentComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.params.subscribe((params: Params) => {
+        this.route
+            .params.subscribe((params: Params) => {
             const appointmentId = params['appointmentId'];
             this.appointmentService.getAppointmentById(appointmentId)
                 .subscribe((response) => {
@@ -89,6 +93,15 @@ export class ProceedAppointmentComponent implements OnInit {
                             });
                     }
                 });
+        });
+        this.route
+            .queryParams
+            .subscribe((params) => {
+                const doctorId = params['doctor'] || '';
+                this.doctorService.getById(doctorId)
+                    .subscribe((response) => {
+                        this.doctor = response;
+                    });
         });
 
         this.formService.getAllForms()
