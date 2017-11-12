@@ -18,9 +18,19 @@ import { AppointmentService } from '../../_services/appointment.service';
 import { TimeSlotService } from '../../_services/timeSlot.service';
 import { DoctorService } from '../../_services/doctor.service';
 import { subscribeOn } from 'rxjs/operator/subscribeOn';
+import { PrescriptionsService } from '../../_services/prescriptions.service';
 
 @Component({
-    providers: [PatientService, DrugsService, FormsService, MedicalCheckupService, AppointmentService, TimeSlotService, DoctorService],
+    providers: [
+        PatientService,
+        DrugsService,
+        FormsService,
+        MedicalCheckupService,
+        AppointmentService,
+        TimeSlotService,
+        DoctorService,
+        PrescriptionsService
+    ],
     templateUrl: 'proceed-appointment.component.html',
     styleUrls: ['./proceed-appointment.component.scss']
 })
@@ -72,7 +82,8 @@ export class ProceedAppointmentComponent implements OnInit {
                 private formService: FormsService,
                 private medicalCheckupService: MedicalCheckupService,
                 private appointmentService: AppointmentService,
-                private doctorService: DoctorService) {
+                private doctorService: DoctorService,
+                private prescriptionService: PrescriptionsService) {
     }
 
     public tabChanged({ index }) {
@@ -165,8 +176,8 @@ export class ProceedAppointmentComponent implements OnInit {
 
     public addDrugToList() {
         const drugToBePrescribed = {
-            name: this.currentChosenDrugName,
-            pack: this.currentChosenPack
+            drugName: this.currentChosenDrugName,
+            size: this.currentChosenPack
         };
         this.prescribedDrugsList.push(drugToBePrescribed);
     }
@@ -242,11 +253,16 @@ export class ProceedAppointmentComponent implements OnInit {
         console.log('submitInterviewForm value: ', value);
     }
 
-    private getPersonalDetails() {
-        // this.userService.getPersonalDetails().subscribe(
-        //     (data) => { this.personalDetails = data; },
-        //     (error) => { this.alertService.error(error._body); }
-        // );
+    public submitPrescription() {
+        const prescriptionToSave = {
+            notes: this.notesModel,
+            appointmentId: this.appointment.id,
+            drugs: this.prescribedDrugsList
+        };
+        this.prescriptionService.savePrescription(prescriptionToSave)
+            .subscribe((response) => {
+                console.log('savePrescription response: ', response);
+            });
     }
 
     private getPatientByPesel(pesel) {

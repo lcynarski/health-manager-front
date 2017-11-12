@@ -67,36 +67,4 @@ export class FormsCreatorComponent implements OnInit {
                 });
             });
     }
-
-    //
-    // saveForm(): void {
-    //     this.formsService.saveForm(this.form)
-    //         .subscribe((response) => {
-    //             console.log(response);
-    //         });
-    // }
-    //
-    // addField(): void {
-    //     this.fields.push(new FieldsCreatorComponent());
-    // }
-    //
-    // removeField(id: string): void {
-    //
-    //     let fieldToDelete;
-    //
-    //     for (let i = this.fields.length - 1; i >= 0; i--) {
-    //         if (this.fields[i].id === id) {
-    //             fieldToDelete = this.fields[i].field.name;
-    //             break;
-    //         }
-    //     }
-    //
-    //     this.form.formFields = this.form.formFields.filter((field) => field.name !== fieldToDelete);
-    //
-    // }
-    //
-    // private getRandomId(): string {
-    //     return Math.random().toString(36).substr(2, 10);
-    // }
-
 }
