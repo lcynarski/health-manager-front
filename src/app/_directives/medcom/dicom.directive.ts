@@ -1,6 +1,6 @@
 import { Directive, DoCheck, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output } from '@angular/core';
-import { DicomSeries, DicomInstance } from '../../_models';
-import { CornerstoneService } from '../../_services/medcom';
+import { DicomSeries, DicomInstance, CornerstoneTool } from '../../_models';
+import { CornerstoneService, tools } from '../../_services/medcom';
 
 declare const cornerstone;
 declare const cornerstoneTools;
@@ -8,10 +8,10 @@ declare const cornerstoneWADOImageLoader;
 
 const WadoImageLoaderSchemeName = 'wadouri:';
 
+
 @Directive({
     selector: '[dicom]',
 })
-
 export class DicomDirective implements OnChanges, DoCheck {
 
     @Input()
@@ -22,16 +22,22 @@ export class DicomDirective implements OnChanges, DoCheck {
 
     private imageUrls: string[];
     private element: any;
-    private toolsInitialized: boolean;
     private stackState = {
         currentImageIdIndex: 0,
         previousImageIdIndex: 0,
         imageIds: []
     };
+    private activeTool: CornerstoneTool;
 
     constructor(private elementRef: ElementRef,
                 private service: CornerstoneService) {
         this.element = elementRef.nativeElement;
+        this.service.currentToolStream.subscribe(
+            (tool) => this.onToolChange(tool)
+        );
+
+        // FIXME - REMOVE
+        (window as any).clearTools = this.clearTools.bind(this);
     }
 
     @HostListener('contextmenu', ['$event'])
@@ -45,9 +51,8 @@ export class DicomDirective implements OnChanges, DoCheck {
             return;
         }
         try {
-            this.imageUrls = this.series.instances.map((i) => i.dicomUrl);
             cornerstone.enable(this.element);
-            this.toolsInitialized = false;
+            this.imageUrls = this.series.instances.map((i) => i.dicomUrl);
             this.stackState.currentImageIdIndex = 0;
             this.stackState.imageIds = this.imageUrls.map((url) => WadoImageLoaderSchemeName + url);
             this.imageUrls.forEach((url) => {
@@ -87,28 +92,49 @@ export class DicomDirective implements OnChanges, DoCheck {
     }
 
     private initializeTools() {
-        if (this.toolsInitialized) {
-            return;
-        }
-
         cornerstoneTools.mouseInput.enable(this.element);
         cornerstoneTools.mouseWheelInput.enable(this.element);
 
-        // Enable all tools we want to use with this element
-        cornerstoneTools.wwwc.activate(this.element, 1); // ww/wc is the default tool for left mouse button
-        cornerstoneTools.pan.activate(this.element, 2); // pan is the default tool for middle mouse button
-        cornerstoneTools.zoom.activate(this.element, 4); // zoom is the default tool for right mouse button
-        // cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
+        tools
+            .filter((t) => t.inactiveButton)
+            .forEach((t) => this.deactivateTool(t));
 
         cornerstoneTools.addStackStateManager(this.element, ['stack', 'playClip']);
         cornerstoneTools.addToolState(this.element, 'stack', this.stackState);
         cornerstoneTools.stackScrollWheel.activate(this.element);
         cornerstoneTools.scrollIndicator.enable(this.element);
-
-        this.toolsInitialized = true;
     }
 
-    private onImageLoaded() {
+    private activateTool(tool: CornerstoneTool): void {
+        cornerstoneTools[tool.name].activate(this.element, tool.activeButton);
+        this.activeTool = tool;
+    }
+
+    private deactivateTool(tool: CornerstoneTool): void {
+        if (tool.inactiveButton) {
+            cornerstoneTools[tool.name].activate(this.element, tool.inactiveButton);
+        } else {
+            cornerstoneTools[tool.name].deactivate(this.element, tool.activeButton);
+        }
+    }
+
+    private onToolChange(tool: CornerstoneTool): void {
+        console.log(`tool changed to ${tool.name}`);
+        if (this.activeTool) {
+            this.deactivateTool(this.activeTool);
+        }
+        this.activateTool(tool);
+    }
+
+    // TODO
+    private clearTools() {
+        // const toolStateManager = cornerstoneTools
+        //     .getElementToolStateManager(this.element);
+        // toolStateManager.clear(this.element);
+        // cornerstone.updateImage(this.element);
+    }
+
+    private onImageLoaded(): void {
         this.imageLoaded.emit(
             this.series.instances[this.stackState.currentImageIdIndex]
         );
