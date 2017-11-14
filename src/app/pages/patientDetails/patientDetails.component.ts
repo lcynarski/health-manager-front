@@ -1,7 +1,6 @@
-///<reference path="../../_services/patient.service.ts"/>
-import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import { Patient } from '../../_models/patient';
 import { PatientService } from '../../_services/patient.service';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
@@ -13,10 +12,13 @@ import {
 } from '../../_forms-configs';
 import moment = require('moment');
 import { MdlDialogComponent } from '@angular-mdl/core';
+import { AppointmentService } from '../../_services/appointment.service';
+import { TimeSlotService } from '../../_services/timeSlot.service';
+import { DoctorService } from '../../_services/doctor.service';
 
 
 @Component({
-    providers: [PatientService],
+    providers: [PatientService, AppointmentService, TimeSlotService, DoctorService],
     selector: 'patient-details',
     templateUrl: './patientDetails.component.html',
     styleUrls: ['./patientDetails.component.scss']
@@ -35,7 +37,6 @@ export class PatientDetailsComponent implements OnInit {
     @ViewChild('editEmergencyContactDialog') editEmergencyContactDialog: MdlDialogComponent;
     @Input() patient: Patient;
 
-    // public patient: Patient;
     public id: string;
     public lat: number = 51.678418;
     public lng: number = 7.809007;
@@ -48,22 +49,26 @@ export class PatientDetailsComponent implements OnInit {
     private medicalHistory: any;
     private emergencyContact: any;
     private model: any = {};
+    private appointments: any;
 
     constructor(router: Router,
                 private http: Http,
                 private route: ActivatedRoute,
-                private patientService: PatientService) {
+                private patientService: PatientService,
+                private appoitmentService: AppointmentService) {
         this.router = router;
     }
 
     public ngOnInit() {
         console.log(this.editPatientConfig);
         console.log(this.medicalInfoConfig);
+        this.appointments = [];
         this.sub = this.route.params.subscribe((params) => {
             this.id = params['patientId']; // (+) converts string 'id' to a number
             this.loadPatientData();
             this.loadPatientMedicalData();
             this.loadEmergencyData();
+            this.loadAppointments();
         });
     }
 
@@ -95,6 +100,19 @@ export class PatientDetailsComponent implements OnInit {
         this.patientService.getEmergencyContact(this.id)
             .subscribe((emergencyData) => {
                 this.emergencyContact = emergencyData;
+            });
+    }
+
+    public loadAppointments() {
+        this.appoitmentService.getAllPatientsAppointments(this.id)
+            .subscribe((appointments) => {
+                appointments.forEach((appointment) => {
+                    this.appoitmentService.getAppointmetsTime(appointment.id)
+                        .subscribe((timeslot) => {
+                           const fullAppointment = { ...appointment, timeslot }
+                           this.appointments.push(fullAppointment);
+                        });
+                });
             });
     }
 

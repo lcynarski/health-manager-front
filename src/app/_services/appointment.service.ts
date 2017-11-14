@@ -58,6 +58,21 @@ export class AppointmentService {
             .map((response: Response) => response.json());
     }
 
+    public getAllPatientsAppointments(patientId) {
+        return this.http.get(`${this.config.apiUrl}/patients/${patientId}/appointments`, this.authenticationService.addJwtOptions())
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
+
+    public getAppointmetsTime(id) {
+        return this.http.get(`${this.config.apiUrl}/timeSlot/${id}`, this.authenticationService.addJwtOptions())
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
+
+
     private fromJson(json: any): Observable<Appointment> {
         console.log(json);
         let a: Appointment = json;
