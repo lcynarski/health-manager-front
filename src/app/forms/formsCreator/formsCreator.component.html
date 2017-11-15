@@ -34,6 +34,32 @@
                 #form="dynamicForm"
         ></dynamic-form>
     </div>
+
+    <div class="form-creator__form">
+        Fill form with example data:
+        <mat-form-field>
+            <mat-select placeholder="Select form" *ngIf="formsToChoose" [(ngModel)]="formSelectState">
+                <mat-option *ngFor="let form of formsToChoose" [value]="form" (click)="onChooseForm(form)">
+                    {{ form.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <dynamic-form
+                [config]="formConfig"
+                #formToFill="dynamicForm"
+                (submit)="submitDefaultValues($event)">
+        </dynamic-form>
+        <mdl-textfield
+                type="text"
+                label="Default data set name"
+                [(ngModel)]="defaultDataSetName"
+                floating-label
+                mdl-tooltip-large="Add name to default data set"
+                mdl-tooltip-position="right"
+        >
+        </mdl-textfield>
+    </div>
+
     <mdl-dialog #addFieldDialog
                 [mdl-dialog-config]="{
               clickOutsideToClose: true,

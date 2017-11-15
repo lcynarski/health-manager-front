@@ -66,9 +66,17 @@ export class FormsService {
     }
 
     public getDefaultValues(formId) {
-        return this.http.get(`${this.config.apiUrl}/forms/${formId}/default`, this.authenticationService.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/forms/${formId}/defaults`, this.authenticationService.addJwtOptions())
             .map((response: Response) => {
                 console.log('GET DEFAULT VALUES: ' + response.json());
+                return response.json();
+            });
+    }
+
+    public saveDefaultValues(formId, data) {
+        return this.http.post(`${this.config.apiUrl}/forms/${formId}/defaults`, data, this.authenticationService.addJwtOptions())
+            .map((response: Response) => {
+                console.log('POST DEFAULT VALUES: ' + response.json());
                 return response.json();
             });
     }
