@@ -21,24 +21,3 @@ export class FormSelectComponent implements Field {
   config: FieldConfig;
   group: FormGroup;
 }
-
-/*
-
-
-    <form class='select'
-      [formGroup]="group">
-      <mdl-select [formControlName]="config.name" label="{{config.label}}" floating-label>
-        <mdl-option *ngFor="let option of config.options" [value]="option">
-          {{ option }}
-        </mdl-option>
-      </mdl-select>
-    </form>
-
-    <mat-form-field class="example-full-width" [formGroup]="group">
-        <input matInput [attr.placeholder]="config.placeholder" [formControlName]="config.name"
-               [matDatepicker]="pickerStart" [placeholder]="config.placeholder">
-        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
-        <mat-datepicker #pickerStart></mat-datepicker>
-    </mat-form-field>
-
- */
