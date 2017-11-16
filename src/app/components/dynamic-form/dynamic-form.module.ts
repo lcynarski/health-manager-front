@@ -15,7 +15,7 @@ import { FormDateComponent } from './components/form-date/form-date.component';
 import { MdlDatePickerModule } from '@angular-mdl/datepicker';
 import {
     DateAdapter, MAT_DATE_FORMATS, MatDatepickerModule, MatFormFieldModule,
-    MatInputModule
+    MatInputModule, MatOptionModule, MatSelectModule
 } from '@angular/material';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 
@@ -29,7 +29,9 @@ import { FormTextareaComponent } from './components/form-textarea/form-textarea.
         MdlDatePickerModule,
         MatDatepickerModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        MatSelectModule,
+        MatOptionModule
     ],
     declarations: [
         DynamicFieldDirective,
