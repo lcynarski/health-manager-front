@@ -51,7 +51,8 @@ export class ProceedAppointmentComponent implements OnInit {
     public packs = [];
     private standardExaminationConfig = standardExaminationConfig;
     formSelectState = {};
-    packSelectState = {}
+    packSelectState = {};
+    defaulValuesSelectState = {};
 
     myControl: FormControl = new FormControl();
 
@@ -73,6 +74,7 @@ export class ProceedAppointmentComponent implements OnInit {
         patientId: ''
     };
     doctor = {};
+    formDefaultValues = [];
 
     constructor(private router: Router,
                 private patientService: PatientService,
@@ -202,6 +204,11 @@ export class ProceedAppointmentComponent implements OnInit {
             type: 'button'
         };
         this.formConfig.push(submitField);
+        this.loadDefaultValues(form.id);
+    }
+
+    public onChooseDefaultData(data) {
+        console.log('onChooseDefaultData: ', data);
     }
 
     public submitPreparedForm(data) {
@@ -262,6 +269,13 @@ export class ProceedAppointmentComponent implements OnInit {
         this.prescriptionService.savePrescription(prescriptionToSave)
             .subscribe((response) => {
                 console.log('savePrescription response: ', response);
+            });
+    }
+
+    private loadDefaultValues(formId) {
+        this.formService.getDefaultValues(formId)
+            .subscribe((defaults) => {
+                this.formDefaultValues = defaults;
             });
     }
 

@@ -59,12 +59,21 @@
         </dynamic-form>
 
         <mat-form-field>
-            <mat-select placeholder="Select size" *ngIf="formsToChoose" [(ngModel)]="formSelectState">
+            <mat-select placeholder="Select form" *ngIf="formsToChoose" [(ngModel)]="formSelectState">
                 <mat-option *ngFor="let form of formsToChoose" [value]="form" (click)="onChooseForm(form)">
                     {{ form.name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Select values" *ngIf="formDefaultValues" [(ngModel)]="defaulValuesSelectState">
+                <mat-option *ngFor="let defaultSet of formDefaultValues" [value]="defaultSet" (click)="onChooseDefaultData(defaultSet)">
+                    {{ defaultSet.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
 
         <dynamic-form
                 [config]="formConfig"
