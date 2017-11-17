@@ -41,7 +41,7 @@
         label: 'Gender',
         name: 'gender',
         options: ['Male', 'Female', 'Other'],
-        placeholder: 'Select an option'
+        placeholder: 'Gender'
     },
     {
         type: 'input',

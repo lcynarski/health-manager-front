@@ -9,7 +9,7 @@ import { FieldConfig } from '../../models/field-config.interface';
   styleUrls: ['form-select.component.scss'],
   template: `
     <mat-form-field class="dynamic-field form-select" [formGroup]="group">
-        <mat-select placeholder="config.placeholder" [attr.placeholder]="config.placeholder" [formControlName]="config.name">
+        <mat-select [placeholder]="config.placeholder" [attr.placeholder]="config.placeholder" [formControlName]="config.name">
             <mat-option *ngFor="let option of config.options" [value]="option">
                 {{ option }}
             </mat-option>
