@@ -1,6 +1,18 @@
-import { Directive, DoCheck, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output } from '@angular/core';
+import {
+    Directive,
+    DoCheck,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Input,
+    OnChanges,
+    OnDestroy,
+    Output
+} from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { DicomSeries, DicomInstance, CornerstoneTool } from '../../_models';
 import { CornerstoneService, tools } from '../../_services/medcom';
+
 
 declare const cornerstone;
 declare const cornerstoneTools;
@@ -12,7 +24,7 @@ const WadoImageLoaderSchemeName = 'wadouri:';
 @Directive({
     selector: '[dicom]',
 })
-export class DicomDirective implements OnChanges, DoCheck {
+export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
 
     @Input()
     public series: DicomSeries;
@@ -27,17 +39,22 @@ export class DicomDirective implements OnChanges, DoCheck {
         previousImageIdIndex: 0,
         imageIds: []
     };
+
     private activeTool: CornerstoneTool;
+    private initialized = false;
+    private pendingToolChangeCb: () => void;
+
+    private toolsChangeSubscription: Subscription;
+    private actionsSubscription: Subscription;
+
+    private actionsMap: any = {
+        clear: () => this.clearTools(),
+    };
 
     constructor(private elementRef: ElementRef,
                 private service: CornerstoneService) {
         this.element = elementRef.nativeElement;
-        this.service.currentToolStream.subscribe(
-            (tool) => this.onToolChange(tool)
-        );
-
-        // FIXME - REMOVE
-        (window as any).clearTools = this.clearTools.bind(this);
+        this.handleEvents();
     }
 
     @HostListener('contextmenu', ['$event'])
@@ -51,6 +68,7 @@ export class DicomDirective implements OnChanges, DoCheck {
             return;
         }
         try {
+            this.initialized = false;
             cornerstone.enable(this.element);
             this.imageUrls = this.series.instances.map((i) => i.dicomUrl);
             this.stackState.currentImageIdIndex = 0;
@@ -72,6 +90,12 @@ export class DicomDirective implements OnChanges, DoCheck {
             this.onImageLoaded();
         }
         this.stackState.previousImageIdIndex = this.stackState.currentImageIdIndex;
+    }
+
+    ngOnDestroy(): void {
+        this.clearTools();
+        this.toolsChangeSubscription.unsubscribe();
+        this.actionsSubscription.unsubscribe();
     }
 
     private displayImage(index: number) {
@@ -103,6 +127,15 @@ export class DicomDirective implements OnChanges, DoCheck {
         cornerstoneTools.addToolState(this.element, 'stack', this.stackState);
         cornerstoneTools.stackScrollWheel.activate(this.element);
         cornerstoneTools.scrollIndicator.enable(this.element);
+
+        if (this.pendingToolChangeCb) {
+            this.pendingToolChangeCb();
+            this.pendingToolChangeCb = null;
+        } else if (this.activeTool) {
+            this.activateTool(this.activeTool);
+        }
+
+        this.initialized = true;
     }
 
     private activateTool(tool: CornerstoneTool): void {
@@ -118,20 +151,41 @@ export class DicomDirective implements OnChanges, DoCheck {
         }
     }
 
+    private handleEvents(): void {
+        this.toolsChangeSubscription = this.service.currentToolStream.subscribe(
+            (tool) => {
+                if (this.initialized) {
+                    this.onToolChange(tool);
+                } else {
+                    this.pendingToolChangeCb = () => this.onToolChange(tool);
+                }
+            }
+        );
+
+        this.actionsSubscription = this.service.actionsStream.subscribe(
+            (action) => {
+                if (this.actionsMap[action.name]) {
+                    this.actionsMap[action.name]();
+                }
+            }
+        );
+    }
+
     private onToolChange(tool: CornerstoneTool): void {
-        console.log(`tool changed to ${tool.name}`);
         if (this.activeTool) {
             this.deactivateTool(this.activeTool);
         }
         this.activateTool(tool);
+        console.log(`${tool.name} tool activated`);
     }
 
-    // TODO
-    private clearTools() {
-        // const toolStateManager = cornerstoneTools
-        //     .getElementToolStateManager(this.element);
-        // toolStateManager.clear(this.element);
-        // cornerstone.updateImage(this.element);
+    private clearTools() { // only works for current image id
+        tools
+            .map((tool) => tool.name)
+            .forEach((tool) =>
+                cornerstoneTools.clearToolState(this.element, tool));
+
+        cornerstone.updateImage(this.element);
     }
 
     private onImageLoaded(): void {

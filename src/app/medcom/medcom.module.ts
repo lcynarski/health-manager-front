@@ -11,6 +11,7 @@ import { MedcomComponent } from './medcom.component';
 import { MedcomPatientRecordComponent } from './dicom-archive/medcom-patient-record/medcom-patient-record.component';
 import { MedcomStudyDialogComponent } from './dicom-archive/medcom-study-dialog/medcom-study-dialog.component';
 import { AttributesViewerComponent } from './dicom-archive/medcom-study-dialog/attributes-info/attributes-viewer.component';
+import { ToolsPaneComponent } from './dicom-archive/medcom-study-dialog/tools-pane/tools-pane.component';
 import { DicomArchiveComponent } from './dicom-archive/dicom-archive.component';
 import { ModalitiesComponent } from './modalities/modalities.component';
 import { ProceduresScheduleComponent } from './procedures-schedule/procedures-schedule.component';
@@ -41,6 +42,7 @@ import { DefaultPipe } from '../_pipes';
         ModalitiesComponent,
         ProceduresScheduleComponent,
         AttributesViewerComponent,
+        ToolsPaneComponent,
         DicomDirective,
         DefaultPipe
     ],

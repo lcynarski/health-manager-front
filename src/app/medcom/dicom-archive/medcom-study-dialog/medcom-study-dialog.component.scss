@@ -15,7 +15,7 @@ $barHeight: 50px;
   #topBar {
     height: $barHeight;
     position: relative;
-    #infoBoxButton {
+    .actionButton {
       color: white;
       &:hover {
         color: $oc-indigo-4;

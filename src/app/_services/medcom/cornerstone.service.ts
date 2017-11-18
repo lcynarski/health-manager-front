@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { CornerstoneTool } from '../../_models/medcom';
-import { tools, defaultTool } from './tools-config';
+import { tools, defaultToolIndex } from './tools-config';
+import { CornerstoneAction } from '../../_models/medcom/cornerstoneTool';
 
 declare const cornerstoneWADOImageLoader;
 
@@ -12,21 +14,32 @@ declare const cornerstoneWADOImageLoader;
 export class CornerstoneService {
 
     public currentToolStream: Observable<CornerstoneTool>;
+    public actionsStream: Observable<CornerstoneAction>;
+
     private currentToolSource: ReplaySubject<CornerstoneTool>;
+    private actionsSource: Subject<CornerstoneAction>;
 
     constructor() {
-        this.currentToolSource = new ReplaySubject();
+        this.actionsSource = new Subject();
+        this.actionsStream = this.actionsSource.asObservable();
+
+        this.currentToolSource = new ReplaySubject(1);
         this.currentToolStream = this.currentToolSource.asObservable()
             .distinctUntilChanged();
-        this.currentToolSource.next(tools[defaultTool]);
-        this.initializeCornerstone();
 
-        // FIXME - REMOVE
-        (window as any).activateTool = (i: number) => this.activateTool(tools[i]);
+        this.initializeCornerstone();
     }
 
     public activateTool(tool: CornerstoneTool): void {
         this.currentToolSource.next(tool);
+    }
+
+    public propagateAction(action: CornerstoneAction) {
+        this.actionsSource.next(action);
+    }
+
+    public resetTools(): void {
+        this.currentToolSource.next(tools[defaultToolIndex]);
     }
 
     private initializeCornerstone(): void {

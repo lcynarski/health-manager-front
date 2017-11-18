@@ -1,14 +1,8 @@
-import {
-    Component, HostListener, Inject,
-    InjectionToken, OnInit, ViewEncapsulation
-} from '@angular/core';
+import { Component, HostListener, Inject, InjectionToken, OnInit, ViewEncapsulation } from '@angular/core';
 import { MdlDialogReference } from '@angular-mdl/core';
 
-import {
-    DicomStudy, DicomSeries,
-    DicomInstance
-} from '../../../_models';
-import { ArchiveService, DicomAttributesService } from '../../../_services';
+import { DicomInstance, DicomSeries, DicomStudy } from '../../../_models';
+import { ArchiveService, CornerstoneService, DicomAttributesService } from '../../../_services';
 
 
 export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetails');
@@ -28,15 +22,18 @@ export class MedcomStudyDialogComponent implements OnInit {
     fetchingSeries: boolean = false;
     errorMessage: string;
     infoBoxVisible: boolean = false;
+    toolsPaneVisible: boolean = true;
 
     constructor(@Inject(STUDY_INJECTION_TOKEN) public study: DicomStudy,
                 private dialog: MdlDialogReference,
                 private archiveService: ArchiveService,
+                private cornerstoneService: CornerstoneService,
                 private attributesService: DicomAttributesService) {
     }
 
     ngOnInit(): void {
         this.attributesService.clearCache();
+        this.cornerstoneService.resetTools();
         this.fetchSeries();
     }
 
@@ -51,6 +48,13 @@ export class MedcomStudyDialogComponent implements OnInit {
     @HostListener('document:keydown.i')
     toggleInfoBox() {
         this.infoBoxVisible = !this.infoBoxVisible;
+        this.toolsPaneVisible = false;
+    }
+
+    @HostListener('document:keydown.t')
+    toggleToolsPane() {
+        this.toolsPaneVisible = !this.toolsPaneVisible;
+        this.infoBoxVisible = false;
     }
 
     @HostListener('document:keydown.esc')

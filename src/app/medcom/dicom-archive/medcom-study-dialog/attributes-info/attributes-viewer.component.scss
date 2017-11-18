@@ -3,9 +3,7 @@
 
 
 #attributesViewerComponent {
-  position: absolute;
-  top: 0;
-  left: 0;
+  @include absolute('top-left');
   width: 50%;
   height: 100%;
   background: rgba(black, 0.5);

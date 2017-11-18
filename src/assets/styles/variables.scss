@@ -100,3 +100,20 @@ $sidebar-scroll-width: 4px;
 @mixin shadow($size, $color: rgba(64,64,64,0.64)) {
   box-shadow: $size $size $size*4 0 $color, -1*$size -1*$size $size*4 0 $color, -1*$size $size $size*4 0 $color, $size -1*$size $size*4 0 $color;
 }
+
+@mixin absolute($position) {
+  position: absolute;
+  @if $position == 'top-left' {
+    top: 0;
+    left: 0;
+  } @else if $position == 'top-right' {
+    top: 0;
+    right: 0;
+  } @else if $position == 'bottom-left' {
+    bottom: 0;
+    left: 0;
+  } @else if $position == 'bottom-right' {
+    bottom: 0;
+    right: 0;
+  }
+}

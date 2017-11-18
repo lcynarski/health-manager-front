@@ -2,9 +2,13 @@
     <div *ngIf="!fetchingSeries && !errorMessage">
 
         <div id="topBar" fxLayout="row" fxLayoutAlign="space-between center">
-            <button fxFlex id="infoBoxButton" mdl-button
+            <button fxFlex class="actionButton" mdl-button
                     (click)="toggleInfoBox()" [class.active]="infoBoxVisible">
                 <mdl-icon>info_outline</mdl-icon>
+            </button>
+            <button fxFlex class="actionButton" mdl-button
+                    (click)="toggleToolsPane()" [class.active]="toolsPaneVisible">
+                <mdl-icon>build</mdl-icon>
             </button>
 
             <div fxFlex="90" id="tabsContainer">
@@ -29,6 +33,9 @@
                     [series]="activeSeries"
                     [instance]="activeInstance"
             ></attributes-viewer>
+            <tools-pane-component
+                    *ngIf="toolsPaneVisible"
+            ></tools-pane-component>
         </div>
     </div>
 
