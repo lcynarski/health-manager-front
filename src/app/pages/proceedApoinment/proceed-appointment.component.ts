@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
@@ -19,6 +19,7 @@ import { TimeSlotService } from '../../_services/timeSlot.service';
 import { DoctorService } from '../../_services/doctor.service';
 import { subscribeOn } from 'rxjs/operator/subscribeOn';
 import { PrescriptionsService } from '../../_services/prescriptions.service';
+import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 
 @Component({
     providers: [
@@ -36,7 +37,7 @@ import { PrescriptionsService } from '../../_services/prescriptions.service';
 })
 
 export class ProceedAppointmentComponent implements OnInit {
-
+    @ViewChild('preparedForm') preparedForm: DynamicFormComponent;
     public activeIndex = 0;
     public disableTargaryens = true;
     public myArray: string[] = null;
@@ -208,7 +209,9 @@ export class ProceedAppointmentComponent implements OnInit {
     }
 
     public onChooseDefaultData(data) {
-        console.log('onChooseDefaultData: ', data);
+        data.defaultValues && data.defaultValues.map(({ name, value }) => {
+            this.preparedForm.setValue(name, value);
+        });
     }
 
     public submitPreparedForm(data) {
