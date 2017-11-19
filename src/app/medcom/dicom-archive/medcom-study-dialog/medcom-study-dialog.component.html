@@ -3,22 +3,24 @@
 
         <div id="topBar" fxLayout="row" fxLayoutAlign="space-between center">
             <button fxFlex class="actionButton" mdl-button
-                    (click)="toggleInfoBox()" [class.active]="infoBoxVisible">
+                    (click)="toggleInfoBox()" [class.active]="infoBoxVisible"
+                    mdl-tooltip-large="dicom attributes" mdl-tooltip-position="bottom">
                 <mdl-icon>info_outline</mdl-icon>
             </button>
             <button fxFlex class="actionButton" mdl-button
-                    (click)="toggleToolsPane()" [class.active]="toolsPaneVisible">
+                    (click)="toggleToolsPane()" [class.active]="toolsPaneVisible"
+                    mdl-tooltip-large="image tools" mdl-tooltip-position="bottom">
                 <mdl-icon>build</mdl-icon>
             </button>
 
-            <div fxFlex="90" id="tabsContainer">
-                <mdl-tabs mdl-ripple mdl-tab-active-index="0" (mdl-tab-active-changed)="onSeriesChange($event)">
-                    <mdl-tab-panel *ngFor="let series of seriesList">
-                        <mdl-tab-panel-title>
-                            {{series.attributes.SeriesDescription}}
-                        </mdl-tab-panel-title>
-                    </mdl-tab-panel>
-                </mdl-tabs>
+            <div fxFlex id="tabsContainer" fxLayout="row">
+                <div id="wrapper">
+                    <mat-tab-group (selectedIndexChange)="onSeriesChange($event)">
+                        <mat-tab *ngFor="let series of seriesList"
+                                 [label]="series.attributes.SeriesDescription">
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
             </div>
 
             <button fxFlex id="closeButton" mdl-button (click)="closeDialog()">
@@ -27,15 +29,12 @@
         </div>
 
         <div id="viewer" dicom [series]="activeSeries" (imageLoaded)="onImageLoaded($event)">
-            <attributes-viewer
-                    *ngIf="infoBoxVisible"
-                    [study]="study"
-                    [series]="activeSeries"
-                    [instance]="activeInstance"
-            ></attributes-viewer>
-            <tools-pane-component
-                    *ngIf="toolsPaneVisible"
-            ></tools-pane-component>
+            <attributes-viewer *ngIf="infoBoxVisible"
+                               [study]="study"
+                               [series]="activeSeries"
+                               [instance]="activeInstance">
+            </attributes-viewer>
+            <tools-pane-component *ngIf="toolsPaneVisible"></tools-pane-component>
         </div>
     </div>
 

@@ -37,7 +37,7 @@ export class MedcomStudyDialogComponent implements OnInit {
         this.fetchSeries();
     }
 
-    onSeriesChange({index}) {
+    onSeriesChange(index) {
         this.activeSeries = this.seriesList[index];
     }
 
@@ -90,7 +90,7 @@ export class MedcomStudyDialogComponent implements OnInit {
                     Promise.all(seriesList.map((series) => this.onSeries(series))) // TODO maybe do this with rxjs instead
                         .then(() => {
                             if (seriesList.length) {
-                                this.onSeriesChange({index: 0});
+                                this.onSeriesChange(0);
                             }
                             this.fetchingSeries = false;
                         })

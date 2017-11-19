@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MdlModule } from '@angular-mdl/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgSlimScrollModule } from 'ngx-slimscroll';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { routing } from './medcom.routing';
 import { DicomDirective } from '../_directives/medcom/dicom.directive';
@@ -32,6 +33,7 @@ import { DefaultPipe } from '../_pipes';
         FlexLayoutModule,
         NgSlimScrollModule,
         MdlModule,
+        MatTabsModule,
         routing,
     ],
     declarations: [

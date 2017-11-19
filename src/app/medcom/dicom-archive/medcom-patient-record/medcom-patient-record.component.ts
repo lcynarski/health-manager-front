@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MdlDialogService } from '@angular-mdl/core';
 
 import { ArchiveService } from '../../../_services';
@@ -42,8 +42,8 @@ export class MedcomPatientRecordComponent {
             ],
             isModal: true,
             styles: {
-                width: '90%',
-                height: '90%',
+                width: '100%',
+                height: '100%',
                 padding: '0',
                 background: '#495057'
             },
