@@ -57,7 +57,7 @@
                     </mat-list-item>
                     <mat-list-item>
                         <span class="info-label">{{ 'address' | translate }}:</span>
-                        {{ patient?.city }}
+                        {{ patient?.city }} {{ patient?.buildingNumber }}<span *ngIf="patient?.flatNumber">/{{ patient?.flatNumber }}</span>
                     </mat-list-item>
                     <mat-list-item>
                         <span class="info-label">{{ 'pesel' | translate }}:</span>

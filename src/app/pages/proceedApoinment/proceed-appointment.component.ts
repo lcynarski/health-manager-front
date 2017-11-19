@@ -148,7 +148,7 @@ export class ProceedAppointmentComponent implements OnInit {
     }
 
     filter(val: string): string[] {
-        val.length > 2 && this.drugsService.getDrugsByName(this.myControl.value)
+        val.length === 2 && this.drugsService.getDrugsByName(this.myControl.value)
             .subscribe((drugs) => {
                 this.drugs = drugs;
             });

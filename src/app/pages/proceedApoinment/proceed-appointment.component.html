@@ -5,9 +5,29 @@
             <!--<mat-form-field>-->
                 <!--<input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>-->
             <!--</mat-form-field>-->
-            Doctor: {{ doctor?.account?.personalDetails?.firstName }} {{ doctor?.account?.personalDetails?.lastName }}
-            {{ doctor?.specialization?.description }}
-            Patient: {{ patient?.firstName }} {{ patient?.lastName }}
+            <!--Doctor: {{ doctor?.account?.personalDetails?.firstName }} {{ doctor?.account?.personalDetails?.lastName }}-->
+            <!--{{ doctor?.specialization?.description }}-->
+            <!--Patient: {{ patient?.firstName }} {{ patient?.lastName }}-->
+            <mat-list>
+                <h3 mat-subheader>{{ 'Doctor' | translate }}</h3>
+                <mat-list-item>
+                    <mat-icon mat-list-icon>face</mat-icon>
+                    <h4 mat-line> {{ doctor?.firstName }} {{ doctor?.lastName }}</h4>
+                    <p mat-line> {{ doctor?.specialization?.description }} </p>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <h3 mat-subheader>{{ 'Patient' | translate }}</h3>
+                <mat-list-item>
+                    <mat-icon mat-list-icon>face</mat-icon>
+                    <h4 mat-line>{{ patient?.firstName }} {{ patient?.lastName }}</h4>
+                    <!--<p mat-line> {{drug.size}} </p>-->
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <h4 mat-subheader>{{ 'Reason' | translate }}:</h4>
+                <mat-list-item>
+                    <p mat-line>{{ appointment?.data }}</p>
+                </mat-list-item>
+            </mat-list>
 
 
             <div>
