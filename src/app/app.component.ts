@@ -10,6 +10,7 @@
 
 import { Component } from '@angular/core';
 import { GlobalState } from './global.state';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'my-app',
@@ -20,7 +21,12 @@ export class AppComponent {
 
     isMenuCollapsed: boolean = false;
 
-    constructor(private _state: GlobalState ) {
+    constructor(private _state: GlobalState,
+                private translate: TranslateService) {
+
+        const currentLang = localStorage.getItem('currentLang')
+
+        translate.use(currentLang || 'en');
 
         this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
             this.isMenuCollapsed = isCollapsed;

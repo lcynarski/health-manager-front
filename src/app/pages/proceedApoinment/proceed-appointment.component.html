@@ -5,10 +5,29 @@
             <!--<mat-form-field>-->
                 <!--<input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>-->
             <!--</mat-form-field>-->
-            Doctor: MockDoctor
-            Patient: MockPatient
-            Date: MockDate
-            Price: MockPrice
+            <!--Doctor: {{ doctor?.account?.personalDetails?.firstName }} {{ doctor?.account?.personalDetails?.lastName }}-->
+            <!--{{ doctor?.specialization?.description }}-->
+            <!--Patient: {{ patient?.firstName }} {{ patient?.lastName }}-->
+            <mat-list>
+                <h3 mat-subheader>{{ 'Doctor' | translate }}</h3>
+                <mat-list-item>
+                    <mat-icon mat-list-icon>face</mat-icon>
+                    <h4 mat-line> {{ doctor?.firstName }} {{ doctor?.lastName }}</h4>
+                    <p mat-line> {{ doctor?.specialization?.description }} </p>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <h3 mat-subheader>{{ 'Patient' | translate }}</h3>
+                <mat-list-item>
+                    <mat-icon mat-list-icon>face</mat-icon>
+                    <h4 mat-line>{{ patient?.firstName }} {{ patient?.lastName }}</h4>
+                    <!--<p mat-line> {{drug.size}} </p>-->
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <h4 mat-subheader>{{ 'Reason' | translate }}:</h4>
+                <mat-list-item>
+                    <p mat-line>{{ appointment?.data }}</p>
+                </mat-list-item>
+            </mat-list>
 
 
             <div>
@@ -59,6 +78,29 @@
                 (submit)="submitInterviewForm($event)">
         </dynamic-form>
 
+        <mat-form-field>
+            <mat-select placeholder="Select form" *ngIf="formsToChoose" [(ngModel)]="formSelectState">
+                <mat-option *ngFor="let form of formsToChoose" [value]="form" (click)="onChooseForm(form)">
+                    {{ form.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Select values" *ngIf="formDefaultValues" [(ngModel)]="defaulValuesSelectState">
+                <mat-option *ngFor="let defaultSet of formDefaultValues" [value]="defaultSet" (click)="onChooseDefaultData(defaultSet)">
+                    {{ defaultSet.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+        <dynamic-form
+                [config]="formConfig"
+                #preparedForm="dynamicForm"
+                (submit)="submitPreparedForm($event)">
+        </dynamic-form>
+
 
         <div>
             <button mat-button matStepperPrevious>Back</button>
@@ -66,9 +108,7 @@
     </mat-step>
     <mat-step>
         <ng-template matStepLabel>{{ 'WritePrescription' | translate }}</ng-template>
-        You are now done.
-
-
+        {{ 'StartTypeDrugName' | translate }}
         <form class="example-form">
             <mat-form-field class="example-full-width">
                 <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
@@ -83,13 +123,32 @@
         <form class="example-form">
 
         <mat-form-field>
-            <mat-select placeholder="Select size" *ngIf="packs">
-                <mat-option *ngFor="let food of packs" [value]="food">
-                    {{ food }}
+            <mat-select placeholder="Select size" *ngIf="packs ">
+                <mat-option *ngFor="let pack of packs" [value]="pack" (click)="onChoosePack(pack)">
+                    {{ pack }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
         </form>
+
+        <button mat-button color="primary" (click)="addDrugToList()">Add</button>
+
+
+        <mat-list>
+            <h3 mat-subheader>{{ 'Drugs' | translate }}</h3>
+            <mat-list-item *ngFor="let drug of prescribedDrugsList">
+                <mat-icon mat-list-icon>local_offer</mat-icon>
+                <h4 mat-line>{{drug.drugName}}</h4>
+                <p mat-line> {{drug.size}} </p>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <h3 mat-subheader>{{ 'Notes' | translate }}</h3>
+            <mat-form-field style="width: 40rem">
+                <textarea matInput placeholder="Notes" [(ngModel)]="notesModel" (change)="onNotesChange()"></textarea>
+            </mat-form-field>
+        </mat-list>
+
+        <button mat-raised-button color="primary" (click)=submitPrescription()>{{ 'submitPrescription' | translate }}</button>
 
         <div>
             <button mat-button matStepperPrevious>Back</button>

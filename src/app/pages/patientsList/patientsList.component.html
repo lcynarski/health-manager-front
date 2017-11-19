@@ -36,11 +36,11 @@
         </ng-container>
 
         <ng-container matColumnDef="registerVisit">
-            <mat-header-cell *matHeaderCellDef> {{ 'birthdate' | translate }}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{ 'registration' | translate }}</mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <button mat-button [routerLink]="['/pages/doctorsList/patient/', row.id]"
                         class="btn btn-default">
-                    Register visit</button>z
+                    Register visit</button>
             </mat-cell>
         </ng-container>
 

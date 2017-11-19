@@ -117,11 +117,10 @@ export class VisitListComponent implements OnInit {
         return appointments;
     }
 
-    routeToVisitPage(row: string[]): void {
-        let rowNum: number = this.toShowStr.indexOf(row)
-        let appointment = this.toShow[rowNum]
-        console.log('Wysyłam cię do appointmentId=' + appointment.id)
-        this.router.navigate(['/pages/TODO' + appointment.id]) //TODO URL!!!!
+    private routeToVisitPage(row: string[]): void {
+        const rowNum: number = this.toShowStr.indexOf(row);
+        const appointment = this.toShow[rowNum];
+        this.router.navigate([`/pages/proceedAppointment/${appointment.id}`], { queryParams: { doctor: this.doctor._id } });
     }
 
     private displayDate(start: Date, end: Date): string {
@@ -170,16 +169,9 @@ export class VisitListComponent implements OnInit {
         if (event.startDateTime != undefined && event.endDateTime != undefined) {
             var start = event.startDateTime
             var end = event.endDateTime
-// coś się zmieiło i teraz nie działa gdy to jest :/
-//            if (!start.includes(":")) { //hacks to make our date-picker work(((
-//                start = start + " 10:10"
-//            }
-//            if (!end.includes(":")) {
-//                end = end + " 10:10"
-//            }
             this.startDate = new Date(start)
             this.endDate = new Date(end)
             this.refresh()
         }
     }
-}        
+}

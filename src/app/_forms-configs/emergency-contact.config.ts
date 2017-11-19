@@ -24,13 +24,6 @@ const emergencyContactConfig: FieldConfig[] = [
         validation: [Validators.required]
     },
     {
-        type: 'input',
-        label: 'PESEL',
-        name: 'pesel',
-        placeholder: 'PESEL',
-        validation: [Validators.required, Validators.pattern('[0-9]+')]
-    },
-    {
         type: 'select',
         label: 'Gender',
         name: 'gender',

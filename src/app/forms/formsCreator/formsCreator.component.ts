@@ -6,6 +6,7 @@ import { FieldsCreatorComponent } from '../fieldCreator/fieldCreator.component';
 import { Form } from '../../_models/form';
 import { FormCreatorStore } from '../../stores/formCreatorStore';
 import { FieldCreatorStore } from '../../stores/fieldCreatorStore';
+import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 
 @Component({
     providers: [FormsService, FormCreatorStore, FieldCreatorStore],
@@ -20,7 +21,12 @@ export class FormsCreatorComponent implements OnInit {
     private router: Router;
     private form: Form;
     private fields: FieldsCreatorComponent[];
+    private defaultFormId;
+    private defaultDataSetName: string;
     formName: string;
+    formsToChoose = [];
+    formConfig: FieldConfig[];
+    uploadedFormFields = [];
 
     constructor(router: Router,
                 private http: Http,
@@ -31,7 +37,7 @@ export class FormsCreatorComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.formCreatorStore.formFields.subscribe(data => {
+        this.formCreatorStore.formFields.subscribe((data) => {
             this.fields = data;
             console.log('fields: ', this.fields);
         });
@@ -41,18 +47,71 @@ export class FormsCreatorComponent implements OnInit {
                 this.loadForm(params['formId']);
             }
         });
+        this.formsService.getAllForms()
+            .subscribe((forms) => {
+                this.formsToChoose = forms;
+            });
+        this.formConfig = [];
+        this.defaultDataSetName = '';
+    }
 
+    public onChooseForm(form) {
+        this.defaultFormId = form.id;
+        this.uploadedFormFields = form.formFields;
+        this.formConfig = [];
+        console.log('FOOORM: ', form);
+        [...form.formFields].map(({ label, name, placeholder, type }) => {
+            const fieldConfig = {
+                type: type.toLowerCase(),
+                label,
+                name,
+                placeholder
+            };
+            this.formConfig.push(fieldConfig);
+        });
+        const submitField = {
+            label: 'Submit',
+            name: 'submit',
+            type: 'button'
+        };
+        this.formConfig.push(submitField);
+    }
+
+    public submitDefaultValues(data) {
+        const defaultValues = [];
+        for (const fieldName in data) {
+            if (data.hasOwnProperty(fieldName)) {
+                const valueItem = {
+                    name: fieldName,
+                    value: data[fieldName]
+                };
+                if (data[fieldName]) {
+                    defaultValues.push(valueItem);
+                }
+            }
+        }
+        const defaultValuesSet = {
+            name: this.defaultDataSetName,
+            formId: this.defaultFormId,
+            defaultValues
+        };
+        this.formsService.saveDefaultValues(this.defaultFormId, defaultValuesSet)
+            .subscribe(() => {
+                console.log('dafault values successfully saved');
+            });
     }
 
     save(value) {
         this.fields.forEach((field) => {
             if (field['placeholder'] === 'date') {
-                field['type'] = 'date';
+                field['type'] = 'DATE';
             }
+            field['type'] = field['type'].toUpperCase();
         });
         const form = {
             name: this.formName,
-            formFields: [...this.fields]
+            formFields: [...this.fields],
+            ownerId: 1
         };
         this.formsService.saveForm(form);
     }
@@ -65,36 +124,4 @@ export class FormsCreatorComponent implements OnInit {
                 });
             });
     }
-
-    //
-    // saveForm(): void {
-    //     this.formsService.saveForm(this.form)
-    //         .subscribe((response) => {
-    //             console.log(response);
-    //         });
-    // }
-    //
-    // addField(): void {
-    //     this.fields.push(new FieldsCreatorComponent());
-    // }
-    //
-    // removeField(id: string): void {
-    //
-    //     let fieldToDelete;
-    //
-    //     for (let i = this.fields.length - 1; i >= 0; i--) {
-    //         if (this.fields[i].id === id) {
-    //             fieldToDelete = this.fields[i].field.name;
-    //             break;
-    //         }
-    //     }
-    //
-    //     this.form.formFields = this.form.formFields.filter((field) => field.name !== fieldToDelete);
-    //
-    // }
-    //
-    // private getRandomId(): string {
-    //     return Math.random().toString(36).substr(2, 10);
-    // }
-
 }

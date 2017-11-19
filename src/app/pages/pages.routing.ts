@@ -65,6 +65,7 @@ export const routes: Routes = [
             { path: 'patientSearch', component: PatientSearchComponent },
             { path: 'medcom', loadChildren: () => MedcomModule },
             { path: 'proceedAppointment', component: ProceedAppointmentComponent },
+            { path: 'proceedAppointment/:appointmentId', component: ProceedAppointmentComponent },
             { path: 'drugsSearch', component: DrugsSearchComponent },
             { path: 'drugDetails/:drugId', component: DrugDetailsComponent },
             { path: 'fieldsCreator', component: FieldsCreatorComponent },

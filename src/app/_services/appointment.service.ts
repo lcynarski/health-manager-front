@@ -14,10 +14,10 @@ import { Patient } from '../_models/patient';
 @Injectable()
 export class AppointmentService {
     constructor(private http: Http,
-        private authenticationService: AuthenticationService,
-        private timeSlotService: TimeSlotService,
-        private patientService: PatientService,
-        private config: AppConfig) {
+                private authenticationService: AuthenticationService,
+                private timeSlotService: TimeSlotService,
+                private patientService: PatientService,
+                private config: AppConfig) {
     }
 
     /** returns saved Appointment */
@@ -27,7 +27,7 @@ export class AppointmentService {
             .map((response: Response) => response.json());
     }
 
-    /** returns removed appointment*/
+    /** returns removed appointment */
     public removeAppointment(appoinmentId: number): Observable<Appointment> {
         return this.http.delete(`${this.config.apiUrl}/appointments/${appoinmentId}`,
             this.authenticationService.addJwtOptions())
@@ -43,35 +43,55 @@ export class AppointmentService {
         return this.http.get(`${this.config.apiUrl}/appointmentsForDoc/${doctor._id}/${startDate.getTime()}/${endDate.getTime()}`)
             .map((response) => response.json())
             .flatMap((slots: any[]) =>
-                Observable.forkJoin(slots.map(s => this.fromJson(s))))
+                Observable.forkJoin(slots.map(s => this.fromJson(s))));
     }
 
     public getPatientAppointments(patient: Patient, startDate: Date, endDate: Date): Observable<Appointment[]> {
         return this.http.get(`${this.config.apiUrl}/appointmentsForPatient/${patient.id}/${startDate.getTime()}/${endDate.getTime()}`)
             .map((response) => response.json())
             .flatMap((slots: any[]) =>
-                Observable.forkJoin(slots.map(s=>this.fromJson(s))))
+                Observable.forkJoin(slots.map(s => this.fromJson(s))));
     }
 
-    private fromJson(json: any): Observable<Appointment> {
-        console.log(json)
-        let a: Appointment = json
-        let self: AppointmentService= this;
-        if(a.timeSlot != undefined && a.patient != undefined){ // I have no idea why sometimes it is present and sometimes not
-            a.timeSlot.doctorId = +a.timeSlot.doctor._id
-            a.patientId = a.patient.id
-            return Observable.of(a);
-        } else{
-        return self.timeSlotService.getById(a.timeSlotId).map(slot => {
-            a.timeSlot = slot
-            a.timeSlot.doctor._id = json.timeSlot.doctor.id //TODO: Dlaczego używamy _id tam gdzie jest 'id'?        
-            return a;
-        }).flatMap((app: Appointment) => {
-            return self.patientService.getById(app.patientId + "").map((patient: Patient) => {
-                app.patient = patient
-                return app;
-            })
-        })
+    public getAppointmentById(appointmentId) {
+        return this.http.get(`${this.config.apiUrl}/appointments/${appointmentId}`, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
     }
+
+    public getAllPatientsAppointments(patientId) {
+        return this.http.get(`${this.config.apiUrl}/patients/${patientId}/appointments`, this.authenticationService.addJwtOptions())
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
+
+    public getAppointmetsTime(id) {
+        return this.http.get(`${this.config.apiUrl}/timeSlot/${id}`, this.authenticationService.addJwtOptions())
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
+
+
+    private fromJson(json: any): Observable<Appointment> {
+        console.log(json);
+        let a: Appointment = json;
+        let self: AppointmentService = this;
+        if (a.timeSlot != undefined && a.patient != undefined) { // I have no idea why sometimes it is present and sometimes not
+            a.timeSlot.doctorId = +a.timeSlot.doctor._id;
+            a.patientId = a.patient.id;
+            return Observable.of(a);
+        } else {
+            return self.timeSlotService.getById(a.timeSlotId).map(slot => {
+                a.timeSlot = slot;
+                a.timeSlot.doctor._id = json.timeSlot.doctor.id; //TODO: Dlaczego używamy _id tam gdzie jest 'id'?
+                return a;
+            }).flatMap((app: Appointment) => {
+                return self.patientService.getById(app.patientId + '').map((patient: Patient) => {
+                    app.patient = patient;
+                    return app;
+                });
+            });
+        }
     }
 }
