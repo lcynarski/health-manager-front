@@ -15,42 +15,46 @@ $barHeight: 50px;
     padding: 0 10px;
     height: $barHeight;
     position: relative;
-    .button {
-      color: white;
-      max-width: 60px;
+  }
+
+  .button {
+    color: white;
+    max-width: 60px;
+  }
+  .actionButton {
+    @extend .button;
+    &:hover {
+      color: $oc-indigo-4;
     }
-    .actionButton {
-      @extend .button;
-      &:hover {
-        color: $oc-indigo-4;
-      }
-      &.active {
-        color: $oc-indigo-4;
-      }
+    &.active {
+      color: $oc-indigo-4;
     }
-    #tabsContainer {
-      height: 100%;
-      #wrapper {
-        margin: 0 auto;
-      }
-      .mat-tab-header, .mat-tab-group{
+  }
+  #closeButton {
+    @extend .button;
+    &:hover {
+      color: red;
+    }
+  }
+
+  #tabsContainer {
+    height: 100%;
+    #wrapper {
+      margin: 0 auto;
+    }
+    .mat-tab {
+      &-header, &-group{
         height: 100%;
       }
-      .mat-tab-label {
+      &-label {
         color: white;
         &-active {
           color: $oc-indigo-4;
         }
       }
-      .mat-ink-bar {
-        background: $oc-indigo-4
-      }
     }
-    #closeButton {
-      @extend .button;
-      &:hover {
-        color: red;
-      }
+    .mat-ink-bar {
+      background: $oc-indigo-4
     }
   }
 
