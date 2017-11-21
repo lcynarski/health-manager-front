@@ -101,19 +101,19 @@ $sidebar-scroll-width: 4px;
   box-shadow: $size $size $size*4 0 $color, -1*$size -1*$size $size*4 0 $color, -1*$size $size $size*4 0 $color, $size -1*$size $size*4 0 $color;
 }
 
-@mixin absolute($position) {
+@mixin absolute($position, $offsetX: 0, $offsetY: 0) {
   position: absolute;
   @if $position == 'top-left' {
-    top: 0;
-    left: 0;
+    top: $offsetY;
+    left: $offsetX;
   } @else if $position == 'top-right' {
-    top: 0;
-    right: 0;
+    top: $offsetY;
+    right: $offsetX;
   } @else if $position == 'bottom-left' {
-    bottom: 0;
-    left: 0;
+    bottom: $offsetY;
+    left: $offsetX;
   } @else if $position == 'bottom-right' {
-    bottom: 0;
-    right: 0;
+    bottom: $offsetY;
+    right: $offsetX;
   }
 }

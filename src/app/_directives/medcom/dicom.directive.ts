@@ -41,7 +41,6 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
     };
 
     private activeTool: CornerstoneTool;
-    private initialized = false;
     private pendingToolChangeCb: () => void;
 
     private toolsChangeSubscription: Subscription;
@@ -54,7 +53,6 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
     constructor(private elementRef: ElementRef,
                 private service: CornerstoneService) {
         this.element = elementRef.nativeElement;
-        this.handleEvents();
     }
 
     @HostListener('contextmenu', ['$event'])
@@ -64,11 +62,10 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
 
     ngOnChanges() {
         if (!this.series || !this.series.instances || !this.series.instances.length) {
-            console.warn('[dicom] no instances provided!');
             return;
         }
         try {
-            this.initialized = false;
+            this.unsubscribe();
             cornerstone.enable(this.element);
             this.imageUrls = this.series.instances.map((i) => i.dicomUrl);
             this.stackState.currentImageIdIndex = 0;
@@ -78,7 +75,15 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
                 cornerstoneWADOImageLoader.wadouri.dataSetCacheManager.load(url);
             });
 
-            this.displayImage(this.stackState.currentImageIdIndex);
+            this.displayImage(this.stackState.currentImageIdIndex)
+                .then(() => {
+                    this.onImageLoaded();
+                    this.initializeTools();
+                    this.handleEvents();
+                })
+                .catch((error) => {
+                    console.error(`failed to load dicom file '${this.imageUrls[this.stackState.currentImageIdIndex]}'`, error);
+                });
         } catch (error) {
             console.error(`failed to display dicom files: '${this.imageUrls}'!`, error);
         }
@@ -93,25 +98,28 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.unsubscribe();
         this.clearTools();
-        this.toolsChangeSubscription.unsubscribe();
-        this.actionsSubscription.unsubscribe();
     }
 
-    private displayImage(index: number) {
-        const url = WadoImageLoaderSchemeName + this.imageUrls[index];
+    private unsubscribe(): void {
+        if (this.toolsChangeSubscription) {
+            this.toolsChangeSubscription.unsubscribe();
+        }
+        if (this.actionsSubscription) {
+            this.actionsSubscription.unsubscribe();
+        }
+    }
 
-        cornerstone.loadAndCacheImage(url)
+    private displayImage(index: number): Promise<void> {
+        const url = this.stackState.imageIds[index];
+
+        return cornerstone.loadAndCacheImage(url)
             .then((image) => {
                 console.log('successfully loaded dicom instance!', image);
                 const viewport = cornerstone.getDefaultViewportForImage(this.element, image);
 
                 cornerstone.displayImage(this.element, image, viewport);
-                this.initializeTools();
-                this.onImageLoaded();
-            })
-            .catch((error) => {
-                console.error(`failed to load dicom file: '${url}'!`, error);
             });
     }
 
@@ -126,6 +134,10 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
         cornerstoneTools.addStackStateManager(this.element, ['stack', 'playClip']);
         cornerstoneTools.addToolState(this.element, 'stack', this.stackState);
         cornerstoneTools.stackScrollWheel.activate(this.element);
+
+        const scrollIndicatorConf: any = cornerstoneTools.scrollIndicator.getConfiguration();
+        scrollIndicatorConf.backgroundColor = 'rgba(black, 0.5)';
+        scrollIndicatorConf.fillColor = 'rgb(116, 143, 252)';
         cornerstoneTools.scrollIndicator.enable(this.element);
 
         if (this.pendingToolChangeCb) {
@@ -134,8 +146,6 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
         } else if (this.activeTool) {
             this.activateTool(this.activeTool);
         }
-
-        this.initialized = true;
     }
 
     private activateTool(tool: CornerstoneTool): void {
@@ -153,13 +163,7 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
 
     private handleEvents(): void {
         this.toolsChangeSubscription = this.service.currentToolStream.subscribe(
-            (tool) => {
-                if (this.initialized) {
-                    this.onToolChange(tool);
-                } else {
-                    this.pendingToolChangeCb = () => this.onToolChange(tool);
-                }
-            }
+            (tool) => this.onToolChange(tool)
         );
 
         this.actionsSubscription = this.service.actionsStream.subscribe(
@@ -179,6 +183,7 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
         console.log(`${tool.name} tool activated`);
     }
 
+    // TODO fix
     private clearTools() { // only works for current image id
         tools
             .map((tool) => tool.name)

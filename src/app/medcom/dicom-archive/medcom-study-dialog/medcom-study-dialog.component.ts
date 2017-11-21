@@ -38,7 +38,7 @@ export class MedcomStudyDialogComponent implements OnInit {
     }
 
     onSeriesChange(index) {
-        this.activeSeries = this.seriesList[index];
+        this.activeSeries = Object.assign({}, this.seriesList[index]);
     }
 
     onImageLoaded(instance: DicomInstance) {
