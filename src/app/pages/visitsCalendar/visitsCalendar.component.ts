@@ -276,7 +276,8 @@ export class VisitsCalendarComponent implements OnInit {
             doctor: this.doctor.firstName + " " + this.doctor.lastName
         }
 
-        this.googleCalendarService.exportAppointment(event);
+        this.googleCalendarService.exportAppointment(event)
+        .then(() => alert("Dodano wizytę do kalendarza Google"));
     }
 
 
