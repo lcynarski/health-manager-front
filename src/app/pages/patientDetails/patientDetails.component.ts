@@ -1,7 +1,6 @@
-///<reference path="../../_services/patient.service.ts"/>
-import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import { Patient } from '../../_models/patient';
 import { PatientService } from '../../_services/patient.service';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
@@ -12,10 +11,14 @@ import {
     emergencyContactConfig
 } from '../../_forms-configs';
 import moment = require('moment');
+import { MdlDialogComponent } from '@angular-mdl/core';
+import { AppointmentService } from '../../_services/appointment.service';
+import { TimeSlotService } from '../../_services/timeSlot.service';
+import { DoctorService } from '../../_services/doctor.service';
 
 
 @Component({
-    providers: [PatientService],
+    providers: [PatientService, AppointmentService, TimeSlotService, DoctorService],
     selector: 'patient-details',
     templateUrl: './patientDetails.component.html',
     styleUrls: ['./patientDetails.component.scss']
@@ -25,9 +28,15 @@ export class PatientDetailsComponent implements OnInit {
     @ViewChild('editPatientForm') editPatientForm: DynamicFormComponent;
     @ViewChild('medicalInfoEditForm') medicalInfoEditForm: DynamicFormComponent;
     @ViewChild('medicalHistoryItemForm') medicalHistoryItemForm: DynamicFormComponent;
+    @ViewChild('editEmergencyContactForm') editEmergencyContactForm: DynamicFormComponent;
+    @ViewChild('addEmergencyContactDialog') addEmergencyContactDialog: MdlDialogComponent;
+    @ViewChild('addToMedicalHistoryDialog') addToMedicalHistoryDialog: MdlDialogComponent;
+    @ViewChild('medicalInfoEditDialog') medicalInfoEditDialog: MdlDialogComponent;
+    @ViewChild('medicalInfoDialog') medicalInfoDialog: MdlDialogComponent;
+    @ViewChild('editUserDialog') editUserDialog: MdlDialogComponent;
+    @ViewChild('editEmergencyContactDialog') editEmergencyContactDialog: MdlDialogComponent;
     @Input() patient: Patient;
 
-    // public patient: Patient;
     public id: string;
     public lat: number = 51.678418;
     public lng: number = 7.809007;
@@ -40,22 +49,26 @@ export class PatientDetailsComponent implements OnInit {
     private medicalHistory: any;
     private emergencyContact: any;
     private model: any = {};
+    private appointments: any;
 
     constructor(router: Router,
                 private http: Http,
                 private route: ActivatedRoute,
-                private patientService: PatientService) {
+                private patientService: PatientService,
+                private appoitmentService: AppointmentService) {
         this.router = router;
     }
 
     public ngOnInit() {
         console.log(this.editPatientConfig);
         console.log(this.medicalInfoConfig);
+        this.appointments = [];
         this.sub = this.route.params.subscribe((params) => {
             this.id = params['patientId']; // (+) converts string 'id' to a number
             this.loadPatientData();
             this.loadPatientMedicalData();
             this.loadEmergencyData();
+            this.loadAppointments();
         });
     }
 
@@ -90,16 +103,23 @@ export class PatientDetailsComponent implements OnInit {
             });
     }
 
+    public loadAppointments() {
+        this.appoitmentService.getAllPatientsAppointments(this.id)
+            .subscribe((appointments) => {
+                appointments.forEach((appointment) => {
+                    this.appoitmentService.getAppointmetsTime(appointment.id)
+                        .subscribe((timeslot) => {
+                           const fullAppointment = { ...appointment, timeslot }
+                           this.appointments.push(fullAppointment);
+                        });
+                });
+            });
+    }
+
     submit(value) {
         const personalDetails = {
             id: this.patient.id,
-            account: {
-                id: this.patient.account.id,
-                personalDetails: {
-                    id: this.patient.account.personalDetails.id,
-                    ...value
-                }
-            }
+            ...value
         };
         this.patientService.editPatient(personalDetails)
             .subscribe((data) => {
@@ -114,6 +134,7 @@ export class PatientDetailsComponent implements OnInit {
         this.patientService.saveMedicalInfo(this.patient.id, value)
             .subscribe((data) => {
                 console.log('saveMedicalInfo', data);
+                this.medicalInfoDialog.close();
                 this.loadPatientMedicalData();
             });
     }
@@ -123,6 +144,7 @@ export class PatientDetailsComponent implements OnInit {
         this.patientService.updateMedicalInfo(this.patient.id, value)
             .subscribe((data) => {
                 console.log('saveMedicalInfo', data);
+                this.medicalInfoEditDialog.close();
                 this.loadPatientMedicalData();
             });
     }
@@ -140,6 +162,7 @@ export class PatientDetailsComponent implements OnInit {
     addToMedicalHistory(value) {
         this.patientService.addToMedicalHistory(this.patient.id, value)
             .subscribe((data) => {
+                this.addToMedicalHistoryDialog.close();
                 console.log('addToMedicalHistory response: ', data);
             });
     }
@@ -150,9 +173,27 @@ export class PatientDetailsComponent implements OnInit {
         const toSend = { ...value, birthdate: newDate}
         this.patientService.addEmergencyContact(this.patient.id, toSend)
             .subscribe((data) => {
+                this.addEmergencyContactDialog.close();
+                this.loadEmergencyData();
                 console.log('addEmergencyContact response: ', data);
             });
     }
+
+    editEmergencyContact(value) {
+        const { birthdate } = value;
+        const newDate = moment(birthdate).format('YYYY-MM-DD');
+        const toSend = { ...value, birthdate: newDate}
+        this.patientService.editEmergencyContact(this.patient.id, toSend)
+            .subscribe((data) => {
+                this.editEmergencyContactDialog.close();
+                this.loadEmergencyData();
+                console.log('editEmergencyContact response: ', data);
+            });
+    }
+
+    public sendMail(emailId,subject,message) {
+        window.open("mailto:"+ emailId + "?subject=" + subject+"&body="+message,"_self");
+    };
 
     onDialogShow = (dialogRef) => {
         Object.keys(this.patient).forEach((key) => {
@@ -169,6 +210,14 @@ export class PatientDetailsComponent implements OnInit {
         Object.keys(this.patient.medicalInfo).forEach((key) => {
             if ((key !== 'id') && this.medicalInfoEditForm) {
                 this.medicalInfoEditForm.setValue(key, this.patient.medicalInfo[key]);
+            }
+        });
+    };
+
+    onEditEmergencyContactDialogShow = (dialogRef) => {
+        Object.keys(this.emergencyContact).forEach((key) => {
+            if ((key !== 'id') && this.medicalInfoEditForm) {
+                this.editEmergencyContactForm.setValue(key, this.emergencyContact[key]);
             }
         });
     };

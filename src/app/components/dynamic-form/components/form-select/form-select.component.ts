@@ -8,14 +8,13 @@ import { FieldConfig } from '../../models/field-config.interface';
   selector: 'form-select',
   styleUrls: ['form-select.component.scss'],
   template: `
-    <form class='select'
-      [formGroup]="group">
-      <mdl-select [formControlName]="config.name" label="{{config.label}}" floating-label>
-        <mdl-option *ngFor="let option of config.options" [value]="option">
-          {{ option }}
-        </mdl-option>
-      </mdl-select>
-    </form>
+    <mat-form-field class="dynamic-field form-select" [formGroup]="group">
+        <mat-select [placeholder]="config.placeholder" [attr.placeholder]="config.placeholder" [formControlName]="config.name">
+            <mat-option *ngFor="let option of config.options" [value]="option">
+                {{ option }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
   `
 })
 export class FormSelectComponent implements Field {

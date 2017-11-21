@@ -16,7 +16,7 @@
         <tbody>
             <tr *ngFor="let row of toShowStr">
                 <td *ngFor="let item of row">{{item}}</td>
-                <td ><a (click)='routeToVisitPage(row)'>Go</a></td>
+                <td ><button mat-button (click)='routeToVisitPage(row)'>Go</button></td>
             </tr>
         </tbody>
     </table>

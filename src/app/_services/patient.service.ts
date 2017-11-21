@@ -26,16 +26,16 @@ export class PatientService {
     }
 
     public getMedicalInfo(_id: string) {
-        return this.http.get(`${this.config.apiUrl}/patients/${_id}/medicalInformations`, this.authenticationService.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, this.authenticationService.addJwtOptions())
             .map((res) => res.json());
     }
 
     public saveMedicalInfo(_id, data) {
-        return this.http.post(`${this.config.apiUrl}/patients/${_id}/medicalInformations`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
+        return this.http.post(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
     }
 
     public updateMedicalInfo(_id, data) {
-        return this.http.put(`${this.config.apiUrl}/patients/${_id}/medicalInformations`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
+        return this.http.put(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
     }
 
     public getMedicalHistory(patientId, dateStart, dateEnd) {
@@ -66,6 +66,11 @@ export class PatientService {
             .map((response: Response) => response.json());
     }
 
+    public editEmergencyContact(patientId, data) {
+        return this.http.put(`${this.config.apiUrl}/patients/${patientId}/emergency`, data, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
+
     public getPatients(): Observable<Patient[]> {
         return this.http.get(`${this.config.apiUrl}/patients`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
@@ -79,7 +84,7 @@ export class PatientService {
 
     public editPatient(data) {
         console.log('editPatient', data);
-        return this.http.put(`${this.config.apiUrl}/patients`, data, this.authenticationService.addJwtOptions())
+        return this.http.put(`${this.config.apiUrl}/patients/${data.id}/personalDetails`, data, this.authenticationService.addJwtOptions())
             .map((response) => response.json());
     }
 

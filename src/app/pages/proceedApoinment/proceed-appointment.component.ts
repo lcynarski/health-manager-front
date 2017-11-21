@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
@@ -10,16 +10,34 @@ import { PatientService } from '../../_services/patient.service';
 import { Patient } from '../../_models/patient';
 import { Observable } from 'rxjs/Observable';
 import { DrugsService } from '../../_services/drugs.service';
-import { standardExaminationConfig } from '../../_forms-configs'
+import { standardExaminationConfig } from '../../_forms-configs';
+import { FormsService } from '../../_services/forms.service';
+import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
+import { MedicalCheckupService } from '../../_services/medical-checkup.service';
+import { AppointmentService } from '../../_services/appointment.service';
+import { TimeSlotService } from '../../_services/timeSlot.service';
+import { DoctorService } from '../../_services/doctor.service';
+import { subscribeOn } from 'rxjs/operator/subscribeOn';
+import { PrescriptionsService } from '../../_services/prescriptions.service';
+import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 
 @Component({
-    providers: [PatientService, DrugsService],
+    providers: [
+        PatientService,
+        DrugsService,
+        FormsService,
+        MedicalCheckupService,
+        AppointmentService,
+        TimeSlotService,
+        DoctorService,
+        PrescriptionsService
+    ],
     templateUrl: 'proceed-appointment.component.html',
     styleUrls: ['./proceed-appointment.component.scss']
 })
 
 export class ProceedAppointmentComponent implements OnInit {
-
+    @ViewChild('preparedForm') preparedForm: DynamicFormComponent;
     public activeIndex = 0;
     public disableTargaryens = true;
     public myArray: string[] = null;
@@ -33,31 +51,42 @@ export class ProceedAppointmentComponent implements OnInit {
     private drugs = [];
     public packs = [];
     private standardExaminationConfig = standardExaminationConfig;
+    formSelectState = {};
+    packSelectState = {};
+    defaulValuesSelectState = {};
 
-
-    //==
     myControl: FormControl = new FormControl();
 
     options = [];
+    formsToChoose = [];
 
     filteredOptions: Observable<string[]>;
-    //--
 
-    foods = [
-        {value: 'steak-0', viewValue: 'Steak'},
-        {value: 'pizza-1', viewValue: 'Pizza'},
-        {value: 'tacos-2', viewValue: 'Tacos'}
-    ];
+    formConfig: FieldConfig[];
+    uploadedFormFields = [];
+    formId: number;
 
+    prescribedDrugsList = [];
+    currentChosenPack = "";
+    currentChosenDrugName = "";
+    notesModel = "";
+    appointment = {
+        id: '',
+        patientId: ''
+    };
+    doctor = {};
+    formDefaultValues = [];
 
-    constructor(private http: Http,
-                private router: Router,
-                private userService: UserService,
+    constructor(private router: Router,
                 private patientService: PatientService,
-                private alertService: AlertService,
                 private _formBuilder: FormBuilder,
                 private route: ActivatedRoute,
-                private drugsService: DrugsService) {
+                private drugsService: DrugsService,
+                private formService: FormsService,
+                private medicalCheckupService: MedicalCheckupService,
+                private appointmentService: AppointmentService,
+                private doctorService: DoctorService,
+                private prescriptionService: PrescriptionsService) {
     }
 
     public tabChanged({ index }) {
@@ -65,13 +94,38 @@ export class ProceedAppointmentComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.params.subscribe((params: Params) => {
-            // let userId = params['userId'];
-            console.log(params);
-            const type = params['type'];
-            const id = params['id']
-            console.log('whats goin on: ', type, id)
+        this.route
+            .params.subscribe((params: Params) => {
+            const appointmentId = params['appointmentId'];
+            this.appointmentService.getAppointmentById(appointmentId)
+                .subscribe((response) => {
+                    this.appointment = response;
+                    if (this.appointment && this.appointment.id) {
+                        this.patientService.getById(this.appointment.patientId)
+                            .subscribe((patient) => {
+                                this.patient = patient;
+                            });
+                    }
+                });
         });
+        this.route
+            .queryParams
+            .subscribe((params) => {
+                const doctorId = params['doctor'] || '';
+                this.doctorService.getById(doctorId)
+                    .subscribe((response) => {
+                        this.doctor = response;
+                    });
+        });
+
+        this.formService.getAllForms()
+            .subscribe((forms) => {
+                this.formsToChoose = forms;
+                console.log(this.formsToChoose);
+            });
+
+        this.formConfig = [];
+
 
         // Simulates a later change of tabs
         setTimeout(() => {
@@ -94,7 +148,7 @@ export class ProceedAppointmentComponent implements OnInit {
     }
 
     filter(val: string): string[] {
-        val.length > 2 && this.drugsService.getDrugsByName(this.myControl.value)
+        val.length === 2 && this.drugsService.getDrugsByName(this.myControl.value)
             .subscribe((drugs) => {
                 this.drugs = drugs;
             });
@@ -102,15 +156,16 @@ export class ProceedAppointmentComponent implements OnInit {
             option.name.toLowerCase().indexOf(val.toLowerCase()) === 0);
     }
 
-    private getDrugsByName() {
+    public getDrugsByName() {
         this.drugsService.getDrugsByName(this.myControl.value)
             .subscribe((drugs) => {
                 this.drugs = drugs;
             });
     }
 
-    private getPacks() {
+    public getPacks() {
         const chosenDrug = this.drugs.filter((drug) => drug.name === this.myControl.value)[0];
+        this.currentChosenDrugName = chosenDrug.name;
         this.drugsService.getDrugDetails(chosenDrug.id)
             .subscribe((drug) => {
                 const prePacks = drug.packs.filter((value, index) => drug.packs.indexOf(value) === index);
@@ -118,32 +173,85 @@ export class ProceedAppointmentComponent implements OnInit {
             });
     }
 
-    // private onSubmit() {
-        // console.log('debug');
-        // console.log(this.personalDetails);
-        //
-        // this.userService.updatePersonalDetails(this.personalDetails)
-        //     .subscribe(
-        //         (data) => {
-        //             this.alertService.success('Personal data updated successfully', true);
-        //         },
-        //         (error) => {
-        //             this.alertService.error(error._body);
-        //         });
-    // }
-
-    private getPersonalDetails() {
-        // this.userService.getPersonalDetails().subscribe(
-        //     (data) => { this.personalDetails = data; },
-        //     (error) => { this.alertService.error(error._body); }
-        // );
+    public onChoosePack(pack) {
+        this.currentChosenPack = pack;
     }
 
-    private getPatientByPesel(pesel) {
-        this.patientService.getPatientByPesel(pesel)
-            .subscribe((patients) => {
-                this.patient = patients;
+    public addDrugToList() {
+        const drugToBePrescribed = {
+            drugName: this.currentChosenDrugName,
+            size: this.currentChosenPack
+        };
+        this.prescribedDrugsList.push(drugToBePrescribed);
+    }
+
+    public onChooseForm(form) {
+        console.log('this.formSelectState: ', form);
+        this.formId = form.id;
+        this.uploadedFormFields = form.formFields;
+        this.formConfig = [];
+        [...form.formFields].map(({ label, name, placeholder, type }) => {
+            const fieldConfig = {
+                type: type.toLowerCase(),
+                label,
+                name,
+                placeholder
+            };
+            this.formConfig.push(fieldConfig);
+        });
+        const submitField = {
+            label: 'Submit',
+            name: 'submit',
+            type: 'button'
+        };
+        this.formConfig.push(submitField);
+        this.loadDefaultValues(form.id);
+    }
+
+    public onChooseDefaultData(data) {
+        data.defaultValues && data.defaultValues.map(({ name, value }) => {
+            this.preparedForm.setValue(name, value);
+        });
+    }
+
+    public submitPreparedForm(data) {
+        console.log('submitPreparedForm value: ', data);
+        const medicalCheckupValues = [];
+        this.uploadedFormFields.map(({ id, name }) => {
+            Object.keys(data).forEach((key) => {
+                if (key === name) {
+                    medicalCheckupValues.push(
+                        {
+                            value: data[key],
+                            formFieldId: id
+                        }
+                    );
+                }
             });
+        });
+        const medicalCheckupToSave = {
+            formId: this.formId,
+            medicalCheckupValues
+        };
+        console.log('medicalCheckupToSave: ', medicalCheckupToSave);
+        this.medicalCheckupService.saveMedicalCheckup(medicalCheckupToSave)
+            .subscribe((response) => {
+                const today = new Date();
+                const toSaveInMedicalHistory = {
+                    medicalCheckupId: response.id,
+                    detectionDate: today.getDate(),
+                    diseaseName: 'ptasia grypa'
+                }
+                this.patientService.addToMedicalHistory(this.patient.id, toSaveInMedicalHistory)
+                    .subscribe((resp) => {
+                        console.log(resp);
+                    })
+                console.log('saveMedicalCheckup response:', response, toSaveInMedicalHistory);
+            });
+    }
+
+    public onNotesChange() {
+        console.log("this.notesmodel: ", this.notesModel);
     }
 
     public onSubmit(value) {
@@ -152,6 +260,32 @@ export class ProceedAppointmentComponent implements OnInit {
     }
 
     public submitInterviewForm(value) {
-        console.log("submitInterviewForm value: ", value);
+        console.log('submitInterviewForm value: ', value);
+    }
+
+    public submitPrescription() {
+        const prescriptionToSave = {
+            notes: this.notesModel,
+            appointmentId: this.appointment.id,
+            drugs: this.prescribedDrugsList
+        };
+        this.prescriptionService.savePrescription(prescriptionToSave)
+            .subscribe((response) => {
+                console.log('savePrescription response: ', response);
+            });
+    }
+
+    private loadDefaultValues(formId) {
+        this.formService.getDefaultValues(formId)
+            .subscribe((defaults) => {
+                this.formDefaultValues = defaults;
+            });
+    }
+
+    private getPatientByPesel(pesel) {
+        this.patientService.getPatientByPesel(pesel)
+            .subscribe((patients) => {
+                this.patient = patients;
+            });
     }
 }

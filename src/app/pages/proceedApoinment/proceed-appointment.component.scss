@@ -10,3 +10,12 @@ mdl-icon {
 .demo-toggle-disabled-container mdl-switch {
   margin: 5px 0;
 }
+
+:host /deep/ .mat-tab-group {
+  box-shadow: none !important;
+}
+
+:host /deep/ .dynamic-form {
+  flex-direction: column !important;
+  align-items: center;
+}

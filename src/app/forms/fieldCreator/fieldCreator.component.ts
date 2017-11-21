@@ -51,7 +51,7 @@ export class FieldsCreatorComponent implements OnInit {
         {
             type: 'input',
             label: 'Placeholder',
-            name: 'field-placeholderl',
+            name: 'field-placeholder',
             placeholder: 'Placeholder'
         },
         {
