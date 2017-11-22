@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Headers } from '@angular/http';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -6,6 +7,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import { CornerstoneTool } from '../../_models/medcom';
 import { tools, defaultToolIndex } from './tools-config';
 import { CornerstoneAction } from '../../_models/medcom/cornerstoneTool';
+import { AuthenticationService } from '../index';
 
 declare const cornerstoneWADOImageLoader;
 
@@ -19,7 +21,8 @@ export class CornerstoneService {
     private currentToolSource: ReplaySubject<CornerstoneTool>;
     private actionsSource: Subject<CornerstoneAction>;
 
-    constructor() {
+    constructor(private authService: AuthenticationService) {
+
         this.actionsSource = new Subject();
         this.actionsStream = this.actionsSource.asObservable();
 
@@ -43,12 +46,16 @@ export class CornerstoneService {
     }
 
     private initializeCornerstone(): void {
-        // cornerstoneWADOImageLoader.configure({
-        //     beforeSend: (xhr) => {
-        //         // Add custom headers here (e.g. auth tokens)
-        //         // xhr.setRequestHeader('APIKEY', 'my auth token');
-        //     }
-        // });
+        const headers: Headers = new Headers();
+        this.authService.addAuthHeader(headers);
+
+        cornerstoneWADOImageLoader.configure({
+            beforeSend: (xhr) => {
+                headers.forEach((value, key) => {
+                    xhr.setRequestHeader(key, value);
+                });
+            }
+        });
 
         const cornerstoneWorkersConfig = {
             webWorkerPath: '/node_modules/cornerstone-wado-image-loader/dist/cornerstoneWADOImageLoaderWebWorker.min.js',
