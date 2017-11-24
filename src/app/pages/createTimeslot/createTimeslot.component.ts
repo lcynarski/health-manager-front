@@ -20,7 +20,7 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
     private router: Router;
     public docIdByName;
 
-    private info: string = "testStartIb"
+    private info: string = ""
 
     constructor(
         router: Router,
@@ -61,7 +61,7 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
             value: true
         },
         {
-            label: 'Submit single',
+            label: 'Submit single slot',
             name: 'submit',
             type: 'button'
         },
@@ -69,15 +69,13 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
             type: 'input',
             label: 'Minutes for visit',
             name: 'minutesForVisit',
-            placeholder: 'Minutes for visit',
-            // validation: [Validators.pattern('[0-9]+')]
+            placeholder: 'Minutes for each visit',
         },
         {
             type: 'input',
             label: 'Break between visits',
             name: 'minutesForBreak',
-            placeholder: 'Break between visits',
-            // validation: [Validators.pattern('[0-9]+')]
+            placeholder: 'Minutes of break between visits',
         },
         {
             label: 'Submit multiple slots',
@@ -89,16 +87,14 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
     ngOnInit(): void {
         console.log('Zbieram doktorków!')
         this.docIdByName = {};
-
-        var doctors = [{ _id: 3, firstName: "Maciej", lastName: "Kowalski" }]
-        // this.doctorService.getAll()
-        // .subscribe((doctors) => {
-        doctors.forEach((doctor) => {
-            this.docIdByName[`${doctor.firstName} ${doctor.lastName}`] = doctor._id;
-        })
-        this.config[0].options = doctors.map((doctor) => `${doctor.firstName} ${doctor.lastName}`);
-        console.log('Doktorkowie zebrani!')
-        // })
+        this.doctorService.getAll()
+            .subscribe((doctors) => {
+                doctors.forEach((doctor) => {
+                    this.docIdByName[`${doctor.firstName} ${doctor.lastName}`] = doctor._id;
+                })
+                this.config[0].options = doctors.map((doctor) => `${doctor.firstName} ${doctor.lastName}`);
+                console.log('Doktorkowie zebrani!')
+            })
     }
 
     ngAfterViewInit() {
@@ -112,9 +108,8 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
         // this.form.setDisabled('submit', true);
     }
 
-    submitMulti(value) { //nie działa
+    submitMulti(value) {
         console.log('SubmitMulti')
-        console.log(value)
         if (value.startHour == undefined) {
             this.info = "Missing start hour"
             return
@@ -171,7 +166,6 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
 
     }
 
-
     addMinutes(time: [number, number], minutesToAdd: number): [number, number] {
         return [time[0] + Math.floor((time[1] + minutesToAdd) / 60), (time[1] + minutesToAdd) % 60]
 
@@ -189,12 +183,10 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
         console.log('submit')
         console.log(value)
         if (value['minutesForVisit'] != undefined) {
-            this.submitMulti(value)
+            this.submitMulti(value) //bo przycisk 'Submit multi' robi zwykłe submit
         } else {
             this.validateAndSaveSingle(value)
         }
-
-        console.log('Info is set to:' + this.info)
     }
 
 
@@ -217,9 +209,7 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
         }
         let startHourMinute: [number, number] = this.splitStringIntoHourMinute(value.startHour)
         let endHourMinute: [number, number] = this.splitStringIntoHourMinute(value.endHour)
-        console.log('CO tu się wyrabia' + startHourMinute + '  ' + endHourMinute)
         if (startHourMinute == null || startHourMinute[0] == null || startHourMinute[1] == null) {
-            console.log('bez statur')
             this.info = "Invalid start hour. Format: HH:mm"
             return
         }
@@ -240,15 +230,19 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
             availableForSelfSign: value.availableForSelfSign
         };
         this.doctorService.saveTimeSlot(timeSlot, this.docIdByName[value.doctor])
-            .subscribe((data) => {
-                this.info = "Timeslot saved!"
+            .catch(err => {
+                this.info = "Timeslot interleaves with another one!"
+                return null;
+            }).subscribe((data) => {
+                if (data != null) {
+                    this.info = "Timeslot saved!"
+                }
                 console.log(value)
                 console.log(data);
             });
     }
 
     startBeforeEnd(start: [number, number], end: [number, number]): boolean {
-        console.log('star before end init')
         return start[0] < end[0] || (start[0] == end[0] && start[1] < end[1])
     }
 
@@ -266,15 +260,9 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
         }
         let colonAttempt: string[] = input.split(':')
         if (colonAttempt.length == 2 && this.isNumber(colonAttempt[0]) && this.isNumber(colonAttempt[1])) {
-            console.log("niby spoko!")
-            console.log(colonAttempt[0])
-            console.log(+colonAttempt[0])
             hour = +colonAttempt[0]
             min = +colonAttempt[1]
         }
-        console.log(dotAttempt)
-        console.log(colonAttempt)
-        console.log("O CO TU CHODZI!!!!!!!" + hour + "ddddd" + min)
         if (hour == null || min == null || hour >= 24 || hour < 0 || min >= 60 || min < 0) {
             return null
         } else {
@@ -283,7 +271,6 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
     }
 
     isNumber(obj: string) {
-        console.log("ISNum " + obj + "? -> " + !isNaN(parseFloat(obj)))
         return !isNaN(parseFloat(obj))
     }
 }

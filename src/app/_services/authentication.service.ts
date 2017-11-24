@@ -77,7 +77,7 @@ export class AuthenticationService {
     }
 
     public getRole() {
-        return AuthenticationService.ROLE_ADMIN;
+        return this.role;
     }
 
     public isReceptionist(): boolean {
