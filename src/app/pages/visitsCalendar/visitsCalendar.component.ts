@@ -113,7 +113,7 @@ export class VisitsCalendarComponent implements OnInit {
         });
     }
 
-    private slotToVisitEvent(slot: TimeSlot): VisitEvent{
+    private slotToVisitEvent(slot: TimeSlot): VisitEvent {
         return {
             slotId: slot.id,
             title: "Visit",
@@ -124,7 +124,7 @@ export class VisitsCalendarComponent implements OnInit {
         };
     }
 
-    private doSomethingWojtekKnowsWhat([event, appointment]: [VisitEvent, Appointment]): VisitEvent{
+    private doSomethingWojtekKnowsWhat([event, appointment]: [VisitEvent, Appointment]): VisitEvent {
         if (appointment === null) {
             if (event.availableForSelfSign || !this.imAPatient) {
                 event.color = this.colors.blue;
@@ -153,7 +153,7 @@ export class VisitsCalendarComponent implements OnInit {
             .subscribe(slots => {
 
                 const eventsTmp: VisitEvent[] = slots.map((slot) => {
-                  return this.slotToVisitEvent(slot);
+                    return this.slotToVisitEvent(slot);
                 });
 
 
@@ -277,13 +277,32 @@ export class VisitsCalendarComponent implements OnInit {
         }
 
         this.googleCalendarService.exportAppointment(event)
-        .then(() => alert("Dodano wizytę do kalendarza Google"));
+            .then(() => alert("Dodano wizytę do kalendarza Google"));
     }
 
 
     private initializeConfig() {
-        let moveSlotConfig = this.createTimeSlotComponent.config
-            .filter(field => field.name != "availableForSelfSign"); // self-sign ability donesn't change
+        let moveSlotConfig = [
+            this.createTimeSlotComponent.config.filter(field =>
+                field.name == "doctor")[0],
+            {
+                type: 'date',
+                label: 'Start Date-time',
+                name: 'startDateTime',
+                //placeholder: 'Date-time'
+            },
+            {
+                type: 'date',
+                label: 'End Date-time',
+                name: 'endDateTime',
+                //placeholder: 'Date-time'
+            },
+            {
+                label: 'Submit',
+                name: 'submit',
+                type: 'button'
+            }
+        ];
         if (this.userRole == AuthenticationService.ROLE_ADMIN) {
             this.config = moveSlotConfig;
         } else if (this.userRole == AuthenticationService.ROLE_DOCTOR) {
@@ -313,7 +332,7 @@ export class VisitsCalendarComponent implements OnInit {
 
                 let patientId = params['patientId'];
 
-                if(patientId){
+                if (patientId) {
                     this.imAPatient = true;
                     this.patientService.getById(patientId).subscribe((patient) => {
                         this.patient = patient;
