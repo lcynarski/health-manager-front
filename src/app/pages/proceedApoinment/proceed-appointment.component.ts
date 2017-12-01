@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
@@ -38,6 +38,7 @@ import { DynamicFormComponent } from '../../components/dynamic-form/containers/d
 
 export class ProceedAppointmentComponent implements OnInit {
     @ViewChild('preparedForm') preparedForm: DynamicFormComponent;
+    @ViewChild('diseaseInput') diseaseInput: ElementRef;
     public activeIndex = 0;
     public disableTargaryens = true;
     public myArray: string[] = null;
@@ -76,6 +77,9 @@ export class ProceedAppointmentComponent implements OnInit {
     };
     doctor = {};
     formDefaultValues = [];
+    resultPresciption = [];
+    resultDisease = "";
+    diseaseModel = "";
 
     constructor(private router: Router,
                 private patientService: PatientService,
@@ -240,7 +244,7 @@ export class ProceedAppointmentComponent implements OnInit {
                 const toSaveInMedicalHistory = {
                     medicalCheckupId: response.id,
                     detectionDate: today.getDate(),
-                    diseaseName: 'ptasia grypa'
+                    diseaseName: this.diseaseInput.nativeElement.value
                 }
                 this.patientService.addToMedicalHistory(this.patient.id, toSaveInMedicalHistory)
                     .subscribe((resp) => {
@@ -248,6 +252,7 @@ export class ProceedAppointmentComponent implements OnInit {
                     })
                 console.log('saveMedicalCheckup response:', response, toSaveInMedicalHistory);
             });
+        this.resultDisease = this.diseaseInput.nativeElement.value
     }
 
     public onNotesChange() {
@@ -272,6 +277,7 @@ export class ProceedAppointmentComponent implements OnInit {
         this.prescriptionService.savePrescription(prescriptionToSave)
             .subscribe((response) => {
                 console.log('savePrescription response: ', response);
+                this.resultPresciption = response;
             });
     }
 
