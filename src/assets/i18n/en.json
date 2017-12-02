@@ -70,5 +70,6 @@
   "EmergencyContact": "Emergency Contact",
   "BasicInfo": "Basic Information",
   "MedicalInfo": "Medical Information",
-  "Prescription": "Prescription"
+  "Prescription": "Prescription",
+  "Logout": "Logout"
 }

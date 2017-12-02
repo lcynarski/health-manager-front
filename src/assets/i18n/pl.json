@@ -70,5 +70,6 @@
   "EmergencyContact": "Kontant w razie wypadku",
   "BasicInfo": "Podstawowe informacje",
   "MedicalInfo": "Informacje Medyczne",
-  "Prescription": "Recepta"
+  "Prescription": "Recepta",
+  "Logout": "Wyloguj"
 }

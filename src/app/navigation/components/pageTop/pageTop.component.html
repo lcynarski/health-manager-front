@@ -1,24 +1,20 @@
-<div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)"
-     [ngClass]="{scrolled: isScrolled}">
-    <a routerLink="/pages/dashboard" class="al-logo clearfix">Health Manager</a>
-    <a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"><i class="material-icons">reorder</i></a>
-
-    <!--<div class="search">-->
-        <!--<i class="material-icons" ng-click="startSearch()">search</i>-->
-        <!--<input id="searchInput" type="text" placeholder="Search for...">-->
-    <!--</div>-->
-
-    <div class="user-profile clearfix">
-        <div class="dropdown al-user-profile">
-            <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
-                <!--<img src="{{ ( 'Nasta' | baProfilePicture ) }}">-->
-                <i class="material-icons">person</i>
-            </a>
-            <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
-                <li class="dropdown-item"><a routerLink="/pages/usersProfile"><i class="material-icons">person</i>Profile</a></li>
-                <li class="dropdown-item"><a href="#"><i class="material-icons">settings</i>Settings</a></li>
-                <li class="dropdown-item"><a href class="signout"><i class="material-icons">power_settings_new</i>Sign out</a></li>
-            </ul>
-        </div>
+<nav class="navbar-header">
+    <a routerLink="/pages/dashboard" class="al-logo clearfix">
+        <img
+                [ngClass]="{'navbar-brand navbar__logo': true }"
+                src="../../../../assets/img/HM-mini.png"
+                (click)="backHome()"
+        >
+    </a>
+    <div>
+        <button mat-button routerLink="/pages/usersProfile"><i class="material-icons">person</i>{{ email }}</button>
+        <button
+                mat-icon-button="power_settings_new"
+                (click)="logout()" routerLink="/"
+                [mdl-tooltip-large]="labels.logout"
+                mdl-tooltip-position="bottom"
+        >
+            <i class="material-icons">power_settings_new</i>
+        </button>
     </div>
-</div>
+</nav>

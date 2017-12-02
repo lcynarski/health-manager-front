@@ -4,7 +4,7 @@ import { Routes } from '@angular/router';
 import { MenuService } from '../navigation';
 import { PAGES_MENU } from './pages.menu';
 import { Sidebar } from '../navigation/components/sidebar';
-import { PageTop } from '../navigation/components/pageTop';
+import { PageTopComponent } from '../navigation/components/pageTop';
 
 @Component({
     selector: 'pages',
