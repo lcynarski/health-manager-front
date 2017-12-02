@@ -13,31 +13,31 @@ export class DashboardComponent {
             title: 'PatientCreator',
             buttonLabel: 'Create',
             link: '/pages/createPatient',
-            roles: ['ROLE_PATIENT', 'ROLE_DOCTOR', 'ROLE_ADMIN']
+            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN', 'ROLE_RECEPTIONIST']
         },
         {
             title: 'DoctorCreator',
             buttonLabel: 'Create',
             link: '/pages/createDoctor',
-            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
+            roles: ['ROLE_ADMIN', 'ROLE_RECEPTIONIST']
         },
         {
             title: 'TimeslotCreator',
             buttonLabel: 'Create',
             link: '/pages/createTimeslot',
-            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
+            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN', 'ROLE_RECEPTIONIST']
         },
         {
             title: 'ProceedWithAppoinment',
             buttonLabel: 'Proceed',
             link: '/pages/proceedAppointment',
-            roles: ['ROLE_PATIENT', 'ROLE_DOCTOR', 'ROLE_ADMIN']
+            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
             title: 'SearchForPatient',
             buttonLabel: 'Search',
             link: '/pages/patientSearch',
-            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
+            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN', 'ROLE_RECEPTIONIST']
         },
         {
             title: 'SearchForDrugs',
@@ -52,22 +52,22 @@ export class DashboardComponent {
             roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
-            title: 'Look into your profile',
+            title: 'MyProfile',
             buttonLabel: 'Check',
             link: '/dashboard',
-            roles: ['ROLE_PATIENT', 'ROLE_ADMIN']
+            roles: ['ROLE_PATIENT', 'ROLE_DOCTOR', 'ROLE_ADMIN', 'ROLE_RECEPTIONIST']
         },
         {
             title: 'ShowTimeTable',
             buttonLabel: 'Show',
             link: '/pages/timeTable',
-            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
+            roles: ['ROLE_DOCTOR', 'ROLE_ADMIN', 'ROLE_RECEPTIONIST']
         },
         {
             title: 'MyVisits',
             buttonLabel: 'Show',
             link: '/pages/myAppointments',
-            roles: ['ROLE_DOCTOR', 'ROLE_PATIENT']
+            roles: ['ROLE_DOCTOR', 'ROLE_PATIENT', 'ROLE_ADMIN']
         },
     ];
     private router: Router;

@@ -71,5 +71,7 @@
   "BasicInfo": "Podstawowe informacje",
   "MedicalInfo": "Informacje Medyczne",
   "Prescription": "Recepta",
-  "Logout": "Wyloguj"
+  "Logout": "Wyloguj",
+  "MyProfile": "Moj Profil",
+  "Check": "Sprawdz"
 }

@@ -71,5 +71,7 @@
   "BasicInfo": "Basic Information",
   "MedicalInfo": "Medical Information",
   "Prescription": "Prescription",
-  "Logout": "Logout"
+  "Logout": "Logout",
+  "MyProfile": "My Profile",
+  "Check": "Check"
 }
