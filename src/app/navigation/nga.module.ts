@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
-    Sidebar,
+    SidebarComponent,
     PageTopComponent,
     Menu,
-    MenuItem
+    MenuItemComponent
 } from './components';
 import { MenuService } from './services';
 import { TranslateModule } from '@ngx-translate/core';
@@ -14,10 +14,10 @@ import { MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material
 import { MdlTooltipModule } from '@angular-mdl/core';
 
 const NGA_COMPONENTS = [
-    Sidebar,
+    SidebarComponent,
     PageTopComponent,
     Menu,
-    MenuItem
+    MenuItemComponent
 ];
 
 const NGA_SERVICES = [

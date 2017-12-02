@@ -7,7 +7,9 @@
         >
     </a>
     <div>
-        <button mat-button routerLink="/pages/usersProfile"><i class="material-icons">person</i>{{ email }}</button>
+        <button mat-button routerLink="/pages/usersProfile" class="email">
+            <i class="material-icons">person</i><span>{{ email }}</span>
+        </button>
         <button
                 mat-icon-button="power_settings_new"
                 (click)="logout()" routerLink="/"
