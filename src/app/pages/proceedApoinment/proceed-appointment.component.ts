@@ -277,7 +277,7 @@ export class ProceedAppointmentComponent implements OnInit {
         this.prescriptionService.savePrescription(prescriptionToSave)
             .subscribe((response) => {
                 console.log('savePrescription response: ', response);
-                this.resultPresciption = response;
+                this.resultPresciption = response.drugs;
             });
     }
 

@@ -35,6 +35,7 @@
   "dateOfBirth": "Date of Birth",
   "phone": "Phone",
   "gender": "Gender",
+  "country": "Kraj",
   "address": "Address",
   "height": "Height",
   "weight": "Weight",
@@ -68,5 +69,6 @@
   "Results": "Results",
   "EmergencyContact": "Emergency Contact",
   "BasicInfo": "Basic Information",
-  "MedicalInfo": "Medical Information"
+  "MedicalInfo": "Medical Information",
+  "Prescription": "Prescription"
 }

@@ -159,13 +159,13 @@
     </mat-step>
     <mat-step>
         <ng-template matStepLabel>{{ 'Summary' | translate }}</ng-template>
-        {{ 'VisitSummary' | translate }}:
         <mat-list>
             <h3 mat-subheader>{{ 'Disease' | translate }}</h3>
             <mat-list-item style="width: 40rem">
                 <p>{{ this.resultDisease }}</p>
             </mat-list-item>
             <mat-divider></mat-divider>
+            <h3 mat-subheader>{{ 'Prescription' | translate }}</h3>
             <mat-list-item *ngFor="let drug of resultPresciption">
                 <mat-icon mat-list-icon>local_offer</mat-icon>
                 <h4 mat-line>{{drug.drugName}}</h4>
