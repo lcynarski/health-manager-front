@@ -11,7 +11,7 @@ import { DicomDirective } from '../_directives/medcom/dicom.directive';
 import { MedcomComponent } from './medcom.component';
 import { MedcomPatientRecordComponent } from './dicom-archive/medcom-patient-record/medcom-patient-record.component';
 import { MedcomStudyDialogComponent } from './dicom-archive/medcom-study-dialog/medcom-study-dialog.component';
-import { AttributesViewerComponent } from './dicom-archive/medcom-study-dialog/attributes-info/attributes-viewer.component';
+import { AttributesViewerComponent } from './dicom-archive/medcom-study-dialog/attributes-viewer/attributes-viewer.component';
 import { ToolsPaneComponent } from './dicom-archive/medcom-study-dialog/tools-pane/tools-pane.component';
 import { DicomArchiveComponent } from './dicom-archive/dicom-archive.component';
 import { ModalitiesComponent } from './modalities/modalities.component';
@@ -25,6 +25,7 @@ import {
     DicomAttributesService,
 } from '../_services/medcom';
 import { DefaultPipe } from '../_pipes';
+import { ImageInfoComponent } from './dicom-archive/medcom-study-dialog/image-info/image-info.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { DefaultPipe } from '../_pipes';
         ModalitiesComponent,
         ProceduresScheduleComponent,
         AttributesViewerComponent,
+        ImageInfoComponent,
         ToolsPaneComponent,
         DicomDirective,
         DefaultPipe

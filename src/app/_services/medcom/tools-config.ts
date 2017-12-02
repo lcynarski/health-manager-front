@@ -6,6 +6,14 @@ export const actions: CornerstoneAction[] = [
         name: 'clear',
         icon: 'clear',
     },
+    {
+        name: 'previous',
+        icon: 'skip_previous',
+    },
+    {
+        name: 'next',
+        icon: 'skip_next',
+    },
 ];
 
 export const tools: CornerstoneTool[] = [

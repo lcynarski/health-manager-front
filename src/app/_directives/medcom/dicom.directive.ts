@@ -1,22 +1,11 @@
-import {
-    Directive,
-    DoCheck,
-    ElementRef,
-    EventEmitter,
-    HostListener,
-    Input,
-    OnChanges,
-    OnDestroy,
-    Output
-} from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, Output } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { DicomSeries, DicomInstance, CornerstoneTool } from '../../_models';
+import { CornerstoneTool, DicomInstance, DicomSeries } from '../../_models';
 import { CornerstoneService, tools } from '../../_services/medcom';
 
-
-declare const cornerstone;
-declare const cornerstoneTools;
-declare const cornerstoneWADOImageLoader;
+import * as cornerstone from 'cornerstone-core';
+import * as cornerstoneTools from 'cornerstone-tools';
+import * as cornerstoneWADOImageLoader from 'cornerstone-wado-image-loader';
 
 const WadoImageLoaderSchemeName = 'wadouri:';
 
@@ -24,7 +13,7 @@ const WadoImageLoaderSchemeName = 'wadouri:';
 @Directive({
     selector: '[dicom]',
 })
-export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
+export class DicomDirective implements OnChanges, OnDestroy {
 
     @Input()
     public series: DicomSeries;
@@ -36,23 +25,25 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
     private element: any;
     private stackState = {
         currentImageIdIndex: 0,
-        previousImageIdIndex: 0,
         imageIds: []
     };
 
     private activeTool: CornerstoneTool;
-    private pendingToolChangeCb: () => void;
 
     private toolsChangeSubscription: Subscription;
     private actionsSubscription: Subscription;
 
     private actionsMap: any = {
         clear: () => this.clearTools(),
+        next: () => this.nextImage(),
+        previous: () => this.previousImage(),
     };
 
     constructor(private elementRef: ElementRef,
                 private service: CornerstoneService) {
         this.element = elementRef.nativeElement;
+        this.element.addEventListener('cornerstoneimagerendered', (e) => this.onImageReRendered(e.detail));
+        this.element.addEventListener('cornerstonenewimage', (e) => this.onImageLoaded());
     }
 
     @HostListener('contextmenu', ['$event'])
@@ -75,11 +66,10 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
                 cornerstoneWADOImageLoader.wadouri.dataSetCacheManager.load(url);
             });
 
-            this.displayImage(this.stackState.currentImageIdIndex)
+            this.displayImage()
                 .then(() => {
-                    this.onImageLoaded();
                     this.initializeTools();
-                    this.handleEvents();
+                    this.handleToolEvents();
                 })
                 .catch((error) => {
                     console.error(`failed to load dicom file '${this.imageUrls[this.stackState.currentImageIdIndex]}'`, error);
@@ -87,14 +77,6 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
         } catch (error) {
             console.error(`failed to display dicom files: '${this.imageUrls}'!`, error);
         }
-    }
-
-    ngDoCheck(): void {
-        // manual check for image index is needed as receiving events from cornerstone does not work
-        if (this.stackState.currentImageIdIndex !== this.stackState.previousImageIdIndex) {
-            this.onImageLoaded();
-        }
-        this.stackState.previousImageIdIndex = this.stackState.currentImageIdIndex;
     }
 
     ngOnDestroy(): void {
@@ -111,8 +93,8 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
         }
     }
 
-    private displayImage(index: number): Promise<void> {
-        const url = this.stackState.imageIds[index];
+    private displayImage(): Promise<void> {
+        const url = this.stackState.imageIds[this.stackState.currentImageIdIndex];
 
         return cornerstone.loadAndCacheImage(url)
             .then((image) => {
@@ -139,13 +121,6 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
         scrollIndicatorConf.backgroundColor = 'rgba(black, 0.5)';
         scrollIndicatorConf.fillColor = 'rgb(116, 143, 252)';
         cornerstoneTools.scrollIndicator.enable(this.element);
-
-        if (this.pendingToolChangeCb) {
-            this.pendingToolChangeCb();
-            this.pendingToolChangeCb = null;
-        } else if (this.activeTool) {
-            this.activateTool(this.activeTool);
-        }
     }
 
     private activateTool(tool: CornerstoneTool): void {
@@ -161,7 +136,7 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
         }
     }
 
-    private handleEvents(): void {
+    private handleToolEvents(): void {
         this.toolsChangeSubscription = this.service.currentToolStream.subscribe(
             (tool) => this.onToolChange(tool)
         );
@@ -180,7 +155,7 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
             this.deactivateTool(this.activeTool);
         }
         this.activateTool(tool);
-        console.log(`${tool.name} tool activated`);
+        // console.log(`${tool.name} tool activated`);
     }
 
     // TODO fix
@@ -193,10 +168,34 @@ export class DicomDirective implements OnChanges, DoCheck, OnDestroy {
         cornerstone.updateImage(this.element);
     }
 
+    private nextImage(): void {
+        if (this.stackState.currentImageIdIndex === this.stackState.imageIds.length - 1) {
+            return;
+        }
+        this.stackState.currentImageIdIndex++;
+        this.displayImage();
+    }
+
+    private previousImage(): void {
+        if (this.stackState.currentImageIdIndex === 0) {
+            return;
+        }
+        this.stackState.currentImageIdIndex--;
+        this.displayImage();
+    }
+
     private onImageLoaded(): void {
         this.imageLoaded.emit(
             this.series.instances[this.stackState.currentImageIdIndex]
         );
     }
 
+    private onImageReRendered(e: any): void {
+        this.service.propagateImageInfo({
+            imagesCount: this.imageUrls.length,
+            imageIndex: this.stackState.currentImageIdIndex,
+            scale: e.viewport.scale,
+            voi: e.viewport.voi
+        });
+    }
 }
