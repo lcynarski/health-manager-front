@@ -58,13 +58,13 @@ export class DashboardComponent {
             roles: ['ROLE_PATIENT', 'ROLE_ADMIN']
         },
         {
-            title: 'Show time table',
+            title: 'ShowTimeTable',
             buttonLabel: 'Show',
             link: '/pages/timeTable',
             roles: ['ROLE_DOCTOR', 'ROLE_ADMIN']
         },
         {
-            title: 'My visits',
+            title: 'MyVisits',
             buttonLabel: 'Show',
             link: '/pages/myAppointments',
             roles: ['ROLE_DOCTOR', 'ROLE_PATIENT']
