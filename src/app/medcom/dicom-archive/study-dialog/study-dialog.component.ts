@@ -9,8 +9,8 @@ export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetail
 
 @Component({
     selector: 'study-dialog',
-    templateUrl: 'medcom-study-dialog.component.html',
-    styleUrls: ['medcom-study-dialog.component.scss'],
+    templateUrl: 'study-dialog.component.html',
+    styleUrls: ['study-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
 export class MedcomStudyDialogComponent implements OnInit {

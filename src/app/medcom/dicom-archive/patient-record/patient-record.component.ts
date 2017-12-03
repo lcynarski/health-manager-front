@@ -1,18 +1,15 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MdlDialogService } from '@angular-mdl/core';
 
 import { ArchiveService } from '../../../_services';
-import { MedcomPatient, DicomStudy } from '../../../_models';
-import {
-    MedcomStudyDialogComponent,
-    STUDY_INJECTION_TOKEN,
-} from '../medcom-study-dialog/medcom-study-dialog.component';
+import { DicomStudy, MedcomPatient } from '../../../_models';
+import { MedcomStudyDialogComponent, STUDY_INJECTION_TOKEN, } from '../study-dialog/study-dialog.component';
 
 
 @Component({
     selector: 'patient-record',
-    templateUrl: 'medcom-patient-record.component.html',
-    styleUrls: ['medcom-patient-record.component.scss']
+    templateUrl: 'patient-record.component.html',
+    styleUrls: ['patient-record.component.scss']
 })
 export class MedcomPatientRecordComponent {
 

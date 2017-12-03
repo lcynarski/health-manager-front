@@ -9,10 +9,10 @@ import { routing } from './medcom.routing';
 import { DicomDirective } from '../_directives/medcom/dicom.directive';
 
 import { MedcomComponent } from './medcom.component';
-import { MedcomPatientRecordComponent } from './dicom-archive/medcom-patient-record/medcom-patient-record.component';
-import { MedcomStudyDialogComponent } from './dicom-archive/medcom-study-dialog/medcom-study-dialog.component';
-import { AttributesViewerComponent } from './dicom-archive/medcom-study-dialog/attributes-viewer/attributes-viewer.component';
-import { ToolsPaneComponent } from './dicom-archive/medcom-study-dialog/tools-pane/tools-pane.component';
+import { MedcomPatientRecordComponent } from './dicom-archive/patient-record/patient-record.component';
+import { MedcomStudyDialogComponent } from './dicom-archive/study-dialog/study-dialog.component';
+import { AttributesViewerComponent } from './dicom-archive/study-dialog/attributes-viewer/attributes-viewer.component';
+import { ToolsPaneComponent } from './dicom-archive/study-dialog/tools-pane/tools-pane.component';
 import { DicomArchiveComponent } from './dicom-archive/dicom-archive.component';
 import { ModalitiesComponent } from './modalities/modalities.component';
 import { ProceduresScheduleComponent } from './procedures-schedule/procedures-schedule.component';
@@ -25,7 +25,7 @@ import {
     DicomAttributesService,
 } from '../_services/medcom';
 import { DefaultPipe } from '../_pipes';
-import { ImageInfoComponent } from './dicom-archive/medcom-study-dialog/image-info/image-info.component';
+import { ImageInfoComponent } from './dicom-archive/study-dialog/image-info/image-info.component';
 
 
 @NgModule({
