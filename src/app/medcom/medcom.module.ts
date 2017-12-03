@@ -9,8 +9,8 @@ import { routing } from './medcom.routing';
 import { DicomDirective } from '../_directives/medcom/dicom.directive';
 
 import { MedcomComponent } from './medcom.component';
-import { MedcomPatientRecordComponent } from './dicom-archive/patient-record/patient-record.component';
-import { MedcomStudyDialogComponent } from './dicom-archive/study-dialog/study-dialog.component';
+import { PatientRecordComponent } from './dicom-archive/patient-record/patient-record.component';
+import { StudyDialogComponent } from './dicom-archive/study-dialog/study-dialog.component';
 import { AttributesViewerComponent } from './dicom-archive/study-dialog/attributes-viewer/attributes-viewer.component';
 import { ToolsPaneComponent } from './dicom-archive/study-dialog/tools-pane/tools-pane.component';
 import { DicomArchiveComponent } from './dicom-archive/dicom-archive.component';
@@ -26,6 +26,7 @@ import {
 } from '../_services/medcom';
 import { DefaultPipe } from '../_pipes';
 import { ImageInfoComponent } from './dicom-archive/study-dialog/image-info/image-info.component';
+import { StudyListComponent } from './dicom-archive/patient-record/study-list/study-list.component';
 
 
 @NgModule({
@@ -40,8 +41,9 @@ import { ImageInfoComponent } from './dicom-archive/study-dialog/image-info/imag
     declarations: [
         MedcomComponent,
         DicomArchiveComponent,
-        MedcomPatientRecordComponent,
-        MedcomStudyDialogComponent,
+        PatientRecordComponent,
+        StudyListComponent,
+        StudyDialogComponent,
         ModalitiesComponent,
         ProceduresScheduleComponent,
         AttributesViewerComponent,
@@ -51,7 +53,7 @@ import { ImageInfoComponent } from './dicom-archive/study-dialog/image-info/imag
         DefaultPipe
     ],
     entryComponents: [
-        MedcomStudyDialogComponent,
+        StudyDialogComponent,
     ],
     providers: [
         ArchiveService,

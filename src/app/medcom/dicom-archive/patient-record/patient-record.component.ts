@@ -1,9 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { MdlDialogService } from '@angular-mdl/core';
 
 import { ArchiveService } from '../../../_services';
 import { DicomStudy, MedcomPatient } from '../../../_models';
-import { MedcomStudyDialogComponent, STUDY_INJECTION_TOKEN, } from '../study-dialog/study-dialog.component';
 
 
 @Component({
@@ -11,16 +9,20 @@ import { MedcomStudyDialogComponent, STUDY_INJECTION_TOKEN, } from '../study-dia
     templateUrl: 'patient-record.component.html',
     styleUrls: ['patient-record.component.scss']
 })
-export class MedcomPatientRecordComponent {
+export class PatientRecordComponent {
 
     @Input()
     public patient: MedcomPatient;
+
     studies: DicomStudy[];
     expanded: boolean = false;
     fetchingStudies: boolean = false;
 
-    constructor(private dialogService: MdlDialogService,
-                private archiveService: ArchiveService) {}
+    constructor(private archiveService: ArchiveService) {
+        this.archiveService.collapseRecordsStream
+            .filter((source) => source !== this.patient.id)
+            .subscribe(() => this.onCollapse());
+    }
 
     toggleExpanded() {
         if (this.expanded) {
@@ -30,36 +32,18 @@ export class MedcomPatientRecordComponent {
         }
     }
 
-    showStudy(study: DicomStudy, $event) {
-        this.dialogService.showCustomDialog({
-            openFrom: $event,
-            component: MedcomStudyDialogComponent,
-            providers: [
-                { provide: STUDY_INJECTION_TOKEN, useValue: study },
-            ],
-            isModal: true,
-            styles: {
-                width: '100%',
-                height: '100%',
-                padding: '0',
-                background: '#495057'
-            },
-            clickOutsideToClose: true,
-            enterTransitionDuration: 400,
-            leaveTransitionDuration: 400
-        });
-    }
-
     private onExpand() {
         this.fetchingStudies = true;
         this.archiveService.getStudies(this.patient.id)
             .subscribe(
                 (studies: DicomStudy[]) => {
+                    this.archiveService.collapseRecords(this.patient.id);
                     this.studies = studies;
                     this.fetchingStudies = false;
                     this.expanded = true;
                 },
                 (error) => {
+                    console.error('could nto fetch studies!', error);
                     this.onCollapse();
                 }
             );

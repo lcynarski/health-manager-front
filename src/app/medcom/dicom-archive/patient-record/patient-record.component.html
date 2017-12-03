@@ -1,7 +1,8 @@
 <div id="patientRecordComponent">
-    <div id="head" fxLayout="row" (click)="toggleExpanded()">
+
+    <div id="record" fxLayout="row" (click)="toggleExpanded()" [class.expanded]="expanded">
         <div fxFlex="20">{{patient.account.personalDetails.pesel}}</div>
-        <div fxFlex="40">
+        <div fxFlex="40" class="patient-name">
             {{patient.account.personalDetails.firstName}}
             {{patient.account.personalDetails.lastName}}
         </div>
@@ -9,17 +10,7 @@
         <div fxFlex="25" class="ta-r"> {{patient.lastStudyDate | date:'dd-MM-yyyy'}}</div>
     </div>
 
-    <!--TODO: separate medcom-studies-list.component that animates on :enter and fetches studies onInit -->
-    <div id="studiesList" [ngClass]="(expanded) ? 'expanded' : 'collapsed'">
-        <div class="study"
-             *ngFor="let study of studies"
-             (click)="showStudy(study, $event)"
-             fxLayout="row"
-        >
-            <div fxFlex="75">{{study.attributes.StudyDescription}}</div>
-            <div fxFlex="25" class="ta-r">{{study.creationDate | date:'dd-MM-yyyy'}}</div>
-        </div>
-    </div>
+    <study-list [studies]="studies" *ngIf="expanded"></study-list>
 </div>
 
 

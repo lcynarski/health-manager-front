@@ -13,7 +13,7 @@ export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetail
     styleUrls: ['study-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class MedcomStudyDialogComponent implements OnInit {
+export class StudyDialogComponent implements OnInit {
 
     seriesList: DicomSeries[] = [];
     activeSeries: DicomSeries;
@@ -66,27 +66,6 @@ export class MedcomStudyDialogComponent implements OnInit {
         this.archiveService.getSeries(this.study.instanceUID)
             .subscribe(
                 (seriesList: DicomSeries[] = []) => { // TODO fit multiple tabs
-                    // MOCK
-                    /*
-                     seriesList.push({
-                     instanceUID: '1.3.6.1.4.1.5962.1.1.0.0.0.1194732126.13032.0.55',
-                     studyInstanceUID: 'test1',
-                     modalityAET: 'test1',
-                     attributes: {
-                     SeriesDescription: 'test series 1'
-                     },
-                     });
-                     seriesList.push({
-                     instanceUID: '1.3.6.1.4.1.5962.1.1.0.0.0.1194732126.13032.0.55',
-                     studyInstanceUID: 'test2',
-                     modalityAET: 'test2',
-                     attributes: {
-                     SeriesDescription: 'test series 2'
-                     },
-                     });
-                     */
-                    // MOCK
-
                     Promise.all(seriesList.map((series) => this.onSeries(series))) // TODO maybe do this with rxjs instead
                         .then(() => {
                             if (seriesList.length) {

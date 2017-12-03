@@ -12,17 +12,18 @@
   color: $oc-gray-9;
 }
 
-#listHeaders { // TODO: extract into shared record mixin
+#listHeaders {
   margin: 10px 20px;
   color: rgba(black, 0.8);
+  font-size: 12px;
 }
 
 .record {
+  font-size: 14px;
   margin: 10px;
-  padding: 10px; // TODO: extract into shared record mixin
+  padding: 15px 10px;
   background: $oc-gray-8;
   color: white;
-  cursor: pointer;
   @include shadow(2px);
   z-index: 10;
   position: relative;

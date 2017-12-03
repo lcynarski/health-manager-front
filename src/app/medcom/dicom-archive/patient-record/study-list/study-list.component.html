@@ -1,0 +1,14 @@
+<div id="studiesListComponent">
+
+    <div class="studyRecord"
+         *ngFor="let study of studies"
+         (click)="showStudy(study, $event)"
+
+    >
+        <div fxLayout="row">
+            <div fxFlex="75">{{getStudyDescription(study)}}</div>
+            <div fxFlex="25" class="ta-r">{{study.creationDate | date:'dd-MM-yyyy'}}</div>
+        </div>
+    </div>
+
+</div>
