@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import {
     SidebarComponent,
     PageTopComponent,
-    Menu,
+    MenuComponent,
     MenuItemComponent
 } from './components';
 import { MenuService } from './services';
@@ -16,7 +16,7 @@ import { MdlTooltipModule } from '@angular-mdl/core';
 const NGA_COMPONENTS = [
     SidebarComponent,
     PageTopComponent,
-    Menu,
+    MenuComponent,
     MenuItemComponent
 ];
 
