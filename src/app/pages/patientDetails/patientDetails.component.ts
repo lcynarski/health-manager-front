@@ -39,8 +39,6 @@ export class PatientDetailsComponent implements OnInit {
     @Input() patient: Patient;
 
     public id: string;
-    public lat: number = 51.678418;
-    public lng: number = 7.809007;
     public editPatientConfig = createPatientConfig;
     public medicalInfoConfig = medicalInfoConfig;
     public medicalHistoryDiseaseConfig = medicalHistoryDiseaseConfig;
