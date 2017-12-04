@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Routes } from '@angular/router';
 
 import { MenuService } from '../navigation';
@@ -14,17 +14,18 @@ import { Spinner } from '../shared';
             <div class="hm-content">
                 <router-outlet></router-outlet>
             </div>
-            <hm-spinner [spinner]="spinner.PAGE" [size]="150" [styles]="{marginLeft: '90px', position: 'fixed'}"></hm-spinner>
+            <hm-spinner [spinner]="spinner.PAGE" [size]="150" [className]="'page-spinner'"></hm-spinner>
         </div>
     `,
-    styleUrls: ['./pages.component.scss']
+    styleUrls: ['./pages.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 
 export class PagesComponent implements OnInit {
 
     spinner = Spinner;
 
-    constructor(private _menuService: MenuService,) {
+    constructor(private _menuService: MenuService) {
     }
 
     ngOnInit() {

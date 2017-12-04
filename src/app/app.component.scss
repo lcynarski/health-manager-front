@@ -4,11 +4,9 @@
   background: $oc-gray-0;
 }
 
-//.hm-main {
-//  padding: 66px 0 34px 0;
-//  margin-left: 180px;
-//
-//  .hm-content {
-//    padding: 8px 32px 8px 40px;
-//  }
-//}
+.global-spinner {
+  z-index: 150000;
+  position: fixed;
+}
+
+

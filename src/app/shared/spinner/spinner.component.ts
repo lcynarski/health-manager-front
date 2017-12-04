@@ -19,7 +19,7 @@ export class SpinnerComponent implements OnInit, OnDestroy {
     public spinner: Spinner = null;
 
     @Input()
-    public styles: any = {};
+    public className: string;
 
     @Input()
     public isVisible: boolean = false;

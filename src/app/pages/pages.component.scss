@@ -2,13 +2,23 @@
 
 .hm-main {
   padding: 9rem 0 3rem 0;
-  margin-left: 20rem;
+  margin-left: $sidebar-width;
+  position: relative;
+  min-height: 100vh;
 
   @media screen and (max-width: $resS) {
-    margin-left: 7rem;
+    margin-left: $sidebar-width-small;
   }
 }
 
 .hm-content {
   padding: 8px 3.2rem 8px 4rem;
+}
+
+.page-spinner {
+  position: fixed;
+  margin-left: $sidebar-width;
+  @media screen and (max-width: $resS) {
+    margin-left: $sidebar-width-small;
+  }
 }
