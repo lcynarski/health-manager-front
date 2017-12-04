@@ -13,6 +13,8 @@ export class DashboardWidgetComponent implements OnInit {
     @Input('buttonLabel') buttonLabel: string;
     @Input('link') link: string;
     @Input('roles') roles: any;
+    @Input('icon') icon: string;
+    @Input('color') color: string;
 
     public currentUserRole;
     private router: Router;

@@ -74,5 +74,14 @@
   "Logout": "Logout",
   "MyProfile": "My Profile",
   "Check": "Check",
-  "FilterPatients": "Filter Patients"
+  "FilterPatients": "Filter Patients",
+  "AddField": "Add Field",
+  "RemoveField": "Remove Field",
+  "SaveYourForm": "Save Your Form",
+  "YoursFormPreview": "Preview of your form",
+  "FillWithExampleData": "Fill your form with example data",
+  "NoFieldsYet": "No fields added yet",
+  "RemoveFieldsFromForm": "Remove fields from your form",
+  "AddFieldsToForm": "Add new fields to your form",
+  "Cancel": "Cancel"
 }

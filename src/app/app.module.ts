@@ -41,7 +41,6 @@ import {
     MatSelectModule, MatSnackBarModule
 } from '@angular/material';
 import { GoogleCalendarService } from './_services/googleCalendar.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 const socialProviders = {
     google: {
