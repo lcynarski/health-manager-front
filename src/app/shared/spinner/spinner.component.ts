@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Spinner } from './Spinners';
 import { SpinnerService } from '../../_services';
@@ -41,5 +41,11 @@ export class SpinnerComponent implements OnInit, OnDestroy {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
+    }
+
+    @HostListener('mousewheel', ['$event'])
+    @HostListener('mousedown', ['$event'])
+    private stopEvents(e: Event) {
+        e.stopPropagation();
     }
 }
