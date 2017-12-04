@@ -48,7 +48,7 @@
         label: 'Phone Number',
         name: 'phoneNumber',
         placeholder: 'Phone Number',
-        validation: [Validators.required, Validators.pattern('[0-9]+')]
+        validation: [Validators.required]
     },
     {
         type: 'input',
