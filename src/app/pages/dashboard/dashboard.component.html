@@ -1,9 +1,11 @@
 <div class="row">
     <dashboard-widget *ngFor="let widget of widgets"
-        [title]="widget.title"
-        [buttonLabel]="widget.buttonLabel"
-        [link]='widget.link'
-        [roles]="widget.roles"
+                      [title]="widget.title"
+                      [buttonLabel]="widget.buttonLabel"
+                      [link]='widget.link'
+                      [icon]='widget.icon'
+                      [roles]="widget.roles"
+                      [color]="widget.color"
     >
     </dashboard-widget>
 </div>

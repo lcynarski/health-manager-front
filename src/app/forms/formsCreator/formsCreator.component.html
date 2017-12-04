@@ -10,24 +10,22 @@
         >
         </mdl-textfield>
         <div class="form-creator__action-buttons">
-            <button #addNewFieldButton mdl-button mdl-button-type="raised" mdl-colored="primary" mdl-tooltip-large="Add new field"
-                    mdl-tooltip-position="right"
+            <button #addNewFieldButton mat-button color="primary"
                     (click)="addFieldDialog.show()"
             >
-                <mdl-icon>add</mdl-icon> add
+                <mdl-icon>add</mdl-icon> {{ 'AddField' | translate }}
             </button>
-            <button #removeFieldButton mdl-button mdl-button-type="raised" mdl-colored="primary" mdl-tooltip-large="Remove fields"
-                    mdl-tooltip-position="right"
+            <button #removeFieldButton mat-button color="primary"
                     (click)="removeFieldDialog.show()"
             >
-                <mdl-icon>remove</mdl-icon> remove
+                <mdl-icon>remove</mdl-icon> {{ 'RemoveField' | translate }}
             </button>
         </div>
-        <button mdl-button (click)="save($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save your form</button>
+        <button (click)="save($event)" mat-raised-button color="primary">{{ 'SaveYourForm' | translate }}</button>
     </div>
     <div class="form-creator__form">
-        Yours form preview:
-        <div class="no-fields" *ngIf="!fields">You have not added any fields yet :(</div>
+        {{ 'YoursFormPreview' | translate }}
+        <div class="no-fields" *ngIf="!fields">{{ 'NoFieldsYet' | translate }}</div>
         <dynamic-form
                 *ngIf="fields"
                 [config]="fields"
@@ -36,7 +34,7 @@
     </div>
 
     <div class="form-creator__form">
-        Fill form with example data:
+        {{ 'FillWithExampleData' | translate }}:
         <mat-form-field>
             <mat-select placeholder="Select form" *ngIf="formsToChoose" [(ngModel)]="formSelectState">
                 <mat-option *ngFor="let form of formsToChoose" [value]="form" (click)="onChooseForm(form)">
@@ -63,37 +61,35 @@
     <mdl-dialog #addFieldDialog
                 [mdl-dialog-config]="{
               clickOutsideToClose: true,
-              styles:{'width': '52rem', 'height': '40rem', 'overflow': 'auto'},
+              styles:{'width': '52rem'},
               isModal:true,
-              openFrom: addNewFieldButton,
               enterTransitionDuration: 400,
               leaveTransitionDuration: 400}"
     >
-        <h3 class="mdl-dialog__title">Add fields to your form</h3>
+        <h3 class="mdl-dialog__title">{{ 'AddFieldsToForm' | translate }}</h3>
         <div class="mdl-dialog__content">
             <field-creator>
             </field-creator>
         </div>
         <div class="mdl-dialog__actions">
-            <button mdl-button (click)="addFieldDialog.close()" mdl-ripple>Cancel</button>
+            <button mdl-button (click)="addFieldDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
     <mdl-dialog #removeFieldDialog
                 [mdl-dialog-config]="{
               clickOutsideToClose: true,
-              styles:{'width': '52rem', 'height': '40rem', 'overflow': 'auto'},
+              styles:{'width': '52rem'},
               isModal:true,
-              openFrom: removeFieldButton,
               enterTransitionDuration: 400,
               leaveTransitionDuration: 400}"
     >
-        <h3 class="mdl-dialog__title">Remove fields from your form</h3>
+        <h3 class="mdl-dialog__title">{{ 'RemoveFieldsFromForm' | translate }}</h3>
         <div class="mdl-dialog__content">
             <fields-remover [fields]="fields">
             </fields-remover>
         </div>
         <div class="mdl-dialog__actions">
-            <button mdl-button (click)="removeFieldDialog.close()" mdl-ripple>Cancel</button>
+            <button mdl-button (click)="removeFieldDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
     <dialog-outlet></dialog-outlet>

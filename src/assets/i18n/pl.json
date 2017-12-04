@@ -74,5 +74,14 @@
   "Logout": "Wyloguj",
   "MyProfile": "Moj Profil",
   "Check": "Sprawdz",
-  "FilterPatients": "Filtruj Pacjentow"
+  "FilterPatients": "Filtruj Pacjentow",
+  "AddField": "Dodaj Pole",
+  "RemoveField": "Usun Pole",
+  "SaveYourForm": "Zapisz Twoj Formularz",
+  "YoursFormPreview": "Podglad Twojego Formularza",
+  "FillWithExampleData": "Wypelnij formularz przykladowymi danymi",
+  "NoFieldsYet": "Nie dodano jeszcze zadnych pol",
+  "RemoveFieldsFromForm": "Usun pola z formularza",
+  "AddFieldsToForm": "Dodaj nowe pola do formularza",
+  "Cancel": "Anuluj"
 }
