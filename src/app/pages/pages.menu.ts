@@ -50,7 +50,7 @@ export const PAGES_MENU = [
                         selected: false,
                         expanded: false,
                         order: 100,
-                        availableFor: ['ROLE_PATIENTS', 'ROLE_DOCTOR', 'ROLE_ADMIN', 'ROLE_RECEPTIONIST']
+                        availableFor: ['ROLE_DOCTOR', 'ROLE_ADMIN']
                     }
                 }
             }
