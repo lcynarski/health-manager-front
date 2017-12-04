@@ -10,7 +10,10 @@
         <div fxFlex="25" class="ta-r"> {{patient.lastStudyDate | date:'dd-MM-yyyy'}}</div>
     </div>
 
-    <study-list [studies]="studies" *ngIf="expanded"></study-list>
+    <div class="expandable" [class.expanded]="expanded">
+        <study-list [studies]="studies"></study-list>
+    </div>
+
     <hm-spinner [isVisible]="fetchingStudies" [size]="30"></hm-spinner>
 </div>
 

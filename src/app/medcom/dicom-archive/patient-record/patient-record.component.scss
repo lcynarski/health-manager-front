@@ -6,6 +6,7 @@
   margin: 10px;
 
   #record {
+    user-select: none;
     background: $oc-gray-8;
     color: white;
     cursor: pointer;
@@ -20,5 +21,15 @@
     &:hover {
       color: $oc-indigo-4;
     }
+  }
+}
+
+.expandable {
+  max-height: 0;
+  opacity: 0;
+  transition: all 300ms ease-in-out;
+  &.expanded {
+    max-height: 200px; // TODO use angular animations when possible
+    opacity: 1;
   }
 }

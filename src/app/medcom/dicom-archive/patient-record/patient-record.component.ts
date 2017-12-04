@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-
 import { ArchiveService } from '../../../_services';
 import { DicomStudy, MedcomPatient } from '../../../_models';
 import { Spinner } from '../../../shared';
@@ -8,7 +7,7 @@ import { Spinner } from '../../../shared';
 @Component({
     selector: 'patient-record',
     templateUrl: 'patient-record.component.html',
-    styleUrls: ['patient-record.component.scss']
+    styleUrls: ['patient-record.component.scss'],
 })
 export class PatientRecordComponent {
 
@@ -36,6 +35,7 @@ export class PatientRecordComponent {
 
     private onExpand() {
         this.fetchingStudies = true;
+        this.studies = null;
         this.archiveService.getStudies(this.patient.id)
             .subscribe(
                 (studies: DicomStudy[]) => {
@@ -52,7 +52,6 @@ export class PatientRecordComponent {
     }
 
     private onCollapse() {
-        this.studies = null;
         this.expanded = false;
         this.fetchingStudies = false;
     }

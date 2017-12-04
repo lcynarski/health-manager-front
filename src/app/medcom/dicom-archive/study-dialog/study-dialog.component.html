@@ -35,6 +35,6 @@
         </attributes-viewer>
         <tools-pane-component *ngIf="toolsPaneVisible"></tools-pane-component>
         <image-info></image-info>
-        <hm-spinner [spinner]="spinner.DICOM_DIALOG" [size]="150"></hm-spinner>
+        <hm-spinner [isVisible]="loading" [size]="150"></hm-spinner>
     </div>
 </div>
