@@ -1,0 +1,69 @@
+@import "../../../../assets/styles/colors";
+@import "../../../../assets/styles/variables";
+
+$barHeight: 50px;
+
+#studyDialog {
+  color: white;
+  height: 100%;
+
+  div {
+    height: 100%;
+  }
+
+  #topBar {
+    padding: 0 10px;
+    height: $barHeight;
+    position: relative;
+  }
+
+  .button {
+    color: white;
+    max-width: 60px;
+  }
+  .actionButton {
+    @extend .button;
+    &:hover {
+      color: $oc-indigo-4;
+    }
+    &.active {
+      color: $oc-indigo-4;
+    }
+  }
+  #closeButton {
+    @extend .button;
+    &:hover {
+      color: red;
+    }
+  }
+
+  #tabsContainer {
+    height: 100%;
+    #wrapper {
+      margin: 0 auto;
+    }
+    .mat-tab {
+      &-header, &-group{
+        height: 100%;
+      }
+      &-label {
+        color: white;
+        &-active {
+          color: $oc-indigo-4;
+        }
+      }
+    }
+    .mat-ink-bar {
+      background: $oc-indigo-4
+    }
+  }
+
+  #viewer {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    height: calc(100% - #{$barHeight});
+  }
+
+}
+

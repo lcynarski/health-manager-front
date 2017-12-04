@@ -27,8 +27,6 @@ export class PATIENT  {
 
 export class MODALITY  {
     public static GET_ALL = medcomPath + '/modalities';
-    public static UPDATE = medcomPath + '/modalities';
-    public static DELETE = medcomPath + '/modalities/{aet}';
 }
 
 

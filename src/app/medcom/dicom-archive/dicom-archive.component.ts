@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
-import { ArchiveService } from '../../_services';
+import { ArchiveService, SpinnerService } from '../../_services';
 import { MedcomPatient } from '../../_models';
+import { Spinner } from '../../shared';
 
 
 @Component({
@@ -11,31 +11,28 @@ import { MedcomPatient } from '../../_models';
 })
 export class DicomArchiveComponent implements OnInit {
 
-    fetching: boolean = false;
-    errorMsg: string = null;
     patients: MedcomPatient[] = null;
 
-    constructor(private archiveService: ArchiveService) {
+    constructor(private archiveService: ArchiveService,
+                private spinnerService: SpinnerService) {
     }
 
     public ngOnInit() {
-        console.log('ngOnInit');
-        this.fetchArchive();
+        this.fetchMedcomPatients();
     }
 
-    private fetchArchive(): void {
-        this.fetching = true;
+    private fetchMedcomPatients(): void {
+        this.spinnerService.show(Spinner.PAGE);
         this.archiveService.getMedcomPatients()
             .subscribe(
                 (patients: MedcomPatient[]) => {
-                    this.fetching = false;
-                    this.errorMsg = null;
+                    this.spinnerService.hide(Spinner.PAGE);
                     this.patients = patients;
                     console.log('dicomArchive fetched successfully');
                 },
                 (error) => {
-                    this.fetching = false;
-                    this.errorMsg = `Network error has occurred! status: ${error.status} ${error.statusText}`;
+                    console.error('could not fetch medcom patients!', error);
+                    this.spinnerService.hide(Spinner.PAGE);
                 }
             );
     }

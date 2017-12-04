@@ -1,16 +1,6 @@
 <div id="DicomArchiveComponent">
     <div id="viewContainer">
-
-        <!--<div class="header">Dicom Archive</div>-->
-
-        <div *ngIf="fetching">
-            Loading... <!-- TODO proper spinner -->
-        </div>
-        <div *ngIf="!fetching && !!errorMsg">
-            {{errorMsg}}
-        </div>
-
-        <div id="listContainer" *ngIf="!fetching && !errorMsg">
+        <div id="listContainer">
             <div id="listHeaders" fxLayout="row">
                 <div fxFlex="20">pesel</div>
                 <div fxFlex="40">name</div>
