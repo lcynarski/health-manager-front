@@ -15,6 +15,7 @@ import { MdlDialogComponent } from '@angular-mdl/core';
 import { AppointmentService } from '../../_services/appointment.service';
 import { TimeSlotService } from '../../_services/timeSlot.service';
 import { DoctorService } from '../../_services/doctor.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -38,8 +39,6 @@ export class PatientDetailsComponent implements OnInit {
     @Input() patient: Patient;
 
     public id: string;
-    public lat: number = 51.678418;
-    public lng: number = 7.809007;
     public editPatientConfig = createPatientConfig;
     public medicalInfoConfig = medicalInfoConfig;
     public medicalHistoryDiseaseConfig = medicalHistoryDiseaseConfig;
@@ -50,12 +49,20 @@ export class PatientDetailsComponent implements OnInit {
     private emergencyContact: any;
     private model: any = {};
     private appointments: any;
+    private labels = {
+        basicInfo: '',
+        appointments: '',
+        emergency: '',
+        results: '',
+        medicalHistory: ''
+    };
 
     constructor(router: Router,
                 private http: Http,
                 private route: ActivatedRoute,
                 private patientService: PatientService,
-                private appoitmentService: AppointmentService) {
+                private appoitmentService: AppointmentService,
+                private translate: TranslateService) {
         this.router = router;
     }
 
@@ -70,6 +77,17 @@ export class PatientDetailsComponent implements OnInit {
             this.loadEmergencyData();
             this.loadAppointments();
         });
+
+        this.translate.get('BasicInfo')
+            .subscribe((res) => this.labels.basicInfo = res);
+        this.translate.get('Appointments')
+            .subscribe((res) => this.labels.appointments = res);
+        this.translate.get('EmergencyContact')
+            .subscribe((res) => this.labels.emergency = res);
+        this.translate.get('Results')
+            .subscribe((res) => this.labels.results = res);
+        this.translate.get('MedicalHistory')
+            .subscribe((res) => this.labels.medicalHistory = res);
     }
 
     public loadPatientData() {
@@ -109,7 +127,7 @@ export class PatientDetailsComponent implements OnInit {
                 appointments.forEach((appointment) => {
                     this.appoitmentService.getAppointmetsTime(appointment.id)
                         .subscribe((timeslot) => {
-                           const fullAppointment = { ...appointment, timeslot }
+                           const fullAppointment = { ...appointment, timeslot };
                            this.appointments.push(fullAppointment);
                         });
                 });
@@ -170,7 +188,7 @@ export class PatientDetailsComponent implements OnInit {
     addEmergencyContact(value) {
         const { birthdate } = value;
         const newDate = moment(birthdate).format('YYYY-MM-DD');
-        const toSend = { ...value, birthdate: newDate}
+        const toSend = { ...value, birthdate: newDate};
         this.patientService.addEmergencyContact(this.patient.id, toSend)
             .subscribe((data) => {
                 this.addEmergencyContactDialog.close();
@@ -182,7 +200,7 @@ export class PatientDetailsComponent implements OnInit {
     editEmergencyContact(value) {
         const { birthdate } = value;
         const newDate = moment(birthdate).format('YYYY-MM-DD');
-        const toSend = { ...value, birthdate: newDate}
+        const toSend = { ...value, birthdate: newDate};
         this.patientService.editEmergencyContact(this.patient.id, toSend)
             .subscribe((data) => {
                 this.editEmergencyContactDialog.close();
@@ -191,9 +209,9 @@ export class PatientDetailsComponent implements OnInit {
             });
     }
 
-    public sendMail(emailId,subject,message) {
-        window.open("mailto:"+ emailId + "?subject=" + subject+"&body="+message,"_self");
-    };
+    public sendMail(emailId, subject, message) {
+        window.open('mailto:' + emailId + '?subject=' + subject + '&body=' + message, '_self');
+    }
 
     onDialogShow = (dialogRef) => {
         Object.keys(this.patient).forEach((key) => {
@@ -201,10 +219,10 @@ export class PatientDetailsComponent implements OnInit {
                 this.editPatientForm.setValue(key, this.patient[key]);
             }
         });
-    };
+    }
 
     onMedicalInfoDialogShow = (dialogRef) => {
-    };
+    }
 
     onMedicalInfoEditDialogShow = (dialogRef) => {
         Object.keys(this.patient.medicalInfo).forEach((key) => {
@@ -212,7 +230,7 @@ export class PatientDetailsComponent implements OnInit {
                 this.medicalInfoEditForm.setValue(key, this.patient.medicalInfo[key]);
             }
         });
-    };
+    }
 
     onEditEmergencyContactDialogShow = (dialogRef) => {
         Object.keys(this.emergencyContact).forEach((key) => {
@@ -220,5 +238,5 @@ export class PatientDetailsComponent implements OnInit {
                 this.editEmergencyContactForm.setValue(key, this.emergencyContact[key]);
             }
         });
-    };
+    }
 }

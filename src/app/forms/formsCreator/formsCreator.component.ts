@@ -7,6 +7,7 @@ import { Form } from '../../_models/form';
 import { FormCreatorStore } from '../../stores/formCreatorStore';
 import { FieldCreatorStore } from '../../stores/fieldCreatorStore';
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     providers: [FormsService, FormCreatorStore, FieldCreatorStore],
@@ -32,9 +33,8 @@ export class FormsCreatorComponent implements OnInit {
                 private http: Http,
                 private route: ActivatedRoute,
                 private formsService: FormsService,
-                private formCreatorStore: FormCreatorStore) {
-        // this.router = router;
-    }
+                private formCreatorStore: FormCreatorStore,
+                public snackBar: MatSnackBar) {}
 
     public ngOnInit() {
         this.formCreatorStore.formFields.subscribe((data) => {
@@ -96,9 +96,22 @@ export class FormsCreatorComponent implements OnInit {
             defaultValues
         };
         this.formsService.saveDefaultValues(this.defaultFormId, defaultValuesSet)
-            .subscribe(() => {
-                console.log('dafault values successfully saved');
-            });
+            .subscribe(
+                (resp) => {
+                    this.snackBar.open('Default values successfully saved', undefined, {
+                        duration: 4000,
+                        extraClasses: ['success-snackbar'],
+                        verticalPosition: 'top'
+                    });
+            },
+                (error) => {
+                    this.snackBar.open('Something went wrong :(', undefined, {
+                        duration: 4000,
+                        extraClasses: ['error-snackbar'],
+                        verticalPosition: 'top'
+                    });
+                }
+            );
     }
 
     save(value) {
@@ -113,7 +126,23 @@ export class FormsCreatorComponent implements OnInit {
             formFields: [...this.fields],
             ownerId: 1
         };
-        this.formsService.saveForm(form);
+        this.formsService.saveForm(form)
+            .subscribe(
+                () => {
+                    this.snackBar.open('Form successfully saved', undefined, {
+                        duration: 4000,
+                        extraClasses: ['success-snackbar'],
+                        verticalPosition: 'top'
+                    });
+                },
+                () => {
+                    this.snackBar.open('Something went wrong :(', undefined, {
+                        duration: 4000,
+                        extraClasses: ['error-snackbar'],
+                        verticalPosition: 'top'
+                    });
+                }
+            );;
     }
 
     loadForm(id: number) {

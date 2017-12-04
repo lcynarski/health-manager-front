@@ -71,6 +71,9 @@
     <mat-step>
         <ng-template matStepLabel>{{ 'Interview' | translate }}</ng-template>
 
+        <mat-form-field >
+            <input matInput placeholder="Disease" #diseaseInput>
+        </mat-form-field>
 
         <dynamic-form
                 [config]="standardExaminationConfig"
@@ -156,7 +159,24 @@
     </mat-step>
     <mat-step>
         <ng-template matStepLabel>{{ 'Summary' | translate }}</ng-template>
-        You are now done.
+        <mat-list>
+            <h3 mat-subheader>{{ 'Disease' | translate }}</h3>
+            <mat-list-item style="width: 40rem">
+                <p>{{ this.resultDisease }}</p>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <h3 mat-subheader>{{ 'Prescription' | translate }}</h3>
+            <mat-list-item *ngFor="let drug of resultPresciption">
+                <mat-icon mat-list-icon>local_offer</mat-icon>
+                <h4 mat-line>{{drug.drugName}}</h4>
+                <p mat-line> {{drug.size}} </p>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <h3 mat-subheader>{{ 'Notes' | translate }}</h3>
+            <mat-list-item style="width: 40rem">
+                <p>{{ notesModel }}</p>
+            </mat-list-item>
+        </mat-list>
         <div>
             <button mat-button matStepperPrevious>Back</button>
         </div>

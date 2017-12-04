@@ -1,10 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Routes } from '@angular/router';
 
 import { MenuService } from '../navigation';
 import { PAGES_MENU } from './pages.menu';
-import { Sidebar } from '../navigation/components/sidebar';
-import { PageTop } from '../navigation/components/pageTop';
 import { Spinner } from '../shared';
 
 @Component({
@@ -12,23 +10,17 @@ import { Spinner } from '../shared';
     template: `
         <sidebar></sidebar>
         <page-top></page-top>
-        <div class="al-main">
-            <hm-spinner [spinner]="spinner.PAGE" [size]="150" [styles]="{marginLeft: '90px', position: 'fixed'}">
-            </hm-spinner>
-            <div class="al-content">
-                <!--<ba-content-top></ba-content-top>-->
+        <div class="hm-main">
+            <div class="hm-content">
                 <router-outlet></router-outlet>
             </div>
+            <hm-spinner [spinner]="spinner.PAGE" [size]="150" [styles]="{marginLeft: '90px', position: 'fixed'}"></hm-spinner>
         </div>
-        <!--<ba-back-top position="200"></ba-back-top>-->
     `,
-    styles: [
-        '.al-main {padding: 66px 0 34px 0; margin-left: 180px; position: relative; min-height: 100vh}',
-        '.al-content {padding: 8px 32px 8px 40px}'
-    ]
+    styleUrls: ['./pages.component.scss']
 })
 
-export class Pages {
+export class PagesComponent implements OnInit {
 
     spinner = Spinner;
 
@@ -36,6 +28,6 @@ export class Pages {
     }
 
     ngOnInit() {
-        this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU);
+        this._menuService.updateMenuByRoutes(PAGES_MENU as Routes);
     }
 }

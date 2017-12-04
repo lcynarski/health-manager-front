@@ -1,16 +1,17 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { MenuService } from '../../services';
 import { GlobalState } from '../../../global.state';
+import { AuthenticationService } from '../../../_services';
 
 @Component({
     selector: 'menu',
     templateUrl: './menu.component.html',
     styleUrls: ['./menu.component.scss']
 })
-export class Menu {
+export class MenuComponent implements OnInit {
 
     @Input() sidebarCollapsed: boolean = false;
     @Input() menuHeight: number;
@@ -24,8 +25,13 @@ export class Menu {
     public hoverElemTop: number;
     protected _onRouteChange: Subscription;
     public outOfArea: number = -200;
+    public userRole: string = "";
 
-    constructor(private _router: Router, private _service: MenuService, private _state: GlobalState) {
+    constructor(
+        private _router: Router,
+        private _service: MenuService,
+        private _state: GlobalState,
+        private _authService: AuthenticationService) {
     }
 
     public updateMenu(newMenuItems) {
@@ -54,6 +60,7 @@ export class Menu {
         });
 
         this._menuItemsSub = this._service.menuItems.subscribe(this.updateMenu.bind(this));
+        this.userRole = this._authService.getRole();
     }
 
     public ngOnDestroy(): void {

@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
 import createPatientConfig from '../../_forms-configs/create-patient.config';
 import moment = require('moment');
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     providers: [PatientService],
@@ -22,7 +23,8 @@ export class CreatePatientComponent implements AfterViewInit {
     constructor(router: Router,
                 private http: Http,
                 private route: ActivatedRoute,
-                private patientService: PatientService) {
+                private patientService: PatientService,
+                public snackBar: MatSnackBar) {
         this.router = router;
     }
 
@@ -52,8 +54,15 @@ export class CreatePatientComponent implements AfterViewInit {
         };
         this.patientService.savePatient(registerData)
             .subscribe((data) => {
-                console.log(data);
-                this.router.navigate(['/dashboard']);
-            });
+                    console.log(data);
+                    this.router.navigate(['/dashboard']);
+                },
+                () => {
+                    this.snackBar.open('Something went wrong :(', undefined, {
+                        duration: 4000,
+                        extraClasses: ['error-snackbar'],
+                        verticalPosition: 'top'
+                    });
+                });
     }
 }

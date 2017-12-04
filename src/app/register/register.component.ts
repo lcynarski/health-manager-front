@@ -5,6 +5,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { AlertService, UserService } from '../_services/index';
 import { DynamicFormComponent } from '../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import registerConfig from '../_forms-configs/register.config';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'register',
@@ -12,7 +13,7 @@ import registerConfig from '../_forms-configs/register.config';
     styleUrls: ['./register.component.scss']
 })
 
-export class RegisterComponent implements AfterViewInit {
+export class RegisterComponent {
     @ViewChild(DynamicFormComponent) registerForm: DynamicFormComponent;
 
     private model: any = {};
@@ -22,18 +23,8 @@ export class RegisterComponent implements AfterViewInit {
     constructor(private http: Http,
                 private router: Router,
                 private userService: UserService,
-                private alertService: AlertService) {
-    }
-
-    ngAfterViewInit() {
-        // let previousValid = this.registerForm.valid;
-        // this.registerForm.changes.subscribe(() => {
-        //     if (this.registerForm.valid !== previousValid) {
-        //         previousValid = this.registerForm.valid;
-        //         this.registerForm.setDisabled('submit', !previousValid);
-        //     }
-        // });
-        // this.registerForm.setDisabled('submit', true);
+                private alertService: AlertService,
+                public snackBar: MatSnackBar) {
     }
 
     private register(data) {
@@ -56,6 +47,11 @@ export class RegisterComponent implements AfterViewInit {
                 (error) => {
                     this.alertService.error(error._body);
                     this.loading = false;
+                    this.snackBar.open("Error during register", undefined, {
+                        duration: 4000,
+                        extraClasses: ['error-snackbar'],
+                        verticalPosition: 'top'
+                    });
                 });
     }
 }

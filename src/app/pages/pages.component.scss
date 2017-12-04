@@ -1,0 +1,14 @@
+@import '../../assets/styles/variables';
+
+.hm-main {
+  padding: 9rem 0 3rem 0;
+  margin-left: 20rem;
+
+  @media screen and (max-width: $resS) {
+    margin-left: 7rem;
+  }
+}
+
+.hm-content {
+  padding: 8px 3.2rem 8px 4rem;
+}

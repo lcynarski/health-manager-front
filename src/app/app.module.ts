@@ -38,9 +38,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {
     MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatOptionModule,
-    MatSelectModule
+    MatSelectModule, MatSnackBarModule
 } from '@angular/material';
 import { GoogleCalendarService } from './_services/googleCalendar.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { SpinnerService } from './_services/shared/spinner.service';
 
@@ -88,6 +89,7 @@ export function createTranslateLoader(http: Http) {
         MatInputModule,
         MatIconModule,
         MatButtonModule,
+        MatSnackBarModule,
         SharedModule,
     ],
     declarations: [

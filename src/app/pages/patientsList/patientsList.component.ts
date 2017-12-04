@@ -6,7 +6,8 @@ import { PatientService } from '../../_services/patient.service';
 import { Observable } from 'rxjs/Observable';
 import { PatientsDataSource } from './patientsDataSource';
 import { PatientsListItemComponent } from './patients-list-item.component';
-import {AuthenticationService} from "../../_services/authentication.service";
+import {AuthenticationService} from '../../_services/authentication.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
 
@@ -23,9 +24,13 @@ export class PatientsListComponent implements OnInit {
 
     isReceptionist: boolean;
     columnsToDisplay = [];
+    labels = {
+        filterPatients: 'Filter patients'
+    };
 
     constructor(private patientService: PatientService,
-                private authenticationService: AuthenticationService) {
+                private authenticationService: AuthenticationService,
+                private translate: TranslateService) {
         this.patients = JSON.parse(localStorage.getItem('patients'));
         this.isReceptionist = authenticationService.isReceptionist();
     }
@@ -45,6 +50,8 @@ export class PatientsListComponent implements OnInit {
                 }
                 this.dataSource.filter = this.filter.nativeElement.value;
             });
+        this.translate.get('FilterPatients')
+            .subscribe((response) => this.labels.filterPatients = response);
     }
 
     private loadAllPatients() {

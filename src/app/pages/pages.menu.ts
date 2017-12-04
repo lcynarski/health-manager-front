@@ -10,7 +10,8 @@ export const PAGES_MENU = [
                         icon: 'home',
                         selected: false,
                         expanded: false,
-                        order: 0
+                        order: 0,
+                        availableFor: ['ROLE_PATIENT', 'ROLE_DOCTOR', 'ROLE_ADMIN', 'ROLE_RECEPTIONIST']
                     }
                 }
             },
@@ -23,6 +24,7 @@ export const PAGES_MENU = [
                         selected: false,
                         expanded: false,
                         order: 100,
+                        availableFor: ['ROLE_DOCTOR', 'ROLE_ADMIN', 'ROLE_RECEPTIONIST']
                     }
                 }
             },
@@ -35,38 +37,9 @@ export const PAGES_MENU = [
                         selected: false,
                         expanded: false,
                         order: 100,
+                        availableFor: ['ROLE_PATIENT', 'ROLE_DOCTOR', 'ROLE_ADMIN', 'ROLE_RECEPTIONIST']
                     }
                 }
-            },
-            {
-                path: '',
-                data: {
-                    menu: {
-                        title: 'Authentication',
-                        icon: 'security',
-                        selected: false,
-                        expanded: false,
-                        order: 650,
-                    }
-                },
-                children: [
-                    {
-                        path: ['/login'],
-                        data: {
-                            menu: {
-                                title: 'login'
-                            }
-                        }
-                    },
-                    {
-                        path: ['/register'],
-                        data: {
-                            menu: {
-                                title: 'register'
-                            }
-                        }
-                    }
-                ]
             },
             {
                 path: 'medcom',
@@ -77,6 +50,7 @@ export const PAGES_MENU = [
                         selected: false,
                         expanded: false,
                         order: 100,
+                        availableFor: ['ROLE_PATIENTS', 'ROLE_DOCTOR', 'ROLE_ADMIN', 'ROLE_RECEPTIONIST']
                     }
                 }
             }
