@@ -5,6 +5,7 @@ import { AlertService, AuthenticationService } from '../_services/index';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import { AppConfig } from '../app.config';
 import { FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'login',
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit {
                 private alertService: AlertService,
                 public _auth: AuthService,
                 private http: Http,
-                private config: AppConfig) {
+                private config: AppConfig,
+                public snackBar: MatSnackBar) {
     }
 
     // public signIn(provider = ""){
@@ -64,6 +66,11 @@ export class LoginComponent implements OnInit {
                 (error) => {
                     this.alertService.error(error._body);
                     this.loading = false;
+                    this.snackBar.open("Wrong login/password", undefined, {
+                        duration: 4000,
+                        extraClasses: ['error-snackbar'],
+                        verticalPosition: 'top'
+                    });
                 });
     }
 

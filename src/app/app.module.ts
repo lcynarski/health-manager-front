@@ -38,11 +38,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {
     MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatOptionModule,
-    MatSelectModule
+    MatSelectModule, MatSnackBarModule
 } from '@angular/material';
 import { GoogleCalendarService } from './_services/googleCalendar.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ErrorNotificationInterceptor } from './_helpers/error-notification-interceptor';
 
 const socialProviders = {
     google: {
@@ -64,7 +63,7 @@ export function createTranslateLoader(http: Http) {
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
-        HttpClientModule,
+        HttpModule,
         routing,
         Angular2SocialLoginModule,
         PagesModule,
@@ -87,7 +86,8 @@ export function createTranslateLoader(http: Http) {
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MatSnackBarModule
     ],
     declarations: [
         AppComponent,
@@ -107,12 +107,7 @@ export function createTranslateLoader(http: Http) {
         UserService,
         AlertService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
-        APP_PROVIDERS,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: ErrorNotificationInterceptor,
-            multi: true,
-        }
+        APP_PROVIDERS
     ],
     bootstrap: [AppComponent]
 })
