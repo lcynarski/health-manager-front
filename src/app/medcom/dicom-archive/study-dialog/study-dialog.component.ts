@@ -2,7 +2,8 @@ import { Component, HostListener, Inject, InjectionToken, OnInit, ViewEncapsulat
 import { MdlDialogReference } from '@angular-mdl/core';
 
 import { DicomInstance, DicomSeries, DicomStudy } from '../../../_models';
-import { ArchiveService, CornerstoneService, DicomAttributesService } from '../../../_services';
+import { ArchiveService, CornerstoneService, DicomAttributesService, SpinnerService } from '../../../_services';
+import { Spinner } from '../../../shared/spinner/Spinners';
 
 
 export const STUDY_INJECTION_TOKEN = new InjectionToken<DicomStudy>('studyDetails');
@@ -19,30 +20,34 @@ export class StudyDialogComponent implements OnInit {
     activeSeries: DicomSeries;
     activeInstance: DicomInstance;
 
-    fetchingSeries: boolean = false;
-    errorMessage: string;
     infoBoxVisible: boolean = false;
     toolsPaneVisible: boolean = true;
+
+    spinner = Spinner;
 
     constructor(@Inject(STUDY_INJECTION_TOKEN) public study: DicomStudy,
                 private dialog: MdlDialogReference,
                 private archiveService: ArchiveService,
                 private cornerstoneService: CornerstoneService,
-                private attributesService: DicomAttributesService) {
+                private attributesService: DicomAttributesService,
+                private spinnerService: SpinnerService) {
     }
 
     ngOnInit(): void {
+        this.spinnerService.show(Spinner.DICOM_DIALOG);
         this.attributesService.clearCache();
         this.cornerstoneService.resetTools();
         this.fetchSeries();
     }
 
     onSeriesChange(index) {
+        this.spinnerService.show(Spinner.DICOM_DIALOG);
         this.activeSeries = Object.assign({}, this.seriesList[index]);
     }
 
     onImageLoaded(instance: DicomInstance) {
         this.activeInstance = instance;
+        this.spinnerService.hide(Spinner.DICOM_DIALOG);
     }
 
     @HostListener('document:keydown.i')
@@ -59,6 +64,7 @@ export class StudyDialogComponent implements OnInit {
 
     @HostListener('document:keydown.esc')
     public closeDialog(): void {
+        this.spinnerService.hide(Spinner.DICOM_DIALOG);
         this.dialog.hide();
     }
 
@@ -71,7 +77,6 @@ export class StudyDialogComponent implements OnInit {
                             if (seriesList.length) {
                                 this.onSeriesChange(0);
                             }
-                            this.fetchingSeries = false;
                         })
                         .catch((error) => this.onError(error, 'Could not fetch images'));
                 },
@@ -80,8 +85,9 @@ export class StudyDialogComponent implements OnInit {
     }
 
     private onError(error: any, message: string): void {
-        this.fetchingSeries = false;
-        this.errorMessage = `${message}: ${error.status} ${error.statusText}`;
+        this.spinnerService.hide(Spinner.DICOM_DIALOG);
+        console.error(message, error);
+        this.closeDialog();
     }
 
     private onSeries(series: DicomSeries): Promise<any> {

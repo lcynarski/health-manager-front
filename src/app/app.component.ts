@@ -11,6 +11,7 @@
 import { Component } from '@angular/core';
 import { GlobalState } from './global.state';
 import { TranslateService } from '@ngx-translate/core';
+import { Spinner } from './shared';
 
 @Component({
     selector: 'my-app',
@@ -20,11 +21,12 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent {
 
     isMenuCollapsed: boolean = false;
+    spinner = Spinner;
 
     constructor(private _state: GlobalState,
                 private translate: TranslateService) {
 
-        const currentLang = localStorage.getItem('currentLang')
+        const currentLang = localStorage.getItem('currentLang');
 
         translate.use(currentLang || 'en');
 

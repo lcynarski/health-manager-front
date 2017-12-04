@@ -51,8 +51,9 @@ import { FormCreatorStore } from '../stores/formCreatorStore';
 import { FormsCreatorComponent } from '../forms/formsCreator/formsCreator.component';
 import { MdlSelectModule } from '@angular2-mdl-ext/select';
 import { TranslateModule } from '@ngx-translate/core';
-import {ChooseDoctorComponent} from "./chooseDoctor/chooseDoctor.component";
+import { ChooseDoctorComponent } from './chooseDoctor/chooseDoctor.component';
 import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
@@ -88,7 +89,8 @@ import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
         MatSortModule,
         MatTableModule,
         MatAutocompleteModule,
-        MatSelectModule
+        MatSelectModule,
+        SharedModule
     ],
     declarations: [
         Pages,

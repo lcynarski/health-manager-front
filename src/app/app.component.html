@@ -9,4 +9,5 @@
 
 <main [class.menu-collapsed]="isMenuCollapsed">
     <router-outlet></router-outlet>
+    <hm-spinner [spinner]="spinner.GLOBAL" [size]="200" [styles]="{zIndex: 150000, position: 'fixed'}"></hm-spinner>
 </main>

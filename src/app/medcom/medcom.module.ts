@@ -27,6 +27,7 @@ import {
 import { DefaultPipe } from '../_pipes';
 import { ImageInfoComponent } from './dicom-archive/study-dialog/image-info/image-info.component';
 import { StudyListComponent } from './dicom-archive/patient-record/study-list/study-list.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { StudyListComponent } from './dicom-archive/patient-record/study-list/st
         NgSlimScrollModule,
         MdlModule,
         MatTabsModule,
+        SharedModule,
         routing,
     ],
     declarations: [
@@ -50,7 +52,7 @@ import { StudyListComponent } from './dicom-archive/patient-record/study-list/st
         ImageInfoComponent,
         ToolsPaneComponent,
         DicomDirective,
-        DefaultPipe
+        DefaultPipe,
     ],
     entryComponents: [
         StudyDialogComponent,

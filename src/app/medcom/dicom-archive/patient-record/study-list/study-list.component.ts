@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { MdlDialogService } from '@angular-mdl/core';
 import { DicomStudy } from '../../../../_models';
 import { STUDY_INJECTION_TOKEN, StudyDialogComponent } from '../../study-dialog/study-dialog.component';
+import { SpinnerService } from '../../../../_services';
+import { Spinner } from '../../../../shared/spinner/Spinners';
 
 
 @Component({
@@ -14,7 +16,8 @@ export class StudyListComponent {
     @Input()
     studies: DicomStudy[];
 
-    constructor(private dialogService: MdlDialogService) {
+    constructor(private dialogService: MdlDialogService,
+                private spinnerService: SpinnerService) {
     }
 
     getStudyDescription(study: DicomStudy): string {
@@ -24,6 +27,7 @@ export class StudyListComponent {
     }
 
     showStudy(study: DicomStudy, $event) {
+        this.spinnerService.show(Spinner.DICOM_DIALOG);
         this.dialogService.showCustomDialog({
             openFrom: $event,
             component: StudyDialogComponent,

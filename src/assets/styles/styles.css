@@ -162,3 +162,7 @@ html {
     -webkit-border-radius: 10rem;
 
 }
+
+.mdl-spinner__layer {
+    border-color: #748ffc  !important;
+}

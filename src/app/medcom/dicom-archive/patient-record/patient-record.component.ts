@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { ArchiveService } from '../../../_services';
 import { DicomStudy, MedcomPatient } from '../../../_models';
+import { Spinner } from '../../../shared';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class PatientRecordComponent {
     studies: DicomStudy[];
     expanded: boolean = false;
     fetchingStudies: boolean = false;
+    spinner = Spinner;
 
     constructor(private archiveService: ArchiveService) {
         this.archiveService.collapseRecordsStream

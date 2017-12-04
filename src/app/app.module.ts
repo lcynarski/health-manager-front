@@ -41,6 +41,8 @@ import {
     MatSelectModule
 } from '@angular/material';
 import { GoogleCalendarService } from './_services/googleCalendar.service';
+import { SharedModule } from './shared/shared.module';
+import { SpinnerService } from './_services/shared/spinner.service';
 
 const socialProviders = {
     google: {
@@ -85,7 +87,8 @@ export function createTranslateLoader(http: Http) {
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        SharedModule,
     ],
     declarations: [
         AppComponent,
@@ -105,6 +108,7 @@ export function createTranslateLoader(http: Http) {
         GoogleCalendarService,
         UserService,
         AlertService,
+        SpinnerService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         APP_PROVIDERS
     ],

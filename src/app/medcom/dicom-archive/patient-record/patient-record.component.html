@@ -11,6 +11,7 @@
     </div>
 
     <study-list [studies]="studies" *ngIf="expanded"></study-list>
+    <hm-spinner [isVisible]="fetchingStudies" [size]="30"></hm-spinner>
 </div>
 
 
