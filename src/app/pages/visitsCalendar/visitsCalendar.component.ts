@@ -113,10 +113,10 @@ export class VisitsCalendarComponent implements OnInit {
         });
     }
 
-    private slotToVisitEvent(slot: TimeSlot): VisitEvent{
+    private slotToVisitEvent(slot: TimeSlot): VisitEvent {
         return {
             slotId: slot.id,
-            title: "Visit",
+            title: "Free timeslot",
             start: new Date(slot.startDateTime),
             end: new Date(slot.endDateTime),
             color: this.colors.blue,
@@ -124,7 +124,7 @@ export class VisitsCalendarComponent implements OnInit {
         };
     }
 
-    private doSomethingWojtekKnowsWhat([event, appointment]: [VisitEvent, Appointment]): VisitEvent{
+    private doSomethingWojtekKnowsWhat([event, appointment]: [VisitEvent, Appointment]): VisitEvent {
         if (appointment === null) {
             if (event.availableForSelfSign || !this.imAPatient) {
                 event.color = this.colors.blue;
@@ -137,6 +137,14 @@ export class VisitsCalendarComponent implements OnInit {
                 event.patient = appointment.patient;
                 event.appointmentId = appointment.id;
                 event.color = this.colors.red;
+                if(this.authService.isPatient()) {
+                    event.title = this.doctor.firstName +" "+this.doctor.lastName;
+                }else if(this.authService.isDoctor()){
+                    event.title = appointment.patient.account.personalDetails.firstName +" "+appointment.patient.account.personalDetails.lastName;
+                }else if(this.authService.isReceptionist()){
+                    event.title = this.doctor.firstName +" "+this.doctor.lastName + " - "
+                    + appointment.patient.account.personalDetails.firstName +" "+appointment.patient.account.personalDetails.lastName;
+                }
                 return event;
             } else {
                 return null;
@@ -147,13 +155,18 @@ export class VisitsCalendarComponent implements OnInit {
     reloadEvents() {
         //zawsze zaciągamy miesiąc - nawet jak patrzymy na tydzień/dzień (tak prościej :P)
         var viewStart = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1);
-        var viewEnd = new Date(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1) % 12, 1);
-
+        
+        var viewEnd;
+        if ((this.viewDate.getMonth() + 1) % 12 != 0 ){
+           viewEnd = new Date(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1) % 12, 1);
+        } else {
+           viewEnd = new Date(this.viewDate.getFullYear() + 1 , (this.viewDate.getMonth() + 1) % 12, 1);
+        }
         this.timeSlotService.getTimeSlots(this.doctor, viewStart, viewEnd)
             .subscribe(slots => {
 
                 const eventsTmp: VisitEvent[] = slots.map((slot) => {
-                  return this.slotToVisitEvent(slot);
+                    return this.slotToVisitEvent(slot);
                 });
 
 
@@ -276,13 +289,33 @@ export class VisitsCalendarComponent implements OnInit {
             doctor: this.doctor.firstName + " " + this.doctor.lastName
         }
 
-        this.googleCalendarService.exportAppointment(event);
+        this.googleCalendarService.exportAppointment(event)
+            .then(() => alert("Dodano wizytę do kalendarza Google"));
     }
 
 
     private initializeConfig() {
-        let moveSlotConfig = this.createTimeSlotComponent.config
-            .filter(field => field.name != "availableForSelfSign"); // self-sign ability donesn't change
+        let moveSlotConfig = [
+            this.createTimeSlotComponent.config.filter(field =>
+                field.name == "doctor")[0],
+            {
+                type: 'date',
+                label: 'Start Date-time',
+                name: 'startDateTime',
+                //placeholder: 'Date-time'
+            },
+            {
+                type: 'date',
+                label: 'End Date-time',
+                name: 'endDateTime',
+                //placeholder: 'Date-time'
+            },
+            {
+                label: 'Submit',
+                name: 'submit',
+                type: 'button'
+            }
+        ];
         if (this.userRole == AuthenticationService.ROLE_ADMIN) {
             this.config = moveSlotConfig;
         } else if (this.userRole == AuthenticationService.ROLE_DOCTOR) {
@@ -312,7 +345,7 @@ export class VisitsCalendarComponent implements OnInit {
 
                 let patientId = params['patientId'];
 
-                if(patientId){
+                if (patientId) {
                     this.imAPatient = true;
                     this.patientService.getById(patientId).subscribe((patient) => {
                         this.patient = patient;

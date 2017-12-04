@@ -5,7 +5,6 @@ import 'rxjs/add/operator/map';
 
 import { AppConfig } from '../app.config';
 import { JwtHelper } from 'angular2-jwt';
-import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class AuthenticationService {
@@ -37,12 +36,13 @@ export class AuthenticationService {
                 if (token) {
                     this.token = token;
                     localStorage.setItem('currentUser', JSON.stringify({ email, token }));
-                    const jwtHelper: JwtHelper = new JwtHelper();
-                    console.log('token to ');
-                    console.log(jwtHelper.decodeToken(token));
+                    let jwtHelper: JwtHelper = new JwtHelper();
+                    console.log('token to ')
+                    console.log(jwtHelper.decodeToken(token))
                     this.role = jwtHelper.decodeToken(token).scopes;
-                    this.email = jwtHelper.decodeToken(token).sub;
+                    this.email = jwtHelper.decodeToken(token).sub
                     console.log('mój email to ' + this.email);
+                    return true;
                 }
                 return true;
             });
@@ -82,5 +82,12 @@ export class AuthenticationService {
 
     public isReceptionist(): boolean {
         return this.getRole() == AuthenticationService.ROLE_ADMIN;
+    }
+
+    public isDoctor(): boolean {
+        return this.getRole() == AuthenticationService.ROLE_DOCTOR;
+    }
+    public isPatient(): boolean {
+        return this.getRole() == AuthenticationService.ROLE_PATIENT;
     }
 }
