@@ -16,15 +16,6 @@
         >
             <mat-icon>mode_edit</mat-icon>
         </button>
-        <button
-                mat-mini-fab
-                color="primary"
-                mdl-tooltip-large="Proceed with an appoinment"
-                mdl-tooltip-position="right"
-                [routerLink]="['/proceedAppointment', 'patient', patient?.id]"
-        >
-            <mat-icon aria-label="Example icon-button with a heart icon">launch</mat-icon>
-        </button>
         <button mat-mini-fab color="primary" mdl-tooltip-large="Send an email" mdl-tooltip-position="right" (click)="sendMail('cynarx@gmail.com','my-subject','my-message')">
             <mat-icon aria-label="Example icon-button with a heart icon">mail_outline</mat-icon>
         </button>
@@ -32,7 +23,7 @@
 
 
     <mat-tab-group class="demo-tab-group">
-        <mat-tab label="Basic Informations">
+        <mat-tab [label]="labels.basicInfo">
             <div class="demo-tab-content">
 
                 <!-- from here -->
@@ -91,7 +82,7 @@
                 </mat-list>
             </div>
         </mat-tab>
-        <mat-tab label="Medical History">
+        <mat-tab [label]="labels.medicalHistory">
             <div class="demo-tab-content">
 
                 <mat-form-field class="example-full-width">
@@ -130,7 +121,7 @@
 
             </div>
         </mat-tab>
-        <mat-tab label="Emergency Contact">
+        <mat-tab [label]="labels.emergency">
             <button mat-button color="primary" (click)="addEmergencyContactDialog.show()" *ngIf="!emergencyContact">
                 {{ 'AddEmergencyContact' | translate }}
             </button>
@@ -166,17 +157,10 @@
                 </button>
             </mat-list>
         </mat-tab>
-        <mat-tab label="Locate" disabled>
-            <div class="demo-tab-content">
-                <agm-map [latitude]="lat" [longitude]="lng">
-                    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-                </agm-map>
-            </div>
-        </mat-tab>
-        <mat-tab label="Results" disabled>
+        <mat-tab [label]="labels.results" disabled>
             No content
         </mat-tab>
-        <mat-tab label="Appointments">
+        <mat-tab [label]="labels.appointments">
             <mat-accordion class="example-headers-align" *ngIf="appointments">
                 <mat-expansion-panel *ngFor="let appointment of appointments">
                     <mat-expansion-panel-header>

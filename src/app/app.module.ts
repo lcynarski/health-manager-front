@@ -38,9 +38,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {
     MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatOptionModule,
-    MatSelectModule
+    MatSelectModule, MatSnackBarModule
 } from '@angular/material';
 import { GoogleCalendarService } from './_services/googleCalendar.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 const socialProviders = {
     google: {
@@ -85,7 +86,8 @@ export function createTranslateLoader(http: Http) {
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MatSnackBarModule
     ],
     declarations: [
         AppComponent,

@@ -63,13 +63,54 @@ export class UserService {
         return this.http.get(`${this.config.apiUrl}/accounts/personaldetails`, this.authenticationService.addJwtOptions()).map((response: Response) => response.json());
     }
 
-    public saveProfilePicture(_id: string, photo: any): Observable<String> {
+    public saveProfilePicture(_id: string, photo: any): Observable<string> {
         return this.http.post(`${this.config.apiUrl}/accounts/14/picture`, photo, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 
-    public getAccount(): Observable<String> {
+    public getAccount(): Observable<string> {
         return this.http.get(`${this.config.apiUrl}/accounts`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
+    }
+
+    public getMedicalInfo() {
+        return this.http.get(`${this.config.apiUrl}/accounts/medical`, this.authenticationService.addJwtOptions())
+            .map((response) => response.json());
+    }
+
+    public saveMedicalInfo(data) {
+        return this.http.post(`${this.config.apiUrl}/accounts/medical`, data, this.authenticationService.addJwtOptions())
+            .map((response) => response.json());
+    }
+
+    public editMedicalInfo(data) {
+        return this.http.put(`${this.config.apiUrl}/accounts/medical`, data, this.authenticationService.addJwtOptions())
+            .map((response) => response.json());
+    }
+
+    public getEmergencyContact() {
+        return this.http.get(`${this.config.apiUrl}/accounts/emergency`, this.authenticationService.addJwtOptions())
+            .map((response) => response.json());
+    }
+
+    public saveEmergencyContact(data) {
+        return this.http.post(`${this.config.apiUrl}/accounts/emergency`, data, this.authenticationService.addJwtOptions())
+            .map((response) => response.json());
+    }
+
+    public editEmergencyContact(data) {
+        return this.http.put(`${this.config.apiUrl}/accounts/emergency`, data, this.authenticationService.addJwtOptions())
+            .map((response) => response.json());
+    }
+
+    public getMedicalHistory(dateStart, dateEnd) {
+        const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
+        return this.http.get(`${this.config.apiUrl}/patients/history`, {
+            params: { dateStart, dateEnd },
+            headers
+        })
+            .map((response: Response) => {
+                return response.json();
+            });
     }
 }

@@ -8,9 +8,9 @@ import { JwtHelper } from 'angular2-jwt';
 
 @Injectable()
 export class AuthenticationService {
-    public static ROLE_ADMIN: string = 'ROLE_ADMIN'
-    public static ROLE_PATIENT: string = 'ROLE_PATIENT'
-    public static ROLE_DOCTOR: string = 'ROLE_DOCTOR'
+    public static ROLE_ADMIN: string = 'ROLE_ADMIN';
+    public static ROLE_PATIENT: string = 'ROLE_PATIENT';
+    public static ROLE_DOCTOR: string = 'ROLE_DOCTOR';
     public token: string;
     public role: string;
     public email: string;

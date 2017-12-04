@@ -2,6 +2,7 @@
     (mouseleave)="hoverElemTop=outOfArea">
     <menu-item
             [menuItem]="item"
+            [userRole]="userRole"
             (itemHover)="hoverItem($event)"
             (toggleSubMenu)="toggleSubMenu($event)"
             *ngFor="let item of menuItems"></menu-item>

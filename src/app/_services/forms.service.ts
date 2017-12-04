@@ -54,7 +54,7 @@ export class FormsService {
         return this.http.post(`${this.config.apiUrl}/forms`, form, this.authenticationService.addJwtOptions())
             .map((response: Response) => {
                 console.log('SAVE FORM: ' + response.json());
-            }).subscribe();
+            });
     }
 
     public deleteForm(id: number) {

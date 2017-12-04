@@ -1,14 +1,12 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { GlobalState } from '../../../global.state';
-
-// import {layoutSizes} from '../../../theme';
 
 @Component({
     selector: 'sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss']
 })
-export class Sidebar {
+export class SidebarComponent implements OnInit, AfterViewInit {
     public menuHeight: number;
     public isMenuCollapsed: boolean = false;
     public isMenuShouldCollapsed: boolean = false;
@@ -33,7 +31,7 @@ export class Sidebar {
     @HostListener('window:resize')
     public onWindowResize(): void {
 
-        let isMenuShouldCollapsed = this._shouldMenuCollapse();
+        const isMenuShouldCollapsed = this._shouldMenuCollapse();
 
         if (this.isMenuShouldCollapsed !== isMenuShouldCollapsed) {
             this.menuCollapseStateChange(isMenuShouldCollapsed);
@@ -56,7 +54,6 @@ export class Sidebar {
     }
 
     public updateSidebarHeight(): void {
-        // TODO: get rid of magic 84 constant
         this.menuHeight = this._elementRef.nativeElement.childNodes[0].clientHeight - 84;
     }
 

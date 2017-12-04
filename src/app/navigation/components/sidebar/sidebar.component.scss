@@ -12,6 +12,10 @@
     height: 100%;
     position: fixed;
 
+    @media screen and (max-width: $resS) {
+      width: 60px;
+    }
+
     menu {
       padding: 0;
     }
@@ -43,7 +47,8 @@
     position: relative;
     float: none;
     padding: 0;
-    &.selected:not(.with-sub-menu) {
+
+    &.selected {
       background-color: $primary;
       a.al-sidebar-list-link {
         color: $sidebar-text;
@@ -55,7 +60,7 @@
   }
 
   .ba-sidebar-item-expanded {
-    > ul.al-sidebar-sublist {
+    & > ul.al-sidebar-sublist {
       display: block !important;
     }
 
@@ -63,13 +68,13 @@
 
   .al-sidebar-list-item, .ba-sidebar-sublist-item {
     &.ba-sidebar-item-expanded {
-      > .al-sidebar-list-link {
+      & > .al-sidebar-list-link {
         b {
           transform: rotate(180deg);
         }
       }
 
-      > .al-sidebar-sublist {
+      & > .al-sidebar-sublist {
         display: block;
       }
     }
@@ -132,10 +137,12 @@
     position: absolute;
     top: -150px;
     left: $sidebar-width - $sidebar-scroll-width;
-    transition: all 0.5s ease;
-    transition-property: top, height;
     height: 42px;
     display: block;
+
+    @media screen and (max-width: $resS) {
+      left: 60px;
+    }
   }
 
   .sidebar-select-elem {
@@ -146,6 +153,12 @@
   .menu-collapsed {
     .slimScrollBar, .slimScrollRail {
       display: none !important;
+    }
+  }
+  
+  .sidebar-label {
+    @media screen and (max-width: $resS) {
+      display: none;
     }
   }
 }

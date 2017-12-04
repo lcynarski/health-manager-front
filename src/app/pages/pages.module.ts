@@ -19,7 +19,7 @@ import {
     MatListModule, MatExpansionModule, MatSortModule, MatTableModule, MatAutocompleteModule, MatSelectModule
 } from '@angular/material';
 import { ModalModule } from 'ng2-bs4-modal/ng2-bs4-modal';
-import { Pages } from './pages.component';
+import { PagesComponent } from './pages.component';
 import { PatientDetailsComponent } from './patientDetails/patientDetails.component';
 import { AgmCoreModule } from '@agm/core';
 import { Paper } from '../components/paper/paper.component';
@@ -91,7 +91,7 @@ import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
         MatSelectModule
     ],
     declarations: [
-        Pages,
+        PagesComponent,
         ChooseDoctorComponent,
         PatientDetailsComponent,
         Paper,
