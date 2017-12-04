@@ -81,6 +81,13 @@ export class AuthenticationService {
     }
 
     public isReceptionist(): boolean {
-    return this.getRole() == AuthenticationService.ROLE_ADMIN;
-}
+        return this.getRole() == AuthenticationService.ROLE_ADMIN;
+    }
+
+    public isDoctor(): boolean {
+        return this.getRole() == AuthenticationService.ROLE_DOCTOR;
+    }
+    public isPatient(): boolean {
+        return this.getRole() == AuthenticationService.ROLE_PATIENT;
+    }
 }
