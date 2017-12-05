@@ -83,5 +83,10 @@
   "NoFieldsYet": "No fields added yet",
   "RemoveFieldsFromForm": "Remove fields from your form",
   "AddFieldsToForm": "Add new fields to your form",
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
+  "RegisterVisit": "Rejestruj wizyte",
+  "registration": "Registration",
+  "AddToMedicalHistory": "Add to medical history",
+  "AddEmergencyContact": "Add emergency contact",
+  "EditEmergencyContact": "Edit emergency contact"
 }

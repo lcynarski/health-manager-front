@@ -40,7 +40,7 @@
             <mat-cell *matCellDef="let row">
                 <button mat-button [routerLink]="['/pages/doctorsList/patient/', row.id]"
                         class="btn btn-default">
-                    Register visit</button>
+                    {{ 'RegisterVisit' | translate }}</button>
             </mat-cell>
         </ng-container>
 

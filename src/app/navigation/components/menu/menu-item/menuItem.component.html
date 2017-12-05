@@ -1,4 +1,4 @@
-<li *ngIf="!menuItem.hidden" [title]="menuItem.title" [ngClass]="{'al-sidebar-list-item': !child, 'sidebar-sublist-item': child, 'selected': menuItem.selected && !menuItem.expanded, 'with-sub-menu': menuItem.children, 'sidebar-item-expanded': menuItem.expanded}">
+<li *ngIf="!menuItem.hidden" [ngClass]="{'al-sidebar-list-item': !child, 'sidebar-sublist-item': child, 'selected': menuItem.selected && !menuItem.expanded, 'with-sub-menu': menuItem.children, 'sidebar-item-expanded': menuItem.expanded}">
 
     <a *ngIf="!menuItem.children && !menuItem.url && menuItem.availableFor.includes(userRole)" (mouseenter)="onHoverItem($event, item)" [routerLink]="menuItem.route.paths" class="al-sidebar-list-link">
         <i *ngIf="menuItem.icon" class="material-icons">{{menuItem.icon}}</i>
