@@ -123,8 +123,7 @@ export class FormsCreatorComponent implements OnInit {
         });
         const form = {
             name: this.formName,
-            formFields: [...this.fields],
-            ownerId: 1
+            formFields: [...this.fields]
         };
         this.formsService.saveForm(form)
             .subscribe(

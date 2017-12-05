@@ -245,7 +245,6 @@ export class ProceedAppointmentComponent implements OnInit {
                 const today = new Date();
                 const toSaveInMedicalHistory = {
                     medicalCheckupId: response.id,
-                    detectionDate: today.getDate(),
                     diseaseName: this.diseaseInput.nativeElement.value
                 };
                 this.patientService.addToMedicalHistory(this.patient.id, toSaveInMedicalHistory)
@@ -290,8 +289,7 @@ export class ProceedAppointmentComponent implements OnInit {
         const today = new Date();
         const toSaveInMedicalHistory = {
             diseaseName: this.diseaseInput.nativeElement.value,
-            detectionDate: today.getDate(),
-            symptoms: value
+            symptoms: value.symptoms
         };
         this.patientService.addToMedicalHistory(this.patient.id, toSaveInMedicalHistory)
             .subscribe((resp) => {

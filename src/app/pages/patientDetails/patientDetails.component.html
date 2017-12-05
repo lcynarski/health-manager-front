@@ -105,13 +105,21 @@
                     <mat-expansion-panel *ngFor="let item of medicalHistory">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
-                                {{ item.diseaseName}}
+                                {{ 'Disease' | translate }}: {{ item.diseaseName}}
                             </mat-panel-title>
                             <mat-panel-description>
                                 {{ item.detectionDate | date }} - {{ item.cureDate | date }}
                             </mat-panel-description>
                         </mat-expansion-panel-header>
-                        {{ 'Symptoms' | translate }}: {{ item.symptoms }}
+                        <div *ngIf="item.symptoms">
+                            <h5>{{ 'Symptoms' | translate }}:</h5>
+                                {{ item.symptoms }}
+                        </div>
+                        <div *ngIf="item.medicalCheckup">
+                            <p *ngFor="let val of item.medicalCheckup.medicalCheckupValues">
+                                {{ val.name }} : {{ val.value }}
+                            </p>
+                        </div>
                     </mat-expansion-panel>
                 </mat-accordion>
 
