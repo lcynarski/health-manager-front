@@ -88,5 +88,8 @@
   "registration": "Registration",
   "AddToMedicalHistory": "Add to medical history",
   "AddEmergencyContact": "Add emergency contact",
-  "EditEmergencyContact": "Edit emergency contact"
+  "EditEmergencyContact": "Edit emergency contact",
+  "DetectedDisease": "Detected disease",
+  "OrSimplyAddSymptoms": "Or add just symptoms",
+  "ChoosePreparedForm": "Use prepared form, fill it with default data"
 }

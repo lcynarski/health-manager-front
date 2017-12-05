@@ -129,6 +129,10 @@ export class FormsCreatorComponent implements OnInit {
         this.formsService.saveForm(form)
             .subscribe(
                 () => {
+                    this.formsService.getAllForms()
+                        .subscribe((forms) => {
+                            this.formsToChoose = forms;
+                        });
                     this.snackBar.open('Form successfully saved', undefined, {
                         duration: 4000,
                         extraClasses: ['success-snackbar'],

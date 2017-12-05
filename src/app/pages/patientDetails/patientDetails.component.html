@@ -101,10 +101,6 @@
                     {{ 'Show' | translate }}
                 </button>
 
-                <button mat-button color="primary" (click)="addToMedicalHistoryDialog.show()">
-                    {{ 'AddToMedicalHistory' | translate }}
-                </button>
-
                 <mat-accordion class="example-headers-align" *ngIf="medicalHistory">
                     <mat-expansion-panel *ngFor="let item of medicalHistory">
                         <mat-expansion-panel-header>

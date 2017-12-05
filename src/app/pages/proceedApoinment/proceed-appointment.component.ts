@@ -20,6 +20,7 @@ import { DoctorService } from '../../_services/doctor.service';
 import { subscribeOn } from 'rxjs/operator/subscribeOn';
 import { PrescriptionsService } from '../../_services/prescriptions.service';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     providers: [
@@ -68,9 +69,9 @@ export class ProceedAppointmentComponent implements OnInit {
     formId: number;
 
     prescribedDrugsList = [];
-    currentChosenPack = "";
-    currentChosenDrugName = "";
-    notesModel = "";
+    currentChosenPack = '';
+    currentChosenDrugName = '';
+    notesModel = '';
     appointment = {
         id: '',
         patientId: ''
@@ -78,8 +79,8 @@ export class ProceedAppointmentComponent implements OnInit {
     doctor = {};
     formDefaultValues = [];
     resultPresciption = [];
-    resultDisease = "";
-    diseaseModel = "";
+    resultDisease = '';
+    diseaseModel = '';
 
     constructor(private router: Router,
                 private patientService: PatientService,
@@ -90,7 +91,8 @@ export class ProceedAppointmentComponent implements OnInit {
                 private medicalCheckupService: MedicalCheckupService,
                 private appointmentService: AppointmentService,
                 private doctorService: DoctorService,
-                private prescriptionService: PrescriptionsService) {
+                private prescriptionService: PrescriptionsService,
+                public snackBar: MatSnackBar) {
     }
 
     public tabChanged({ index }) {
@@ -120,7 +122,7 @@ export class ProceedAppointmentComponent implements OnInit {
                     .subscribe((response) => {
                         this.doctor = response;
                     });
-        });
+            });
 
         this.formService.getAllForms()
             .subscribe((forms) => {
@@ -245,18 +247,37 @@ export class ProceedAppointmentComponent implements OnInit {
                     medicalCheckupId: response.id,
                     detectionDate: today.getDate(),
                     diseaseName: this.diseaseInput.nativeElement.value
-                }
+                };
                 this.patientService.addToMedicalHistory(this.patient.id, toSaveInMedicalHistory)
                     .subscribe((resp) => {
-                        console.log(resp);
-                    })
+                            console.log(resp);
+                            this.snackBar.open(`Success added to medical history`, undefined, {
+                                duration: 4000,
+                                extraClasses: ['success-snackbar'],
+                                verticalPosition: 'top'
+                            });
+                        },
+                        (error) => {
+                            this.snackBar.open(`Cannot add to medical history: ${error}`, undefined, {
+                                duration: 4000,
+                                extraClasses: ['error-snackbar'],
+                                verticalPosition: 'top'
+                            });
+                        })
                 console.log('saveMedicalCheckup response:', response, toSaveInMedicalHistory);
+            },
+                (error) => {
+                    this.snackBar.open(`Cannot save medical checkup: ${error}`, undefined, {
+                        duration: 4000,
+                        extraClasses: ['error-snackbar'],
+                        verticalPosition: 'top'
+                    });
             });
-        this.resultDisease = this.diseaseInput.nativeElement.value
+        this.resultDisease = this.diseaseInput.nativeElement.value;
     }
 
     public onNotesChange() {
-        console.log("this.notesmodel: ", this.notesModel);
+        console.log('this.notesmodel: ', this.notesModel);
     }
 
     public onSubmit(value) {
@@ -266,6 +287,29 @@ export class ProceedAppointmentComponent implements OnInit {
 
     public submitInterviewForm(value) {
         console.log('submitInterviewForm value: ', value);
+        const today = new Date();
+        const toSaveInMedicalHistory = {
+            diseaseName: this.diseaseInput.nativeElement.value,
+            detectionDate: today.getDate(),
+            symptoms: value
+        };
+        this.patientService.addToMedicalHistory(this.patient.id, toSaveInMedicalHistory)
+            .subscribe((resp) => {
+                    console.log(resp);
+                    this.snackBar.open(`Success added to medical history`, undefined, {
+                        duration: 4000,
+                        extraClasses: ['success-snackbar'],
+                        verticalPosition: 'top'
+                    });
+                },
+                (error) => {
+                    this.snackBar.open(`Cannot add to medical history: ${error}`, undefined, {
+                        duration: 4000,
+                        extraClasses: ['error-snackbar'],
+                        verticalPosition: 'top'
+                    });
+                }
+            );
     }
 
     public submitPrescription() {
