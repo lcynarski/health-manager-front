@@ -43,6 +43,7 @@ export class SpinnerComponent implements OnInit, OnDestroy {
         }
     }
 
+    @HostListener('DOMMouseScroll', ['$event'])
     @HostListener('mousewheel', ['$event'])
     @HostListener('mousedown', ['$event'])
     private stopEvents(e: Event) {

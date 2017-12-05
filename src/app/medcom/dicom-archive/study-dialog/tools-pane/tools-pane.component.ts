@@ -30,6 +30,7 @@ export class ToolsPaneComponent {
         this.cornerstoneService.propagateAction(action);
     }
 
+    @HostListener('DOMMouseScroll', ['$event'])
     @HostListener('mousewheel', ['$event'])
     @HostListener('mousedown', ['$event'])
     private stopEvents(e: Event) {

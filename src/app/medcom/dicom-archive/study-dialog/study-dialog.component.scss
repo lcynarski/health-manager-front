@@ -63,6 +63,7 @@ $barHeight: 50px;
     margin: 0 auto;
     width: 100%;
     height: calc(100% - #{$barHeight});
+    background: black;
   }
 
 }
