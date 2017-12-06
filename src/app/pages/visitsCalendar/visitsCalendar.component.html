@@ -32,8 +32,8 @@
     <modal-body>
         <h2>Doctor {{doctor?.firstName}} {{doctor?.lastName}}</h2>
         <h2>{{modalDate}}, {{modalTime}}</h2>
-        <div *ngIf='config!=null && !showSlotMoveMenu'>
-            <button (click)='displaySlotMoveMenu($event)'>Move timeslot</button>
+        <div style="padding-bottom : 5px;" *ngIf='config!=null && !showSlotMoveMenu'>
+            <button type="button" class="btn btn-primary" (click)='displaySlotMoveMenu($event)'>Move timeslot</button>
         </div>
         <div *ngIf='showSlotMoveMenu'>
             Move timeslot
@@ -58,10 +58,10 @@
             </select>
         </div>
 
-        <div *ngIf='currentSlotTaken'>
-            <a (click)="unEnroll()" class="btn btn-default">
+        <div style="padding-bottom : 5px;" *ngIf='currentSlotTaken'>
+            <button type="button" class="btn btn-primary" (click)="unEnroll()">
                 UnEnroll!
-            </a>
+            </button>
         </div>
 
         <h3>Patient's data</h3>

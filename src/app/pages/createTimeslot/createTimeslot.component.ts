@@ -78,6 +78,25 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
             placeholder: 'Minutes of break between visits',
         },
         {
+            type: 'checkbox',
+            label: 'Repeat for multiple days',
+            name: 'repeatForMultipleDays',
+            value: false
+        },
+        {
+            type: 'input',
+            label: 'Days interval',
+            name: 'daysOfInterval',
+            placeholder: 'Days of interval',
+            value : '7'
+        },
+        {
+            type: 'date',
+            label: 'End date',
+            name: 'endDate',
+            placeholder: 'End date'
+        },
+        {
             label: 'Submit multiple slots',
             name: 'submitMulti',
             type: 'button'
@@ -110,6 +129,15 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
 
     submitMulti(value) {
         console.log('SubmitMulti')
+        if (value.repeatForMultipleDays){
+            if(value.endDate == undefined) {
+                this.info = "Missing end date"
+            }    
+            if(value.daysOfInterval == undefined) {
+                this.info = "Missing days of interval"
+            }
+        }
+
         if (value.startHour == undefined) {
             this.info = "Missing start hour"
             return
@@ -164,6 +192,13 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
         console.log('zebrane:')
         console.log(timeSlotIntervals)
 
+        if (value.repeatForMultipleDays){
+            var valueCopy = JSON.parse(JSON.stringify(value));
+            valueCopy.date = new Date(value.date.setTime( value.date.getTime() + (+value.daysOfInterval) * 86400000 ));
+            if(moment(valueCopy.date) <= (moment( valueCopy.endDate))) {
+                this.submitMulti(valueCopy)
+            }
+        }
     }
 
     addMinutes(time: [number, number], minutesToAdd: number): [number, number] {
