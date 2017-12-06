@@ -10,25 +10,6 @@ const standardExaminationConfig: FieldConfig[] = [
         validation: [Validators.required]
     },
     {
-        type: 'input',
-        label: 'Temperature',
-        name: 'temperature',
-        placeholder: 'Temperature',
-        validation: [Validators.required]
-    },
-    {
-        type: 'checkbox',
-        label: 'UsedDrugs',
-        name: 'usedDrugs',
-        placeholder: 'Used Drugs'
-    },
-    {
-        type: 'checkbox',
-        label: 'Dangerous',
-        name: 'dangerous',
-        placeholder: 'Dangerous'
-    },
-    {
         label: 'Submit',
         name: 'submit',
         type: 'button'

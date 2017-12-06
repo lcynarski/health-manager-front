@@ -1,8 +1,8 @@
-<mat-list>
-    <mat-list-item> {{ 'name' | translate }}: {{ drug?.name }} </mat-list-item>
-    <mat-list-item> {{ 'CommonName' | translate }}: {{ drug?.commonName }}</mat-list-item>
-    <mat-list-item> {{ 'strength' | translate }}: {{ drug?.strength }} </mat-list-item>
-    <mat-list-item> {{ 'permitValidity' | translate }}: {{ drug?.permitValidity }} </mat-list-item>
-    <mat-list-item> {{ 'entityResponsible' | translate }}: {{ drug?.entityResponsible }} </mat-list-item>
-    <mat-list-item> {{ 'drugForm' | translate }}: {{ drug?.drugForm }} </mat-list-item>
+<mat-list class="drug-details">
+    <mat-list-item> <span class="drug-details__label">{{ 'name' | translate }}:</span> {{ drug?.name }} </mat-list-item>
+    <mat-list-item> <span class="drug-details__label">{{ 'CommonName' | translate }}:</span> {{ drug?.commonName }}</mat-list-item>
+    <mat-list-item> <span class="drug-details__label">{{ 'strength' | translate }}:</span> {{ drug?.strength }} </mat-list-item>
+    <mat-list-item> <span class="drug-details__label">{{ 'permitValidity' | translate }}:</span> {{ drug?.permitValidity }} </mat-list-item>
+    <mat-list-item> <span class="drug-details__label">{{ 'entityResponsible' | translate }}:</span> {{ drug?.entityResponsible }} </mat-list-item>
+    <mat-list-item> <span class="drug-details__label">{{ 'drugForm' | translate }}:</span> {{ drug?.drugForm }} </mat-list-item>
 </mat-list>

@@ -68,7 +68,7 @@ export class DashboardComponent {
         {
             title: 'MyProfile',
             buttonLabel: 'Check',
-            link: '/dashboard',
+            link: '/pages/usersProfile',
             roles: ['ROLE_PATIENT', 'ROLE_DOCTOR', 'ROLE_ADMIN', 'ROLE_RECEPTIONIST'],
             icon: 'person',
             color: '#20c997'

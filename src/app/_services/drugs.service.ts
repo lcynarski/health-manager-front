@@ -37,7 +37,7 @@ export class DrugsService {
 
     public getDrugDetails(drugId) {
         const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
-        return this.http.get(`${this.config.apiUrl}/drugs/${drugId}`, headers)
+        return this.http.get(`${this.config.apiUrl}/drugs/${drugId}`, { headers })
             .map((response: Response) => {
                 return response.json();
             });

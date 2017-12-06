@@ -14,7 +14,7 @@ import { FormCheckboxComponent } from './components/form-checkbox/form-checkbox.
 import { FormDateComponent } from './components/form-date/form-date.component';
 import { MdlDatePickerModule } from '@angular-mdl/datepicker';
 import {
-    DateAdapter, MAT_DATE_FORMATS, MatDatepickerModule, MatFormFieldModule,
+    DateAdapter, MAT_DATE_FORMATS, MatButtonModule, MatDatepickerModule, MatFormFieldModule,
     MatInputModule, MatOptionModule, MatSelectModule
 } from '@angular/material';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
@@ -31,7 +31,8 @@ import { FormTextareaComponent } from './components/form-textarea/form-textarea.
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
-        MatOptionModule
+        MatOptionModule,
+        MatButtonModule
     ],
     declarations: [
         DynamicFieldDirective,
