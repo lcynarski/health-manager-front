@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
@@ -55,9 +55,15 @@ const APP_PROVIDERS = [
     GlobalState
 ];
 
-export function createTranslateLoader(http: Http) {
+function createTranslateLoader(http: Http) {
     return new TranslateHttpLoader(http, 'src/assets/i18n/', '.json');
 }
+
+export const translateLoader: Provider = {
+    provide: TranslateLoader,
+    useFactory: (createTranslateLoader),
+    deps: [Http]
+};
 
 @NgModule({
     imports: [
@@ -76,11 +82,7 @@ export function createTranslateLoader(http: Http) {
         DynamicFormModule,
         BrowserAnimationsModule,
         TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (createTranslateLoader),
-                deps: [Http]
-            }
+            loader: translateLoader
         }),
         MatSelectModule,
         MatOptionModule,

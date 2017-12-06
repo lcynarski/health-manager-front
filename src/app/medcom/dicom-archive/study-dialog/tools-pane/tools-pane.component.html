@@ -5,7 +5,7 @@
              *ngFor="let tool of tools"
              (click)="activateTool(tool)"
              [class.active]="activeTool && activeTool.name === tool.name"
-             [mdl-tooltip-large]="tool.name"
+             [mdl-tooltip-large]="('medcom.dicomArchive.tools.' + tool.name) | translate"
              mdl-tooltip-position="bottom"
         >
             <mdl-icon class="icon">{{tool.icon}}</mdl-icon>
@@ -14,7 +14,7 @@
              *ngFor="let action of actions"
              (click)="executeAction(action)"
              mat-ripple
-             [mdl-tooltip-large]="action.name"
+             [mdl-tooltip-large]="('medcom.dicomArchive.tools.' + action.name) | translate"
              mdl-tooltip-position="bottom"
         >
             <mdl-icon class="icon">{{action.icon}}</mdl-icon>

@@ -45,7 +45,7 @@ export class PatientRecordComponent {
                     this.expanded = true;
                 },
                 (error) => {
-                    console.error('could nto fetch studies!', error);
+                    console.error('could not fetch studies!', error);
                     this.onCollapse();
                 }
             );

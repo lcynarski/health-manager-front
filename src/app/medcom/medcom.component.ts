@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 
@@ -8,21 +8,21 @@ import { NavigationEnd, Router } from '@angular/router';
     styleUrls: ['medcom.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class MedcomComponent implements OnInit, OnDestroy {
+export class MedcomComponent implements OnInit {
 
     readonly pages = [
         {
-            name: 'Dicom Archive',
+            resCode: 'medcom.dicomArchive.title',
             path: '/pages/medcom/dicom-archive',
             index: 0,
         },
         {
-            name: 'Procedures Schedule',
+            resCode: 'medcom.proceduresSchedule.title',
             path: '/pages/medcom/procedures-schedule',
             index: 1,
         },
         {
-            name: 'Modalities',
+            resCode: 'medcom.modalities.title',
             path: '/pages/medcom/modalities',
             index: 2,
         }
@@ -34,10 +34,6 @@ export class MedcomComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.handleRouteChanges();
-    }
-
-    public ngOnDestroy() {
-
     }
 
     onTabChange({ index }) {

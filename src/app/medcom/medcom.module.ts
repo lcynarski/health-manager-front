@@ -4,7 +4,8 @@ import { MdlModule } from '@angular-mdl/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgSlimScrollModule } from 'ngx-slimscroll';
 import { MatTabsModule } from '@angular/material/tabs';
-
+import { TranslateModule } from '@ngx-translate/core';
+import { translateLoader } from '../app.module';
 import { routing } from './medcom.routing';
 import { DicomDirective } from '../_directives/medcom/dicom.directive';
 
@@ -39,6 +40,9 @@ import { SharedModule } from '../shared/shared.module';
         MatTabsModule,
         SharedModule,
         routing,
+        TranslateModule.forChild({
+            loader: translateLoader
+        }),
     ],
     declarations: [
         MedcomComponent,
