@@ -1,15 +1,14 @@
 @import "../../../../../assets/styles/colors";
 @import "../../../../../assets/styles/variables";
 
+$scrollIndicatorWidth: 6px;
 
 #attributesViewerComponent {
-  position: absolute;
-  top: 0;
-  left: 0;
+  @include absolute('bottom-left', 0, $scrollIndicatorWidth);
+
   width: 50%;
-  height: 100%;
+  height: calc(100% - #{$scrollIndicatorWidth});
   background: rgba(black, 0.5);
-  z-index: 10;
 }
 
 #scrollPane {

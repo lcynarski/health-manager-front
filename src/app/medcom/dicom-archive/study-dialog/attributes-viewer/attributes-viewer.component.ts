@@ -50,6 +50,7 @@ export class AttributesViewerComponent {
         return this.attributesService.getAttributes(this.instance);
     }
 
+    @HostListener('DOMMouseScroll', ['$event'])
     @HostListener('mousewheel', ['$event'])
     @HostListener('mousedown', ['$event'])
     private stopEvents(e: Event) {

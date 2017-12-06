@@ -1,0 +1,13 @@
+<div id="imageInfoComponent" *ngIf="imageInfo">
+
+    <div class="line">
+        image: {{imageInfo.imageIndex + 1}}/{{imageInfo.imagesCount}}
+    </div>
+    <div class="line">
+        zoom: {{imageInfo.scale.toFixed(2)}}
+    </div>
+    <div class="line">
+        ww/wc: {{imageInfo.voi.windowWidth.toFixed(2)}}/{{imageInfo.voi.windowCenter.toFixed(2)}}
+    </div>
+
+</div>

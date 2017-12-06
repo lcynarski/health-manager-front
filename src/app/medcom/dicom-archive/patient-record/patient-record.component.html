@@ -1,0 +1,21 @@
+<div id="patientRecordComponent">
+
+    <div id="record" fxLayout="row" (click)="toggleExpanded()" [class.expanded]="expanded">
+        <div fxFlex="20">{{patient.account.personalDetails.pesel}}</div>
+        <div fxFlex="40" class="patient-name">
+            {{patient.account.personalDetails.firstName}}
+            {{patient.account.personalDetails.lastName}}
+        </div>
+        <div fxFlex="15" class="ta-r">{{patient.studyCount}}</div>
+        <div fxFlex="25" class="ta-r"> {{patient.lastStudyDate | date:'dd-MM-yyyy'}}</div>
+    </div>
+
+    <div class="expandable" [class.expanded]="expanded">
+        <study-list [studies]="studies"></study-list>
+    </div>
+
+    <hm-spinner [isVisible]="fetchingStudies" [size]="30"></hm-spinner>
+</div>
+
+
+<dialog-outlet></dialog-outlet>

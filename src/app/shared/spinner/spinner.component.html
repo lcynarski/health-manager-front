@@ -1,0 +1,13 @@
+<div id="spinnerOverlay" *ngIf="isVisible"
+     fxLayout="row" fxLayoutAlign="center center"
+     [ngClass]="{className: className}"
+>
+    <div fxFlex [style.height.px]="size">
+        <div id="aligner" [style.width.px]="size">
+            <mdl-spinner single-color active
+                         [style.height.px]="size"
+                         [style.width.px]="size">
+            </mdl-spinner>
+        </div>
+    </div>
+</div>

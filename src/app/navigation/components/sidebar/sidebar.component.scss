@@ -13,7 +13,7 @@
     position: fixed;
 
     @media screen and (max-width: $resS) {
-      width: 60px;
+      width: $sidebar-width-small;
     }
 
     menu {

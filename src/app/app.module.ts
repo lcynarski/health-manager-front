@@ -13,7 +13,7 @@ import { routing } from './app.routing';
 import { AppConfig } from './app.config';
 import { NgaModule } from './navigation/nga.module';
 import { NgUploaderModule, NgFileSelectDirective } from 'ngx-uploader';
-import { AuthGuard } from './_guards/index';
+import { AuthGuard, DoctorRoleGuard } from './_guards/index';
 import { AlertService, AuthenticationService, UserService } from './_services';
 import { LoginComponent } from './login/index';
 import { ForgotPasswordComponent } from './forgot-password/index';
@@ -41,6 +41,8 @@ import {
     MatSelectModule, MatSnackBarModule
 } from '@angular/material';
 import { GoogleCalendarService } from './_services/googleCalendar.service';
+import { SharedModule } from './shared/shared.module';
+import { SpinnerService } from './_services/shared/spinner.service';
 
 const socialProviders = {
     google: {
@@ -86,7 +88,8 @@ export function createTranslateLoader(http: Http) {
         MatInputModule,
         MatIconModule,
         MatButtonModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        SharedModule,
     ],
     declarations: [
         AppComponent,
@@ -101,10 +104,12 @@ export function createTranslateLoader(http: Http) {
     providers: [
         AppConfig,
         AuthGuard,
+        DoctorRoleGuard,
         AuthenticationService,
         GoogleCalendarService,
         UserService,
         AlertService,
+        SpinnerService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         APP_PROVIDERS
     ],

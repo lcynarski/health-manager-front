@@ -1,0 +1,40 @@
+<div id="studyDialog">
+
+    <div id="topBar" fxLayout="row" fxLayoutAlign="space-between center">
+        <button fxFlex class="actionButton" mdl-button
+                (click)="toggleInfoBox()" [class.active]="infoBoxVisible"
+                mdl-tooltip-large="dicom attributes" mdl-tooltip-position="bottom">
+            <mdl-icon>info_outline</mdl-icon>
+        </button>
+        <button fxFlex class="actionButton" mdl-button
+                (click)="toggleToolsPane()" [class.active]="toolsPaneVisible"
+                mdl-tooltip-large="image tools" mdl-tooltip-position="bottom">
+            <mdl-icon>build</mdl-icon>
+        </button>
+
+        <div fxFlex id="tabsContainer" fxLayout="row">
+            <div id="wrapper">
+                <mat-tab-group (selectedIndexChange)="onSeriesChange($event)">
+                    <mat-tab *ngFor="let series of seriesList"
+                             [label]="series.attributes.SeriesDescription">
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+
+        <button fxFlex id="closeButton" mdl-button (click)="closeDialog()">
+            <mdl-icon>close</mdl-icon>
+        </button>
+    </div>
+
+    <div id="viewer" dicom [series]="activeSeries" (imageLoaded)="onImageLoaded($event)">
+        <attributes-viewer *ngIf="infoBoxVisible"
+                           [study]="study"
+                           [series]="activeSeries"
+                           [instance]="activeInstance">
+        </attributes-viewer>
+        <tools-pane-component *ngIf="toolsPaneVisible"></tools-pane-component>
+        <image-info></image-info>
+        <hm-spinner [isVisible]="loading" [size]="150"></hm-spinner>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+@import "../../../../../assets/styles/colors";
+@import "../../../../../assets/styles/variables";
+
+$height: 40px;
+
+#toolsPaneComponent {
+  @include absolute('top-left');
+  height: $height;
+  width: 100%;
+  background: rgba(black, 0.5);
+  z-index: 10;
+  user-select: none;
+}
+
+.tile {
+  text-align: center;
+  height: 100%;
+  padding: 0 10px;
+  min-width: 46px;
+  cursor: pointer;
+  .icon {
+    line-height: $height;
+    font-size: 16px;
+    transition: font-size 250ms ease-out;
+  }
+  &:hover {
+    .icon {
+      font-size: 26px;
+    }
+  }
+  &.active {
+    cursor: default;
+    .icon {
+      font-size: 26px;
+    }
+  }
+  transition: mat-font-size 250ms ease-out, color 250ms ease-out;
+}
+
+.toolTile {
+  @extend .tile;
+  color: white;
+  &:hover {
+    color: $oc-indigo-4;
+  }
+  &.active {
+    color: $oc-indigo-4;
+    border-bottom: 2px solid $oc-indigo-4;
+  }
+}
+
+.actionTile {
+  @extend .tile;
+  color: white;
+  &:active {
+    color: $oc-indigo-4;
+  }
+}

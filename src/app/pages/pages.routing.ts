@@ -21,7 +21,8 @@ import { DrugsSearchComponent } from './drugsSearch/drugsSearch.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { DrugDetailsComponent } from './drugDetails/drugDetails.component';
-import {ChooseDoctorComponent} from "./chooseDoctor/chooseDoctor.component";
+import { ChooseDoctorComponent } from './chooseDoctor/chooseDoctor.component';
+import { DoctorRoleGuard } from '../_guards';
 
 export const routes: Routes = [
     {
@@ -49,29 +50,28 @@ export const routes: Routes = [
         component: PagesComponent,
         children: [
             // { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-            { path: 'patientsList', loadChildren: './patientsList/patientsList.module#PatientsListModule' },
-            { path: 'doctorsList', loadChildren: './doctorsList/doctorsList.module#DoctorsListModule' },
-            { path: 'patientDetails/:patientId', component: PatientDetailsComponent },
-            { path: 'doctorsList/patient/:patientId', component: ChooseDoctorComponent},
-            { path: 'doctor/:doctorId', component: VisitsCalendarComponent },
-            { path: 'doctor/:doctorId/patient/:patientId', component: VisitsCalendarComponent },
-            { path: 'myAppointments', component: VisitListComponent },
-            { path: 'timeTable', component: TimeTableComponent },
-            { path: 'createPatient', component: CreatePatientComponent },
-            { path: 'createDoctor', component: CreateDoctorComponent },
-            { path: 'createTimeslot', component: CreateTimeslotComponent },
-            { path: 'usersProfile', component: UsersProfileComponent },
-            { path: 'patientSearch', component: PatientSearchComponent },
-            { path: 'medcom', loadChildren: () => MedcomModule },
-            { path: 'proceedAppointment', component: ProceedAppointmentComponent },
-            { path: 'proceedAppointment/:appointmentId', component: ProceedAppointmentComponent },
-            { path: 'drugsSearch', component: DrugsSearchComponent },
-            { path: 'drugDetails/:drugId', component: DrugDetailsComponent },
-            { path: 'fieldsCreator', component: FieldsCreatorComponent },
-            { path: 'formsCreator', component: FormsCreatorComponent },
-            { path: 'formsCreator/:formId', component: FormsCreatorComponent },
-            // { path: 'medcom', component: MedcomComponent }
+            {path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule'},
+            {path: 'patientsList', loadChildren: './patientsList/patientsList.module#PatientsListModule'},
+            {path: 'doctorsList', loadChildren: './doctorsList/doctorsList.module#DoctorsListModule'},
+            {path: 'patientDetails/:patientId', component: PatientDetailsComponent},
+            {path: 'doctorsList/patient/:patientId', component: ChooseDoctorComponent},
+            {path: 'doctor/:doctorId', component: VisitsCalendarComponent},
+            {path: 'doctor/:doctorId/patient/:patientId', component: VisitsCalendarComponent},
+            {path: 'myAppointments', component: VisitListComponent},
+            {path: 'timeTable', component: TimeTableComponent},
+            {path: 'createPatient', component: CreatePatientComponent},
+            {path: 'createDoctor', component: CreateDoctorComponent},
+            {path: 'createTimeslot', component: CreateTimeslotComponent},
+            {path: 'usersProfile', component: UsersProfileComponent},
+            {path: 'patientSearch', component: PatientSearchComponent},
+            {path: 'medcom', loadChildren: () => MedcomModule, canActivate: [DoctorRoleGuard]},
+            {path: 'proceedAppointment', component: ProceedAppointmentComponent},
+            {path: 'proceedAppointment/:appointmentId', component: ProceedAppointmentComponent},
+            {path: 'drugsSearch', component: DrugsSearchComponent},
+            {path: 'drugDetails/:drugId', component: DrugDetailsComponent},
+            {path: 'fieldsCreator', component: FieldsCreatorComponent},
+            {path: 'formsCreator', component: FormsCreatorComponent},
+            {path: 'formsCreator/:formId', component: FormsCreatorComponent},
         ]
     }
 ];
