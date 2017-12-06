@@ -1,13 +1,13 @@
 import { Component, ViewChild, AfterViewInit, OnInit, EventEmitter, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
 
-import { UserService } from '../../_services/index';
+import { AuthenticationService, UserService } from '../../_services/index';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { PersonalDetails } from '../../_models/personalDetails';
 import { Router } from '@angular/router';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
-import { MdlDialogComponent } from '@angular-mdl/core';
+import { MdlDialogComponent, MdlDialogService } from '@angular-mdl/core';
 import {
     createPatientConfig, emergencyContactConfig, medicalHistoryDiseaseConfig,
     medicalInfoConfig
@@ -69,7 +69,9 @@ export class UsersProfileComponent implements OnInit {
                 private router: Router,
                 private userService: UserService,
                 private appointmentService: AppointmentService,
-                private translate: TranslateService) {
+                private authService: AuthenticationService,
+                private translate: TranslateService,
+                private dialogService: MdlDialogService) {
     }
 
     public ngOnInit(): void {
@@ -88,6 +90,22 @@ export class UsersProfileComponent implements OnInit {
             .subscribe((res) => this.labels.results = res);
         this.translate.get('MedicalHistory')
             .subscribe((res) => this.labels.medicalHistory = res);
+    }
+
+    resetPassword() {
+        this.userService.resetPassword(this.authService.getEmail())
+            .subscribe(
+                (data) => {
+                    console.log('Forgot password component data: ' + data);
+                    const result = this.dialogService.alert('Succesfully reset password. Check your mailbox');
+                    result.onErrorResumeNext().subscribe(() => {
+                        this.router.navigate(['/']);
+                    });
+                },
+                (error) => {
+                    console.log('Reset password error: ' + error);
+                    this.dialogService.alert('Something went wrong. Try again.');
+                });
     }
 
     submit(value) {

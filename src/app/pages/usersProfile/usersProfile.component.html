@@ -8,6 +8,9 @@
             {{ personalDetails?.firstName }} {{ personalDetails?.lastName }}
         </div>
     </div>
+    <button mat-button (click)="resetPassword()">
+        {{ 'ResetPassword' | translate }}
+    </button>
 
 
     <mat-tab-group class="demo-tab-group">
