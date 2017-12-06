@@ -20,12 +20,12 @@ export class PatientService {
             .map((response: Response) => response.json());
     }
 
-    public getById(_id: string) {
+    public getById(_id) {
         return this.http.get(`${this.config.apiUrl}/patients/${_id}`, this.authenticationService.addJwtOptions())
             .map((res) => res.json());
     }
 
-    public getMedicalInfo(_id: string) {
+    public getMedicalInfo(_id) {
         return this.http.get(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, this.authenticationService.addJwtOptions())
             .map((res) => res.json());
     }

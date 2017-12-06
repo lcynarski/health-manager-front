@@ -91,7 +91,8 @@ export class PatientDetailsComponent implements OnInit {
     }
 
     public loadPatientData() {
-        this.patientService.getById(this.id)
+        const id = this.id || this.patient.id
+        this.patientService.getById(id)
             .subscribe((patient) => {
                 this.patient = patient;
                 const { birthdate } = patient;
@@ -108,21 +109,24 @@ export class PatientDetailsComponent implements OnInit {
     }
 
     public loadPatientMedicalData() {
-        this.patientService.getMedicalInfo(this.id)
+        const id = this.id || this.patient.id;
+        this.patientService.getMedicalInfo(id)
             .subscribe((medicalInfo) => {
                 this.patient.medicalInfo = medicalInfo;
             });
     }
 
     public loadEmergencyData() {
-        this.patientService.getEmergencyContact(this.id)
+        const id = this.id || this.patient.id;
+        this.patientService.getEmergencyContact(id)
             .subscribe((emergencyData) => {
                 this.emergencyContact = emergencyData;
             });
     }
 
     public loadAppointments() {
-        this.appoitmentService.getAllPatientsAppointments(this.id)
+        const id = this.id || this.patient.id;
+        this.appoitmentService.getAllPatientsAppointments(id)
             .subscribe((appointments) => {
                 appointments.forEach((appointment) => {
                     this.appoitmentService.getAppointmetsTime(appointment.id)
@@ -142,8 +146,8 @@ export class PatientDetailsComponent implements OnInit {
         this.patientService.editPatient(personalDetails)
             .subscribe((data) => {
                 console.log(data);
-                this.router.navigate(['/patientDetails'],
-                    { queryParams: { id: this.id } });
+                this.patient = data;
+                this.editUserDialog.close();
             });
     }
 

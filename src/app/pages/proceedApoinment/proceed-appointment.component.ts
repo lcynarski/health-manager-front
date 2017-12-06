@@ -196,12 +196,13 @@ export class ProceedAppointmentComponent implements OnInit {
         this.formId = form.id;
         this.uploadedFormFields = form.formFields;
         this.formConfig = [];
-        [...form.formFields].map(({ label, name, placeholder, type }) => {
+        [...form.formFields].map(({ label, name, placeholder, type, options = null }) => {
             const fieldConfig = {
                 type: type.toLowerCase(),
                 label,
                 name,
-                placeholder
+                placeholder,
+                options
             };
             this.formConfig.push(fieldConfig);
         });
