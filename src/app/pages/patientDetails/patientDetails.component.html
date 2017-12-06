@@ -161,8 +161,30 @@
                 </button>
             </mat-list>
         </mat-tab>
-        <mat-tab [label]="labels.results" disabled>
-            No content
+        <mat-tab [label]="labels.prescriptions">
+            <mat-accordion class="example-headers-align" *ngIf="prescriptions">
+                <mat-expansion-panel *ngFor="let prescription of prescriptions">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ 'Date' | translate }}: {{ prescription?.creationDate | date }}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <mat-list>
+                        <h3 mat-subheader>{{ 'Drugs' | translate }}</h3>
+                        <mat-list-item *ngFor="let drug of prescription.drugs">
+                            <mat-icon mat-list-icon>local_offer</mat-icon>
+                            <h4 mat-line>{{drug.drugName}}</h4>
+                            <p mat-line> {{drug.size}} </p>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                        <h3 mat-subheader>{{ 'Notes' | translate }}</h3>
+                        <div>{{ prescription.notes }}</div>
+                    </mat-list>
+
+
+                </mat-expansion-panel>
+            </mat-accordion>
         </mat-tab>
         <mat-tab [label]="labels.appointments">
             <mat-accordion class="example-headers-align" *ngIf="appointments">
@@ -172,7 +194,7 @@
                             {{ appointment?.timeslot?.startDateTime }} - {{ appointment?.timeslot?.endDateTime }}
                         </mat-panel-title>
                         <mat-panel-description>
-                            {{ appointment?.priority }}
+                            <i [ngClass]="[appointment.priority, 'material-icons']">info</i>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     {{ 'Details' | translate }}: {{ appointment?.data }}

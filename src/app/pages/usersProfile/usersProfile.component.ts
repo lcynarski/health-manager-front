@@ -18,9 +18,10 @@ import moment = require('moment');
 import { TimeSlotService } from '../../_services/timeSlot.service';
 import { DoctorService } from '../../_services/doctor.service';
 import { PatientService } from '../../_services/patient.service';
+import { PrescriptionsService } from '../../_services/prescriptions.service';
 
 @Component({
-    providers: [PatientService, AppointmentService, TimeSlotService, DoctorService],
+    providers: [PatientService, AppointmentService, TimeSlotService, DoctorService, PrescriptionsService],
     selector: 'users-profile',
     styleUrls: ['./usersProfile.component.scss'],
     templateUrl: './usersProfile.component.html'
@@ -53,16 +54,15 @@ export class UsersProfileComponent implements OnInit {
     private medicalHistory: any;
     private emergencyContact: any;
     private model: any = {};
-    private appointments: any;
+    private appointments: any = [];
     private labels = {
         basicInfo: '',
         appointments: '',
         emergency: '',
         results: '',
+        prescriptions: '',
         medicalHistory: ''
     };
-    //---
-
 
 
     constructor(private http: Http,
@@ -71,15 +71,11 @@ export class UsersProfileComponent implements OnInit {
                 private appointmentService: AppointmentService,
                 private authService: AuthenticationService,
                 private translate: TranslateService,
-                private dialogService: MdlDialogService) {
+                private dialogService: MdlDialogService,
+                private prescriptionService: PrescriptionsService) {
     }
 
     public ngOnInit(): void {
-        this.getPersonalDetails();
-        this.loadMedicalData();
-        this.loadEmergencyData();
-        this.loadAppointments();
-
         this.translate.get('BasicInfo')
             .subscribe((res) => this.labels.basicInfo = res);
         this.translate.get('Appointments')
@@ -88,8 +84,16 @@ export class UsersProfileComponent implements OnInit {
             .subscribe((res) => this.labels.emergency = res);
         this.translate.get('Results')
             .subscribe((res) => this.labels.results = res);
+        this.translate.get('Prescriptions')
+            .subscribe((res) => this.labels.prescriptions = res);
         this.translate.get('MedicalHistory')
             .subscribe((res) => this.labels.medicalHistory = res);
+
+        this.getPersonalDetails();
+        this.loadMedicalData();
+        this.loadEmergencyData();
+        this.loadAppointments();
+        this.loadPrescriptions();
     }
 
     resetPassword() {
@@ -156,19 +160,25 @@ export class UsersProfileComponent implements OnInit {
     }
 
     public loadAppointments() {
-        // this.appointmentService.getMyAppointments()
-        //     .subscribe((appointments) => {
-        //         appointments.forEach((appointment) => {
-        //             this.appointmentService.getAppointmetsTime(appointment.id)
-        //                 .subscribe((timeslot) => {
-        //                     const fullAppointment = { ...appointment, timeslot };
-        //                     this.appointments.push(fullAppointment);
-        //                 });
-        //         });
-        //     });
+        this.appointmentService.getMyAppointments()
+            .subscribe((appointments) => {
+                console.log("AAA", this.appointments)
+                appointments.forEach((appointment) => {
+                    this.appointmentService.getAppointmetsTime(appointment.id)
+                        .subscribe((timeslot) => {
+                            const fullAppointment = { ...appointment, timeslot };
+                            this.appointments.push(fullAppointment);
+                        });
+                });
+            });
     }
 
-    //------
+    loadPrescriptions() {
+        this.prescriptionService.getMinePrescriptions()
+            .subscribe((prescription) => {
+                console.log(prescription);
+            });
+    }
 
     editEmergencyContact(value) {
         const { birthdate } = value;

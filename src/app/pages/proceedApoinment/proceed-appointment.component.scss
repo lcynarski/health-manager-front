@@ -20,11 +20,11 @@ mdl-icon {
   align-items: center;
 }
 
-:host /deep/ .mat-expansion-panel-header {
-  height: 4rem;
-}
-
 :host /deep/ {
+  .mat-expansion-panel-header {
+    height: 4rem;
+  }
+
   .example-headers-align .mat-expansion-panel-header-title,
   .example-headers-align .mat-expansion-panel-header-description {
     flex-basis: 0;

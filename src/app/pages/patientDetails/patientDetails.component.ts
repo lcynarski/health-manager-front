@@ -16,10 +16,11 @@ import { AppointmentService } from '../../_services/appointment.service';
 import { TimeSlotService } from '../../_services/timeSlot.service';
 import { DoctorService } from '../../_services/doctor.service';
 import { TranslateService } from '@ngx-translate/core';
+import { PrescriptionsService } from '../../_services/prescriptions.service';
 
 
 @Component({
-    providers: [PatientService, AppointmentService, TimeSlotService, DoctorService],
+    providers: [PatientService, AppointmentService, TimeSlotService, DoctorService, PrescriptionsService],
     selector: 'patient-details',
     templateUrl: './patientDetails.component.html',
     styleUrls: ['./patientDetails.component.scss']
@@ -54,15 +55,18 @@ export class PatientDetailsComponent implements OnInit {
         appointments: '',
         emergency: '',
         results: '',
+        prescriptions: '',
         medicalHistory: ''
     };
+    private prescriptions = [];
 
     constructor(router: Router,
                 private http: Http,
                 private route: ActivatedRoute,
                 private patientService: PatientService,
                 private appoitmentService: AppointmentService,
-                private translate: TranslateService) {
+                private translate: TranslateService,
+                private prescriptionService: PrescriptionsService) {
         this.router = router;
     }
 
@@ -76,6 +80,7 @@ export class PatientDetailsComponent implements OnInit {
             this.loadPatientMedicalData();
             this.loadEmergencyData();
             this.loadAppointments();
+            this.loadPrescriptions();
         });
 
         this.translate.get('BasicInfo')
@@ -86,6 +91,8 @@ export class PatientDetailsComponent implements OnInit {
             .subscribe((res) => this.labels.emergency = res);
         this.translate.get('Results')
             .subscribe((res) => this.labels.results = res);
+        this.translate.get('Prescriptions')
+            .subscribe((res) => this.labels.prescriptions = res);
         this.translate.get('MedicalHistory')
             .subscribe((res) => this.labels.medicalHistory = res);
     }
@@ -135,6 +142,15 @@ export class PatientDetailsComponent implements OnInit {
                            this.appointments.push(fullAppointment);
                         });
                 });
+            });
+    }
+
+    loadPrescriptions() {
+        const id = this.id || this.patient.id;
+        this.prescriptionService.getPrescriptionsForPatient(id)
+            .subscribe((prescriptions) => {
+                console.log(prescriptions);
+                this.prescriptions = prescriptions;
             });
     }
 

@@ -43,14 +43,14 @@ export class AppointmentService {
         return this.http.get(`${this.config.apiUrl}/appointmentsForDoc/${doctor._id}/${startDate.getTime()}/${endDate.getTime()}`)
             .map((response) => response.json())
             .flatMap((slots: any[]) =>
-                Observable.forkJoin(slots.map(s => this.fromJson(s))));
+                Observable.forkJoin(slots.map((s) => this.fromJson(s))));
     }
 
     public getPatientAppointments(patient: Patient, startDate: Date, endDate: Date): Observable<Appointment[]> {
         return this.http.get(`${this.config.apiUrl}/appointmentsForPatient/${patient.id}/${startDate.getTime()}/${endDate.getTime()}`)
             .map((response) => response.json())
             .flatMap((slots: any[]) =>
-                Observable.forkJoin(slots.map(s => this.fromJson(s))));
+                Observable.forkJoin(slots.map((s) => this.fromJson(s))));
     }
 
     public getAppointmentById(appointmentId) {
@@ -72,17 +72,24 @@ export class AppointmentService {
             });
     }
 
+    public getMyAppointments() {
+        return this.http.get(`${this.config.apiUrl}/accounts/appointments`, this.authenticationService.addJwtOptions())
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
+
 
     private fromJson(json: any): Observable<Appointment> {
         console.log(json);
-        let a: Appointment = json;
-        let self: AppointmentService = this;
+        const a: Appointment = json;
+        const self: AppointmentService = this;
         if (a.timeSlot != undefined && a.patient != undefined) { // I have no idea why sometimes it is present and sometimes not
             a.timeSlot.doctorId = +a.timeSlot.doctor._id;
             a.patientId = a.patient.id;
             return Observable.of(a);
         } else {
-            return self.timeSlotService.getById(a.timeSlotId).map(slot => {
+            return self.timeSlotService.getById(a.timeSlotId).map((slot) => {
                 a.timeSlot = slot;
                 a.timeSlot.doctor._id = json.timeSlot.doctor.id; //TODO: Dlaczego używamy _id tam gdzie jest 'id'?
                 return a;

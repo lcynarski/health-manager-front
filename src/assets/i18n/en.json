@@ -91,5 +91,6 @@
   "EditEmergencyContact": "Edit emergency contact",
   "DetectedDisease": "Detected disease",
   "OrSimplyAddSymptoms": "Or add just symptoms",
-  "ChoosePreparedForm": "Use prepared form, fill it with default data"
+  "ChoosePreparedForm": "Use prepared form, fill it with default data",
+  "Prescriptions": "Prescriptions"
 }
