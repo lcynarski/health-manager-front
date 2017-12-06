@@ -20,12 +20,12 @@ export class PatientService {
             .map((response: Response) => response.json());
     }
 
-    public getById(_id: string) {
-        return this.http.get(`${this.config.apiUrl}/patients/${_id}`)
+    public getById(_id) {
+        return this.http.get(`${this.config.apiUrl}/patients/${_id}`, this.authenticationService.addJwtOptions())
             .map((res) => res.json());
     }
 
-    public getMedicalInfo(_id: string) {
+    public getMedicalInfo(_id) {
         return this.http.get(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, this.authenticationService.addJwtOptions())
             .map((res) => res.json());
     }
@@ -79,7 +79,7 @@ export class PatientService {
     public savePatient(data) {
         console.log(data);
         return this.http.post(`${this.config.apiUrl}/users/registerOnBehalf`, data, this.authenticationService.addJwtOptions())
-            .map((response: Response) => response.json());
+            .map((response: Response) => response);
     }
 
     public editPatient(data) {

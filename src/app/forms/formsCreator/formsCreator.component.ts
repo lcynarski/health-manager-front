@@ -123,12 +123,15 @@ export class FormsCreatorComponent implements OnInit {
         });
         const form = {
             name: this.formName,
-            formFields: [...this.fields],
-            ownerId: 1
+            formFields: [...this.fields]
         };
         this.formsService.saveForm(form)
             .subscribe(
                 () => {
+                    this.formsService.getAllForms()
+                        .subscribe((forms) => {
+                            this.formsToChoose = forms;
+                        });
                     this.snackBar.open('Form successfully saved', undefined, {
                         duration: 4000,
                         extraClasses: ['success-snackbar'],

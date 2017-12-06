@@ -159,7 +159,7 @@ export class FieldsCreatorComponent implements OnInit {
     saveOptionField(value) {
         const onlyOptions = [];
         this.options.forEach(o => {
-            onlyOptions.push({ value: o['option'] });
+            onlyOptions.push(o['option']);
         });
         const field = {
             type: 'select',

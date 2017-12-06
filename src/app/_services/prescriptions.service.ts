@@ -38,4 +38,9 @@ export class PrescriptionsService {
         return this.http.delete(`${this.config.apiUrl}/prescriptions/${id}`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
+
+    public getMinePrescriptions() {
+        return this.http.get(`${this.config.apiUrl}/prescriptions`, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response.json());
+    }
 }

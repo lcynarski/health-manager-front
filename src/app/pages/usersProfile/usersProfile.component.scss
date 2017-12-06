@@ -34,4 +34,37 @@
   button {
     width: 10rem;
   }
+
+  .info-label {
+    font-weight: 700;
+    margin-right: 1rem;
+  }
+}
+
+:host /deep/ {
+  .mat-expansion-panel-header {
+    height: 4rem;
+  }
+
+  .example-headers-align .mat-expansion-panel-header-title,
+  .example-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+  }
+
+  .example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+i.NORMAL {
+  color: $oc-green-5;
+}
+
+i.HIGH {
+  color: $oc-red-5;
+}
+
+i.LOG {
+  color: $oc-blue-5;
 }

@@ -83,5 +83,14 @@
   "NoFieldsYet": "Nie dodano jeszcze zadnych pol",
   "RemoveFieldsFromForm": "Usun pola z formularza",
   "AddFieldsToForm": "Dodaj nowe pola do formularza",
-  "Cancel": "Anuluj"
+  "Cancel": "Anuluj",
+  "RegisterVisit": "Rejestruj wizyte",
+  "registration": "Rejestracja",
+  "AddToMedicalHistory": "Do do historii medycznej",
+  "AddEmergencyContact": "Dodaj kontakt w razie wypadku",
+  "EditEmergencyContact": "Edytuj kontakt w razie wypadku",
+  "DetectedDisease": "Wykryta choroba",
+  "OrSimplyAddSymptoms": "Lub dodaj wlasny opis",
+  "ChoosePreparedForm": "Uzyj przygotowanego formularza, wypelnij go przykladowymi danymi",
+  "Prescriptions": "Recepty"
 }

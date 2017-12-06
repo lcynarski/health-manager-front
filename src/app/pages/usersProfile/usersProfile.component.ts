@@ -1,13 +1,13 @@
 import { Component, ViewChild, AfterViewInit, OnInit, EventEmitter, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
 
-import { UserService } from '../../_services/index';
+import { AuthenticationService, UserService } from '../../_services/index';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { PersonalDetails } from '../../_models/personalDetails';
 import { Router } from '@angular/router';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
-import { MdlDialogComponent } from '@angular-mdl/core';
+import { MdlDialogComponent, MdlDialogService } from '@angular-mdl/core';
 import {
     createPatientConfig, emergencyContactConfig, medicalHistoryDiseaseConfig,
     medicalInfoConfig
@@ -18,9 +18,10 @@ import moment = require('moment');
 import { TimeSlotService } from '../../_services/timeSlot.service';
 import { DoctorService } from '../../_services/doctor.service';
 import { PatientService } from '../../_services/patient.service';
+import { PrescriptionsService } from '../../_services/prescriptions.service';
 
 @Component({
-    providers: [PatientService, AppointmentService, TimeSlotService, DoctorService],
+    providers: [PatientService, AppointmentService, TimeSlotService, DoctorService, PrescriptionsService],
     selector: 'users-profile',
     styleUrls: ['./usersProfile.component.scss'],
     templateUrl: './usersProfile.component.html'
@@ -53,31 +54,28 @@ export class UsersProfileComponent implements OnInit {
     private medicalHistory: any;
     private emergencyContact: any;
     private model: any = {};
-    private appointments: any;
+    private appointments: any = [];
     private labels = {
         basicInfo: '',
         appointments: '',
         emergency: '',
         results: '',
+        prescriptions: '',
         medicalHistory: ''
     };
-    //---
-
 
 
     constructor(private http: Http,
                 private router: Router,
                 private userService: UserService,
                 private appointmentService: AppointmentService,
-                private translate: TranslateService) {
+                private authService: AuthenticationService,
+                private translate: TranslateService,
+                private dialogService: MdlDialogService,
+                private prescriptionService: PrescriptionsService) {
     }
 
     public ngOnInit(): void {
-        this.getPersonalDetails();
-        this.loadMedicalData();
-        this.loadEmergencyData();
-        this.loadAppointments();
-
         this.translate.get('BasicInfo')
             .subscribe((res) => this.labels.basicInfo = res);
         this.translate.get('Appointments')
@@ -86,8 +84,32 @@ export class UsersProfileComponent implements OnInit {
             .subscribe((res) => this.labels.emergency = res);
         this.translate.get('Results')
             .subscribe((res) => this.labels.results = res);
+        this.translate.get('Prescriptions')
+            .subscribe((res) => this.labels.prescriptions = res);
         this.translate.get('MedicalHistory')
             .subscribe((res) => this.labels.medicalHistory = res);
+
+        this.getPersonalDetails();
+        this.loadMedicalData();
+        this.loadEmergencyData();
+        this.loadAppointments();
+        this.loadPrescriptions();
+    }
+
+    resetPassword() {
+        this.userService.resetPassword(this.authService.getEmail())
+            .subscribe(
+                (data) => {
+                    console.log('Forgot password component data: ' + data);
+                    const result = this.dialogService.alert('Succesfully reset password. Check your mailbox');
+                    result.onErrorResumeNext().subscribe(() => {
+                        this.router.navigate(['/']);
+                    });
+                },
+                (error) => {
+                    console.log('Reset password error: ' + error);
+                    this.dialogService.alert('Something went wrong. Try again.');
+                });
     }
 
     submit(value) {
@@ -138,19 +160,25 @@ export class UsersProfileComponent implements OnInit {
     }
 
     public loadAppointments() {
-        // this.appointmentService.getMyAppointments()
-        //     .subscribe((appointments) => {
-        //         appointments.forEach((appointment) => {
-        //             this.appointmentService.getAppointmetsTime(appointment.id)
-        //                 .subscribe((timeslot) => {
-        //                     const fullAppointment = { ...appointment, timeslot };
-        //                     this.appointments.push(fullAppointment);
-        //                 });
-        //         });
-        //     });
+        this.appointmentService.getMyAppointments()
+            .subscribe((appointments) => {
+                console.log("AAA", this.appointments)
+                appointments.forEach((appointment) => {
+                    this.appointmentService.getAppointmetsTime(appointment.id)
+                        .subscribe((timeslot) => {
+                            const fullAppointment = { ...appointment, timeslot };
+                            this.appointments.push(fullAppointment);
+                        });
+                });
+            });
     }
 
-    //------
+    loadPrescriptions() {
+        this.prescriptionService.getMinePrescriptions()
+            .subscribe((prescription) => {
+                console.log(prescription);
+            });
+    }
 
     editEmergencyContact(value) {
         const { birthdate } = value;

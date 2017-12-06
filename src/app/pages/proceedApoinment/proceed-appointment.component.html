@@ -31,7 +31,7 @@
 
 
             <div>
-                <button mat-button matStepperNext>Next</button>
+                <button mat-button matStepperNext>{{ 'Next' || translate }}</button>
             </div>
         </form>
     </mat-step>
@@ -63,23 +63,21 @@
 
 
             <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
+                <button mat-button matStepperPrevious>{{ 'Back' | translate }}</button>
+                <button mat-button matStepperNext>{{ 'Next' | translate }}</button>
             </div>
         </form>
     </mat-step>
     <mat-step>
         <ng-template matStepLabel>{{ 'Interview' | translate }}</ng-template>
 
+        <h5>{{ 'DetectedDisease' | translate }} </h5>
         <mat-form-field >
             <input matInput placeholder="Disease" #diseaseInput>
         </mat-form-field>
 
-        <dynamic-form
-                [config]="standardExaminationConfig"
-                #standardExaminationForm="dynamicForm"
-                (submit)="submitInterviewForm($event)">
-        </dynamic-form>
+        <h5>{{ 'ChoosePreparedForm' | translate }}</h5>
+
 
         <mat-form-field>
             <mat-select placeholder="Select form" *ngIf="formsToChoose" [(ngModel)]="formSelectState">
@@ -104,14 +102,22 @@
                 (submit)="submitPreparedForm($event)">
         </dynamic-form>
 
+        <h5>{{ 'OrSimplyAddSymptoms' | translate }}</h5>
+
+        <dynamic-form
+                [config]="standardExaminationConfig"
+                #standardExaminationForm="dynamicForm"
+                (submit)="submitInterviewForm($event)">
+        </dynamic-form>
+
 
         <div>
-            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperPrevious>{{ 'Back' | translate }}</button>
         </div>
     </mat-step>
     <mat-step>
         <ng-template matStepLabel>{{ 'WritePrescription' | translate }}</ng-template>
-        {{ 'StartTypeDrugName' | translate }}
+        <h5>{{ 'StartTypeDrugName' | translate }}</h5>
         <form class="example-form">
             <mat-form-field class="example-full-width">
                 <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
@@ -134,7 +140,7 @@
         </mat-form-field>
         </form>
 
-        <button mat-button color="primary" (click)="addDrugToList()">Add</button>
+        <button mat-button color="primary" (click)="addDrugToList()">{{ 'Add' | translate }}</button>
 
 
         <mat-list>
@@ -154,7 +160,7 @@
         <button mat-raised-button color="primary" (click)=submitPrescription()>{{ 'submitPrescription' | translate }}</button>
 
         <div>
-            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperPrevious>{{ 'Back' | translate }}</button>
         </div>
     </mat-step>
     <mat-step>
@@ -178,7 +184,7 @@
             </mat-list-item>
         </mat-list>
         <div>
-            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperPrevious>{{ 'Back' | translate }}</button>
         </div>
     </mat-step>
 </mat-horizontal-stepper>

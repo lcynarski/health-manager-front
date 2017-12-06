@@ -8,7 +8,7 @@ import { AppConfig } from '../app.config';
 import { Patient } from '../_models/index';
 import { Doctor } from '../_models/doctor';
 import { Specialization } from '../_models/specialization';
-import { TimeSlot } from '../_models/timeslot'
+import { TimeSlot } from '../_models/timeslot';
 
 @Injectable()
 export class DoctorService {
@@ -24,6 +24,11 @@ export class DoctorService {
         console.log(data);
         return this.http.post(`${this.config.apiUrl}/doctors`, data, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
+    }
+
+    public createDoctorOnBehalf(data) {
+        return this.http.post(`${this.config.apiUrl}/users/registerOnBehalf`, data, this.authenticationService.addJwtOptions())
+            .map((response: Response) => response);
     }
 
     public saveTimeSlot(data, doctorId) {

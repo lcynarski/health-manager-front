@@ -1,8 +1,5 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { PatientService } from '../../_services/patient.service';
-
-import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
@@ -18,6 +15,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class CreatePatientComponent implements AfterViewInit {
     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+    public config = createPatientConfig;
     private router: Router;
 
     constructor(router: Router,
@@ -27,8 +25,6 @@ export class CreatePatientComponent implements AfterViewInit {
                 public snackBar: MatSnackBar) {
         this.router = router;
     }
-
-    public config = createPatientConfig;
 
     ngAfterViewInit() {
         let previousValid = this.form.valid;
@@ -49,16 +45,16 @@ export class CreatePatientComponent implements AfterViewInit {
         const registerData = {
             email,
             personalDetails: preparedPersonalDetails,
-            insuranceNumber: '222121212',
             role: 'ROLE_PATIENT'
         };
         this.patientService.savePatient(registerData)
-            .subscribe((data) => {
-                    console.log(data);
+            .subscribe(
+                (result) => {
+                    console.log(result);
                     this.router.navigate(['/dashboard']);
                 },
-                () => {
-                    this.snackBar.open('Something went wrong :(', undefined, {
+                (error) => {
+                    this.snackBar.open(`Cannot create patient: ${error}`, undefined, {
                         duration: 4000,
                         extraClasses: ['error-snackbar'],
                         verticalPosition: 'top'

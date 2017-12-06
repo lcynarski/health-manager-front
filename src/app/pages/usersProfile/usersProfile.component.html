@@ -8,6 +8,9 @@
             {{ personalDetails?.firstName }} {{ personalDetails?.lastName }}
         </div>
     </div>
+    <button mat-button (click)="resetPassword()">
+        {{ 'ResetPassword' | translate }}
+    </button>
 
 
     <mat-tab-group class="demo-tab-group">
@@ -146,7 +149,7 @@
                     {{ emergencyContact?.city }}
                 </mat-list-item>
                 <button
-                        mat-mini-fab color="primary"
+                        mat-button color="primary"
                         mdl-tooltip-large="Edit Medical Information"
                         mdl-tooltip-position="right"
                         (click)="editEmergencyContactDialog.show()"
@@ -155,24 +158,24 @@
                 </button>
             </mat-list>
         </mat-tab>
-        <mat-tab [label]="labels.results" disabled>
+        <mat-tab [label]="labels.prescriptions" disabled>
             No content
         </mat-tab>
-        <!--<mat-tab [label]="labels.appointments">-->
-            <!--<mat-accordion class="example-headers-align" *ngIf="appointments">-->
-                <!--<mat-expansion-panel *ngFor="let appointment of appointments">-->
-                    <!--<mat-expansion-panel-header>-->
-                        <!--<mat-panel-title>-->
-                            <!--{{ appointment?.timeslot?.startDateTime }} - {{ appointment?.timeslot?.endDateTime }}-->
-                        <!--</mat-panel-title>-->
-                        <!--<mat-panel-description>-->
-                            <!--{{ appointment?.priority }}-->
-                        <!--</mat-panel-description>-->
-                    <!--</mat-expansion-panel-header>-->
-                    <!--{{ 'Details' | translate }}: {{ appointment?.data }}-->
-                <!--</mat-expansion-panel>-->
-            <!--</mat-accordion>-->
-        <!--</mat-tab>-->
+        <mat-tab [label]="labels.appointments">
+            <mat-accordion class="example-headers-align" *ngIf="appointments">
+                <mat-expansion-panel *ngFor="let appointment of appointments">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ appointment?.timeslot?.startDateTime }} - {{ appointment?.timeslot?.endDateTime }}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            <i [ngClass]="[appointment.priority, 'material-icons']">info</i>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    {{ 'Details' | translate }}: {{ appointment?.data }}
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-tab>
     </mat-tab-group>
 
     <mdl-dialog #editUserDialog
@@ -210,7 +213,6 @@
                   enterTransitionDuration: 400,
                   leaveTransitionDuration: 400
                  }"
-                (show)="onMedicalInfoDialogShow(dialogRef)"
     >
         <h3 class="mdl-dialog__title">Add Medical Information</h3>
         <div class="mdl-dialog__content">

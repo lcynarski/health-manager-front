@@ -16,10 +16,11 @@ import { AppointmentService } from '../../_services/appointment.service';
 import { TimeSlotService } from '../../_services/timeSlot.service';
 import { DoctorService } from '../../_services/doctor.service';
 import { TranslateService } from '@ngx-translate/core';
+import { PrescriptionsService } from '../../_services/prescriptions.service';
 
 
 @Component({
-    providers: [PatientService, AppointmentService, TimeSlotService, DoctorService],
+    providers: [PatientService, AppointmentService, TimeSlotService, DoctorService, PrescriptionsService],
     selector: 'patient-details',
     templateUrl: './patientDetails.component.html',
     styleUrls: ['./patientDetails.component.scss']
@@ -54,15 +55,18 @@ export class PatientDetailsComponent implements OnInit {
         appointments: '',
         emergency: '',
         results: '',
+        prescriptions: '',
         medicalHistory: ''
     };
+    private prescriptions = [];
 
     constructor(router: Router,
                 private http: Http,
                 private route: ActivatedRoute,
                 private patientService: PatientService,
                 private appoitmentService: AppointmentService,
-                private translate: TranslateService) {
+                private translate: TranslateService,
+                private prescriptionService: PrescriptionsService) {
         this.router = router;
     }
 
@@ -76,6 +80,7 @@ export class PatientDetailsComponent implements OnInit {
             this.loadPatientMedicalData();
             this.loadEmergencyData();
             this.loadAppointments();
+            this.loadPrescriptions();
         });
 
         this.translate.get('BasicInfo')
@@ -86,12 +91,15 @@ export class PatientDetailsComponent implements OnInit {
             .subscribe((res) => this.labels.emergency = res);
         this.translate.get('Results')
             .subscribe((res) => this.labels.results = res);
+        this.translate.get('Prescriptions')
+            .subscribe((res) => this.labels.prescriptions = res);
         this.translate.get('MedicalHistory')
             .subscribe((res) => this.labels.medicalHistory = res);
     }
 
     public loadPatientData() {
-        this.patientService.getById(this.id)
+        const id = this.id || this.patient.id
+        this.patientService.getById(id)
             .subscribe((patient) => {
                 this.patient = patient;
                 const { birthdate } = patient;
@@ -108,21 +116,24 @@ export class PatientDetailsComponent implements OnInit {
     }
 
     public loadPatientMedicalData() {
-        this.patientService.getMedicalInfo(this.id)
+        const id = this.id || this.patient.id;
+        this.patientService.getMedicalInfo(id)
             .subscribe((medicalInfo) => {
                 this.patient.medicalInfo = medicalInfo;
             });
     }
 
     public loadEmergencyData() {
-        this.patientService.getEmergencyContact(this.id)
+        const id = this.id || this.patient.id;
+        this.patientService.getEmergencyContact(id)
             .subscribe((emergencyData) => {
                 this.emergencyContact = emergencyData;
             });
     }
 
     public loadAppointments() {
-        this.appoitmentService.getAllPatientsAppointments(this.id)
+        const id = this.id || this.patient.id;
+        this.appoitmentService.getAllPatientsAppointments(id)
             .subscribe((appointments) => {
                 appointments.forEach((appointment) => {
                     this.appoitmentService.getAppointmetsTime(appointment.id)
@@ -134,6 +145,15 @@ export class PatientDetailsComponent implements OnInit {
             });
     }
 
+    loadPrescriptions() {
+        const id = this.id || this.patient.id;
+        this.prescriptionService.getPrescriptionsForPatient(id)
+            .subscribe((prescriptions) => {
+                console.log(prescriptions);
+                this.prescriptions = prescriptions;
+            });
+    }
+
     submit(value) {
         const personalDetails = {
             id: this.patient.id,
@@ -142,8 +162,8 @@ export class PatientDetailsComponent implements OnInit {
         this.patientService.editPatient(personalDetails)
             .subscribe((data) => {
                 console.log(data);
-                this.router.navigate(['/patientDetails'],
-                    { queryParams: { id: this.id } });
+                this.patient = data;
+                this.editUserDialog.close();
             });
     }
 

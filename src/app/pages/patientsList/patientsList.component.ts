@@ -23,6 +23,7 @@ export class PatientsListComponent implements OnInit {
     dataSource: PatientsDataSource | null;
 
     isReceptionist: boolean;
+    isDoctor: boolean;
     columnsToDisplay = [];
     labels = {
         filterPatients: 'Filter patients'
@@ -33,13 +34,14 @@ export class PatientsListComponent implements OnInit {
                 private translate: TranslateService) {
         this.patients = JSON.parse(localStorage.getItem('patients'));
         this.isReceptionist = authenticationService.isReceptionist();
+        this.isDoctor = authenticationService.isDoctor();
     }
 
     ngOnInit() {
         this.loadAllPatients();
 
         this.patients = [];
-        this.columnsToDisplay = this.isReceptionist ? ['id', 'firstName', 'lastName', 'birthdate', 'registerVisit'] : ['id', 'firstName', 'lastName', 'birthdate'];
+        this.columnsToDisplay = this.isReceptionist || this.isDoctor ? ['id', 'firstName', 'lastName', 'birthdate', 'registerVisit'] : ['id', 'firstName', 'lastName', 'birthdate'];
         this.dataSource = new PatientsDataSource(this.patients);
         Observable.fromEvent(this.filter.nativeElement, 'keyup')
             .debounceTime(150)
