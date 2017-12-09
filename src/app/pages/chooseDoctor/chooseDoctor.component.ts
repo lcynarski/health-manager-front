@@ -5,6 +5,7 @@ import { Patient } from '../../_models/patient';
 import { PatientService } from '../../_services/patient.service';
 import {DoctorService} from "../../_services/doctor.service";
 import {Doctor} from "../../_models/doctor";
+import {PatientsDataSource} from "../patientsList/patientsDataSource";
 
 @Component({
     providers: [PatientService, DoctorService],
@@ -17,12 +18,16 @@ export class ChooseDoctorComponent implements OnInit {
     id: string;
     patient: Patient;
 
+    dataSource: PatientsDataSource | null;
+    columnsToDisplay = [];
+
 
     constructor(private router: Router,
                 private http: Http,
                 private route: ActivatedRoute,
                 private patientService: PatientService,
                 private doctorsService: DoctorService) {
+        this.columnsToDisplay = [ 'firstName', 'lastName', 'specialization', 'choose'];
     }
 
     public ngOnInit() {
@@ -41,7 +46,10 @@ export class ChooseDoctorComponent implements OnInit {
     }
 
     reloadDoctors(){
-        this.doctorsService.getAll().subscribe(docs => {this.doctors = docs; });
+        this.doctorsService.getAll().subscribe(docs => {
+            this.doctors = docs;
+            this.dataSource = new PatientsDataSource(docs);
+        });
     }
 
     goToCalendar(doctorId: string) {
