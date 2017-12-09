@@ -17,6 +17,7 @@ import { Observable } from "rxjs/Observable";
 
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { GoogleCalendarService } from '../../_services/googleCalendar.service';
+import {PatientsDataSource} from "../patientsList/patientsDataSource";
 
 interface VisitEvent extends CalendarEvent {
     slotId: number;
@@ -34,6 +35,8 @@ export class VisitsCalendarComponent implements OnInit {
     @ViewChild('visitModal') modal: ModalComponent;
 
     public id: string;
+    dataSource: PatientsDataSource;
+    columnsToDisplay = [];
 
     constructor(private route: ActivatedRoute,
         private doctorService: DoctorService,
@@ -45,6 +48,8 @@ export class VisitsCalendarComponent implements OnInit {
         private router: Router) {
 
         this.createTimeSlotComponent = new CreateTimeslotComponent(router, doctorService);
+
+        this.columnsToDisplay = [ 'firstName', 'lastName', 'chooseForVisit'];
     }
 
     createTimeSlotComponent: CreateTimeslotComponent;
@@ -110,6 +115,7 @@ export class VisitsCalendarComponent implements OnInit {
     private loadAllPatients() {
         this.patientService.getPatients().subscribe((patients) => {
             this.patients = patients;
+            this.dataSource = new PatientsDataSource(patients);
         });
     }
 

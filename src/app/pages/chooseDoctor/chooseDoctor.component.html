@@ -1,8 +1,8 @@
-<h1 class="jumbotron">Registering visit for patient {{ patient?.firstName }} {{ patient?.lastName}}</h1>
-<h2>Choose a doctor</h2>
+<h1 class="jumbotron text-center">Registering visit for patient {{ patient?.firstName }} {{ patient?.lastName}}</h1>
+<h1 class="'well">Choose a doctor</h1>
 
 
-<ul class="list-group">
+<ul class="list-group mat-elevation-z8">
     <li class="list-group-item" *ngFor="let doctor of doctors" (click)="goToCalendar(doctor._id)">
         {{doctor.firstName}}  {{doctor.lastName}}  {{doctor.specialization.description}}   </li>
 

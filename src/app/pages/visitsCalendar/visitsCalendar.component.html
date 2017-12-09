@@ -1,12 +1,13 @@
-<div class="col-md-6 col-md-offset-3">
+<div class="center">
     <span defaultOverlayTarget></span>
-    <h1>{{doctor?.specialization.description}} {{doctor?.firstName}} {{doctor?.lastName}} - available time-slots</h1>
-    <div>
+    <h1 class="text-center jumbotron" >{{doctor?.specialization.description}} {{doctor?.firstName}} {{doctor?.lastName}} - available time-slots</h1>
+    <div  >
 
-        <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate" (click)="reloadEvents()">
+        <mwl-demo-utils-calendar-header  [(view)]="view" [(viewDate)]="viewDate" (click)="reloadEvents()">
             <!-- TODO: nie potrzebujemy przeładowywać wydarzeń przy przełączaniu miesiąc-tydzień-dzień ale nie wiem jak to zrobić -->
         </mwl-demo-utils-calendar-header>
-        <div [ngSwitch]="view">
+
+        <div [ngSwitch]="view" class="mat-elevation-z8">
             <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" [locale]="locale" (eventClicked)="eventClicked($event)"
                 (dayClicked)="viewDate = $event.day.date; view = 'day'">
             </mwl-calendar-month-view>
@@ -25,8 +26,8 @@
 
 <modal #visitModal>
     <modal-header [show-close]="true">
-        <h1 class="modal-title" *ngIf='currentSlotTaken'>Reserved Visit</h1>
-        <h1 class="modal-title" *ngIf='!currentSlotTaken'>Available Visit</h1>
+        <h1 class="modal-title text-center" *ngIf='currentSlotTaken'>Reserved Visit</h1>
+        <h1 class="modal-title text-center" *ngIf='!currentSlotTaken'>Available Visit</h1>
 
     </modal-header>
     <modal-body>
@@ -48,7 +49,7 @@
             </div>
         </div>
 
-        <div *ngIf='!currentSlotTaken'>
+        <div *ngIf='!currentSlotTaken' style="margin-bottom: 10px; margin-top: 10px">
             <input #textbox type="text" [(ngModel)]="data" required>
         </div>
 
@@ -64,7 +65,10 @@
             </a>
         </div>
 
-        <h3>Patient's data</h3>
+        <button type="button" class="btn btn-primary" (click)="exportToGoogle()">Export to Google Calendar</button>
+
+
+        <h3>Patients available for enrollment</h3>
         <!--<div class="dropdown">-->
         <!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{patientName}}-->
         <!--<span class="caret"></span></button>-->
@@ -78,19 +82,40 @@
             <a (click)="showPatientDetails()" class="btn btn-default">
                 Taken by: {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}</a>
         </div>
-        <div *ngIf='!imAPatient && !currentSlotTaken'>
-            <ul>
-                <li *ngFor="let patient of patients">
-                    <a (click)="setPatient(patient)">
-                        {{patient.firstName}} {{patient.lastName}}
-                    </a>
-                </li>
 
-            </ul>
+
+        <div *ngIf='!imAPatient && !currentSlotTaken'>
+
+            <!--Ze specjalną dedykacją dla doktora Piotra Nawrockiego i jego młodego potomka-->
+            <mat-table #table [dataSource]="dataSource">
+
+                <!-- First Name Column -->
+                <ng-container matColumnDef="firstName">
+                    <mat-header-cell *matHeaderCellDef> First name </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{ row.firstName}} </mat-cell>
+                </ng-container>
+
+                <!-- Last Name Column -->
+                <ng-container matColumnDef="lastName">
+                    <mat-header-cell *matHeaderCellDef> Last name </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.lastName}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="chooseForVisit">
+                    <mat-header-cell *matHeaderCellDef> {{ 'choose' | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <button mat-button (click)="setPatient(row)"
+                                class="btn btn-default">
+                            {{ 'choose' | translate }}</button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+            </mat-table>
         </div>
         <!--</div>-->
 
-        <button type="button" class="btn btn-primary" (click)="exportToGoogle()">Export to Google Calendar</button>        
 
     </modal-body>
     <modal-footer>

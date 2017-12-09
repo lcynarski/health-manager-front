@@ -6,6 +6,8 @@ import { CalendarEvent, CalendarDateFormatter } from 'angular-calendar';
 import { ModalComponent } from 'ng2-bs4-modal/ng2-bs4-modal';
 import {Doctor} from "../../_models/doctor";
 import {DoctorService} from "../../_services/doctor.service";
+import {PatientsDataSource} from "../patientsList/patientsDataSource";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     providers: [DoctorService],
@@ -13,20 +15,24 @@ import {DoctorService} from "../../_services/doctor.service";
 })
 export class DoctorsListComponent implements OnInit {
 
-    constructor(private doctorService: DoctorService, private router: Router ) {
+    constructor(private doctorService: DoctorService,
+                private router: Router ) {
 
     }
 
     doctors: Doctor[];
+    dataSource: PatientsDataSource | null;
+    columnsToDisplay = [];
 
     reloadDoctors(){
 
-         this.doctorService.getAll().subscribe(docs => {this.doctors = docs});
+         this.doctorService.getAll().subscribe(docs => {
+             this.dataSource = new PatientsDataSource(docs);
+             this.doctors = docs;
+         });
     }
 
     goToDetails(doctorId: string) {
-        console.log("szakalaka " + doctorId);
-        // this.router.navigate(['medcom']);
         this.router.navigate(['/pages/doctor/' + doctorId]);
     }
 
@@ -36,6 +42,7 @@ export class DoctorsListComponent implements OnInit {
 
 
     ngOnInit() {
+        this.columnsToDisplay = [ 'firstName', 'lastName', 'specialization', 'calendar'];
         this.reloadDoctors();
     }
 

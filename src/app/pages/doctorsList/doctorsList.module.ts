@@ -6,11 +6,14 @@ import { CalendarModule } from 'angular-calendar';
 import { routing } from './doctorsList.routing';
 
 import {DoctorsListComponent} from "./doctorsList.component";
+import {MatTableModule} from "@angular/material";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
         CommonModule,
-
+        MatTableModule,
+        TranslateModule,
         FormsModule,
         NgaModule,
         routing
