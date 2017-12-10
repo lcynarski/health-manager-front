@@ -40,7 +40,7 @@ export class PrescriptionsService {
     }
 
     public getMinePrescriptions() {
-        return this.http.get(`${this.config.apiUrl}/prescriptions`, this.authenticationService.addJwtOptions())
+        return this.http.get(`${this.config.apiUrl}/accounts/prescriptions`, this.authenticationService.addJwtOptions())
             .map((response: Response) => response.json());
     }
 }

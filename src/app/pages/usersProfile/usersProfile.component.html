@@ -129,12 +129,8 @@
             <mat-list *ngIf="emergencyContact">
                 <h3 mat-subheader>{{ 'EmergencyContact' | translate }}</h3>
                 <mat-list-item>
-                    <span class="info-label">{{ 'dateOfBirth' | translate }}: </span>
-                    {{ emergencyContact?.birthdate | date }}
-                </mat-list-item>
-                <mat-list-item>
-                    <span class="info-label">{{ 'gender' | translate }}: </span>
-                    {{ emergencyContact?.gender }}
+                    <span class="info-label">{{ 'Name' | translate }}: </span>
+                    {{ emergencyContact?.firstName}} {{ emergencyContact?.lastName }}
                 </mat-list-item>
                 <mat-list-item>
                     <span class="info-label">{{ 'phone' | translate }}:</span>
@@ -158,8 +154,74 @@
                 </button>
             </mat-list>
         </mat-tab>
-        <mat-tab [label]="labels.prescriptions" disabled>
-            No content
+
+        <mat-tab [label]="labels.medicalHistory">
+            <div class="demo-tab-content">
+
+                <mat-form-field class="example-full-width">
+                    <input matInput [(ngModel)]="model.startDate" [matDatepicker]="pickerStart" placeholder="From">
+                    <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput [(ngModel)]="model.endDate" [matDatepicker]="pickerEnd" placeholder="To">
+                    <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerEnd></mat-datepicker>
+                </mat-form-field>
+
+                <button mat-button color="primary" (click)="showMedicalHistory()">
+                    {{ 'Show' | translate }}
+                </button>
+
+                <mat-accordion class="example-headers-align" *ngIf="medicalHistory">
+                    <mat-expansion-panel *ngFor="let item of medicalHistory">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{ 'Disease' | translate }}: {{ item.diseaseName}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                {{ item.detectionDate | date }} - {{ item.cureDate | date }}
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="item.symptoms">
+                            <h5>{{ 'Symptoms' | translate }}:</h5>
+                            {{ item.symptoms }}
+                        </div>
+                        <div *ngIf="item.medicalCheckup">
+                            <p *ngFor="let val of item.medicalCheckup.medicalCheckupValues">
+                                {{ val.name }} : {{ val.value }}
+                            </p>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+            </div>
+        </mat-tab>
+
+        <mat-tab [label]="labels.prescriptions">
+            <mat-accordion class="example-headers-align" *ngIf="prescriptions">
+                <mat-expansion-panel *ngFor="let prescription of prescriptions">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ 'Date' | translate }}: {{ prescription?.creationDate | date }}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <mat-list>
+                        <h3 mat-subheader>{{ 'Drugs' | translate }}</h3>
+                        <mat-list-item *ngFor="let drug of prescription.drugs">
+                            <mat-icon mat-list-icon>local_offer</mat-icon>
+                            <h4 mat-line>{{drug.drugName}}</h4>
+                            <p mat-line> {{drug.size}} </p>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                        <h3 mat-subheader>{{ 'Notes' | translate }}</h3>
+                        <div>{{ prescription.notes }}</div>
+                    </mat-list>
+
+                </mat-expansion-panel>
+            </mat-accordion>
         </mat-tab>
         <mat-tab [label]="labels.appointments">
             <mat-accordion class="example-headers-align" *ngIf="appointments">

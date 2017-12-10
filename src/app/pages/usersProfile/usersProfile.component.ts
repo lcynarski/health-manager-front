@@ -63,6 +63,7 @@ export class UsersProfileComponent implements OnInit {
         prescriptions: '',
         medicalHistory: ''
     };
+    private prescriptions = [];
 
 
     constructor(private http: Http,
@@ -94,6 +95,7 @@ export class UsersProfileComponent implements OnInit {
         this.loadEmergencyData();
         this.loadAppointments();
         this.loadPrescriptions();
+        this.showMedicalHistory();
     }
 
     resetPassword() {
@@ -175,8 +177,8 @@ export class UsersProfileComponent implements OnInit {
 
     loadPrescriptions() {
         this.prescriptionService.getMinePrescriptions()
-            .subscribe((prescription) => {
-                console.log(prescription);
+            .subscribe((prescriptions) => {
+                this.prescriptions = prescriptions;
             });
     }
 

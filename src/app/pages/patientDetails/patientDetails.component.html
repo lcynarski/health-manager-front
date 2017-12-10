@@ -132,12 +132,8 @@
             <mat-list *ngIf="emergencyContact">
                 <h3 mat-subheader>{{ 'EmergencyContact' | translate }}</h3>
                 <mat-list-item>
-                    <span class="info-label">{{ 'dateOfBirth' | translate }}: </span>
-                    {{ emergencyContact?.birthdate | date }}
-                </mat-list-item>
-                <mat-list-item>
-                    <span class="info-label">{{ 'gender' | translate }}: </span>
-                    {{ emergencyContact?.gender }}
+                    <span class="info-label">{{ 'Name' | translate }}: </span>
+                    {{ emergencyContact?.firstName}} {{ emergencyContact?.lastName }}
                 </mat-list-item>
                 <mat-list-item>
                     <span class="info-label">{{ 'phone' | translate }}:</span>
@@ -181,7 +177,6 @@
                         <h3 mat-subheader>{{ 'Notes' | translate }}</h3>
                         <div>{{ prescription.notes }}</div>
                     </mat-list>
-
 
                 </mat-expansion-panel>
             </mat-accordion>
