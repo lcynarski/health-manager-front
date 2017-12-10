@@ -60,12 +60,13 @@ export class FormsCreatorComponent implements OnInit {
         this.uploadedFormFields = form.formFields;
         this.formConfig = [];
         console.log('FOOORM: ', form);
-        [...form.formFields].map(({ label, name, placeholder, type }) => {
+        [...form.formFields].map(({ label, name, placeholder, type, options = null }) => {
             const fieldConfig = {
                 type: type.toLowerCase(),
                 label,
                 name,
-                placeholder
+                placeholder,
+                options
             };
             this.formConfig.push(fieldConfig);
         });
@@ -130,8 +131,8 @@ export class FormsCreatorComponent implements OnInit {
                 () => {
                     this.formsService.getAllForms()
                         .subscribe((forms) => {
-                            this.formsToChoose = forms;
-                        });
+                                this.formsToChoose = forms;
+                            });
                     this.snackBar.open('Form successfully saved', undefined, {
                         duration: 4000,
                         extraClasses: ['success-snackbar'],
