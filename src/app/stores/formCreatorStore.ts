@@ -68,4 +68,10 @@ export class FormCreatorStore {
     deleteField(fieldName) {
         this.removeField.next(fieldName);
     }
+
+    deleteFields(fields) {
+        fields.forEach((field) => {
+            this.removeField.next(field);
+        });
+    }
 }

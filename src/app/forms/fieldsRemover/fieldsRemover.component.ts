@@ -6,6 +6,7 @@ import { FormField } from '../../_models/form';
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { FormCreatorStore } from '../../stores/formCreatorStore';
+import { MatSelectionList } from '@angular/material';
 
 @Component({
     selector: 'fields-remover',
@@ -16,6 +17,7 @@ import { FormCreatorStore } from '../../stores/formCreatorStore';
 export class FieldsRemoverComponent {
     @Input() fields: any;
     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+    @ViewChild('removalList') removalList: MatSelectionList;
 
     public id: string;
     field: FormField;
@@ -64,5 +66,4 @@ export class FieldsRemoverComponent {
         console.log('FORM FIELD TO DELETE => ', name);
         this.formCreatorStore.deleteField(name);
     }
-
 }

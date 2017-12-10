@@ -1,15 +1,11 @@
-import { Component, ViewChild, AfterViewInit, Input, Inject, OnInit } from '@angular/core';
-import { FormsService } from '../../_services/forms.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Http } from '@angular/http';
+import { Component, ViewChild, Input, OnInit, ElementRef } from '@angular/core';
 import { FormField } from '../../_models/form';
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { FormCreatorStore } from '../../stores/formCreatorStore';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { FieldCreatorStore } from '../../stores/fieldCreatorStore';
-import { nodeValue } from '@angular/core/src/view';
-import { getBindingElementVariableDeclaration } from 'tslint';
+import { MdlDialogComponent } from '@angular-mdl/core';
 
 @Component({
     selector: 'field-creator',
@@ -18,8 +14,12 @@ import { getBindingElementVariableDeclaration } from 'tslint';
 })
 
 export class FieldsCreatorComponent implements OnInit {
-    @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+    @ViewChild('form') form: DynamicFormComponent;
+    @ViewChild('checkboxForm') checkboxForm: DynamicFormComponent;
+    @ViewChild('dateForm') dateForm: DynamicFormComponent;
     @ViewChild('selectForm') selectForm: DynamicFormComponent;
+    @Input('addFieldDialog') addFieldDialog: MdlDialogComponent;
+
 
     public id: string;
     field: FormField;
@@ -109,8 +109,9 @@ export class FieldsCreatorComponent implements OnInit {
         }
     ];
 
-    constructor(private formCreatorStore: FormCreatorStore, private fieldCreatorStore: FieldCreatorStore) {
+    constructor(private formCreatorStore: FormCreatorStore, private fieldCreatorStore: FieldCreatorStore, elementRef:ElementRef) {
         this.type = '';
+        console.log(elementRef.nativeElement.parentElement)
     }
 
     ngOnInit() {
@@ -144,6 +145,8 @@ export class FieldsCreatorComponent implements OnInit {
             placeholder: 'date',
         };
         this.formCreatorStore.saveNewOptionField(field);
+        this.addFieldDialog.close()
+        console.log(this.dateForm);
     }
 
     saveCheckboxField(value) {
@@ -154,6 +157,7 @@ export class FieldsCreatorComponent implements OnInit {
             placeholder: true,
         };
         this.formCreatorStore.saveNewOptionField(field);
+        this.addFieldDialog.close();
     }
 
     saveOptionField(value) {
@@ -169,11 +173,13 @@ export class FieldsCreatorComponent implements OnInit {
             placeholder: 'option'
         };
         this.formCreatorStore.saveNewOptionField(field);
+        this.addFieldDialog.close();
     }
 
-    submit(value) {
+    submitTextfield(value) {
         console.log('FORM VALUE', value);
         this.formCreatorStore.saveNewField(value);
+        this.addFieldDialog.close();
     }
 
 }

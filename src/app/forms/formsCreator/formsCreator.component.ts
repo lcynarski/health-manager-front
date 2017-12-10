@@ -8,6 +8,8 @@ import { FormCreatorStore } from '../../stores/formCreatorStore';
 import { FieldCreatorStore } from '../../stores/fieldCreatorStore';
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { MatSnackBar } from '@angular/material';
+import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
+import { MdlDialogComponent } from '@angular-mdl/core';
 
 @Component({
     providers: [FormsService, FormCreatorStore, FieldCreatorStore],
@@ -17,7 +19,8 @@ import { MatSnackBar } from '@angular/material';
 })
 
 export class FormsCreatorComponent implements OnInit {
-
+    @ViewChild('addFieldDialog') addFieldDialog: MdlDialogComponent;
+    @ViewChild('removeFieldDialog') removeFieldDialog: MdlDialogComponent;
     private formId: number;
     private router: Router;
     private form: Form;
