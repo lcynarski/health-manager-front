@@ -3,10 +3,10 @@
 
         <div id="listContainer">
             <div id="listHeaders" fxLayout="row">
-                <div fxFlex="35">AE title</div>
-                <div fxFlex="15">type</div>
-                <div fxFlex="35">model</div>
-                <div fxFlex="15" class="ta-r">IP address</div>
+                <div fxFlex="35">{{'medcom.modalities.headers.aet' | translate}}</div>
+                <div fxFlex="15">{{'medcom.modalities.headers.type' | translate}}</div>
+                <div fxFlex="35">{{'medcom.modalities.headers.model' | translate}}</div>
+                <div fxFlex="15" class="ta-r">{{'medcom.modalities.headers.ip' | translate}}</div>
             </div>
 
             <div class="record" fxLayout="row" *ngFor="let modality of modalities">
