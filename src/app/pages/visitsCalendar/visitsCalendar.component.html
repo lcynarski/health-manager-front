@@ -65,6 +65,11 @@
                 UnEnroll!
             </button>
         </div>
+        <div *ngIf='!currentSlotTaken && !imAPatient'>
+            <button (click)="removeTimeSlot()" class="btn btn-danger" style="margin-top: 10px;">
+                Remove time-slot!
+            </button>
+        </div>
 
         <button type="button" class="btn btn-primary" style="margin-top: 10px; margin-bottom: 10px;" (click)="exportToGoogle()">Export to Google Calendar</button>
 
