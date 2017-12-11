@@ -105,7 +105,7 @@ export class UserService {
 
     public getMedicalHistory(dateStart, dateEnd) {
         const headers = new Headers({ Authorization: 'Bearer ' + this.authenticationService.token });
-        return this.http.get(`${this.config.apiUrl}/patients/history`, {
+        return this.http.get(`${this.config.apiUrl}/accounts/history`, {
             params: { dateStart, dateEnd },
             headers
         })

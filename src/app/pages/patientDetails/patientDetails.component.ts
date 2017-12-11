@@ -81,6 +81,7 @@ export class PatientDetailsComponent implements OnInit {
             this.loadEmergencyData();
             this.loadAppointments();
             this.loadPrescriptions();
+            this.showMedicalHistory();
         });
 
         this.translate.get('BasicInfo')
@@ -188,9 +189,10 @@ export class PatientDetailsComponent implements OnInit {
     }
 
     showMedicalHistory() {
+        const id = this.id || this.patient.id;
         console.log('Start date: ', this.model.startDate);
         console.log('End date: ', this.model.endDate);
-        this.patientService.getMedicalHistory(this.patient.id, this.model.startDate, this.model.endDate)
+        this.patientService.getMedicalHistory(id, this.model.startDate, this.model.endDate)
             .subscribe((data) => {
                 this.medicalHistory = data;
                 console.log('showMedicalHistory response: ', data);

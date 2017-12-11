@@ -8,6 +8,8 @@ import { FormCreatorStore } from '../../stores/formCreatorStore';
 import { FieldCreatorStore } from '../../stores/fieldCreatorStore';
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { MatSnackBar } from '@angular/material';
+import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
+import { MdlDialogComponent } from '@angular-mdl/core';
 
 @Component({
     providers: [FormsService, FormCreatorStore, FieldCreatorStore],
@@ -17,7 +19,8 @@ import { MatSnackBar } from '@angular/material';
 })
 
 export class FormsCreatorComponent implements OnInit {
-
+    @ViewChild('addFieldDialog') addFieldDialog: MdlDialogComponent;
+    @ViewChild('removeFieldDialog') removeFieldDialog: MdlDialogComponent;
     private formId: number;
     private router: Router;
     private form: Form;
@@ -60,12 +63,13 @@ export class FormsCreatorComponent implements OnInit {
         this.uploadedFormFields = form.formFields;
         this.formConfig = [];
         console.log('FOOORM: ', form);
-        [...form.formFields].map(({ label, name, placeholder, type }) => {
+        [...form.formFields].map(({ label, name, placeholder, type, options = null }) => {
             const fieldConfig = {
                 type: type.toLowerCase(),
                 label,
                 name,
-                placeholder
+                placeholder,
+                options
             };
             this.formConfig.push(fieldConfig);
         });
@@ -130,8 +134,8 @@ export class FormsCreatorComponent implements OnInit {
                 () => {
                     this.formsService.getAllForms()
                         .subscribe((forms) => {
-                            this.formsToChoose = forms;
-                        });
+                                this.formsToChoose = forms;
+                            });
                     this.snackBar.open('Form successfully saved', undefined, {
                         duration: 4000,
                         extraClasses: ['success-snackbar'],

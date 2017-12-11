@@ -42,11 +42,6 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <dynamic-form
-                [config]="formConfig"
-                #formToFill="dynamicForm"
-                (submit)="submitDefaultValues($event)">
-        </dynamic-form>
         <mdl-textfield
                 type="text"
                 label="Default data set name"
@@ -56,6 +51,12 @@
                 mdl-tooltip-position="right"
         >
         </mdl-textfield>
+        <mat-divider></mat-divider>
+        <dynamic-form
+                [config]="formConfig"
+                #formToFill="dynamicForm"
+                (submit)="submitDefaultValues($event)">
+        </dynamic-form>
     </div>
 
     <mdl-dialog #addFieldDialog
@@ -68,11 +69,11 @@
     >
         <h3 class="mdl-dialog__title">{{ 'AddFieldsToForm' | translate }}</h3>
         <div class="mdl-dialog__content">
-            <field-creator>
+            <field-creator [addFieldDialog]="addFieldDialog">
             </field-creator>
         </div>
         <div class="mdl-dialog__actions">
-            <button mdl-button (click)="addFieldDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
+            <button mdl-button (click)="addFieldDialog.close()" mdl-ripple>{{ 'Close' | translate }}</button>
         </div>
     </mdl-dialog>
     <mdl-dialog #removeFieldDialog
@@ -89,7 +90,7 @@
             </fields-remover>
         </div>
         <div class="mdl-dialog__actions">
-            <button mdl-button (click)="removeFieldDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
+            <button mdl-button (click)="removeFieldDialog.close()" mdl-ripple>{{ 'Close' | translate }}</button>
         </div>
     </mdl-dialog>
     <dialog-outlet></dialog-outlet>
