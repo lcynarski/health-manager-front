@@ -17,7 +17,7 @@ import { Observable } from "rxjs/Observable";
 
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { GoogleCalendarService } from '../../_services/googleCalendar.service';
-import {PatientsDataSource} from "../patientsList/patientsDataSource";
+import { PatientsDataSource } from "../patientsList/patientsDataSource";
 
 interface VisitEvent extends CalendarEvent {
     slotId: number;
@@ -49,7 +49,7 @@ export class VisitsCalendarComponent implements OnInit {
 
         this.createTimeSlotComponent = new CreateTimeslotComponent(router, doctorService);
 
-        this.columnsToDisplay = [ 'firstName', 'lastName', 'chooseForVisit'];
+        this.columnsToDisplay = ['firstName', 'lastName', 'chooseForVisit'];
     }
 
     createTimeSlotComponent: CreateTimeslotComponent;
@@ -151,17 +151,7 @@ export class VisitsCalendarComponent implements OnInit {
                 event.patient = appointment.patient;
                 event.appointmentId = appointment.id;
                 event.color = this.colors.red;
-                                                                                                                                                                                                                
-                let doctorFullName = this.doctor.firstName +" "+this.doctor.lastName;
-                let patientFullName = appointment.patient.account.personalDetails.firstName +" "+appointment.patient.account.personalDetails.lastName;
-
-                if(this.authService.isPatient()) {
-                    event.title = doctorFullName;
-                }else if(this.authService.isDoctor()){
-                    event.title = patientFullName;
-                }else if(this.authService.isReceptionist()){
-                    event.title = doctorFullName + " - " + patientFullName;
-                }
+                this.setEventTitle(event);
                 return event;
             } else {
                 return null;
@@ -169,15 +159,39 @@ export class VisitsCalendarComponent implements OnInit {
         }
     }
 
+    setEventTitle(event: VisitEvent): VisitEvent {
+        let doctorFullName = this.doctor.firstName + " " + this.doctor.lastName;
+        let patient: Patient = event.patient;
+        var patientFullName;
+        if (patient.account != undefined && patient.account != null) {
+            patientFullName = patient.account.personalDetails.firstName + " " + patient.account.personalDetails.lastName;
+        } else {
+            let patientBackup: any = patient //znowu różne pacjenty :(            
+            if (patientBackup.firstName != undefined && patientBackup.lastName != undefined) {
+                patientFullName = patientBackup.firstName + " " + patientBackup.lastName;
+            } else {
+                patientFullName = "Patient";
+            }
+        }
+        if (this.authService.isPatient()) {
+            event.title = doctorFullName;
+        } else if (this.authService.isDoctor()) {
+            event.title = patientFullName;
+        } else if (this.authService.isReceptionist()) {
+            event.title = doctorFullName + " - " + patientFullName;
+        }
+        console.log("Ustawiłem nazwę dla wydarzenia o slotId " + event.slotId + " na " + event.title)
+        return event;
+    }
     reloadEvents() {
         //zawsze zaciągamy miesiąc - nawet jak patrzymy na tydzień/dzień (tak prościej :P)
         var viewStart = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1);
-        
+
         var viewEnd;
-        if ((this.viewDate.getMonth() + 1) % 12 != 0 ){
-           viewEnd = new Date(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1) % 12, 1);
+        if ((this.viewDate.getMonth() + 1) % 12 != 0) {
+            viewEnd = new Date(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1) % 12, 1);
         } else {
-           viewEnd = new Date(this.viewDate.getFullYear() + 1 , (this.viewDate.getMonth() + 1) % 12, 1);
+            viewEnd = new Date(this.viewDate.getFullYear() + 1, (this.viewDate.getMonth() + 1) % 12, 1);
         }
         this.timeSlotService.getTimeSlots(this.doctor, viewStart, viewEnd)
             .subscribe(slots => {
@@ -256,6 +270,7 @@ export class VisitsCalendarComponent implements OnInit {
             if (event.slotId == this.currentSlotId) {
                 event.color = this.colors.red;
                 event.patient = p;
+                this.setEventTitle(event);
                 break;
             }
         }
@@ -297,6 +312,14 @@ export class VisitsCalendarComponent implements OnInit {
         console.log("Usuwam rezerwację o id: " + appointmentId);
         this.appointmentService.removeAppointment(appointmentId)
             .subscribe(appointment => this.modalClosed());
+    }
+    removeTimeSlot() {
+        console.log("Usuwam termin o id: " + this.currentSlotId);
+        this.timeSlotService.removeTimeSlot(this.currentSlotId)
+            .subscribe(slot => {
+                this.events = this.events.filter(e => e.slotId != this.currentSlotId)
+                this.modalClosed()
+            })
     }
 
     exportToGoogle() {
@@ -343,8 +366,8 @@ export class VisitsCalendarComponent implements OnInit {
     }
 
     isInSinglePatientMode(): boolean {
-    return this.imAPatient || this.imAReceptionist;
-}
+        return this.imAPatient || this.imAReceptionist;
+    }
 
     ngOnInit() {
         this.createTimeSlotComponent.ngOnInit();
@@ -352,7 +375,7 @@ export class VisitsCalendarComponent implements OnInit {
         console.log('My role is ' + this.userRole);
         this.initializeConfig();
 
-        this.imAPatient =  this.authService.isPatient();
+        this.imAPatient = this.authService.isPatient();
 
         this.route.params.subscribe(params => {
             this.id = params['doctorId']; // (+) converts string 'id' to a number
@@ -368,7 +391,7 @@ export class VisitsCalendarComponent implements OnInit {
                         this.patient = patient;
                         this.reloadEvents();
                     });
-                }else if (this.imAPatient) {
+                } else if (this.imAPatient) {
                     this.patientService/*.getById('1')*/ // włączyć dla łatwiejszej prezentacji
                         .getPatientByEmail(this.authService.getEmail()).subscribe((patient) => {
                             this.patient = patient;
