@@ -3,12 +3,12 @@
     <div id="topBar" fxLayout="row" fxLayoutAlign="space-between center">
         <button fxFlex class="actionButton" mdl-button
                 (click)="toggleInfoBox()" [class.active]="infoBoxVisible"
-                mdl-tooltip-large="dicom attributes" mdl-tooltip-position="bottom">
+                [mdl-tooltip-large]="'medcom.dicomArchive.attributesInfo.tooltip' | translate" mdl-tooltip-position="bottom">
             <mdl-icon>info_outline</mdl-icon>
         </button>
         <button fxFlex class="actionButton" mdl-button
                 (click)="toggleToolsPane()" [class.active]="toolsPaneVisible"
-                mdl-tooltip-large="image tools" mdl-tooltip-position="bottom">
+                [mdl-tooltip-large]="'medcom.dicomArchive.tools.tooltip' | translate" mdl-tooltip-position="bottom">
             <mdl-icon>build</mdl-icon>
         </button>
 

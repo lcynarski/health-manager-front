@@ -93,5 +93,62 @@
   "DetectedDisease": "Wykryta choroba",
   "OrSimplyAddSymptoms": "Lub dodaj wlasny opis",
   "ChoosePreparedForm": "Uzyj przygotowanego formularza, wypelnij go przykladowymi danymi",
-  "Prescriptions": "Recepty"
+  "Prescriptions": "Recepty",
+  "medcom": {
+    "modalities": {
+      "title": "Urządzenia",
+      "headers": {
+        "aet": "AET",
+        "type": "typ",
+        "model": "model",
+        "ip": "adres IP"
+      }
+    },
+    "proceduresSchedule": {
+      "title": "Harmonogram badań",
+      "headers": {
+        "date": "data",
+        "patient": "pacjent",
+        "doctor": "doktor",
+        "modality": "urządzenie",
+        "description": "opis"
+      }
+    },
+    "dicomArchive": {
+      "title": "Archiwum DICOM",
+      "headers": {
+        "pesel": "pesel",
+        "patient": "pacjent",
+        "studiesCount": "badania",
+        "lastStudy": "ostatnie badanie"
+      },
+      "attributesInfo": {
+        "tooltip": "atrybuty DICOM",
+        "study": "Badanie",
+        "series": "Seria",
+        "instance": "Obraz"
+      },
+      "imageInfo": {
+        "image": "obraz:",
+        "zoom": "powiększenie:",
+        "wwwc": "ww/wc:"
+      },
+      "tools": {
+        "tooltip": "manipulacja obrazem",
+        "clear": "wyczyść narzędzia",
+        "previous": "poprzedni obraz",
+        "next": "następny obraz",
+        "pan": "przesuwanie",
+        "zoom": "powiększenie",
+        "wwwc": "ww/wc (kontrast/jasność)",
+        "highlight": "podświetlenie",
+        "probe": "próbkowanie",
+        "length": "długość",
+        "angle": "kąt",
+        "ellipticalRoi": "eliptyczne ROI",
+        "rectangleRoi": "prostokątne ROI",
+        "freehand": "własne ROI"
+      }
+    }
+  }
 }

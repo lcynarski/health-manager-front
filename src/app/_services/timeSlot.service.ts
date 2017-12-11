@@ -34,6 +34,11 @@ export class TimeSlotService {
             .map((response) => response.json()).flatMap(t => this.fromJson(t))
     }
 
+    public removeTimeSlot(id: number): Observable<TimeSlot> {
+        return this.http.delete(`${this.config.apiUrl}/timeSlot/${id}`)
+            .map((response) => response.json()).flatMap(t => this.fromJson(t))
+    }
+
     private fromJson(slot: TimeSlot): Observable<TimeSlot> {
         slot.startDateTime = new Date(slot.startDateTime)
         slot.endDateTime = new Date(slot.endDateTime)

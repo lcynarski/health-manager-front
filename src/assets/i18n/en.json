@@ -93,5 +93,62 @@
   "DetectedDisease": "Detected disease",
   "OrSimplyAddSymptoms": "Or add just symptoms",
   "ChoosePreparedForm": "Use prepared form, fill it with default data",
-  "Prescriptions": "Prescriptions"
+  "Prescriptions": "Prescriptions",
+  "medcom": {
+    "modalities": {
+      "title": "Modalities",
+      "headers": {
+        "aet": "AE title",
+        "type": "type",
+        "model": "model",
+        "ip": "IP address"
+      }
+    },
+    "proceduresSchedule": {
+      "title": "Procedures schedule",
+      "headers": {
+        "date": "date",
+        "patient": "patient name",
+        "doctor": "doctor name",
+        "modality": "modality",
+        "description": "description"
+      }
+    },
+    "dicomArchive": {
+      "title": "DICOM archive",
+      "headers": {
+        "pesel": "pesel",
+        "patient": "patient name",
+        "studiesCount": "studies",
+        "lastStudy": "last study"
+      },
+      "attributesInfo": {
+        "tooltip": "DICOM attributes",
+        "study": "Study",
+        "series": "Series",
+        "instance": "Image"
+      },
+      "imageInfo": {
+        "image": "image:",
+        "zoom": "zoom:",
+        "wwwc": "ww/wc:"
+      },
+      "tools": {
+        "tooltip": "image tools",
+        "clear": "clear tools",
+        "previous": "previous image",
+        "next": "next image",
+        "pan": "pan",
+        "zoom": "zoom",
+        "wwwc": "ww/wc (contrast/brightness)",
+        "highlight": "highlight",
+        "probe": "probe",
+        "length": "length",
+        "angle": "angle",
+        "ellipticalRoi": "elliptical ROI",
+        "rectangleRoi": "rectangular ROI",
+        "freehand": "custom ROI"
+      }
+    }
+  }
 }

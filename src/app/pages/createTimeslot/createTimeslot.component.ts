@@ -16,6 +16,17 @@ import { timer } from 'rxjs/observable/timer';
     templateUrl: './createTimeslot.component.html'
 })
 export class CreateTimeslotComponent implements AfterViewInit, OnInit {
+
+    private static NO_REPEAT: string = 'No repeat'
+    private static EACH_DAY: string = 'Each day'
+    private static EACH_WEEK: string = 'Each week'
+    private static MONDAY_TO_FRIDAY: string = 'Monday to Friday'
+    private static REPETITION_MODES: [string] = [
+        CreateTimeslotComponent.NO_REPEAT,
+        CreateTimeslotComponent.EACH_DAY,
+        CreateTimeslotComponent.EACH_WEEK,
+        CreateTimeslotComponent.MONDAY_TO_FRIDAY]
+
     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
     private router: Router;
     public docIdByName;
@@ -76,6 +87,20 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
             label: 'Break between visits',
             name: 'minutesForBreak',
             placeholder: 'Minutes of break between visits',
+        },
+        {
+            type: 'select',
+            label: 'Day repetition mode',
+            name: 'repetitionMode',
+            placeholder: 'Day Repetition mode',
+            options: CreateTimeslotComponent.REPETITION_MODES,
+            value: CreateTimeslotComponent.NO_REPEAT
+        },
+        {
+            type: 'date',
+            label: 'Repeat until',
+            name: 'endDate',
+            placeholder: 'Repeat until'
         },
         {
             label: 'Submit multiple slots',
@@ -140,6 +165,19 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
             this.info = "How long break between visits should be?"
             return
         }
+        if (value.repetitionMode == undefined) {
+            value.repetitionMode = CreateTimeslotComponent.NO_REPEAT;
+        }
+        if (value.repetitionMode != CreateTimeslotComponent.NO_REPEAT) {
+            if (value.endDate == undefined) {
+                this.info = "Missing end date"
+                return
+            }
+            if (moment(value.date) > (moment(value.endDate))) {
+                return //job finished
+            }
+        }
+
         let minutesForVisit: number = + value.minutesForVisit
         let minutesForBreak: number = + value.minutesForBreak
 
@@ -153,6 +191,9 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
             currentTimeSlotStart = this.getNextTimeSlotStart(currentTimeSlotStart, minutesForVisit, minutesForBreak)
         }
 
+        console.log("intervals to save:")
+        console.log(timeSlotIntervals)
+
         for (var i = 0; i < timeSlotIntervals.length; i++) {
             let interval = timeSlotIntervals[i]
             var valueCopy = JSON.parse(JSON.stringify(value));
@@ -161,9 +202,27 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
             this.validateAndSaveSingle(valueCopy)
         }
 
-        console.log('zebrane:')
-        console.log(timeSlotIntervals)
-
+        if (value.repetitionMode != CreateTimeslotComponent.NO_REPEAT) {
+            var daysInterval: number
+            if (value.repetitionMode == CreateTimeslotComponent.EACH_DAY) {
+                daysInterval = 1
+            } else if (value.repetitionMode == CreateTimeslotComponent.EACH_WEEK) {
+                daysInterval = 7
+            } else if (value.repetitionMode == CreateTimeslotComponent.MONDAY_TO_FRIDAY) {
+                let weekDay: number = moment(value.date).isoWeekday(); //1 - moday, 7 - sunday
+                if (weekDay == 5) {
+                    daysInterval = 3
+                } if (weekDay == 6) {
+                    daysInterval = 2
+                } else {
+                    daysInterval = 1
+                }
+            }
+            var valueCopy = JSON.parse(JSON.stringify(value));
+            valueCopy.date = new Date(value.date.setTime(
+                value.date.getTime() + daysInterval * 86400000));
+            this.submitMulti(valueCopy)
+        }
     }
 
     addMinutes(time: [number, number], minutesToAdd: number): [number, number] {
@@ -219,6 +278,11 @@ export class CreateTimeslotComponent implements AfterViewInit, OnInit {
         }
         if (!this.startBeforeEnd(startHourMinute, endHourMinute)) {
             this.info = "Start cannot be after end!"
+            return
+        }
+        if (value.repetitionMode != undefined
+            && value.repetitionMode == CreateTimeslotComponent.MONDAY_TO_FRIDAY
+            && moment(value.date).isoWeekday() > 5) {
             return
         }
         const timeSlot = {
