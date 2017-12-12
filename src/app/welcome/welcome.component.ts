@@ -10,19 +10,15 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class WelcomeComponent implements OnInit {
     private doRegister: boolean;
+    private currentLanguage = '';
 
     constructor(private router: Router,
                 private translate: TranslateService) {
-        translate.addLangs(['en', 'pl']);
-        translate.setDefaultLang('en');
-        localStorage.setItem('currentLang', translate.getBrowserLang())
-
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang.match(/en|pl/) ? browserLang : 'en');
     }
 
     ngOnInit() {
         this.doRegister = false;
+        this.currentLanguage = sessionStorage.getItem('currentLang') || 'pl';
     }
 
     public startRegister() {
@@ -35,7 +31,7 @@ export class WelcomeComponent implements OnInit {
 
     public onLangChange(value) {
         this.translate.use(value);
-        localStorage.setItem('currentLang', value);
+        sessionStorage.setItem('currentLang', value);
     }
 
     redirect(pagename: string) {

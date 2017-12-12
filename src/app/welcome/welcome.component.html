@@ -15,9 +15,6 @@
             <div class="navbar__buttons__row">
                 <!--<button class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-button&#45;&#45;colored" type="button" routerLink="/login">Login</button>-->
             </div>
-            <!--<div class="navbar__buttons__row">-->
-            <!--<button class="btn btn-lg align-middle btn-primary" routerLink="/pages/visitsCalendar">Explore</button>-->
-            <!--</div>-->
         </div>
         <login *ngIf="!doRegister"></login>
         <register *ngIf="doRegister"></register>
@@ -29,7 +26,7 @@
     </div>
 </div>
 <i class="material-icons translate-icon">translate</i>
-<mat-select #langSelect (change)="onLangChange(langSelect.value)" label="lang" class="lang-select">
+<mat-select #langSelect (change)="onLangChange(langSelect.value)" [value]="langSelect.value || currentLanguage" class="lang-select">
     <mat-option *ngFor="let lang of translate.getLangs()" [value]="lang">{{ lang }}</mat-option>
 </mat-select>
 
