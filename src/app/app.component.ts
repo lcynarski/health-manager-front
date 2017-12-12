@@ -27,9 +27,11 @@ export class AppComponent {
     constructor(private _state: GlobalState,
                 private translate: TranslateService) {
 
-        const currentLang = localStorage.getItem('currentLang');
+        translate.addLangs(['en', 'pl']);
+        translate.setDefaultLang('pl');
+        const currentLang = sessionStorage.getItem('currentLang');
 
-        translate.use(currentLang || 'en');
+        translate.use(currentLang || 'pl' || 'en');
 
         this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
             this.isMenuCollapsed = isCollapsed;

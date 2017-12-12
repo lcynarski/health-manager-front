@@ -122,14 +122,3 @@ export class AppModule {
 }
 
 Angular2SocialLoginModule.loadProvidersScripts(socialProviders);
-
-// @NgModule({
-//     imports: [
-//         BrowserModule
-//     ],
-//     declarations: [
-//         AppComponent
-//     ],
-//     bootstrap: [ AppComponent ]
-// })
-// export class AppModule { }
