@@ -9,14 +9,19 @@
     </div>
     <div class="patient-details__action-buttons" style="display: flex; flex-direction: column">
         <button
-                mat-mini-fab color="primary"
+                mat-icon-button color="primary"
                 mdl-tooltip-large="Edit patient"
                 mdl-tooltip-position="right"
                 (click)="editUserDialog.show()"
         >
             <mat-icon>mode_edit</mat-icon>
         </button>
-        <button mat-mini-fab color="primary" mdl-tooltip-large="Send an email" mdl-tooltip-position="right" (click)="sendMail('cynarx@gmail.com','my-subject','my-message')">
+        <button
+                mat-icon-button
+                color="primary"
+                mdl-tooltip-large="Send an email"
+                mdl-tooltip-position="right"
+                (click)="sendMail(patient.email,'my-subject','my-message')">
             <mat-icon aria-label="Example icon-button with a heart icon">mail_outline</mat-icon>
         </button>
     </div>
