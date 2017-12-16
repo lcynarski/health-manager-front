@@ -9,14 +9,19 @@
     </div>
     <div class="patient-details__action-buttons" style="display: flex; flex-direction: column">
         <button
-                mat-mini-fab color="primary"
+                mat-icon-button color="primary"
                 mdl-tooltip-large="Edit patient"
                 mdl-tooltip-position="right"
                 (click)="editUserDialog.show()"
         >
             <mat-icon>mode_edit</mat-icon>
         </button>
-        <button mat-mini-fab color="primary" mdl-tooltip-large="Send an email" mdl-tooltip-position="right" (click)="sendMail('cynarx@gmail.com','my-subject','my-message')">
+        <button
+                mat-icon-button
+                color="primary"
+                mdl-tooltip-large="Send an email"
+                mdl-tooltip-position="right"
+                (click)="sendMail(patient.email,'my-subject','my-message')">
             <mat-icon aria-label="Example icon-button with a heart icon">mail_outline</mat-icon>
         </button>
     </div>
@@ -218,8 +223,7 @@
             </dynamic-form>
         </div>
         <div class="mdl-dialog__actions">
-            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="editUserDialog.close()" mdl-ripple>Cancel</button>
+            <button mat-raised-button (click)="editUserDialog.close()" mdl-ripple>Cancel</button>
         </div>
     </mdl-dialog>
 
@@ -244,8 +248,7 @@
             </dynamic-form>
         </div>
         <div class="mdl-dialog__actions">
-            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="medicalInfoDialog.close()" mdl-ripple>Cancel</button>
+            <button mat-raised-button (click)="medicalInfoDialog.close()" mdl-ripple>Cancel</button>
         </div>
     </mdl-dialog>
 
@@ -269,8 +272,7 @@
             </dynamic-form>
         </div>
         <div class="mdl-dialog__actions">
-            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="medicalInfoEditDialog.close()" mdl-ripple>Cancel</button>
+            <button mat-raised-button (click)="medicalInfoEditDialog.close()" mdl-ripple>Cancel</button>
         </div>
     </mdl-dialog>
 
@@ -293,8 +295,7 @@
             </dynamic-form>
         </div>
         <div class="mdl-dialog__actions">
-            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="addToMedicalHistoryDialog.close()" mdl-ripple>Cancel</button>
+            <button mat-raised-button (click)="addToMedicalHistoryDialog.close()" mdl-ripple>Cancel</button>
         </div>
     </mdl-dialog>
 
@@ -316,8 +317,7 @@
             </dynamic-form>
         </div>
         <div class="mdl-dialog__actions">
-            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="addEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
+            <button mat-raised-button (click)="addEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
         </div>
     </mdl-dialog>
 
@@ -340,8 +340,7 @@
             </dynamic-form>
         </div>
         <div class="mdl-dialog__actions">
-            <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="editEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
+            <button mat-raised-button (click)="editEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
         </div>
     </mdl-dialog>
 

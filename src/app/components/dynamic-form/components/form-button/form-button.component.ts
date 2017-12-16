@@ -11,7 +11,7 @@ import { FieldConfig } from '../../models/field-config.interface';
     <div
       class="dynamic-field form-button"
       [formGroup]="group">
-      <button
+      <button mat-raised-button color="primary"
         [disabled]="config.disabled"
         type="submit">
         {{ config.label }}
