@@ -4,37 +4,23 @@ import { Validators } from '@angular/forms';
 const emergencyContactConfig: FieldConfig[] = [
     {
         type: 'input',
-        label: 'First Name',
+        label: 'FirstName',
         name: 'firstName',
-        placeholder: 'First Name',
+        placeholder: 'FirstName',
         validation: [Validators.required]
     },
     {
         type: 'input',
-        label: 'Last Name',
+        label: 'LastName',
         name: 'lastName',
-        placeholder: 'Last Name',
+        placeholder: 'LastName',
         validation: [Validators.required]
-    },
-    {
-        type: 'date',
-        label: 'Date of birth',
-        name: 'birthdate',
-        placeholder: 'Date',
-        validation: [Validators.required]
-    },
-    {
-        type: 'select',
-        label: 'Gender',
-        name: 'gender',
-        options: ['Male', 'Female', 'Other'],
-        placeholder: 'Select an option'
     },
     {
         type: 'input',
-        label: 'Phone Number',
+        label: 'PhoneNumber',
         name: 'phoneNumber',
-        placeholder: 'Phone Number',
+        placeholder: 'PhoneNumber',
         validation: [Validators.required, Validators.pattern('[0-9]+')]
     },
     {
@@ -60,16 +46,16 @@ const emergencyContactConfig: FieldConfig[] = [
     },
     {
         type: 'input',
-        label: 'Building',
+        label: 'BuildingNumber',
         name: 'buildingNumber',
-        placeholder: 'Building number',
+        placeholder: 'BuildingNumber',
         validation: [Validators.required]
     },
     {
         type: 'input',
-        label: 'Flat',
+        label: 'FlatNumber',
         name: 'flatNumber',
-        placeholder: 'Flat number'
+        placeholder: 'FlatNumber'
     },
     {
         label: 'Submit',

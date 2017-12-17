@@ -4,16 +4,16 @@
  const createPatientConfig: FieldConfig[] = [
     {
         type: 'input',
-        label: 'First Name',
+        label: 'FirstName',
         name: 'firstName',
-        placeholder: 'First Name',
+        placeholder: 'FirstName',
         validation: [Validators.required]
     },
     {
         type: 'input',
-        label: 'Last Name',
+        label: 'LastName',
         name: 'lastName',
-        placeholder: 'Last Name',
+        placeholder: 'LastName',
         validation: [Validators.required]
     },
     {
@@ -24,7 +24,7 @@
     },
     {
         type: 'date',
-        label: 'Date of birth',
+        label: 'birthdate',
         name: 'birthdate',
         placeholder: 'Date',
         validation: [Validators.required]
@@ -45,9 +45,9 @@
     },
     {
         type: 'input',
-        label: 'Phone Number',
+        label: 'PhoneNumber',
         name: 'phoneNumber',
-        placeholder: 'Phone Number',
+        placeholder: 'PhoneNumber',
         validation: [Validators.required]
     },
     {
@@ -73,16 +73,16 @@
     },
     {
         type: 'input',
-        label: 'Building',
+        label: 'BuildingNumber',
         name: 'buildingNumber',
-        placeholder: 'Building number',
+        placeholder: 'BuildingNumber',
         validation: [Validators.required]
     },
     {
         type: 'input',
-        label: 'Flat',
+        label: 'FlatNumber',
         name: 'flatNumber',
-        placeholder: 'Flat number'
+        placeholder: 'FlatNumber'
     },
     {
         label: 'Submit',

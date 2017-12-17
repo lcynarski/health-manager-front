@@ -1,11 +1,12 @@
 <div>
     <form [formGroup]="formssss">
-        <mdl-select formControlName="fieldType" label="Field type" floating-label (change)="onChange($event)">
+        <mdl-select formControlName="fieldType" [placeholder]="labels.fieldType" floating-label (change)="onChange($event)">
             <mdl-option *ngFor="let option of ['Textfield', 'Date', 'Checkbox', 'Select']" [value]="option">
-                {{ option }}
+                {{ option | translate }}
             </mdl-option>
         </mdl-select>
     </form>
+    <h3><span style="margin-right: 2rem">{{ 'Field' | translate }}:</span> {{ type | translate }}</h3>
     <dynamic-form *ngIf="type === 'Textfield'"
             [config]="config"
             #form="dynamicForm"
