@@ -155,8 +155,10 @@
       display: none !important;
     }
   }
-  
+
   .sidebar-label {
+    text-transform: capitalize;
+
     @media screen and (max-width: $resS) {
       display: none;
     }
