@@ -10,6 +10,7 @@ import { FieldConfig } from '../../components/dynamic-form/models/field-config.i
 import { MatSnackBar } from '@angular/material';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { MdlDialogComponent } from '@angular-mdl/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     providers: [FormsService, FormCreatorStore, FieldCreatorStore],
@@ -31,12 +32,18 @@ export class FormsCreatorComponent implements OnInit {
     formsToChoose = [];
     formConfig: FieldConfig[];
     uploadedFormFields = [];
+    labels = {
+        formName: '',
+        selectForm: '',
+        defaultDatasetName: ''
+    }
 
     constructor(router: Router,
                 private http: Http,
                 private route: ActivatedRoute,
                 private formsService: FormsService,
                 private formCreatorStore: FormCreatorStore,
+                private translate: TranslateService,
                 public snackBar: MatSnackBar) {}
 
     public ngOnInit() {
@@ -56,6 +63,12 @@ export class FormsCreatorComponent implements OnInit {
             });
         this.formConfig = [];
         this.defaultDataSetName = '';
+        this.translate.get('FormName')
+            .subscribe((response) => this.labels.formName = response);
+        this.translate.get('SelectForm')
+            .subscribe((response) => this.labels.selectForm = response);
+        this.translate.get('DefaultDatasetName')
+            .subscribe((response) => this.labels.defaultDatasetName = response);
     }
 
     public onChooseForm(form) {

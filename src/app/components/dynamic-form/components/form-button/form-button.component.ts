@@ -14,7 +14,7 @@ import { FieldConfig } from '../../models/field-config.interface';
       <button mat-raised-button color="primary"
         [disabled]="config.disabled"
         type="submit">
-        {{ config.label }}
+        {{ config.label | translate }}
       </button>
     </div>
   `

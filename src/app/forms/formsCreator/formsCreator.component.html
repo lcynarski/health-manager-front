@@ -2,11 +2,9 @@
     <div class="form-creator__form">
         <mdl-textfield
                 type="text"
-                label="Form name"
+                [label]="labels.formName"
                 [(ngModel)]="formName"
                 floating-label
-                mdl-tooltip-large="Add name to your form"
-                mdl-tooltip-position="right"
         >
         </mdl-textfield>
         <div class="form-creator__action-buttons">
@@ -36,7 +34,7 @@
     <div class="form-creator__form">
         {{ 'FillWithExampleData' | translate }}:
         <mat-form-field>
-            <mat-select placeholder="Select form" *ngIf="formsToChoose" [(ngModel)]="formSelectState">
+            <mat-select [placeholder]="labels.selectForm" *ngIf="formsToChoose" [(ngModel)]="formSelectState">
                 <mat-option *ngFor="let form of formsToChoose" [value]="form" (click)="onChooseForm(form)">
                     {{ form.name }}
                 </mat-option>
@@ -44,11 +42,9 @@
         </mat-form-field>
         <mdl-textfield
                 type="text"
-                label="Default data set name"
+                [label]="labels.defaultDatasetName"
                 [(ngModel)]="defaultDataSetName"
                 floating-label
-                mdl-tooltip-large="Add name to default data set"
-                mdl-tooltip-position="right"
         >
         </mdl-textfield>
         <mat-divider></mat-divider>
