@@ -17,20 +17,6 @@ const emergencyContactConfig: FieldConfig[] = [
         validation: [Validators.required]
     },
     {
-        type: 'date',
-        label: 'Date of birth',
-        name: 'birthdate',
-        placeholder: 'Date',
-        validation: [Validators.required]
-    },
-    {
-        type: 'select',
-        label: 'Gender',
-        name: 'gender',
-        options: ['Male', 'Female', 'Other'],
-        placeholder: 'Select an option'
-    },
-    {
         type: 'input',
         label: 'Phone Number',
         name: 'phoneNumber',
