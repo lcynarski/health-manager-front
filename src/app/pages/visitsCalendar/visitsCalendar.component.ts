@@ -18,6 +18,7 @@ import { Observable } from "rxjs/Observable";
 import { FieldConfig } from '../../components/dynamic-form/models/field-config.interface';
 import { GoogleCalendarService } from '../../_services/googleCalendar.service';
 import { PatientsDataSource } from "../patientsList/patientsDataSource";
+import {TranslateService} from "@ngx-translate/core";
 
 interface VisitEvent extends CalendarEvent {
     slotId: number;
@@ -27,7 +28,7 @@ interface VisitEvent extends CalendarEvent {
 }
 
 @Component({
-    providers: [DoctorService, PatientService, AppointmentService, TimeSlotService],
+    providers: [DoctorService, PatientService, AppointmentService, TimeSlotService, TranslateService],
     templateUrl: './visitsCalendar.component.html',
     styleUrls: ['./visitsCalendar.component.scss']
 })
@@ -45,6 +46,7 @@ export class VisitsCalendarComponent implements OnInit {
         private timeSlotService: TimeSlotService,
         private googleCalendarService: GoogleCalendarService,
         private authService: AuthenticationService,
+        private translationService: TranslateService,
         private router: Router) {
 
         this.createTimeSlotComponent = new CreateTimeslotComponent(router, doctorService);
@@ -121,9 +123,17 @@ export class VisitsCalendarComponent implements OnInit {
     }
 
     private slotToVisitEvent(slot: TimeSlot): VisitEvent {
+
+        var title;
+        if(this.translationService.currentLang === 'pl' ){
+            title = "Wolny termin";
+        }else{
+            title = "Free Timeslot";
+        }
+
         return {
             slotId: slot.id,
-            title: "Free timeslot",
+            title: title ,
             start: new Date(slot.startDateTime),
             end: new Date(slot.endDateTime),
             color: this.colors.blue,

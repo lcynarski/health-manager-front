@@ -1,5 +1,5 @@
-<h1 class="jumbotron text-center">Registering visit for patient {{ patient?.firstName }} {{ patient?.lastName}}</h1>
-<h1 class="'well" style="margin-bottom: 20px;">Choose a doctor</h1>
+<h1 class="jumbotron text-center">{{ 'registeringVisit' | translate }} {{ patient?.firstName }} {{ patient?.lastName}}</h1>
+<h1 class="well" style="margin-bottom: 20px;">{{ 'chooseDoctor' | translate }}</h1>
 
 
 <mat-table #table [dataSource]="dataSource">
