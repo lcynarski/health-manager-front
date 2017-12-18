@@ -1,7 +1,7 @@
 <div class="center">
     <span defaultOverlayTarget></span>
-    <h1 class="text-center jumbotron" *ngIf='imAReceptionist'>{{doctor?.specialization.description}} {{doctor?.firstName}} {{doctor?.lastName}} - registering visit for {{patient?.firstName}} {{patient?.lastName}}</h1>
-    <h1 class="text-center jumbotron" *ngIf='!imAReceptionist'>{{doctor?.specialization.description}} {{doctor?.firstName}} {{doctor?.lastName}} - available time-slots</h1>
+    <h1 class="text-center jumbotron" *ngIf='imAReceptionist'>{{doctor?.specialization.description}} {{doctor?.firstName}} {{doctor?.lastName}} - {{ 'registeringVisitFor' | translate }} {{patient?.firstName}} {{patient?.lastName}}</h1>
+    <h1 class="text-center jumbotron" *ngIf='!imAReceptionist'>{{doctor?.specialization.description}} {{doctor?.firstName}} {{doctor?.lastName}} - {{  'availableTimeSlots' | translate }}</h1>
     <div  >
 
         <mwl-demo-utils-calendar-header  [(view)]="view" [(viewDate)]="viewDate" (click)="reloadEvents()">
@@ -27,21 +27,21 @@
 
 <modal #visitModal>
     <modal-header [show-close]="true">
-        <h1 class="modal-title text-center" *ngIf='currentSlotTaken'>Reserved Visit</h1>
-        <h1 class="modal-title text-center" *ngIf='!currentSlotTaken'>Available Visit</h1>
+        <h1 class="modal-title text-center" *ngIf='currentSlotTaken'>{{ 'reservedVisit' | translate }}</h1>
+        <h1 class="modal-title text-center" *ngIf='!currentSlotTaken'>{{ 'availableVisit' | translate }}</h1>
 
     </modal-header>
     <modal-body>
-        <h2>Doctor {{doctor?.firstName}} {{doctor?.lastName}}</h2>
+        <h2>{{ 'Doctor' | translate }} {{doctor?.firstName}} {{doctor?.lastName}}</h2>
         <h2>{{modalDate}}, {{modalTime}}</h2>
         <div *ngIf='config!=null && !showSlotMoveMenu'>
-            <button (click)='displaySlotMoveMenu($event)' class="btn btn-primary">Move timeslot</button>
+            <button (click)='displaySlotMoveMenu($event)' class="btn btn-primary">{{ 'moveTimeslot' | translate }}</button>
         </div>
         <div *ngIf='showSlotMoveMenu'>
-            Move timeslot
+            {{ 'moveTimeslot' | translate }}
             <br />
             <div *ngIf='moveSlotErr'>
-                <span style="color: red;">Invalid Dates! Slot interleaves!</span>
+                <span style="color: red;">{{ 'invalidDates' | translate }}</span>
                 <br />
             </div>
             <div class="create-timeslot-form">
@@ -62,51 +62,51 @@
 
         <div *ngIf='currentSlotTaken'>
             <button (click)="unEnroll()" class="btn btn-danger" style="margin-top: 10px;">
-                UnEnroll!
+                {{ 'unEnroll' | translate }}
             </button>
         </div>
         <div *ngIf='!currentSlotTaken && !imAPatient'>
             <button (click)="removeTimeSlot()" class="btn btn-danger" style="margin-top: 10px;">
-                Remove time-slot!
+                {{ 'removeTimeslot' | translate }}
             </button>
         </div>
 
-        <button type="button" class="btn btn-primary" style="margin-top: 10px; margin-bottom: 10px;" (click)="exportToGoogle()">Export to Google Calendar</button>
+        <button type="button" class="btn btn-primary" style="margin-top: 10px; margin-bottom: 10px;" (click)="exportToGoogle()">{{ 'exportToGoogleCalendar' | translate }}</button>
 
         <!--<div class="dropdown">-->
         <!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{patientName}}-->
         <!--<span class="caret"></span></button>-->
         <div *ngIf='imAPatient && currentSlotTaken'>
-            You are already enrolled for this appointment!
+            {{ 'youAreAlready' | translate }}
         </div>
         <div *ngIf='isInSinglePatientMode() && !currentSlotTaken'>
-            <button (click)="enrollMe()" class="btn btn-success btn-lg">Enroll!</button>
+            <button (click)="enrollMe()" class="btn btn-success btn-lg">{{ 'enroll' | translate }}</button>
         </div>
 
         <div *ngIf='imAReceptionist && currentSlotTaken'>
             <h4 (click)="showPatientDetails()" >
-                Taken by: {{patient.firstName}} {{patient.lastName}}</h4>
+                {{ 'takenBy' | translate }} {{patient.firstName}} {{patient.lastName}}</h4>
         </div>
 
         <div *ngIf='!imAPatient && !imAReceptionist && currentSlotTaken'>
             <h4 (click)="showPatientDetails()" >
-               Taken by: {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}</h4>
+                {{ 'takenBy' | translate }} {{patient.account.personalDetails.firstName}} {{patient.account.personalDetails.lastName}}</h4>
         </div>
 
         <div *ngIf='!isInSinglePatientMode() && !currentSlotTaken'>
-            <h3 class="well-lg">Patients available for enrollment</h3>
+            <h3 class="well-lg">{{ 'patientsAvailableForEnrollment' | translate }}</h3>
             <!--Ze specjalną dedykacją dla doktora Piotra Nawrockiego i jego młodego potomka-->
             <mat-table #table [dataSource]="dataSource">
 
                 <!-- First Name Column -->
                 <ng-container matColumnDef="firstName">
-                    <mat-header-cell *matHeaderCellDef> First name </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef> {{ 'firstName' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{ row.firstName}} </mat-cell>
                 </ng-container>
 
                 <!-- Last Name Column -->
                 <ng-container matColumnDef="lastName">
-                    <mat-header-cell *matHeaderCellDef> Last name </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef> {{ 'lastName' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.lastName}} </mat-cell>
                 </ng-container>
 
@@ -128,7 +128,7 @@
 
     </modal-body>
     <modal-footer>
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">{{ "Cancel" | translate}}</button>
         <button type="button" class="btn btn-primary" (click)="modalClosed()">Ok</button>
     </modal-footer>
 </modal>
