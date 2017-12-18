@@ -31,13 +31,13 @@ export class FormSelectComponent implements Field, OnInit {
 
 
     ngOnInit(): void {
-        this.translate.get(this.config.name)
+        this.config.name && this.translate.get(this.config.name)
             .subscribe((response) => this.name = response);
-        this.translate.get(this.config.placeholder)
+        this.config.placeholder && this.translate.get(this.config.placeholder)
             .subscribe((response) => this.placeholder = response);
         this.config.options.forEach((option) => {
             this.translate.get(option)
                 .subscribe((response) => this.options.push(response));
-        })
+        });
     }
 }
