@@ -10,8 +10,8 @@ import { Patient } from '../_models/index';
 @Injectable()
 export class PatientService {
     constructor(private http: Http,
-                private authenticationService: AuthenticationService,
-                private config: AppConfig) {
+        private authenticationService: AuthenticationService,
+        private config: AppConfig) {
     }
 
     public getAll() {
@@ -22,7 +22,17 @@ export class PatientService {
 
     public getById(_id) {
         return this.http.get(`${this.config.apiUrl}/patients/${_id}`, this.authenticationService.addJwtOptions())
-            .map((res) => res.json());
+            .map((res) => res.json())
+            //wrong and ugly but this is easy fix for when patient cannot fetch his own data
+            .catch(e =>
+                this.getPatientByEmail(this.authenticationService.getEmail())
+                    .map(patient => {
+                        if (patient.id == _id) {
+                            return patient
+                        } else {
+                            throw e
+                        }
+                    }))
     }
 
     public getMedicalInfo(_id) {
@@ -31,11 +41,11 @@ export class PatientService {
     }
 
     public saveMedicalInfo(_id, data) {
-        return this.http.post(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
+        return this.http.post(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, { id: _id, ...data }, this.authenticationService.addJwtOptions());
     }
 
     public updateMedicalInfo(_id, data) {
-        return this.http.put(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, {id: _id, ...data}, this.authenticationService.addJwtOptions());
+        return this.http.put(`${this.config.apiUrl}/patients/${_id}/medicalInformation`, { id: _id, ...data }, this.authenticationService.addJwtOptions());
     }
 
     public getMedicalHistory(patientId, dateStart, dateEnd) {
@@ -51,7 +61,7 @@ export class PatientService {
 
     public addToMedicalHistory(patientId, data) {
         return this.http.post(`${this.config.apiUrl}/patients/${patientId}/history`,
-            {patientId, ...data},
+            { patientId, ...data },
             this.authenticationService.addJwtOptions()
         );
     }
