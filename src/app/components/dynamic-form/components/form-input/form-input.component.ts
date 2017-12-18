@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
     template: `
         <mat-form-field class="dynamic-field form-input" [formGroup]="group">
             <input matInput [attr.placeholder]="placeholder" [placeholder]="placeholder"
-                   [formControlName]="config.name" [type]="config.name === password && password">
+                   [formControlName]="config.name" [type]="type">
         </mat-form-field>
     `
 })
@@ -20,6 +20,7 @@ export class FormInputComponent implements Field, OnInit {
     group: FormGroup;
     name: string;
     placeholder: string;
+    type: string;
 
     constructor(private translate: TranslateService) {
     }
@@ -29,5 +30,6 @@ export class FormInputComponent implements Field, OnInit {
             .subscribe((response) => this.name = response);
         this.config.placeholder && this.translate.get(this.config.placeholder)
             .subscribe((response) => this.placeholder = response);
+        this.type = this.config.name.includes('password' || 'email' || 'number' || 'url') ? this.config.name : 'text';
     }
 }
