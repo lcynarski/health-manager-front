@@ -13,7 +13,7 @@ const medicalInfoConfig: FieldConfig[] = [
         type: 'input',
         label: 'Height',
         name: 'height',
-        placeholder: 'height',
+        placeholder: 'Height',
         validation: [Validators.required]
     },
     {
@@ -25,9 +25,9 @@ const medicalInfoConfig: FieldConfig[] = [
     },
     {
         type: 'textarea',
-        label: 'Other Notes',
+        label: 'OtherNotes',
         name: 'otherNotes',
-        placeholder: 'Other Notes'
+        placeholder: 'OtherNotes'
     },
     {
         label: 'Submit',

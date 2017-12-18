@@ -18,6 +18,7 @@ import {
     MatInputModule, MatOptionModule, MatSelectModule
 } from '@angular/material';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import { FormTextareaComponent } from './components/form-textarea/form-textarea.
         MatInputModule,
         MatSelectModule,
         MatOptionModule,
-        MatButtonModule
+        MatButtonModule,
+        TranslateModule
     ],
     declarations: [
         DynamicFieldDirective,

@@ -6,6 +6,7 @@ import { FormCreatorStore } from '../../stores/formCreatorStore';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FieldCreatorStore } from '../../stores/fieldCreatorStore';
 import { MdlDialogComponent } from '@angular-mdl/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'field-creator',
@@ -29,17 +30,20 @@ export class FieldsCreatorComponent implements OnInit {
     selectFieldName: string;
     dateFieldName: string;
     checkboxName: string;
+    labels = {
+        fieldType: 'Field Type'
+    };
 
     config: FieldConfig[] = [
         {
             type: 'input',
-            label: 'Field name',
+            label: 'Name',
             name: 'field-name',
-            placeholder: 'Provide field name'
+            placeholder: 'Name'
         },
         {
             type: 'checkbox',
-            label: 'Field required',
+            label: 'Required',
             name: 'field-required'
         },
         {
@@ -56,9 +60,9 @@ export class FieldsCreatorComponent implements OnInit {
         },
         {
             type: 'input',
-            label: 'Error text',
+            label: 'ErrorText',
             name: 'field-error',
-            placeholder: 'Error text'
+            placeholder: 'ErrorText'
         },
         {
             label: 'Submit',
@@ -84,9 +88,9 @@ export class FieldsCreatorComponent implements OnInit {
     checkboxConfig: FieldConfig[] = [
         {
             type: 'input',
-            label: 'Checkbox label',
+            label: 'Label',
             name: 'checkbox',
-            placeholder: 'Checkbox label'
+            placeholder: 'Label'
         },
         {
             label: 'Save',
@@ -98,9 +102,9 @@ export class FieldsCreatorComponent implements OnInit {
     dateConfig: FieldConfig[] = [
         {
             type: 'input',
-            label: 'Date label',
+            label: 'Label',
             name: 'date',
-            placeholder: 'Date label'
+            placeholder: 'Label'
         },
         {
             label: 'Save',
@@ -109,9 +113,12 @@ export class FieldsCreatorComponent implements OnInit {
         }
     ];
 
-    constructor(private formCreatorStore: FormCreatorStore, private fieldCreatorStore: FieldCreatorStore, elementRef:ElementRef) {
+    constructor(private formCreatorStore: FormCreatorStore,
+                private fieldCreatorStore: FieldCreatorStore,
+                private translate: TranslateService,
+                elementRef: ElementRef) {
         this.type = '';
-        console.log(elementRef.nativeElement.parentElement)
+        console.log(elementRef.nativeElement.parentElement);
     }
 
     ngOnInit() {
@@ -119,6 +126,8 @@ export class FieldsCreatorComponent implements OnInit {
             fieldType: new FormControl()
         });
         this.fieldCreatorStore.selectOptions.subscribe((data) => this.options = data);
+        this.translate.get('FieldType')
+            .subscribe((response) => this.labels.fieldType = response);
     }
 
     onChange(type) {
@@ -145,7 +154,7 @@ export class FieldsCreatorComponent implements OnInit {
             placeholder: 'date',
         };
         this.formCreatorStore.saveNewOptionField(field);
-        this.addFieldDialog.close()
+        this.addFieldDialog.close();
         console.log(this.dateForm);
     }
 
