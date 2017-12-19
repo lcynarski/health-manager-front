@@ -31,7 +31,8 @@ export class FieldsCreatorComponent implements OnInit {
     dateFieldName: string;
     checkboxName: string;
     labels = {
-        fieldType: 'Field Type'
+        fieldType: 'Field Type',
+        selectfieldName: 'Name'
     };
 
     config: FieldConfig[] = [
@@ -127,6 +128,8 @@ export class FieldsCreatorComponent implements OnInit {
         });
         this.fieldCreatorStore.selectOptions.subscribe((data) => this.options = data);
         this.translate.get('FieldType')
+            .subscribe((response) => this.labels.fieldType = response);
+        this.translate.get('SelectfieldName')
             .subscribe((response) => this.labels.fieldType = response);
     }
 

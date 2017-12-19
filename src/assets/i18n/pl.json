@@ -153,6 +153,7 @@
   "EditPatient": "Edytuj pacjenta",
   "AddToMedicalInfo": "Dodaj informacje medyczne",
   "EditMedicalInfo": "Edytuj informacje medyczne",
+  "SelectfieldName": "Nazwa pola wyboru",
   "medcom": {
     "modalities": {
       "title": "Urządzenia",
