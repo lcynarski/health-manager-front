@@ -146,6 +146,9 @@
   "FieldType": "Field Type",
   "Field": "Field",
   "Dashboard": "Dashboard",
+  "EditPatient": "Edit Patient",
+  "AddToMedicalInfo": "Add to medical information",
+  "EditMedicalInfo": "Edit medical information",
   "medcom": {
     "modalities": {
       "title": "Modalities",

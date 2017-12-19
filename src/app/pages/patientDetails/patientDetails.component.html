@@ -214,7 +214,7 @@
                  }"
                 (show)="onDialogShow(dialogRef)"
     >
-        <h3 class="mdl-dialog__title">Edit Patient</h3>
+        <h3 class="mdl-dialog__title">{{ 'EditPatient' | translate }}</h3>
         <div class="mdl-dialog__content">
             <dynamic-form
                     [config]="editPatientConfig"
@@ -239,7 +239,7 @@
                  }"
                 (show)="onMedicalInfoDialogShow(dialogRef)"
     >
-        <h3 class="mdl-dialog__title">Add Medical Information</h3>
+        <h3 class="mdl-dialog__title">{{ 'AddToMedicalInfo' | translate }}</h3>
         <div class="mdl-dialog__content">
             <dynamic-form
                     [config]="medicalInfoConfig"
@@ -248,7 +248,7 @@
             </dynamic-form>
         </div>
         <div class="mdl-dialog__actions">
-            <button mat-raised-button (click)="medicalInfoDialog.close()" mdl-ripple>Cancel</button>
+            <button mat-raised-button (click)="medicalInfoDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
 
@@ -263,7 +263,7 @@
                  }"
                 (show)="onMedicalInfoEditDialogShow(dialogRef)"
     >
-        <h3 class="mdl-dialog__title">Edit Medical Information</h3>
+        <h3 class="mdl-dialog__title">{{ 'EditMedicalInfo' | translate }}</h3>
         <div class="mdl-dialog__content">
             <dynamic-form
                     [config]="medicalInfoConfig"
@@ -272,7 +272,7 @@
             </dynamic-form>
         </div>
         <div class="mdl-dialog__actions">
-            <button mat-raised-button (click)="medicalInfoEditDialog.close()" mdl-ripple>Cancel</button>
+            <button mat-raised-button (click)="medicalInfoEditDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
 
@@ -286,7 +286,7 @@
                   leaveTransitionDuration: 400
                  }"
     >
-        <h3 class="mdl-dialog__title">Add To Medical History</h3>
+        <h3 class="mdl-dialog__title">{{ 'AddToMedicalHistory' | translate }}</h3>
         <div class="mdl-dialog__content">
             <dynamic-form
                     [config]="medicalHistoryDiseaseConfig"
@@ -295,7 +295,7 @@
             </dynamic-form>
         </div>
         <div class="mdl-dialog__actions">
-            <button mat-raised-button (click)="addToMedicalHistoryDialog.close()" mdl-ripple>Cancel</button>
+            <button mat-raised-button (click)="addToMedicalHistoryDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
 
@@ -317,7 +317,7 @@
             </dynamic-form>
         </div>
         <div class="mdl-dialog__actions">
-            <button mat-raised-button (click)="addEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
+            <button mat-raised-button (click)="addEmergencyContactDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
 
@@ -340,7 +340,7 @@
             </dynamic-form>
         </div>
         <div class="mdl-dialog__actions">
-            <button mat-raised-button (click)="editEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
+            <button mat-raised-button (click)="editEmergencyContactDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
 

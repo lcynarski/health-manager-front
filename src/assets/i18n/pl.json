@@ -149,6 +149,9 @@
   "FieldType": "Typ pola",
   "Field": "Pole",
   "Dashboard": "Panel Kontrolny",
+  "EditPatient": "Edytuj pacjenta",
+  "AddToMedicalInfo": "Dodaj informacje medyczne",
+  "EditMedicalInfo": "Edytuj informacje medyczne",
   "medcom": {
     "modalities": {
       "title": "Urządzenia",

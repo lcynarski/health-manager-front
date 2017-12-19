@@ -28,7 +28,7 @@ import { PrescriptionsService } from '../../_services/prescriptions.service';
 })
 
 export class UsersProfileComponent implements OnInit {
-    public personalDetails: PersonalDetails;
+    public personalDetails;
     public account: Account;
     public form: DynamicFormComponent;
     public medicalInfo;
@@ -133,7 +133,9 @@ export class UsersProfileComponent implements OnInit {
         this.userService.getPersonalDetails().subscribe(
             (data) => {
                 this.personalDetails = data;
-                console.log(data);
+                const { birthdate } = data;
+                const formattedDate = moment(birthdate).format('YYYY-MM-DD');
+                this.personalDetails = { ...this.personalDetails, birthdate: formattedDate };
             }
         );
     }

@@ -251,7 +251,7 @@
                  }"
                 (show)="onDialogShow(dialogRef)"
     >
-        <h3 class="mdl-dialog__title">Edit Patient</h3>
+        <h3 class="mdl-dialog__title">{{ 'Edit' | translate }}</h3>
         <div class="mdl-dialog__content">
             <dynamic-form
                     [config]="editPatientConfig"
@@ -261,7 +261,7 @@
         </div>
         <div class="mdl-dialog__actions">
             <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="editUserDialog.close()" mdl-ripple>Cancel</button>
+            <button mdl-button (click)="editUserDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
 
@@ -276,7 +276,7 @@
                   leaveTransitionDuration: 400
                  }"
     >
-        <h3 class="mdl-dialog__title">Add Medical Information</h3>
+        <h3 class="mdl-dialog__title">{{ 'AddToMedicalInfo' | translate }}</h3>
         <div class="mdl-dialog__content">
             <dynamic-form
                     [config]="medicalInfoConfig"
@@ -286,7 +286,7 @@
         </div>
         <div class="mdl-dialog__actions">
             <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="medicalInfoDialog.close()" mdl-ripple>Cancel</button>
+            <button mdl-button (click)="medicalInfoDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
 
@@ -301,7 +301,7 @@
                  }"
                 (show)="onMedicalInfoEditDialogShow(dialogRef)"
     >
-        <h3 class="mdl-dialog__title">Edit Medical Information</h3>
+        <h3 class="mdl-dialog__title">{{ 'EditMedicalInfo' | translate }}</h3>
         <div class="mdl-dialog__content">
             <dynamic-form
                     [config]="medicalInfoConfig"
@@ -311,7 +311,7 @@
         </div>
         <div class="mdl-dialog__actions">
             <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="medicalInfoEditDialog.close()" mdl-ripple>Cancel</button>
+            <button mdl-button (click)="medicalInfoEditDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
 
@@ -325,7 +325,7 @@
                   leaveTransitionDuration: 400
                  }"
     >
-        <h3 class="mdl-dialog__title">Add To Medical History</h3>
+        <h3 class="mdl-dialog__title">{{ 'AddToMedicalHistory' | translate }}</h3>
         <div class="mdl-dialog__content">
             <dynamic-form
                     [config]="medicalHistoryDiseaseConfig"
@@ -335,7 +335,7 @@
         </div>
         <div class="mdl-dialog__actions">
             <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="addToMedicalHistoryDialog.close()" mdl-ripple>Cancel</button>
+            <button mdl-button (click)="addToMedicalHistoryDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
 
@@ -358,7 +358,7 @@
         </div>
         <div class="mdl-dialog__actions">
             <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="addEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
+            <button mdl-button (click)="addEmergencyContactDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
 
@@ -382,7 +382,7 @@
         </div>
         <div class="mdl-dialog__actions">
             <!--<button mdl-button (click)="submit($event)" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>-->
-            <button mdl-button (click)="editEmergencyContactDialog.close()" mdl-ripple>Cancel</button>
+            <button mdl-button (click)="editEmergencyContactDialog.close()" mdl-ripple>{{ 'Cancel' | translate }}</button>
         </div>
     </mdl-dialog>
 
