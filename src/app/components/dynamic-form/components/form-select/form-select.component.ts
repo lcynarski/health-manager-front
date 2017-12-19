@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Field } from '../../models/field.interface';
@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
         <mat-form-field class="dynamic-field form-select" [formGroup]="group">
             <mat-select [placeholder]="placeholder" [attr.placeholder]="placeholder"
                         [formControlName]="config.name">
-                <mat-option *ngFor="let option of options" [value]="option">
+                <mat-option *ngFor="let option of config.options" [value]="option">
                     {{ option }}
                 </mat-option>
             </mat-select>
@@ -35,9 +35,13 @@ export class FormSelectComponent implements Field, OnInit {
             .subscribe((response) => this.name = response);
         this.config.placeholder && this.translate.get(this.config.placeholder)
             .subscribe((response) => this.placeholder = response);
-        this.config.options.forEach((option) => {
-            this.translate.get(option)
-                .subscribe((response) => this.options.push(response));
-        });
+        if (this.config.options.length > 0) {
+            const options = this.config.options;
+            this.config.options = [];
+            options.forEach((option) => {
+                this.translate.get(option)
+                    .subscribe((response) => this.config.options.push(response));
+            });
+        }
     }
 }
