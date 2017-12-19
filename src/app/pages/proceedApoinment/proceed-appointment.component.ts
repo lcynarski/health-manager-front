@@ -21,6 +21,7 @@ import { subscribeOn } from 'rxjs/operator/subscribeOn';
 import { PrescriptionsService } from '../../_services/prescriptions.service';
 import { DynamicFormComponent } from '../../components/dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { MatSnackBar } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     providers: [
@@ -53,6 +54,17 @@ export class ProceedAppointmentComponent implements OnInit {
     private drugs = [];
     public packs = [];
     private standardExaminationConfig = standardExaminationConfig;
+
+    private labels = {
+        disease: 'disease',
+        selectForm: 'select form',
+        selectValues: 'select values',
+        drug: 'drug',
+        selectSize: 'select size',
+        notes: 'notes',
+    };
+
+
     formSelectState = {};
     packSelectState = {};
     defaulValuesSelectState = {};
@@ -92,6 +104,7 @@ export class ProceedAppointmentComponent implements OnInit {
                 private appointmentService: AppointmentService,
                 private doctorService: DoctorService,
                 private prescriptionService: PrescriptionsService,
+                private translate: TranslateService,
                 public snackBar: MatSnackBar) {
     }
 
@@ -151,6 +164,19 @@ export class ProceedAppointmentComponent implements OnInit {
         this.filteredOptions = this.myControl.valueChanges
             .startWith(null)
             .map(val => val ? this.filter(val) : this.drugs.slice());
+
+        this.translate.get('Disease')
+            .subscribe((res) => this.labels.disease = res);
+        this.translate.get('SelectForm')
+            .subscribe((res) => this.labels.selectForm = res);
+        this.translate.get('SelectValues')
+            .subscribe((res) => this.labels.selectValues = res);
+        this.translate.get('Drug')
+            .subscribe((res) => this.labels.drug = res);
+        this.translate.get('SelectSize')
+            .subscribe((res) => this.labels.selectSize = res);
+        this.translate.get('Notes')
+            .subscribe((res) => this.labels.notes = res);
     }
 
     filter(val: string): string[] {

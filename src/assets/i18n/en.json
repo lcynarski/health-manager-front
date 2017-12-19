@@ -152,6 +152,9 @@
   "SelectfieldName": "Selectfield's name",
   "Save": "Save",
   "save": "Save",
+  "SelectValues": "Select values",
+  "Drug": "Drug",
+  "SelectSize": "Select size",
   "medcom": {
     "modalities": {
       "title": "Modalities",

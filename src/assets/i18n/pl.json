@@ -155,6 +155,9 @@
   "EditMedicalInfo": "Edytuj informacje medyczne",
   "SelectfieldName": "Nazwa pola wyboru",
   "save": "zapisz",
+  "SelectValues": "Wybierz wartości",
+  "Drug": "Lek",
+  "SelectSize": "Wybierz rozmiar",
   "medcom": {
     "modalities": {
       "title": "Urządzenia",

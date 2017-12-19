@@ -31,7 +31,7 @@
 
 
             <div>
-                <button mat-button matStepperNext>{{ 'Next' || translate }}</button>
+                <button mat-button matStepperNext>{{ 'Next' | translate }}</button>
             </div>
         </form>
     </mat-step>
@@ -73,14 +73,14 @@
 
         <h5>{{ 'DetectedDisease' | translate }} </h5>
         <mat-form-field >
-            <input matInput placeholder="Disease" #diseaseInput>
+            <input matInput [placeholder]="labels.disease" #diseaseInput>
         </mat-form-field>
 
         <h5>{{ 'ChoosePreparedForm' | translate }}</h5>
 
 
         <mat-form-field>
-            <mat-select placeholder="Select form" *ngIf="formsToChoose" [(ngModel)]="formSelectState">
+            <mat-select [placeholder]="labels.selectForm" *ngIf="formsToChoose" [(ngModel)]="formSelectState">
                 <mat-option *ngFor="let form of formsToChoose" [value]="form" (click)="onChooseForm(form)">
                     {{ form.name }}
                 </mat-option>
@@ -88,7 +88,7 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-select placeholder="Select values" *ngIf="formDefaultValues" [(ngModel)]="defaulValuesSelectState">
+            <mat-select [placeholder]="labels.selectValues" *ngIf="formDefaultValues" [(ngModel)]="defaulValuesSelectState">
                 <mat-option *ngFor="let defaultSet of formDefaultValues" [value]="defaultSet" (click)="onChooseDefaultData(defaultSet)">
                     {{ defaultSet.name }}
                 </mat-option>
@@ -120,7 +120,7 @@
         <h5>{{ 'StartTypeDrugName' | translate }}</h5>
         <form class="example-form">
             <mat-form-field class="example-full-width">
-                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                <input type="text" [placeholder]="labels.drug" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
                 <mat-autocomplete #auto="matAutocomplete">
                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" (click)="getPacks()">
                         {{ option?.name }}
@@ -132,7 +132,7 @@
         <form class="example-form">
 
         <mat-form-field>
-            <mat-select placeholder="Select size" *ngIf="packs ">
+            <mat-select [placeholder]="labels.selectSize" *ngIf="packs ">
                 <mat-option *ngFor="let pack of packs" [value]="pack" (click)="onChoosePack(pack)">
                     {{ pack }}
                 </mat-option>
@@ -153,7 +153,7 @@
             <mat-divider></mat-divider>
             <h3 mat-subheader>{{ 'Notes' | translate }}</h3>
             <mat-form-field style="width: 40rem">
-                <textarea matInput placeholder="Notes" [(ngModel)]="notesModel" (change)="onNotesChange()"></textarea>
+                <textarea matInput [placeholder]="labels.notes" [(ngModel)]="notesModel" (change)="onNotesChange()"></textarea>
             </mat-form-field>
         </mat-list>
 
