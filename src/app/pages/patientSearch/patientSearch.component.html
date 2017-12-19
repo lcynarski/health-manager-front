@@ -1,13 +1,13 @@
 <form [formGroup]="form"
       (submit)="onSubmit($event)">
         <div>
-            Enter patient's PESEL number:
+            {{ 'EnterPatientsPeselNumber' | translate }}
         </div>
         <p>
             <mdl-textfield label="PESEL" name="pesel" type="text" formControlName="pesel" floating-label></mdl-textfield>
         </p>
         <p>
-            <button mdl-button type="submit" [disabled]="!form.valid" mdl-button-type="raised" mdl-ripple mdl-colored="primary">Submit</button>
+            <button mdl-button type="submit" [disabled]="!form.valid" mdl-button-type="raised" mdl-ripple mdl-colored="primary">{{ 'Submit' | translate }}</button>
         </p>
 </form>
 

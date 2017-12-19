@@ -158,6 +158,7 @@
   "SelectValues": "Wybierz wartości",
   "Drug": "Lek",
   "SelectSize": "Wybierz rozmiar",
+  "EnterPatientsPeselNumber": "Podaj number PESEL pacjenta",
   "medcom": {
     "modalities": {
       "title": "Urządzenia",
