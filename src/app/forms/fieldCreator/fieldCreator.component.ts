@@ -154,7 +154,7 @@ export class FieldsCreatorComponent implements OnInit {
             type: 'input',
             label: value['date'],
             name: value['date'],
-            placeholder: 'date',
+            placeholder: value['date'],
         };
         this.formCreatorStore.saveNewOptionField(field);
         this.addFieldDialog.close();
@@ -182,7 +182,7 @@ export class FieldsCreatorComponent implements OnInit {
             label: this.selectFieldName,
             name: this.selectFieldName,
             options: onlyOptions,
-            placeholder: 'option'
+            placeholder: this.selectFieldName
         };
         this.formCreatorStore.saveNewOptionField(field);
         this.addFieldDialog.close();
