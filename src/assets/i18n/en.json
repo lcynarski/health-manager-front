@@ -149,6 +149,7 @@
   "EditPatient": "Edit Patient",
   "AddToMedicalInfo": "Add to medical information",
   "EditMedicalInfo": "Edit medical information",
+  "Save": "Save",
   "medcom": {
     "modalities": {
       "title": "Modalities",
