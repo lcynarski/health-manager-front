@@ -154,6 +154,7 @@
   "AddToMedicalInfo": "Dodaj informacje medyczne",
   "EditMedicalInfo": "Edytuj informacje medyczne",
   "SelectfieldName": "Nazwa pola wyboru",
+  "save": "zapisz",
   "medcom": {
     "modalities": {
       "title": "Urządzenia",

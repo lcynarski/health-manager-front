@@ -151,6 +151,7 @@
   "EditMedicalInfo": "Edit medical information",
   "SelectfieldName": "Selectfield's name",
   "Save": "Save",
+  "save": "Save",
   "medcom": {
     "modalities": {
       "title": "Modalities",
