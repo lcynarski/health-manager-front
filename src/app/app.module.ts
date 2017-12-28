@@ -37,6 +37,9 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {
+    DateAdapter,
+    MAT_DATE_FORMATS,
+    MAT_DATE_LOCALE,
     MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatOptionModule,
     MatSelectModule, MatSnackBarModule
 } from '@angular/material';
@@ -113,7 +116,8 @@ export const translateLoader: Provider = {
         AlertService,
         SpinnerService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
-        APP_PROVIDERS
+        APP_PROVIDERS,
+        {provide: MAT_DATE_LOCALE, useValue: 'en-EN'},
     ],
     bootstrap: [AppComponent]
 })
