@@ -4,6 +4,7 @@ import { Field } from '../../models/field.interface';
 import { FieldConfig } from '../../models/field-config.interface';
 import { DynamicFormComponent } from '../../containers/dynamic-form/dynamic-form.component';
 import { TranslateService } from '@ngx-translate/core';
+import { DateAdapter } from '@angular/material';
 
 @Component({
     selector: 'form-date',
@@ -26,7 +27,8 @@ export class FormDateComponent implements Field, OnInit {
     name: string;
     placeholder: string;
 
-    constructor(private translate: TranslateService) {
+    constructor(private translate: TranslateService,
+                private adapter: DateAdapter<any>) {
     }
 
 
@@ -35,5 +37,7 @@ export class FormDateComponent implements Field, OnInit {
             .subscribe((response) => this.name = response);
         this.config.placeholder && this.translate.get(this.config.placeholder)
             .subscribe((response) => this.placeholder = response);
+        const currentLang = sessionStorage.getItem('currentLang');
+        this.adapter.setLocale(currentLang || 'pl');
     }
 }
