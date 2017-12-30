@@ -60,8 +60,7 @@ export class FormsService {
     public deleteForm(id: number) {
         return this.http.delete(`${this.config.apiUrl}/forms/${id}`, this.authenticationService.addJwtOptions())
             .map((response: Response) => {
-                console.log('DELETE FORM: ' + response.json());
-                return response.json();
+                return response;
             });
     }
 

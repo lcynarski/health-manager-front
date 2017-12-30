@@ -1,3 +1,4 @@
+@import '../../../assets/styles/variables';
 
 .form-creator {
   display: flex;
@@ -31,5 +32,19 @@
 
   :host /deep/  .dynamic-form {
     justify-content: flex-start;
+  }
+
+  .mat-list-item.form-list-item {
+    margin: 1rem 0;
+    border-bottom: 1px solid $oc-gray-1;
+  }
+
+  button.mat-icon-button {
+    margin: 0;
+  }
+
+  .form-name {
+    margin-left: 1rem;
+    margin-bottom: 0;
   }
 }

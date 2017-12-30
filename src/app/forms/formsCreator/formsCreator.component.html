@@ -11,12 +11,14 @@
             <button #addNewFieldButton mat-button color="primary"
                     (click)="addFieldDialog.show()"
             >
-                <mdl-icon>add</mdl-icon> {{ 'AddField' | translate }}
+                <mdl-icon>add</mdl-icon>
+                {{ 'AddField' | translate }}
             </button>
             <button #removeFieldButton mat-button color="primary"
                     (click)="removeFieldDialog.show()"
             >
-                <mdl-icon>remove</mdl-icon> {{ 'RemoveField' | translate }}
+                <mdl-icon>remove</mdl-icon>
+                {{ 'RemoveField' | translate }}
             </button>
         </div>
         <button (click)="save($event)" mat-raised-button color="primary">{{ 'SaveYourForm' | translate }}</button>
@@ -45,7 +47,7 @@
                 [label]="labels.defaultDatasetName"
                 [(ngModel)]="defaultDataSetName"
                 floating-label
-        >
+        >d
         </mdl-textfield>
         <mat-divider></mat-divider>
         <dynamic-form
@@ -54,6 +56,8 @@
                 (submit)="submitDefaultValues($event)">
         </dynamic-form>
     </div>
+
+    <button mat-button (click)="manageFormsDialog.show()" style="height: 4rem">{{ 'ManageExistingForms' | translate }}</button>
 
     <mdl-dialog #addFieldDialog
                 [mdl-dialog-config]="{
@@ -89,5 +93,37 @@
             <button mdl-button (click)="removeFieldDialog.close()" mdl-ripple>{{ 'Close' | translate }}</button>
         </div>
     </mdl-dialog>
-    <dialog-outlet></dialog-outlet>
+
+    <mdl-dialog #manageFormsDialog
+                [mdl-dialog-config]="{
+              clickOutsideToClose: true,
+              styles:{'width': '52rem'},
+              isModal:true,
+              enterTransitionDuration: 400,
+              leaveTransitionDuration: 400}"
+    >
+
+        <mat-list>
+            <h3 mat-subheader>{{ 'YourForms' | translate }}</h3>
+            <mat-list-item *ngFor="let form of formsToChoose" class="form-list-item">
+                <mat-icon mat-list-icon>assignment</mat-icon>
+                <p class="form-name">{{form.name}}</p>
+                <button mat-icon-button [routerLink]="['/pages/formsCreator/', form?.id]" (click)="manageFormsDialog.close()" color="primary">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                <button mat-icon-button (click)="deleteForm(form.id)" color="primary">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-list-item>
+        </mat-list>
+
+
+
+        <div class=" mdl-dialog__actions
+                ">
+                <button mdl-button (click)="manageFormsDialog.close()" mdl-ripple>{{ 'Close' | translate }}</button>
+</div>
+</mdl-dialog>
+
+<dialog-outlet></dialog-outlet>
 </div>

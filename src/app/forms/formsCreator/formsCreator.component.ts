@@ -22,6 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class FormsCreatorComponent implements OnInit {
     @ViewChild('addFieldDialog') addFieldDialog: MdlDialogComponent;
     @ViewChild('removeFieldDialog') removeFieldDialog: MdlDialogComponent;
+    @ViewChild('manageFormsDialog') manageFormsDialog: MdlDialogComponent;
     private formId: number;
     private router: Router;
     private form: Form;
@@ -35,7 +36,10 @@ export class FormsCreatorComponent implements OnInit {
     labels = {
         formName: '',
         selectForm: '',
-        defaultDatasetName: ''
+        defaultDatasetName: '',
+        formSaved: '',
+        valuesSaved: '',
+        sthWentWrong: ''
     }
 
     constructor(router: Router,
@@ -69,6 +73,12 @@ export class FormsCreatorComponent implements OnInit {
             .subscribe((response) => this.labels.selectForm = response);
         this.translate.get('DefaultDatasetName')
             .subscribe((response) => this.labels.defaultDatasetName = response);
+        this.translate.get('FormSuccSaved')
+            .subscribe((response) => this.labels.formSaved = response);
+        this.translate.get('DefValsSuccSaved')
+            .subscribe((response) => this.labels.valuesSaved = response);
+        this.translate.get('DefauSthWentWrongltDatasetName')
+            .subscribe((response) => this.labels.sthWentWrong = response);
     }
 
     public onChooseForm(form) {
@@ -115,14 +125,14 @@ export class FormsCreatorComponent implements OnInit {
         this.formsService.saveDefaultValues(this.defaultFormId, defaultValuesSet)
             .subscribe(
                 (resp) => {
-                    this.snackBar.open('Default values successfully saved', undefined, {
+                    this.snackBar.open(this.labels.valuesSaved, undefined, {
                         duration: 4000,
                         extraClasses: ['success-snackbar'],
                         verticalPosition: 'top'
                     });
             },
                 (error) => {
-                    this.snackBar.open('Something went wrong :(', undefined, {
+                    this.snackBar.open(this.labels.sthWentWrong, undefined, {
                         duration: 4000,
                         extraClasses: ['error-snackbar'],
                         verticalPosition: 'top'
@@ -149,14 +159,14 @@ export class FormsCreatorComponent implements OnInit {
                         .subscribe((forms) => {
                                 this.formsToChoose = forms;
                             });
-                    this.snackBar.open('Form successfully saved', undefined, {
+                    this.snackBar.open(this.labels.formSaved, undefined, {
                         duration: 4000,
                         extraClasses: ['success-snackbar'],
                         verticalPosition: 'top'
                     });
                 },
                 () => {
-                    this.snackBar.open('Something went wrong :(', undefined, {
+                    this.snackBar.open(this.labels.sthWentWrong, undefined, {
                         duration: 4000,
                         extraClasses: ['error-snackbar'],
                         verticalPosition: 'top'
@@ -168,9 +178,22 @@ export class FormsCreatorComponent implements OnInit {
     loadForm(id: number) {
         this.formsService.getFormById(id)
             .subscribe((form) => {
+                this.formCreatorStore.resetAll();
                 form.formFields.forEach((f) => {
                     this.formCreatorStore.addExistingField(f);
                 });
+            });
+    }
+
+    deleteForm(formId) {
+        this.formsService.deleteForm(formId)
+            .subscribe(() => {
+                console.log('bumbumbum')
+                this.manageFormsDialog.close();
+                this.formsService.getAllForms()
+                    .subscribe((forms) => {
+                        this.formsToChoose = forms;
+                    });
             });
     }
 }

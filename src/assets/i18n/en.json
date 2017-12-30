@@ -156,6 +156,14 @@
   "Drug": "Drug",
   "SelectSize": "Select size",
   "EnterPatientsPeselNumber": "Enter patient's PESEL number",
+  "ManageExistingForms": "Manage existing forms",
+  "YourForms": "Your Forms",
+  "FormSuccSaved": "Form successfully saved",
+  "DefValsSuccSaved": "Default values successfully saved",
+  "SthWentWrong": "Something went wrong",
+  "WrongLoginPassword": "Wrong Login/Password",
+  "SuccResetPassword": "Succesfully reset password. Check your mailbox",
+  "SuccChangedPassword": "Succesfully changed password. Click OK and sign in",
   "medcom": {
     "modalities": {
       "title": "Modalities",
