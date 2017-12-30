@@ -36,7 +36,10 @@ export class FormsCreatorComponent implements OnInit {
     labels = {
         formName: '',
         selectForm: '',
-        defaultDatasetName: ''
+        defaultDatasetName: '',
+        formSaved: '',
+        valuesSaved: '',
+        sthWentWrong: ''
     }
 
     constructor(router: Router,
@@ -70,6 +73,12 @@ export class FormsCreatorComponent implements OnInit {
             .subscribe((response) => this.labels.selectForm = response);
         this.translate.get('DefaultDatasetName')
             .subscribe((response) => this.labels.defaultDatasetName = response);
+        this.translate.get('FormSuccSaved')
+            .subscribe((response) => this.labels.formSaved = response);
+        this.translate.get('DefValsSuccSaved')
+            .subscribe((response) => this.labels.valuesSaved = response);
+        this.translate.get('DefauSthWentWrongltDatasetName')
+            .subscribe((response) => this.labels.sthWentWrong = response);
     }
 
     public onChooseForm(form) {
@@ -116,14 +125,14 @@ export class FormsCreatorComponent implements OnInit {
         this.formsService.saveDefaultValues(this.defaultFormId, defaultValuesSet)
             .subscribe(
                 (resp) => {
-                    this.snackBar.open('Default values successfully saved', undefined, {
+                    this.snackBar.open(this.labels.valuesSaved, undefined, {
                         duration: 4000,
                         extraClasses: ['success-snackbar'],
                         verticalPosition: 'top'
                     });
             },
                 (error) => {
-                    this.snackBar.open('Something went wrong :(', undefined, {
+                    this.snackBar.open(this.labels.sthWentWrong, undefined, {
                         duration: 4000,
                         extraClasses: ['error-snackbar'],
                         verticalPosition: 'top'
@@ -150,14 +159,14 @@ export class FormsCreatorComponent implements OnInit {
                         .subscribe((forms) => {
                                 this.formsToChoose = forms;
                             });
-                    this.snackBar.open('Form successfully saved', undefined, {
+                    this.snackBar.open(this.labels.formSaved, undefined, {
                         duration: 4000,
                         extraClasses: ['success-snackbar'],
                         verticalPosition: 'top'
                     });
                 },
                 () => {
-                    this.snackBar.open('Something went wrong :(', undefined, {
+                    this.snackBar.open(this.labels.sthWentWrong, undefined, {
                         duration: 4000,
                         extraClasses: ['error-snackbar'],
                         verticalPosition: 'top'

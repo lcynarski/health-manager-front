@@ -161,6 +161,12 @@
   "EnterPatientsPeselNumber": "Podaj number PESEL pacjenta",
   "ManageExistingForms": "Zarządzaj istniejącymi formularzami",
   "YourForms": "Twoje formularze",
+  "FormSuccSaved": "Zapisano formularz",
+  "DefValsSuccSaved": "Zapisano zestaw danych",
+  "SthWentWrong": "Coś poszło nie tak",
+  "WrongLoginPassword": "Nieprawidłowy Login/Hasło",
+  "SuccResetPassword": "Zresetowano hasło. Sprawdź swoją skrzynkę odbiorczą",
+  "SuccChangedPassword": "Zmieniono hasło. Kliknij OK i zaloguj się",
   "medcom": {
     "modalities": {
       "title": "Urządzenia",

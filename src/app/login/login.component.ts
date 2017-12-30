@@ -6,6 +6,7 @@ import { Http, RequestOptions, Headers } from '@angular/http';
 import { AppConfig } from '../app.config';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'login',
@@ -22,6 +23,9 @@ export class LoginComponent implements OnInit {
     sub: any = {};
     emailAddress = new FormControl('', [Validators.required, Validators.email]);
     hide = true;
+    translations = {
+        wrongLoginPassword: 'Wrong Login/Password'
+    };
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -30,15 +34,9 @@ export class LoginComponent implements OnInit {
                 public _auth: AuthService,
                 private http: Http,
                 private config: AppConfig,
+                private translate: TranslateService,
                 public snackBar: MatSnackBar) {
     }
-
-    // public signIn(provider = ""){
-    //     this.sub = this._auth.login(provider).subscribe(
-    //         (data) => {
-    //             console.log(data);this.user=data;}
-    //     );
-    // }
 
     public logout() {
         this._auth.logout().subscribe(
@@ -54,6 +52,9 @@ export class LoginComponent implements OnInit {
         this.authenticationService.logout();
 
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+        this.translate.get('WrongLoginPassword')
+            .subscribe((response) => this.translations.wrongLoginPassword = response);
     }
 
     public login() {
@@ -66,7 +67,7 @@ export class LoginComponent implements OnInit {
                 (error) => {
                     this.alertService.error(error._body);
                     this.loading = false;
-                    this.snackBar.open("Wrong login/password", undefined, {
+                    this.snackBar.open(this.translations.wrongLoginPassword, undefined, {
                         duration: 4000,
                         extraClasses: ['error-snackbar'],
                         verticalPosition: 'top'
@@ -87,11 +88,9 @@ export class LoginComponent implements OnInit {
                     .map((response) => {
                         this.authenticationService.role = response['_body'];
                         this.router.navigate(['/dashboard']);
-                    }).subscribe()
-                //user data
-                //name, image, uid, provider, uid, email, token (accessToken for Facebook & google, no token for linkedIn), idToken(only for google)
+                    }).subscribe();
             }
-        )
+        );
     }
 
     getErrorMessage() {
