@@ -11,6 +11,7 @@ export class FormCreatorStore {
     updates: Rx.Subject<any> = new Rx.Subject<any>();
     addNewField: Rx.Subject<any> = new Rx.Subject<any>();
     removeField: Rx.Subject<any> = new Rx.Subject<any>();
+    resetStore: Rx.Subject<any> = new Rx.Subject<any>();
 
     constructor() {
         this.updates
@@ -31,6 +32,13 @@ export class FormCreatorStore {
                     return state.filter((fields) => {
                         return fields.name !== field;
                     });
+                };
+            })
+            .subscribe(this.updates);
+        this.resetStore
+            .map(() => {
+                return (state) => {
+                    return state = [];
                 };
             })
             .subscribe(this.updates);
@@ -67,6 +75,10 @@ export class FormCreatorStore {
 
     deleteField(fieldName) {
         this.removeField.next(fieldName);
+    }
+
+    resetAll() {
+        this.resetStore.next();
     }
 
     deleteFields(fields) {

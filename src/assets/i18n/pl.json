@@ -159,6 +159,8 @@
   "Drug": "Lek",
   "SelectSize": "Wybierz rozmiar",
   "EnterPatientsPeselNumber": "Podaj number PESEL pacjenta",
+  "ManageExistingForms": "Zarządzaj istniejącymi formularzami",
+  "YourForms": "Twoje formularze",
   "medcom": {
     "modalities": {
       "title": "Urządzenia",

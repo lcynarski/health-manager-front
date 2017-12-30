@@ -156,6 +156,8 @@
   "Drug": "Drug",
   "SelectSize": "Select size",
   "EnterPatientsPeselNumber": "Enter patient's PESEL number",
+  "ManageExistingForms": "Manage existing forms",
+  "YourForms": "Your Forms",
   "medcom": {
     "modalities": {
       "title": "Modalities",

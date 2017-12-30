@@ -22,6 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class FormsCreatorComponent implements OnInit {
     @ViewChild('addFieldDialog') addFieldDialog: MdlDialogComponent;
     @ViewChild('removeFieldDialog') removeFieldDialog: MdlDialogComponent;
+    @ViewChild('manageFormsDialog') manageFormsDialog: MdlDialogComponent;
     private formId: number;
     private router: Router;
     private form: Form;
@@ -168,9 +169,22 @@ export class FormsCreatorComponent implements OnInit {
     loadForm(id: number) {
         this.formsService.getFormById(id)
             .subscribe((form) => {
+                this.formCreatorStore.resetAll();
                 form.formFields.forEach((f) => {
                     this.formCreatorStore.addExistingField(f);
                 });
+            });
+    }
+
+    deleteForm(formId) {
+        this.formsService.deleteForm(formId)
+            .subscribe(() => {
+                console.log('bumbumbum')
+                this.manageFormsDialog.close();
+                this.formsService.getAllForms()
+                    .subscribe((forms) => {
+                        this.formsToChoose = forms;
+                    });
             });
     }
 }
