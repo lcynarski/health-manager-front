@@ -5,10 +5,13 @@ $scrollIndicatorWidth: 6px;
 
 #attributesViewerComponent {
   @include absolute('bottom-left', 0, $scrollIndicatorWidth);
-
   width: 50%;
   height: calc(100% - #{$scrollIndicatorWidth});
   background: rgba(black, 0.5);
+  user-select: text;
+  div {
+    height: 100%
+  }
 }
 
 #scrollPane {

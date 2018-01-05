@@ -2,18 +2,18 @@
     <div id="viewContainer">
 
         <div id="listContainer">
-            <div id="listHeaders" fxLayout="row">
+            <div id="listHeaders" fxLayout="row" fxLayoutAlign="start center">
                 <div fxFlex="35">{{'medcom.modalities.headers.aet' | translate}}</div>
                 <div fxFlex="15">{{'medcom.modalities.headers.type' | translate}}</div>
-                <div fxFlex="35">{{'medcom.modalities.headers.model' | translate}}</div>
-                <div fxFlex="15" class="ta-r">{{'medcom.modalities.headers.ip' | translate}}</div>
+                <div fxFlex="35" fxFlex.lt-md="50" ngClass.lt-md="ta-r">{{'medcom.modalities.headers.model' | translate}}</div>
+                <div fxFlex="15" fxHide.lt-md class="ta-r">{{'medcom.modalities.headers.ip' | translate}}</div>
             </div>
 
-            <div class="record" fxLayout="row" *ngFor="let modality of modalities">
-                <div fxFlex="35">{{modality.applicationEntity}}</div>
+            <div class="record" fxLayout="row" fxLayoutAlign="start center" *ngFor="let modality of modalities">
+                <div fxFlex="35" class="ellipsis">{{modality.applicationEntity}}</div>
                 <div fxFlex="15">{{modality.type}}</div>
-                <div fxFlex="35">{{modality.attributes.Manufacturer}} {{modality.attributes.ManufacturerModelName}}</div>
-                <div fxFlex="15" class="ta-r">{{modality.address}}</div>
+                <div fxFlex="35" fxFlex.lt-md="50" ngClass.lt-md="ta-r">{{modality.attributes.Manufacturer}} {{modality.attributes.ManufacturerModelName}}</div>
+                <div fxFlex="15" fxHide.lt-md class="ta-r">{{modality.address}}</div>
             </div>
         </div>
 

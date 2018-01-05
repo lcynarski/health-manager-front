@@ -6,7 +6,7 @@
 
     >
         <div fxLayout="row">
-            <div fxFlex="75">{{getStudyDescription(study)}}</div>
+            <div fxFlex="75" class="ellipsis">{{getStudyDescription(study)}}</div>
             <div fxFlex="25" class="ta-r">{{study.creationDate | date:'dd-MM-yyyy'}}</div>
         </div>
     </div>

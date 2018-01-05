@@ -1,28 +1,28 @@
 <div id="studyDialog">
 
     <div id="topBar" fxLayout="row" fxLayoutAlign="space-between center">
-        <button fxFlex class="actionButton" mdl-button
+        <button fxFlex="65px" class="actionButton" mdl-button
                 (click)="toggleInfoBox()" [class.active]="infoBoxVisible"
                 [mdl-tooltip-large]="'medcom.dicomArchive.attributesInfo.tooltip' | translate" mdl-tooltip-position="bottom">
             <mdl-icon>info_outline</mdl-icon>
         </button>
-        <button fxFlex class="actionButton" mdl-button
+        <button fxFlex="65px" class="actionButton" mdl-button
                 (click)="toggleToolsPane()" [class.active]="toolsPaneVisible"
                 [mdl-tooltip-large]="'medcom.dicomArchive.tools.tooltip' | translate" mdl-tooltip-position="bottom">
             <mdl-icon>build</mdl-icon>
         </button>
 
-        <div fxFlex id="tabsContainer" fxLayout="row">
+        <div fxFlex="calc(100% - 195px)" id="tabsContainer" fxLayout="row">
             <div id="wrapper">
-                <mat-tab-group (selectedIndexChange)="onSeriesChange($event)">
+                <mat-tab-group (selectedIndexChange)="onSeriesChange($event)" md-stretch-tabs >
                     <mat-tab *ngFor="let series of seriesList"
-                             [label]="series.attributes.SeriesDescription">
+                             [label]="series.attributes.SeriesDescription" md-stretch-tabs>
                     </mat-tab>
                 </mat-tab-group>
             </div>
         </div>
 
-        <button fxFlex id="closeButton" mdl-button (click)="closeDialog()">
+        <button fxFlex="65px"z id="closeButton" mdl-button (click)="closeDialog()">
             <mdl-icon>close</mdl-icon>
         </button>
     </div>

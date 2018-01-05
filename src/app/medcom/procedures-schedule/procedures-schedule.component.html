@@ -2,20 +2,20 @@
     <div id="viewContainer">
 
         <div id="listHeaders" fxLayout="row">
-            <div fxFlex="20">{{'medcom.proceduresSchedule.headers.date' | translate}}</div>
-            <div fxFlex="20">{{'medcom.proceduresSchedule.headers.patient' | translate}}</div>
-            <div fxFlex="20">{{'medcom.proceduresSchedule.headers.doctor' | translate}}</div>
+            <div fxFlex="20" fxFlex.lt-md="30">{{'medcom.proceduresSchedule.headers.date' | translate}}</div>
+            <div fxFlex="20" fxFlex.lt-md="30">{{'medcom.proceduresSchedule.headers.patient' | translate}}</div>
+            <div fxFlex="20" fxFlex.lt-md="30">{{'medcom.proceduresSchedule.headers.doctor' | translate}}</div>
             <div fxFlex="10">{{'medcom.proceduresSchedule.headers.modality' | translate}}</div>
-            <div fxFlex="30" class="ta-r">{{'medcom.proceduresSchedule.headers.description' | translate}}</div>
+            <div fxFlex="30" fxHide.lt-md class="ta-r">{{'medcom.proceduresSchedule.headers.description' | translate}}</div>
         </div>
 
         <div id="listContainer">
-            <div class="record" fxLayout="row" *ngFor="let procedure of procedures">
-                <div fxFlex="20">{{procedure.date | date:'dd-MM-yyyy HH:mm'}}</div>
-                <div fxFlex="20">{{procedure.patient.firstName}} {{procedure.patient.lastName}}</div>
-                <div fxFlex="20">{{procedure.doctor.firstName}} {{procedure.doctor.lastName}}</div>
+            <div class="record" fxLayout="row wrap" fxLayoutAlign="start center" *ngFor="let procedure of procedures">
+                <div fxFlex="20" fxFlex.lt-md="30">{{procedure.date | date:'dd-MM-yyyy HH:mm'}}</div>
+                <div fxFlex="20" fxFlex.lt-md="30">{{procedure.patient.firstName}} {{procedure.patient.lastName}}</div>
+                <div fxFlex="20" fxFlex.lt-md="30">{{procedure.doctor.firstName}} {{procedure.doctor.lastName}}</div>
                 <div fxFlex="10">{{procedure.modalityAET}}</div>
-                <div fxFlex="30" class="ta-r">{{procedure.description}}</div>
+                <div fxFlex="30" fxFlex.lt-md="100" ngClass.gt-sm="ta-r">{{procedure.description}}</div>
             </div>
         </div>
 

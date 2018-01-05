@@ -2,10 +2,10 @@
     <div id="viewContainer">
         <div id="listContainer">
             <div id="listHeaders" fxLayout="row">
-                <div fxFlex="20">{{'medcom.dicomArchive.headers.pesel' | translate}}</div>
-                <div fxFlex="40">{{'medcom.dicomArchive.headers.patient' | translate}}</div>
-                <div fxFlex="15" class="ta-r">{{'medcom.dicomArchive.headers.studiesCount' | translate}}</div>
-                <div fxFlex="25" class="ta-r">{{'medcom.dicomArchive.headers.lastStudy' | translate}}</div>
+                <div fxFlex="20" fxFlex.lt-md="30">{{'medcom.dicomArchive.headers.pesel' | translate}}</div>
+                <div fxFlex="40" fxFlex.lt-md="70" ngClass.lt-md="ta-r">{{'medcom.dicomArchive.headers.patient' | translate}}</div>
+                <div fxFlex="15" class="ta-r" fxHide.lt-md>{{'medcom.dicomArchive.headers.studiesCount' | translate}}</div>
+                <div fxFlex="25" class="ta-r" fxHide.lt-md>{{'medcom.dicomArchive.headers.lastStudy' | translate}}</div>
             </div>
             <patient-record *ngFor="let patient of patients" [patient]="patient"></patient-record>
         </div>
