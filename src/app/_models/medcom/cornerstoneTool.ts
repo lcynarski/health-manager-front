@@ -8,5 +8,6 @@ export interface CornerstoneAction {
 
 export interface CornerstoneTool extends CornerstoneAction {
     activeButton: CornerstoneButton;
-    inactiveButton?: CornerstoneButton;
+    secondaryButton?: CornerstoneButton;
+    mobileVersion?: string;
 }

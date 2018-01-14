@@ -36,4 +36,12 @@ export class ToolsPaneComponent {
     private stopEvents(e: Event) {
         e.stopPropagation();
     }
+
+    @HostListener('touchstart', ['$event'])
+    @HostListener('touchend', ['$event'])
+    @HostListener('touchmove', ['$event'])
+    @HostListener('touchcancel', ['$event'])
+    private stopTouchEvents(e: Event) {
+        e.stopPropagation();
+    }
 }

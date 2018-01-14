@@ -1,10 +1,11 @@
 <div id="toolsPaneComponent">
-    <div id="container" fxLayout="row" fxLayoutAlign="center center">
+    <div id="container" fxLayout="row wrap" fxLayoutAlign="center center">
 
         <div class="toolTile"
              *ngFor="let tool of tools"
              (click)="activateTool(tool)"
              [class.active]="activeTool && activeTool.name === tool.name"
+             [fxHide.lt-md]="!tool.mobileVersion"
              [mdl-tooltip-large]="('medcom.dicomArchive.tools.' + tool.name) | translate"
              mdl-tooltip-position="bottom"
         >

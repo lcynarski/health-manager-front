@@ -51,6 +51,13 @@ export class DicomDirective implements OnChanges, OnDestroy {
         event.preventDefault();
     }
 
+    @HostListener('window:resize')
+    public onWindowResize(): void {
+        if (this.isEnabled()) {
+            cornerstone.resize(this.element, true);
+        }
+    }
+
     ngOnChanges() {
         if (!this.series || !this.series.instances || !this.series.instances.length) {
             return;
@@ -84,6 +91,12 @@ export class DicomDirective implements OnChanges, OnDestroy {
         this.clearTools();
     }
 
+    private isEnabled(): boolean {
+        return cornerstone.getEnabledElements()
+            .map((e) => e.element)
+            .includes(this.element);
+    }
+
     private unsubscribe(): void {
         if (this.toolsChangeSubscription) {
             this.toolsChangeSubscription.unsubscribe();
@@ -108,9 +121,10 @@ export class DicomDirective implements OnChanges, OnDestroy {
     private initializeTools() {
         cornerstoneTools.mouseInput.enable(this.element);
         cornerstoneTools.mouseWheelInput.enable(this.element);
+        cornerstoneTools.touchInput.enable(this.element);
 
         tools
-            .filter((t) => t.inactiveButton)
+            .filter((t) => t.secondaryButton)
             .forEach((t) => this.deactivateTool(t));
 
         cornerstoneTools.addStackStateManager(this.element, ['stack', 'playClip']);
@@ -125,14 +139,21 @@ export class DicomDirective implements OnChanges, OnDestroy {
 
     private activateTool(tool: CornerstoneTool): void {
         cornerstoneTools[tool.name].activate(this.element, tool.activeButton);
+        if (tool.mobileVersion) {
+            cornerstoneTools[tool.mobileVersion].activate(this.element);
+        }
         this.activeTool = tool;
     }
 
     private deactivateTool(tool: CornerstoneTool): void {
-        if (tool.inactiveButton) {
-            cornerstoneTools[tool.name].activate(this.element, tool.inactiveButton);
+        if (tool.secondaryButton) {
+            cornerstoneTools[tool.name].activate(this.element, tool.secondaryButton);
         } else {
             cornerstoneTools[tool.name].deactivate(this.element, tool.activeButton);
+        }
+
+        if (tool.mobileVersion) {
+            cornerstoneTools[tool.mobileVersion].deactivate(this.element);
         }
     }
 
