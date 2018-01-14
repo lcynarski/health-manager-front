@@ -50,6 +50,7 @@ export const PAGES_MENU = [
                         selected: false,
                         expanded: false,
                         order: 100,
+                        pathMatch: 'prefix',
                         availableFor: ['ROLE_DOCTOR', 'ROLE_ADMIN']
                     }
                 }
