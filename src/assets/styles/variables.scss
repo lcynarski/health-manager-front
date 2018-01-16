@@ -27,6 +27,7 @@ $sidebar-scroll-width: 4px;
 @mixin bg-nr($relativeUrl) {
   //background: url($images-root + $relativeUrl) no-repeat 0 0;
 }
+
 @mixin bg($relativeUrl) {
   //background: url($images-root + $relativeUrl);
 }
@@ -116,5 +117,40 @@ $sidebar-scroll-width: 4px;
   } @else if $position == 'bottom-right' {
     bottom: $offsetY;
     right: $offsetX;
+  }
+}
+
+
+// https://github.com/angular/flex-layout/wiki/Responsive-API
+$breakpoint-s-: 599px;
+$breakpoint-s: 600px;
+$breakpoint-m-: 959px;
+$breakpoint-m: 960px;
+$breakpoint-l-: 1279px;
+$breakpoint-l: 1280px;
+$breakpoint-xl-: 1919px;
+$breakpoint-xl: 1920px;
+
+@mixin rwd($screen) {
+  @if $screen == xs {
+    @media only screen and (max-width: $breakpoint-s-) {
+      @content;
+    }
+  } @else if $screen == sm {
+    @media only screen and (min-width: $breakpoint-s) and (max-width: $breakpoint-m-) {
+      @content;
+    }
+  } @else if $screen == md {
+    @media only screen and (min-width: $breakpoint-m) and (max-width: $breakpoint-l-) {
+      @content;
+    }
+  } @else if $screen == lg {
+    @media only screen and (min-width: $breakpoint-l) and (max-width: $breakpoint-xl-) {
+      @content;
+    }
+  } @else if $screen == xl {
+    @media only screen and (min-width: $breakpoint-xl) {
+      @content;
+    }
   }
 }

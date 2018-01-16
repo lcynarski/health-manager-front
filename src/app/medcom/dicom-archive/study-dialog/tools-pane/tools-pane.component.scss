@@ -1,11 +1,9 @@
 @import "../../../../../assets/styles/colors";
 @import "../../../../../assets/styles/variables";
 
-$height: 40px;
 
 #toolsPaneComponent {
   @include absolute('top-left');
-  height: $height;
   width: 100%;
   background: rgba(black, 0.5);
   z-index: 10;
@@ -19,7 +17,7 @@ $height: 40px;
   min-width: 46px;
   cursor: pointer;
   .icon {
-    line-height: $height;
+    line-height: 40px;
     font-size: 16px;
     transition: font-size 250ms ease-out;
   }

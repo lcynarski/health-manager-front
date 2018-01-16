@@ -1,13 +1,13 @@
 <div id="patientRecordComponent">
 
     <div id="record" fxLayout="row" (click)="toggleExpanded()" [class.expanded]="expanded">
-        <div fxFlex="20">{{patient.account.personalDetails.pesel}}</div>
-        <div fxFlex="40" class="patient-name">
+        <div fxFlex="20" fxFlex.lt-md="30">{{patient.account.personalDetails.pesel}}</div>
+        <div class="patient-name" fxFlex="40" fxFlex.lt-md="70" ngClass.lt-md="ta-r">
             {{patient.account.personalDetails.firstName}}
             {{patient.account.personalDetails.lastName}}
         </div>
-        <div fxFlex="15" class="ta-r">{{patient.studyCount}}</div>
-        <div fxFlex="25" class="ta-r"> {{patient.lastStudyDate | date:'dd-MM-yyyy'}}</div>
+        <div fxFlex="15" fxHide.lt-md class="ta-r">{{patient.studyCount}}</div>
+        <div fxFlex="25" fxHide.lt-md class="ta-r"> {{patient.lastStudyDate | date:'dd-MM-yyyy'}}</div>
     </div>
 
     <div class="expandable" [class.expanded]="expanded">

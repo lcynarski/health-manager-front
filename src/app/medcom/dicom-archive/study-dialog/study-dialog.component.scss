@@ -6,10 +6,7 @@ $barHeight: 50px;
 #studyDialog {
   color: white;
   height: 100%;
-
-  div {
-    height: 100%;
-  }
+  user-select: none;
 
   #topBar {
     padding: 0 10px;
@@ -40,7 +37,8 @@ $barHeight: 50px;
   #tabsContainer {
     height: 100%;
     #wrapper {
-      margin: 0 auto;
+      display: block;
+      width: 100%;
     }
     .mat-tab {
       &-header, &-group{
@@ -52,9 +50,15 @@ $barHeight: 50px;
           color: $oc-indigo-4;
         }
       }
+      &-labels {
+        place-content: center;
+      }
     }
     .mat-ink-bar {
       background: $oc-indigo-4
+    }
+    div:not(.mat-tab-header-pagination-chevron) { // cause css is a whole giant hax anyway
+      height: 100%;
     }
   }
 
